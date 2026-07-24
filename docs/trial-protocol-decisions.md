@@ -4,7 +4,7 @@ Running record of a `/grill-me` session held 2026-07-25, before any specificatio
 This file is **input** for the eventual `specs/001-*/spec.md` and the Phase 0 `research.md`;
 it is not itself a Spec Kit artifact and carries no authority over them.
 
-Status: session incomplete — 10 decisions settled, open questions listed at the bottom.
+Status: session incomplete — 12 decisions settled, open questions listed at the bottom.
 
 ## What vriltrainer is
 
@@ -284,10 +284,51 @@ Consequences:
 - The Rust server from D7 selects the locale bundle by `Host` header, so two languages remain
   one binary and one deployment.
 
-**Assumption, not yet confirmed:** the backend and the leaderboard are **shared across both
-domains**. Separate per-domain leaderboards would split the sample in half and weaken the
-aggregate figure that D8 makes the load-bearing claim. Correct this if the intent was two
-independent instances.
+**Confirmed:** the two domains are functionally identical apart from language. One backend,
+one database, one leaderboard. Separate per-domain leaderboards would have split the sample
+and weakened the aggregate figure that D8 makes the load-bearing claim.
+
+## D11 — The language switch carries the session across domains
+
+A language switch button sits top right and moves the user to the other domain.
+
+`vriltrainer.de` and `vriltrainer.com` are **separate origins**, so the `localStorage` holding
+the D9 token does not travel with the user. Without deliberate handover, clicking the switch
+arrives on the other domain as an anonymous first-time visitor — progress gone, and likely a
+duplicate account created, which would put one person into the leaderboard and the aggregate
+twice.
+
+The session is therefore handed over explicitly, via a **single-use handoff code**: the origin
+domain mints a code valid for about 30 seconds, the button navigates to `#h=<code>` on the
+target domain, which exchanges it for the real token and burns it. Both domains share a
+backend, so redemption is a lookup.
+
+The simpler alternative — putting the long-lived token straight into the target URL fragment —
+was rejected. It would place the secret in the address bar and in the target domain's history,
+undoing precisely the protection the reveal button in D9 exists to provide. Streaming is a
+stated use case, and a language switch must not be the one action that breaks it.
+
+No automatic redirect based on `Accept-Language` on first visit. Someone who types `.com`
+wants `.com`; a discreet "also available in German" hint respects that.
+
+## D12 — Hosting on an existing Hetzner server, backups dumped to S3
+
+Backend and database run on the operator's existing Hetzner server. Backups are already
+handled by a scheduled script that dumps the database and pushes it to S3.
+
+Why the backup matters more than usual here: the database is not merely user data, it **is**
+the public audit log from D2. Losing it does not cost records that can be rebuilt — it
+retroactively makes every past trial unverifiable and voids the significance claim the product
+is built on. Backup is part of the product promise, not operational hygiene.
+
+Two notes that follow from the other decisions:
+
+- D9 stores only a hash of each login token, so a backup carries no usable credentials. The
+  audit log is public by design. The one genuinely secret thing in a dump is `s_server` for
+  trials that are committed but not yet revealed, which would expose pending targets — so the
+  **bucket must not be public-read**, and short trial lifetimes keep the exposure small.
+- Deployment is the D7 static binary plus a database file, both domains on the one instance,
+  locale bundle selected by `Host`. No container runtime is involved.
 
 ## Constraints
 
@@ -300,7 +341,7 @@ independent instances.
 
 Not yet decided; the grilling session stopped here.
 
+- Whether the audit log gets a public export endpoint, or only its head is published
 - Where the pool's several hundred images actually come from, and who curates them
 - Licence choice, and flipping the repository to public
-- Deployment target and operations
 - MVP scope: which of the above is P1
