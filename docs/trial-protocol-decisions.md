@@ -4,7 +4,7 @@ Running record of a `/grill-me` session held 2026-07-25, before any specificatio
 This file is **input** for the eventual `specs/001-*/spec.md` and the Phase 0 `research.md`;
 it is not itself a Spec Kit artifact and carries no authority over them.
 
-Status: session incomplete — 5 decisions settled, open questions listed at the bottom.
+Status: session incomplete — 6 decisions settled, open questions listed at the bottom.
 
 ## What vriltrainer is
 
@@ -131,6 +131,28 @@ distinguishing one image from the others. Commercial-looking hosting on a `.de` 
 casual reuse of found images a real liability, so provenance and licence are tracked per
 image in the manifest.
 
+## D6 — Open source, at github.com/otherfren/vriltrainer
+
+The repository is already the push target, but it is **currently private**: the unauthenticated
+GitHub API reports "Not Found" while SSH pushes succeed. Making it public is an outstanding
+action, not a completed one.
+
+Open source fits the design rather than straining it. D3 never relied on the algorithm being
+secret — only on `s_server` staying secret until reveal — so publishing the derivation costs
+nothing and is in fact required for third parties to reimplement and check it.
+
+Two things publication does not buy, both worth honest wording in the interface:
+
+- **Deployed code is not the published code.** Anyone can read the source; nobody can confirm
+  the running server is that source. Reproducible builds would narrow the gap, not close it.
+  This is the same shape as the equivocation gap noted in D4.
+- The constitution's rule against secrets in the repository stops being hygiene and becomes
+  load-bearing.
+
+Licence: undecided. Recommendation is **AGPL-3.0**, matching darkfi next door, and because a
+hosted service is precisely the case AGPL exists for — a fork running a dishonest instance
+would be obliged to publish its modifications.
+
 ## Constraints
 
 - **No Python.** Excludes the reference OpenTimestamps client, which is moot while D4 defers
@@ -149,6 +171,7 @@ Not yet decided; the grilling session stopped here.
 - Statistics: per-user or cumulative, handling of multiple comparisons across many users,
   optional stopping, what is claimed in the UI
 - Identity: username-only, how it persists, what the leaderboard is worth without auth
+- Licence choice, and flipping the repository to public
 - i18n: which languages, and how the two domains relate to them
 - Deployment target and operations
 - MVP scope: which of the above is P1
