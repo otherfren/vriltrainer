@@ -200,6 +200,9 @@ account and full history carry over.
   time is involved — and MUST retain it rather than deleting it.
 - **FR-037**: System MUST accept at most one answer per trial and MUST refuse any later answer
   for a trial already answered.
+- **FR-038**: A trial MUST become permanently uncompletable once its validity period has passed,
+  and a user answering after that point MUST be told the trial expired and offered a new one,
+  never silently scored as a miss.
 
 **Scoring and statistics**
 
@@ -296,9 +299,12 @@ account and full history carry over.
 - The coordinate is an arbitrary fixed-format reference carrying no information the user could
   decode. It exists because remote viewing convention expects one; it does not encode the target.
 - The chance hit rate is 12.5%, one image in eight.
-- A trial is abandoned simply by not being completed; there is no time limit and no expiry, so a
-  trial still in progress is indistinguishable from an abandoned one. The difference disappears
-  in any evaluation covering a past period.
+- A trial is abandoned simply by not being completed — no timer classifies it. Separately, a
+  trial stays completable for a validity period assumed to be 24 hours, after which abandonment
+  becomes final. Without that bound, a trial in progress and an abandoned one would remain
+  indistinguishable forever and the published abandonment rate would never settle. The period is
+  tied to how often the trial-token encryption key is rotated, which is what should determine
+  the exact figure.
 - FR numbers are stable identifiers, not an ordering. FR-037 was added after the first pass and
   sits with the trial requirements rather than at the end, so that existing references keep
   pointing at the same requirements.

@@ -428,9 +428,29 @@ What the token does buy is real, but it is a different prize than the one aimed 
 never touches the database, so a backup contains no pending targets. That closes the caveat
 recorded in D12.
 
-**No time limit.** A trial is abandoned precisely when its status is not completed; a trial in
-progress counts the same way, and the distinction disappears in any evaluation over a past
-period.
+**Abandonment needs no timer, but the token carries a maximum lifetime** of about 24 hours,
+stored inside the authenticated payload and checked on redemption. The two are separate: a trial
+is abandoned by not being completed, whatever the clock says; the lifetime governs how long it
+*can still* be completed.
+
+Three things this buys:
+
+- Abandonment becomes final rather than provisional. Without it, a trial in progress and an
+  abandoned trial stay indistinguishable forever, and the published abandonment rate never
+  settles.
+- **Key rotation becomes possible at all.** With no expiry, every token-encryption key would have
+  to be retained indefinitely or old tokens become undecryptable. A 24-hour lifetime means the
+  previous key is kept for one day and discarded. The lifetime should track the rotation
+  interval, which is the real reason to pick a number.
+- It bounds nothing else. The commit row is permanent regardless, so this is not a route to
+  pruning the log.
+
+The generous span costs no security: the holder has a blob they cannot decrypt, and holding
+several open trials gains nothing because trials are independent. It buys tolerance for a viewer
+who is interrupted mid-session.
+
+Follows for the interface: a late answer must be explained as expired and offered a fresh trial,
+never silently scored as a loss.
 
 Noted for the record: statelessness was never actually reachable alongside "no time limit".
 Any replay defence without a row must remember spent tokens, and without expiry it must remember
