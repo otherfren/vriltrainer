@@ -4,7 +4,7 @@ Running record of a `/grill-me` session held 2026-07-25, before any specificatio
 This file is **input** for the eventual `specs/001-*/spec.md` and the Phase 0 `research.md`;
 it is not itself a Spec Kit artifact and carries no authority over them.
 
-Status: session incomplete — 7 decisions settled, open questions listed at the bottom.
+Status: session incomplete — 8 decisions settled, open questions listed at the bottom.
 
 ## What vriltrainer is
 
@@ -110,9 +110,9 @@ The pool is public, versioned and hashed, as D3 requires: without it the client 
 recompute a trial and the audit story collapses. `P >= 500` at launch.
 
 Sizing rationale: with a public log, a user can look up image sets they have seen before. At
-P = 500 and N = 4 there are on the order of 10^9 possible sets, so exact repeats effectively
-never occur. A small pool (P = 50) would let a lookup table accumulate within days and would
-kill the leaderboard.
+P = 500 and N = 8 (see D8) there are on the order of 10^17 possible sets, so exact repeats
+effectively never occur. A small pool (P = 50) would let a lookup table accumulate within
+days and would kill the leaderboard.
 
 Pipeline requirements, all of them anti-leakage measures: fixed edge length, uniform
 requantization, metadata stripped, opaque IDs derived from the normalized bytes rather than
@@ -168,6 +168,40 @@ The cost is real and must not be discovered later: **test vectors for the deriva
 mandatory, not optional**. Without them, divergence between the two implementations surfaces
 as verification failures on honest trials, which is an expensive bug to chase.
 
+## D8 — Eight images per trial; statistics gated on trial count, never on success
+
+`N = 8`, so the chance rate is 12.5 %. The statistics section appears once a user has
+completed **10 trials**.
+
+Four measures against the ways a public psi-testing site manufactures false positives:
+
+1. **Leaderboard ranks by the Wilson lower bound** of the binomial interval, not by raw hit
+   rate. Small samples are penalised automatically, so a user with four trials and four hits
+   does not top the table, and no arbitrary minimum-trials rule is needed.
+2. **The personal z-score is shown with its context**: how many users, out of those with at
+   least as many trials, would reach this value by chance alone. Without that line the number
+   is not interpretable.
+3. **Block-wise evaluation** — the z-score advances per completed block of trials rather than
+   after every single one, which blunts optional stopping. A user who plays until the number
+   looks good and then stops otherwise inflates the false-positive rate far beyond 5 %.
+4. **The aggregate over all trials by all users is the scientifically load-bearing figure**
+   and belongs prominently on the statistics page. It is immune to the selection effect that
+   makes the top of any leaderboard look remarkable under pure chance.
+
+An earlier form of the gate — show statistics only once the user has at least one hit — was
+**dropped**. It conditions the displayed population on success. At N = 8 over 10 trials, a
+user with no ability at all has a 26.3 % chance of scoring zero and vanishing from view; the
+survivors then average 1.70 hits instead of 1.25, an apparent rate of 17.0 % against a true
+12.5 %. The gate would have made the statistics page overstate by a third on the very number
+it exists to measure honestly. Gating on trial count achieves the same goal — no statistics
+on two data points — without filtering by outcome.
+
+Rule that follows: **gate the display, never the data.** The aggregate in measure 4 runs over
+every trial in the log, including those of users who never saw a statistics page.
+
+If the hit condition is reinstated for UX reasons, the displayed personal z-score must be
+computed conditioned on "at least one hit", or it is simply wrong.
+
 ## Constraints
 
 - **No Python.** Excludes the reference OpenTimestamps client, which is moot while D4 defers
@@ -180,9 +214,6 @@ as verification failures on honest trials, which is an expensive bug to chase.
 Not yet decided; the grilling session stopped here.
 
 - Where the pool's several hundred images actually come from, and who curates them
-- `N` images per trial, and therefore the chance rate the z-score is measured against
-- Statistics: per-user or cumulative, handling of multiple comparisons across many users,
-  optional stopping, what is claimed in the UI
 - Identity: username-only, how it persists, what the leaderboard is worth without auth
 - Licence choice, and flipping the repository to public
 - i18n: which languages, and how the two domains relate to them
