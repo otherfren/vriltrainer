@@ -67,9 +67,9 @@ FR-020 for the aggregate).
 - "Append-only record" and "head value" are domain vocabulary rather than implementation detail —
   they are what the product promises, and no plainer phrasing preserves the meaning.
 
-**Carried into planning as an open parameter**, not a specification gap: the period after which
-an unanswered trial counts as abandoned. It is recorded in Assumptions and must be long enough
-that a slow viewing session is not cut off mid-impression.
+~~**Carried into planning as an open parameter**: the period after which an unanswered trial
+counts as abandoned.~~ **Superseded by the amendment below** — D16 removed the timeout entirely,
+so there is no period to choose.
 
 ### Amendment — 2026-07-25, after D16
 
