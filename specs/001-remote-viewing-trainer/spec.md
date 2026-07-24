@@ -196,8 +196,10 @@ account and full history carry over.
   licensed images with recorded provenance.
 - **FR-013**: System MUST record every trial at the moment it is created, before its outcome is
   known.
-- **FR-014**: System MUST mark a trial as abandoned when it has been revealed but no choice is
-  submitted, and MUST retain it rather than deleting it.
+- **FR-014**: System MUST treat any trial that has not been completed as abandoned — no elapsed
+  time is involved — and MUST retain it rather than deleting it.
+- **FR-037**: System MUST accept at most one answer per trial and MUST refuse any later answer
+  for a trial already answered.
 
 **Scoring and statistics**
 
@@ -294,8 +296,12 @@ account and full history carry over.
 - The coordinate is an arbitrary fixed-format reference carrying no information the user could
   decode. It exists because remote viewing convention expects one; it does not encode the target.
 - The chance hit rate is 12.5%, one image in eight.
-- A trial counts as abandoned after a fixed period without a submitted choice. The exact period
-  is a planning decision; it needs to be long enough that a slow viewing session is not cut off.
+- A trial is abandoned simply by not being completed; there is no time limit and no expiry, so a
+  trial still in progress is indistinguishable from an abandoned one. The difference disappears
+  in any evaluation covering a past period.
+- FR numbers are stable identifiers, not an ordering. FR-037 was added after the first pass and
+  sits with the trial requirements rather than at the end, so that existing references keep
+  pointing at the same requirements.
 - Accounts may run unlimited trials; no per-user rate limit is imposed at launch. Abuse of the
   leaderboard through many throwaway accounts is addressed by the ranking rule in FR-028 and by
   the aggregate figure in FR-020 carrying the main claim, rather than by restricting play.

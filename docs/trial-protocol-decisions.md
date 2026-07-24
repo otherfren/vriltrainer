@@ -58,7 +58,7 @@ Neither side controls the outcome alone:
                   → client: the N images
 3. Pick           → server
 4. Reveal         → client: s_server, nonce
-                  client verifies H(s_server ‖ nonce) == C
+                  client verifies H(s_server ‖ nonce ‖ coordinate) == C
                   client recomputes seed, target, decoys, order — must match
 ```
 

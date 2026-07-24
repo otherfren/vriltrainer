@@ -70,3 +70,20 @@ FR-020 for the aggregate).
 **Carried into planning as an open parameter**, not a specification gap: the period after which
 an unanswered trial counts as abandoned. It is recorded in Assumptions and must be long enough
 that a slow viewing session is not cut off mid-impression.
+
+### Amendment — 2026-07-25, after D16
+
+The trial's working state was moved into a server-encrypted token held by the client, which
+removes `s_server` from the database entirely. Two spec consequences:
+
+- **FR-014** no longer refers to any elapsed time. A trial is abandoned by not being completed,
+  so the Assumptions entry naming an abandonment period was removed rather than given a value.
+- **FR-037** was added: at most one answer per trial. Without it a client could resubmit the
+  same token with a different image until it hit, then file a clean run — the token is
+  self-contained, so nothing else prevents replay. This is what forces a row to be written at
+  trial creation, which in turn is what keeps FR-027 and SC-012 implementable.
+
+FR-037 carries the next free number rather than sitting in numeric position, so that references
+elsewhere keep pointing at the same requirements. Numbers here identify, they do not order.
+
+Still passing 16/16; no new clarification markers.
