@@ -4,7 +4,7 @@ Running record of a `/grill-me` session held 2026-07-25, before any specificatio
 This file is **input** for the eventual `specs/001-*/spec.md` and the Phase 0 `research.md`;
 it is not itself a Spec Kit artifact and carries no authority over them.
 
-Status: session incomplete — 12 decisions settled, open questions listed at the bottom.
+Status: session incomplete — 13 decisions settled, open questions listed at the bottom.
 
 ## What vriltrainer is
 
@@ -330,6 +330,38 @@ Two notes that follow from the other decisions:
 - Deployment is the D7 static binary plus a database file, both domains on the one instance,
   locale bundle selected by `Host`. No container runtime is involved.
 
+## D13 — Full public log export; names stay outside the hash chain
+
+The audit log gets a **full public export endpoint**, serving entries from a given sequence
+number onward plus the current head hash — not merely a published head. A head alone proves
+nothing, because nobody can check that the entries beneath it agree with it. The export is
+also free redundancy: copies pulled by third parties sit outside the operator's control and
+shrink the gap left by deferring the anchor in D4.
+
+**Data protection applies to both domains, not just the German one.** The GDPR follows the
+controller's establishment and the data subject's location, never the language of the
+interface. Operating from a Hetzner server under a `.de` domain means it applies to
+`vriltrainer.com` in full. The notice therefore appears on both, each in its own language.
+The `.de` Impressum obligation is separate from the GDPR and needs its own check — not covered
+by this decision, and not legal advice.
+
+Disclosure belongs at the moment the name is entered, not in fine print: the chosen name and
+the complete trial history are public by construction, and anyone can reconstruct a user's
+full run of hits and misses.
+
+**Erasure versus an append-only log — resolved in the data model, and only resolvable there:**
+Article 17 grants a right to deletion; a hash-chained log cannot drop an entry without
+invalidating every proof after it. One deletion request would otherwise void verifiability
+from that point on, and this is not a hypothetical for a site publishing named hit rates.
+
+Therefore: **only the opaque account ID ever enters the hashed log. The self-chosen name lives
+in a separate mutable table** and is joined in for the leaderboard and for display. Erasure
+removes the name; the log stays intact and fully verifiable, and what remains is a trial
+history under a random identifier with no personal reference.
+
+This costs nothing — the same data, cut differently — but it cannot be retrofitted. Once names
+are inside the chain, they cannot be taken out.
+
 ## Constraints
 
 - **No Python.** Excludes the reference OpenTimestamps client, which is moot while D4 defers
@@ -341,7 +373,6 @@ Two notes that follow from the other decisions:
 
 Not yet decided; the grilling session stopped here.
 
-- Whether the audit log gets a public export endpoint, or only its head is published
 - Where the pool's several hundred images actually come from, and who curates them
 - Licence choice, and flipping the repository to public
 - MVP scope: which of the above is P1
