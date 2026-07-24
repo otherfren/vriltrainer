@@ -4,7 +4,8 @@ Running record of a `/grill-me` session held 2026-07-25, before any specificatio
 This file is **input** for the eventual `specs/001-*/spec.md` and the Phase 0 `research.md`;
 it is not itself a Spec Kit artifact and carries no authority over them.
 
-Status: session incomplete — 13 decisions settled, open questions listed at the bottom.
+Status: **session complete** — 15 decisions settled. Remaining items are actions, not
+open questions.
 
 ## What vriltrainer is
 
@@ -362,6 +363,34 @@ history under a random identifier with no personal reference.
 This costs nothing — the same data, cut differently — but it cannot be retrofitted. Once names
 are inside the chain, they cannot be taken out.
 
+## D14 — AGPL-3.0
+
+Chosen over a permissive licence deliberately. A hosted service is the case the AGPL exists
+for: a fork running a modified, dishonest instance is obliged to publish its modifications.
+For a project whose central claim is verifiability, that is a substantive alignment rather
+than a preference. It also matches darkfi in the same working directory.
+
+## D15 — Delivery order
+
+Two items come **before** P1, because everything else waits on them:
+
+- **The image pool.** Several hundred curated images through the normalization pipeline of
+  D5. The largest piece of manual work in the project, and it cannot be automated away — only
+  the pipeline can, not the selection.
+- **Test vectors for the derivation** in D3. D7 puts one implementation in Rust and one in
+  TypeScript; without shared vectors the second is built blind.
+
+| Phase | Content | Why here |
+|---|---|---|
+| **P1 — playable** | name to trial loop (coordinate, 8 images, pick, reveal), commit-reveal from D3, capability URL from D9, pool in place | without this there is no product |
+| **P2 — measurable** | score, statistics from 10 trials, z-score with its context line, aggregate figure | the distinguishing feature |
+| **P3 — verifiable** | leaderboard on the Wilson lower bound, public log export, in-browser verification | level B only becomes real here |
+| **P4 — public** | second language, language switch with handoff code, GDPR notice and Impressum, domains live | immediately before launch, not earlier |
+
+Caveat carried into planning: the leaderboard sits in P3, but **without the log export it is an
+unsupported assertion**. Launching earlier means launching without a leaderboard, not with an
+unverifiable one.
+
 ## Constraints
 
 - **No Python.** Excludes the reference OpenTimestamps client, which is moot while D4 defers
@@ -369,10 +398,8 @@ are inside the chain, they cannot be taken out.
 - Node is required regardless, as the Angular build toolchain. It is not currently installed
   on the development machine; Rust 1.95, Python 3.13, uv and sqlite3 are.
 
-## Open questions
+## Remaining actions
 
-Not yet decided; the grilling session stopped here.
-
-- Where the pool's several hundred images actually come from, and who curates them
-- Licence choice, and flipping the repository to public
-- MVP scope: which of the above is P1
+- Flip the repository to public (D6)
+- Source and curate the image pool; who does the curation is not yet settled (D5, D15)
+- Write the derivation test vectors before the second implementation begins (D7, D15)
