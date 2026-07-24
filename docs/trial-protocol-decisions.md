@@ -4,7 +4,7 @@ Running record of a `/grill-me` session held 2026-07-25, before any specificatio
 This file is **input** for the eventual `specs/001-*/spec.md` and the Phase 0 `research.md`;
 it is not itself a Spec Kit artifact and carries no authority over them.
 
-Status: session incomplete — 9 decisions settled, open questions listed at the bottom.
+Status: session incomplete — 10 decisions settled, open questions listed at the bottom.
 
 ## What vriltrainer is
 
@@ -262,6 +262,33 @@ aggregate figure carrying the main claim rather than the top entry.
 The public ID also only half-solves impersonation: it makes two accounts named `otherfren`
 distinguishable, but a stranger cannot tell which is the original.
 
+## D10 — Domain is the language
+
+`vriltrainer.de` serves German, `vriltrainer.com` serves English. Two languages, two domains,
+one mapping.
+
+This permits Angular's built-in `@angular/localize`: one bundle compiled per locale,
+translation resolved at build time, no runtime i18n library and no runtime cost. Switching
+language is a link to the other domain. The two builds reference each other via `hreflang`,
+so the domains do not compete in search results.
+
+The rejected alternative was serving both languages from both domains with a runtime switcher
+(transloco or similar). It buys instant switching without a reload and costs a runtime
+dependency plus fourfold duplicate content — the same page, two languages, two domains — which
+then has to be untangled with `canonical` and `hreflang` anyway.
+
+Consequences:
+
+- **A third language breaks the mapping.** Domain-as-language does not extend past the number
+  of domains owned. Adding one means revisiting this decision, not appending to it.
+- The Rust server from D7 selects the locale bundle by `Host` header, so two languages remain
+  one binary and one deployment.
+
+**Assumption, not yet confirmed:** the backend and the leaderboard are **shared across both
+domains**. Separate per-domain leaderboards would split the sample in half and weaken the
+aggregate figure that D8 makes the load-bearing claim. Correct this if the intent was two
+independent instances.
+
 ## Constraints
 
 - **No Python.** Excludes the reference OpenTimestamps client, which is moot while D4 defers
@@ -275,6 +302,5 @@ Not yet decided; the grilling session stopped here.
 
 - Where the pool's several hundred images actually come from, and who curates them
 - Licence choice, and flipping the repository to public
-- i18n: which languages, and how the two domains relate to them
 - Deployment target and operations
 - MVP scope: which of the above is P1
