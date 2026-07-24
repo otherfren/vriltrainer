@@ -4,7 +4,7 @@ Running record of a `/grill-me` session held 2026-07-25, before any specificatio
 This file is **input** for the eventual `specs/001-*/spec.md` and the Phase 0 `research.md`;
 it is not itself a Spec Kit artifact and carries no authority over them.
 
-Status: session incomplete — 4 decisions settled, open questions listed at the bottom.
+Status: session incomplete — 5 decisions settled, open questions listed at the bottom.
 
 ## What vriltrainer is
 
@@ -80,23 +80,71 @@ Consequences:
   observe `s_client`, compute the outcome, and let unwanted trials die of a "network error".
   Logging at commit makes aborts visible as gaps and countable.
 
-## D4 — No blockchain for randomness; OpenTimestamps for anchoring
+## D4 — No public randomness beacon; no chain anchoring for now
 
 Public randomness beacons (drand, NIST, blockhash, RANDAO) are unusable here: their values
 are published, so any user could compute the target. The only variant that avoids this uses
 a beacon round that does not yet exist at viewing time, which converts the experiment into
-precognition and contradicts D1.
+precognition and contradicts D1. This exclusion is permanent, not a scoping decision.
 
-For log integrity, a Merkle root of the append-only log stamped periodically via
-OpenTimestamps reaches level C at no cost — aggregated, Bitcoin-backed, no wallet, no fees,
-no per-trial chain interaction.
+Anchoring the log into Bitcoin — via OpenTimestamps, which would have cost nothing and
+required no wallet — is **deferred**. Level C is therefore not reached for now.
+
+Consequence to be honest about in the UI: without an anchor, a published log proves only
+what observers have actually seen. An operator can still rewrite history for anyone who did
+not keep a copy of an earlier head. The commitment scheme in D3 is unaffected — it stands on
+its own per trial — but claims in the interface must say "published" rather than
+"tamper-proof".
+
+Note if this is revisited: the project is **opentimestamps.org**. `opentimestamps.com` is
+not the project — it resolves elsewhere and resets TLS connections.
+
+Timestamping also proves less than it appears to: it establishes non-backdating, not
+uniqueness. An operator can maintain two divergent logs and stamp both, and each proof
+verifies. Detecting that requires publication plus clients comparing heads, in the manner of
+Certificate Transparency. Anchoring alone would never have closed that gap.
+
+## D5 — Public image pool, at least 500 images
+
+The pool is public, versioned and hashed, as D3 requires: without it the client cannot
+recompute a trial and the audit story collapses. `P >= 500` at launch.
+
+Sizing rationale: with a public log, a user can look up image sets they have seen before. At
+P = 500 and N = 4 there are on the order of 10^9 possible sets, so exact repeats effectively
+never occur. A small pool (P = 50) would let a lookup table accumulate within days and would
+kill the leaderboard.
+
+Pipeline requirements, all of them anti-leakage measures: fixed edge length, uniform
+requantization, metadata stripped, opaque IDs derived from the normalized bytes rather than
+filenames. Anything that distinguishes the target from its decoys — resolution, aspect
+ratio, compression artifacts, the colour signature of a particular source — is a sensory
+channel, and sensory leakage is the classic failure mode of forced-choice ESP experiments.
+
+Manifest: sorted list of image IDs plus their Merkle root, which is the `pool_manifest_hash`
+carried in each trial. Extending the pool creates a new version; older trials stay
+verifiable against the version they were run under.
+
+Licensing: **only free / public-domain images** — confirmed. CC0 and public domain sources
+such as Wikimedia Commons (PD), Unsplash, Pexels and openverse. CC-BY is avoided: the
+attribution would have to be rendered in the interface, where it becomes a sensory channel
+distinguishing one image from the others. Commercial-looking hosting on a `.de` domain makes
+casual reuse of found images a real liability, so provenance and licence are tracked per
+image in the manifest.
+
+## Constraints
+
+- **No Python.** Excludes the reference OpenTimestamps client, which is moot while D4 defers
+  anchoring.
+- Node is required regardless, as the Angular build toolchain. It is not currently installed
+  on the development machine; Rust 1.95, Python 3.13, uv and sqlite3 are.
 
 ## Open questions
 
 Not yet decided; the grilling session stopped here.
 
-- Image pool: source and licensing for public hosting on two domains, pool size `P`,
-  normalization to prevent sensory leakage, manifest format and versioning
+- Backend language and storage, given that Node arrives anyway as the Angular build
+  toolchain and Python is excluded
+- Where the pool's several hundred images actually come from, and who curates them
 - `N` images per trial, and therefore the chance rate the z-score is measured against
 - Statistics: per-user or cumulative, handling of multiple comparisons across many users,
   optional stopping, what is claimed in the UI
