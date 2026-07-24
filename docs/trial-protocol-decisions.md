@@ -4,8 +4,8 @@ Running record of a `/grill-me` session held 2026-07-25, before any specificatio
 This file is **input** for the eventual `specs/001-*/spec.md` and the Phase 0 `research.md`;
 it is not itself a Spec Kit artifact and carries no authority over them.
 
-Status: **session complete** — 15 decisions settled. Remaining items are actions, not
-open questions.
+Status: **session complete** — 16 decisions settled. Remaining items are actions and one
+reopened question, listed at the bottom.
 
 ## What vriltrainer is
 
@@ -48,7 +48,8 @@ Neither side controls the outcome alone:
 
 ```
 1. Trial start    server: s_server ← random, nonce ← random
-                  → client: coordinate, C = H(s_server ‖ nonce), pool_manifest_hash
+                  → client: coordinate, C = H(s_server ‖ nonce ‖ coordinate),
+                            pool_manifest_hash
 2. Reveal click   client: s_client ← crypto.getRandomValues()
                   → server
                   seed   = H(s_server ‖ s_client)
@@ -63,8 +64,13 @@ Neither side controls the outcome alone:
 
 The commitment `C` **must** travel with the coordinate in step 1. A proof produced only at
 step 4 verifies a claim the server was free to invent after seeing the pick, and is
-worthless. The commitment binds the coordinate, so the reveal proves precisely the intended
-statement: this coordinate pointed at this image.
+worthless.
+
+The coordinate is **inside** the hash. This was recorded incorrectly at first — as
+`H(s_server ‖ nonce)` — while the prose beneath it claimed the coordinate was bound. It was
+not: with the coordinate outside the hash, the same commitment could be paired with any
+coordinate after the fact, and the intended statement — *this* coordinate pointed at *this*
+image — was unprovable. Corrected on 2026-07-25, before any implementation existed.
 
 `s_client` travels with the reveal click, so the target is determined before the user picks
 — D1 is preserved.
@@ -391,6 +397,45 @@ Caveat carried into planning: the leaderboard sits in P3, but **without the log 
 unsupported assertion**. Launching earlier means launching without a leaderboard, not with an
 unverifiable one.
 
+## D16 — Trial state rides in a server-encrypted token; a minimal commit row stays
+
+Everything bulky or secret about a trial travels to the client inside a token only the server
+can decrypt, and comes back when the trial is completed. Authenticated encryption, bound to the
+account and the sequence number so tokens cannot be swapped between accounts.
+
+Two token states are needed, not one, because D3 derives the candidate set from `s_client`: at
+trial start the set does not exist yet. Token 1 accompanies the coordinate and carries
+`s_server`, the nonce and the coordinate; token 2 is issued at reveal and additionally carries
+the target, the set and its order.
+
+**A five-column row is still written at trial creation** — sequence number, commitment `C`,
+account identifier, pool version, status. The token does not replace it, for two reasons:
+
+- **Replay.** A stateless server cannot tell it has seen a token before. Submit token 2 with
+  image 1, learn "wrong"; resubmit with image 2, and so on. By the eighth attempt the target is
+  known and a clean run can be filed. The commit row is the replay defence: a second answer for
+  the same sequence number is refused.
+- **It would silently revoke the Q1/B decision in the specification.** Abandoned trials are
+  required to remain in the public record with a published abandonment rate (FR-014, FR-016,
+  FR-021, FR-027, SC-012). With nothing written at creation, an abandonment leaves no trace at
+  all — there is no gap to notice, because no sequence number was ever issued. D3's rule that
+  logging at commit time makes aborts visible and countable would go with it.
+
+So the session table this was meant to avoid **is** the audit log already committed to in D2.
+There is no second table, and abandoned entries in it are a requirement rather than clutter.
+
+What the token does buy is real, but it is a different prize than the one aimed at: `s_server`
+never touches the database, so a backup contains no pending targets. That closes the caveat
+recorded in D12.
+
+**No time limit.** A trial is abandoned precisely when its status is not completed; a trial in
+progress counts the same way, and the distinction disappears in any evaluation over a past
+period.
+
+Noted for the record: statelessness was never actually reachable alongside "no time limit".
+Any replay defence without a row must remember spent tokens, and without expiry it must remember
+them forever — a larger version of the table being avoided.
+
 ## Constraints
 
 - **No Python.** Excludes the reference OpenTimestamps client, which is moot while D4 defers
@@ -403,3 +448,10 @@ unverifiable one.
 - Flip the repository to public (D6)
 - Source and curate the image pool; who does the curation is not yet settled (D5, D15)
 - Write the derivation test vectors before the second implementation begins (D7, D15)
+
+## Reopened
+
+- **Rate limiting on trial creation.** The spec assumes no per-user limit at launch. D16 makes
+  the consequence concrete: trials are written to the permanent log at creation, so an account
+  creating trials it never completes inflates the log without bound. Normal usage is not a
+  concern — a million rows is around 100 MB — but nothing currently stops abuse.
