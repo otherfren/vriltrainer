@@ -4,7 +4,7 @@ Running record of a `/grill-me` session held 2026-07-25, before any specificatio
 This file is **input** for the eventual `specs/001-*/spec.md` and the Phase 0 `research.md`;
 it is not itself a Spec Kit artifact and carries no authority over them.
 
-Status: **session complete** — 16 decisions settled. Remaining items are actions and one
+Status: **session complete** — 17 decisions settled. Remaining items are actions and one
 reopened question, listed at the bottom.
 
 ## What vriltrainer is
@@ -456,6 +456,45 @@ Noted for the record: statelessness was never actually reachable alongside "no t
 Any replay defence without a row must remember spent tokens, and without expiry it must remember
 them forever — a larger version of the table being avoided.
 
+## D17 — Planning parameters
+
+Settled 2026-07-25 while preparing the implementation plan.
+
+| Item | Decision |
+|---|---|
+| Abuse limits | Account creation limited per client IP; concurrent uncompleted trials capped per account |
+| Commitment and derivation hash | SHA-256 — present in WebCrypto and in `sha2`, no extra browser dependency |
+| Token encryption | XChaCha20-Poly1305; the 192-bit nonce removes any nonce-reuse concern without a counter |
+| Derivation stream | `SHA-256(seed ‖ counter)`, consumed in 64-bit words, **rejection sampling** rather than modulo, decoys by partial Fisher-Yates |
+| Log structure | Hash chain only — each entry carries `prev_hash`, the head is the last entry hash |
+| Statistics block size | 25 completed trials |
+| Leaderboard minimum | 100 completed trials, held as configuration and revisited against real distributions |
+| Image pipeline | A Rust tool using the `image` crate, doubling as the operator's annotate-and-scale script |
+| Deployment | Behind the existing nginx on the Hetzner host, alongside other sites |
+
+Capping concurrent trials attacks the growth problem at its cause rather than rate-limiting
+creation over time: a new trial requires an earlier one to be completed or expired, so the log
+grows at most by the cap per account per token lifetime.
+
+The derivation stream needs this much precision because D7 puts one implementation in Rust and
+one in TypeScript. `pool[seed mod P]` alone is not a specification — decoy selection and display
+order also have to be pinned, and rejection sampling is used because exactness is cheap and
+verifiability is the entire point.
+
+The image tool is not only a build step. It is the interface the operator uses when curating:
+find an image, annotate its provenance and licence, scale and normalize it, and get back the
+manifest entry.
+
+**Two consequences of sitting behind a shared nginx, both of which silently break a decision if
+missed:**
+
+- The backend sees `127.0.0.1` as the client address unless nginx forwards the real one.
+  IP-based limits on account creation would then be either inert or global, throttling every
+  user together. nginx must set `X-Forwarded-For`, and the service must trust that header **only**
+  from the proxy, otherwise any client can forge it.
+- The `Host` header must be passed through, because D10 selects the locale bundle from it.
+  Without it the language split fails.
+
 ## Constraints
 
 - **No Python.** Excludes the reference OpenTimestamps client, which is moot while D4 defers
@@ -466,12 +505,8 @@ them forever — a larger version of the table being avoided.
 ## Remaining actions
 
 - Flip the repository to public (D6)
-- Source and curate the image pool; who does the curation is not yet settled (D5, D15)
+- Source and curate the image pool. The operator curates, using the annotate-and-scale tool
+  from D17; the images themselves still have to be found (D5, D15)
 - Write the derivation test vectors before the second implementation begins (D7, D15)
 
-## Reopened
-
-- **Rate limiting on trial creation.** The spec assumes no per-user limit at launch. D16 makes
-  the consequence concrete: trials are written to the permanent log at creation, so an account
-  creating trials it never completes inflates the log without bound. Normal usage is not a
-  concern — a million rows is around 100 MB — but nothing currently stops abuse.
+Rate limiting, reopened after D16, was settled in D17.
