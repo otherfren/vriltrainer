@@ -4,7 +4,7 @@ Running record of a `/grill-me` session held 2026-07-25, before any specificatio
 This file is **input** for the eventual `specs/001-*/spec.md` and the Phase 0 `research.md`;
 it is not itself a Spec Kit artifact and carries no authority over them.
 
-Status: session incomplete — 8 decisions settled, open questions listed at the bottom.
+Status: session incomplete — 9 decisions settled, open questions listed at the bottom.
 
 ## What vriltrainer is
 
@@ -202,6 +202,66 @@ every trial in the log, including those of users who never saw a statistics page
 If the hit condition is reinstated for UX reasons, the displayed personal z-score must be
 computed conditioned on "at least one hit", or it is simply wrong.
 
+## D9 — Identity is a capability URL; no recovery
+
+The user invents a name; the server creates the account and issues a personal secret login
+URL. There is no registration, no email, no password. Progress is tracked against that
+account. The leaderboard shows the chosen name together with a separate public ID.
+
+**The token lives in the URL fragment, not the path:**
+
+```
+https://vriltrainer.com/#t=<128-bit token>      not   /login/<token>
+```
+
+Fragments are never transmitted to the server — absent from requests, from access logs, and
+from the `Referer` header. On load the client reads the token, stores it, and clears the
+address bar via `history.replaceState`. The bookmark keeps the fragment; the visible URL does
+not.
+
+This matters more here than in most applications carrying a capability URL. The product's
+whole purpose is to make people show their results — leaderboard placement, an impressive
+z-score. A screenshot of that page with the address bar in frame publishes the account's
+credentials. A design that encourages sharing must not put the secret where sharing captures
+it.
+
+Supporting requirements:
+
+- Token from a CSPRNG, at least 128 bits.
+- Server stores only a hash of it. It is a password and is treated as one.
+- `Referrer-Policy: no-referrer`.
+- Requires Angular's default `PathLocationStrategy`; `HashLocationStrategy` would collide
+  with the fragment.
+- The public leaderboard ID is drawn independently and is **not** derived from the token.
+
+**Display and reminders:** the URL stays permanently visible but discreet, and is offered
+again explicitly at 10 completed trials — the same threshold at which the statistics and
+z-score appear under D8. That is the first moment the account is worth keeping; a warning at
+first contact, before any trial has been played, is ignored by design.
+
+**It is masked by default, behind a reveal button**, so the page can be streamed or screen-shared
+without exposing the secret. This extends the same reasoning that puts the token in the
+fragment: the interface must stay safe to show, because showing it is what users do here.
+
+Two refinements that follow from the same principle: copy-to-clipboard must work **without**
+revealing, so the common path never renders the secret at all, and a revealed URL should
+re-mask itself after a short timeout rather than staying open for the rest of the session.
+
+**No recovery, deliberately.** Lose the URL and the account and its history are gone. An
+optional password as a second key was considered and rejected: it adds an authentication path
+to maintain for a case the user was warned about twice. Email recovery was rejected more
+firmly — it costs the frictionless entry, requires mail infrastructure, and pulls real GDPR
+obligations onto a solo operator running two domains.
+
+**What this does not solve:** Sybil accounts. Throwaway identities are as cheap with login
+URLs as with bare names, so someone can farm many accounts and promote whichever one drifts
+high by chance. That is the deliberate form of the multiple-comparisons problem in D8, and it
+is answered on the display side — a leaderboard minimum in the hundreds of trials, and the
+aggregate figure carrying the main claim rather than the top entry.
+
+The public ID also only half-solves impersonation: it makes two accounts named `otherfren`
+distinguishable, but a stranger cannot tell which is the original.
+
 ## Constraints
 
 - **No Python.** Excludes the reference OpenTimestamps client, which is moot while D4 defers
@@ -214,7 +274,6 @@ computed conditioned on "at least one hit", or it is simply wrong.
 Not yet decided; the grilling session stopped here.
 
 - Where the pool's several hundred images actually come from, and who curates them
-- Identity: username-only, how it persists, what the leaderboard is worth without auth
 - Licence choice, and flipping the repository to public
 - i18n: which languages, and how the two domains relate to them
 - Deployment target and operations
