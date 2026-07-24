@@ -13,7 +13,7 @@
 
 ## Requirement Completeness
 
-- [ ] No [NEEDS CLARIFICATION] markers remain
+- [X] No [NEEDS CLARIFICATION] markers remain
 - [X] Requirements are testable and unambiguous
 - [X] Success criteria are measurable
 - [X] Success criteria are technology-agnostic (no implementation details)
@@ -35,23 +35,38 @@
 
 ### Validation pass 1 — 2026-07-25
 
-**One item fails: two [NEEDS CLARIFICATION] markers remain**, both in Edge Cases. Neither has a
-defensible default, which is why they were left rather than guessed:
+One item failed: two `[NEEDS CLARIFICATION]` markers in Edge Cases, covering the treatment of
+abandoned trials and the route for removing a name. Neither had a defensible default.
 
-1. **Abandoned trials.** A trial revealed but never answered has no settled treatment. This is
-   not cosmetic: if a user can silently drop trials that feel wrong, they select their own
-   sample, and every figure on the statistics page inherits the bias. It interacts directly with
-   FR-013 (trials recorded at creation), FR-018 (aggregate over all trials) and SC-005 (the
-   aggregate must not be inflated).
-2. **Name removal route.** The right to erasure is satisfied structurally by FR-023, but whether
-   removal is self-service or handled on request is unsettled and changes both the interface and
-   the operational burden.
+### Validation pass 2 — 2026-07-25 — all items pass
+
+Both markers resolved and folded into requirements.
+
+**Abandoned trials** are marked and retained, excluded from hit rate, completed-trial total and
+the statistics threshold, but present in the public record and counted in a published
+abandonment rate (FR-014, FR-016, FR-021, FR-027, SC-012). The reasoning is worth preserving:
+this does not prevent a user from selecting their own sample by dropping trials that feel wrong.
+It makes that selection **measurable**, which is the honest option — and it is only possible
+because FR-013 already writes a trial to the record before its outcome exists.
+
+**Name removal is self-service**, proved by possession of the access link (FR-035, FR-036).
+Handling it on request was not merely less convenient but unworkable: no email is on file, so
+there is no way to authenticate a requester. The access link is the only proof of ownership that
+exists.
+
+Renumbering note: six requirements were added inside existing groups, so FR numbers after FR-013
+shifted. Cross-references in Assumptions were updated to match (FR-028 for the ranking rule,
+FR-020 for the aggregate).
 
 **Deliberate wording choices, recorded so they are not mistaken for vagueness:**
 
 - Mechanism is referenced, never specified. Terms such as "evidence the user can check" stand in
   for the construction fixed in `docs/trial-protocol-decisions.md` D3, which belongs in the plan.
-- FR-024 states the ranking property rather than the ranking rule; SC-009 makes it testable
+- FR-028 states the ranking property rather than the ranking rule; SC-009 makes it testable
   without naming the statistic used.
 - "Append-only record" and "head value" are domain vocabulary rather than implementation detail —
   they are what the product promises, and no plainer phrasing preserves the meaning.
+
+**Carried into planning as an open parameter**, not a specification gap: the period after which
+an unanswered trial counts as abandoned. It is recorded in Assumptions and must be long enough
+that a slow viewing session is not cut off mid-impression.

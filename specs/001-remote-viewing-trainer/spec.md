@@ -69,6 +69,8 @@ confirm the deviation from chance is reported together with the context needed t
    reported figure advances in blocks of completed trials rather than after every single one.
 5. **Given** any visitor, **When** they view the statistics page, **Then** an aggregate result
    across all trials by all users is presented, including users who never reached the threshold.
+6. **Given** a user who has abandoned trials, **When** their statistics are shown, **Then** the
+   number of abandoned trials is shown alongside, so selective abandonment is visible.
 
 ---
 
@@ -96,9 +98,11 @@ public record and confirm independently that the outcome was fixed before the ch
    failure is made visible to the user rather than silently ignored.
 4. **Given** any visitor, **When** they request the public record, **Then** the complete trial
    history is available for download along with its current head value.
-5. **Given** the leaderboard, **When** it is ranked, **Then** an account with very few trials
+5. **Given** the public record, **When** it is examined, **Then** abandoned trials are present
+   and distinguishable from completed ones, and the overall abandonment rate can be computed.
+6. **Given** the leaderboard, **When** it is ranked, **Then** an account with very few trials
    cannot occupy a top position on the strength of a short lucky run.
-6. **Given** a leaderboard entry, **When** it is displayed, **Then** it shows the chosen name
+7. **Given** a leaderboard entry, **When** it is displayed, **Then** it shows the chosen name
    together with a distinct public identifier, so that two users choosing the same name remain
    distinguishable.
 
@@ -129,18 +133,23 @@ account and full history carry over.
    protection notice is present in that domain's language.
 6. **Given** the moment a name is entered, **When** the account is created, **Then** the visitor
    is told that the chosen name and the complete trial history will be public.
+7. **Given** a user holding their access link, **When** they choose to remove their name,
+   **Then** it is removed without contacting the operator, and their trials remain in the public
+   record under an identifier that no longer names them.
 
 ---
 
 ### Edge Cases
 
-- **A trial is revealed but never answered** — the visitor sees the eight images and leaves.
-  [NEEDS CLARIFICATION: do abandoned trials count as misses, count as nothing, or count as
-  nothing while remaining visible in the public record? If a user can silently discard trials
-  that feel wrong, they are selecting their own sample, which biases every figure the statistics
-  page reports.]
-- **A user wants their account removed** — the record is append-only and cannot drop entries.
-  [NEEDS CLARIFICATION: is name removal self-service in the interface, or handled on request?]
+- **A trial is revealed but never answered** — the visitor sees the eight images and leaves. The
+  trial is marked abandoned. It does not count toward the hit rate, the completed-trial total, or
+  the ten-trial threshold, but it stays in the public record, distinguishable from completed
+  trials, and the abandonment rate is published. Selective abandonment therefore becomes
+  measurable rather than being prevented: a user who drops trials that feel wrong is still
+  selecting their own sample, and the published counts are what makes that visible.
+- **A user wants their name removed** — removal is self-service, proved by holding the access
+  link. There is no email on file, so no other route could authenticate the request. The trials
+  stay in the record under the account's opaque identifier.
 - **Two users choose the same name** — both keep it; the public identifier distinguishes them,
   though a stranger cannot tell which came first.
 - **A user loses their access link** — the account and its history become unreachable,
@@ -187,44 +196,55 @@ account and full history carry over.
   licensed images with recorded provenance.
 - **FR-013**: System MUST record every trial at the moment it is created, before its outcome is
   known.
+- **FR-014**: System MUST mark a trial as abandoned when it has been revealed but no choice is
+  submitted, and MUST retain it rather than deleting it.
 
 **Scoring and statistics**
 
-- **FR-014**: System MUST track each account's completed trials and hits.
-- **FR-015**: System MUST withhold the statistics view until an account has completed ten
-  trials, applying that threshold to trial count alone and never to success.
-- **FR-016**: Statistics MUST report how far the account's hit rate departs from chance,
-  together with how many users would reach that departure by chance alone.
-- **FR-017**: Reported statistics MUST advance in blocks of completed trials rather than after
+- **FR-015**: System MUST track each account's completed trials and hits.
+- **FR-016**: Abandoned trials MUST NOT count toward an account's hit rate, its completed-trial
+  total, or the threshold at which statistics unlock.
+- **FR-017**: System MUST withhold the statistics view until an account has completed ten trials,
+  applying that threshold to completed-trial count alone and never to success.
+- **FR-018**: Statistics MUST report how far the account's hit rate departs from chance, together
+  with how many users would reach that departure by chance alone.
+- **FR-019**: Reported statistics MUST advance in blocks of completed trials rather than after
   each individual trial.
-- **FR-018**: System MUST publish an aggregate result computed across every trial by every
+- **FR-020**: System MUST publish an aggregate result computed across every trial by every
   account, including accounts that never reached the statistics threshold.
+- **FR-021**: System MUST display an account's abandoned-trial count alongside its statistics.
 
 **Verification and the public record**
 
-- **FR-019**: System MUST present, after each revealed outcome, evidence the user can check that
+- **FR-022**: System MUST present, after each revealed outcome, evidence the user can check that
   the target was fixed beforehand and corresponds to the coordinate shown.
-- **FR-020**: System MUST verify that evidence within the interface, without any external tool.
-- **FR-021**: System MUST make a failed verification visible to the user rather than ignoring it.
-- **FR-022**: System MUST offer a public download of the complete trial record together with its
+- **FR-023**: System MUST verify that evidence within the interface, without any external tool.
+- **FR-024**: System MUST make a failed verification visible to the user rather than ignoring it.
+- **FR-025**: System MUST offer a public download of the complete trial record together with its
   current head value.
-- **FR-023**: The published record MUST NOT contain self-chosen names. Names MUST be held
+- **FR-026**: The published record MUST NOT contain self-chosen names. Names MUST be held
   separately, so that removing one leaves every published trial intact and verifiable.
-- **FR-024**: Leaderboard ranking MUST NOT favour accounts with very few trials.
-- **FR-025**: Each leaderboard entry MUST show the chosen name alongside a distinct public
+- **FR-027**: Abandoned trials MUST appear in the public record, distinguishable from completed
+  ones, and the aggregate abandonment rate MUST be published.
+- **FR-028**: Leaderboard ranking MUST NOT favour accounts with very few trials.
+- **FR-029**: Each leaderboard entry MUST show the chosen name alongside a distinct public
   identifier.
 
 **Languages and legal**
 
-- **FR-026**: System MUST offer the same functionality in German and English, one language per
+- **FR-030**: System MUST offer the same functionality in German and English, one language per
   domain.
-- **FR-027**: A language switch MUST carry the user's session to the other domain without ever
+- **FR-031**: A language switch MUST carry the user's session to the other domain without ever
   placing their secret access link where it can be read from the screen or the address bar.
-- **FR-028**: System MUST NOT redirect visitors automatically based on browser language.
-- **FR-029**: System MUST present a data protection notice on both domains in that domain's
+- **FR-032**: System MUST NOT redirect visitors automatically based on browser language.
+- **FR-033**: System MUST present a data protection notice on both domains in that domain's
   language.
-- **FR-030**: System MUST disclose, at the moment a name is entered, that the chosen name and
+- **FR-034**: System MUST disclose, at the moment a name is entered, that the chosen name and
   the complete trial history are public.
+- **FR-035**: System MUST allow a user holding a valid access link to remove their chosen name
+  themselves, without contacting the operator.
+- **FR-036**: After a name is removed, the account's trials MUST remain in the public record
+  under its opaque identifier.
 
 ### Key Entities
 
@@ -232,11 +252,13 @@ account and full history carry over.
   self-chosen display name. The identifier is what appears in the permanent record; the name is
   removable.
 - **Trial**: a coordinate, the evidence fixing its outcome in advance, its candidate set, the
-  target, the user's choice, the result, its position in the sequence, and when it was created.
+  target, the user's choice or its absence, the result, its position in the sequence, and when it
+  was created.
 - **Image Collection Version**: an ordered, published set of images with a version identity that
   trials refer to, so later additions do not invalidate earlier trials.
 - **Image**: depicted content, source, and licence.
-- **Public Record**: the append-only sequence of all trials, with a head value summarising it.
+- **Public Record**: the append-only sequence of all trials, completed and abandoned, with a head
+  value summarising it.
 
 ## Success Criteria *(mandatory)*
 
@@ -264,15 +286,19 @@ account and full history carry over.
   licensed with its provenance recorded.
 - **SC-011**: Inspecting client-side state or network traffic before a choice is submitted does
   not reveal the target in any trial.
+- **SC-012**: The abandonment rate, overall and per account, is computable by a third party from
+  the public record alone, so selective abandonment is detectable rather than hidden.
 
 ## Assumptions
 
 - The coordinate is an arbitrary fixed-format reference carrying no information the user could
   decode. It exists because remote viewing convention expects one; it does not encode the target.
 - The chance hit rate is 12.5%, one image in eight.
+- A trial counts as abandoned after a fixed period without a submitted choice. The exact period
+  is a planning decision; it needs to be long enough that a slow viewing session is not cut off.
 - Accounts may run unlimited trials; no per-user rate limit is imposed at launch. Abuse of the
-  leaderboard through many throwaway accounts is addressed by the ranking rule in FR-024 and by
-  the aggregate figure in FR-018 carrying the main claim, rather than by restricting play.
+  leaderboard through many throwaway accounts is addressed by the ranking rule in FR-028 and by
+  the aggregate figure in FR-020 carrying the main claim, rather than by restricting play.
 - The leaderboard's effective minimum is assumed to be around 100 completed trials, subject to
   adjustment once real distributions are observed.
 - The interface describes the record as *published*, not as tamper-proof. External anchoring was
