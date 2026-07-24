@@ -4,8 +4,8 @@ Running record of a `/grill-me` session held 2026-07-25, before any specificatio
 This file is **input** for the eventual `specs/001-*/spec.md` and the Phase 0 `research.md`;
 it is not itself a Spec Kit artifact and carries no authority over them.
 
-Status: **session complete** — 17 decisions settled. Remaining items are actions and one
-reopened question, listed at the bottom.
+Status: **session complete** — 17 decisions settled. Remaining items are actions only,
+listed at the bottom.
 
 ## What vriltrainer is
 
@@ -53,8 +53,8 @@ Neither side controls the outcome alone:
 2. Reveal click   client: s_client ← crypto.getRandomValues()
                   → server
                   seed   = H(s_server ‖ s_client)
-                  target = pool[seed mod P]
-                  decoys and display order derived from the same seed
+                  target = pool[draw(seed)]        # rejection sampling, see D17
+                  decoys and display order drawn from the same stream
                   → client: the N images
 3. Pick           → server
 4. Reveal         → client: s_server, nonce
@@ -127,9 +127,15 @@ filenames. Anything that distinguishes the target from its decoys — resolution
 ratio, compression artifacts, the colour signature of a particular source — is a sensory
 channel, and sensory leakage is the classic failure mode of forced-choice ESP experiments.
 
-Manifest: sorted list of image IDs plus their Merkle root, which is the `pool_manifest_hash`
-carried in each trial. Extending the pool creates a new version; older trials stay
-verifiable against the version they were run under.
+Manifest: sorted list of image IDs, hashed as a whole to give the `pool_manifest_hash` carried
+in each trial. Extending the pool creates a new version; older trials stay verifiable against
+the version they were run under.
+
+A Merkle root was specified here originally. It is unnecessary: a Merkle tree buys inclusion
+proofs for a single element without downloading everything, and the manifest is published whole
+anyway. A plain hash over the sorted list is equivalent for this purpose and simpler in two
+implementations. This follows the same reasoning that chose a hash chain over a Merkle tree for
+the log in D17 — correct it if a Merkle root was wanted for a reason not captured here.
 
 Licensing: **only free / public-domain images** — confirmed. CC0 and public domain sources
 such as Wikimedia Commons (PD), Unsplash, Pexels and openverse. CC-BY is avoided: the
