@@ -4,7 +4,7 @@ Running record of a `/grill-me` session held 2026-07-25, before any specificatio
 This file is **input** for the eventual `specs/001-*/spec.md` and the Phase 0 `research.md`;
 it is not itself a Spec Kit artifact and carries no authority over them.
 
-Status: session incomplete — 6 decisions settled, open questions listed at the bottom.
+Status: session incomplete — 7 decisions settled, open questions listed at the bottom.
 
 ## What vriltrainer is
 
@@ -153,6 +153,21 @@ Licence: undecided. Recommendation is **AGPL-3.0**, matching darkfi next door, a
 hosted service is precisely the case AGPL exists for — a fork running a dishonest instance
 would be obliged to publish its modifications.
 
+## D7 — Rust plus SQLite on the server, TypeScript and Angular in the browser
+
+Node remains a build-time dependency for the Angular toolchain only; it does not run in
+production. Deployment is a static binary and a database file.
+
+The derivation from D3 is therefore implemented twice: once in Rust on the server, once in
+TypeScript for the in-browser verifier. This was the main argument for a TypeScript backend —
+write it once, share the module — and it was rejected deliberately. Shared code that checks
+itself against itself demonstrates nothing; two independent implementations agreeing on
+shared test vectors are evidence that the specification is right.
+
+The cost is real and must not be discovered later: **test vectors for the derivation are
+mandatory, not optional**. Without them, divergence between the two implementations surfaces
+as verification failures on honest trials, which is an expensive bug to chase.
+
 ## Constraints
 
 - **No Python.** Excludes the reference OpenTimestamps client, which is moot while D4 defers
@@ -164,8 +179,6 @@ would be obliged to publish its modifications.
 
 Not yet decided; the grilling session stopped here.
 
-- Backend language and storage, given that Node arrives anyway as the Angular build
-  toolchain and Python is excluded
 - Where the pool's several hundred images actually come from, and who curates them
 - `N` images per trial, and therefore the chance rate the z-score is measured against
 - Statistics: per-user or cumulative, handling of multiple comparisons across many users,
