@@ -149,7 +149,6 @@ Not yet decided; the grilling session stopped here.
 - Statistics: per-user or cumulative, handling of multiple comparisons across many users,
   optional stopping, what is claimed in the UI
 - Identity: username-only, how it persists, what the leaderboard is worth without auth
-- Backend language and storage
 - i18n: which languages, and how the two domains relate to them
 - Deployment target and operations
 - MVP scope: which of the above is P1
