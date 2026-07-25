@@ -253,12 +253,17 @@ account and full history carry over.
   identifier.
 - **FR-040**: An account MUST become leaderboard-eligible only after completing 100 trials
   spread across at least three distinct days.
+- **FR-050**: The statistics-unlock count, the leaderboard eligibility floor and the rank band
+  edges MUST be server-side configuration, reported in the responses that depend on them and
+  stated on the pages that display them, and the interface MUST say that they are adjusted as the
+  site grows (D26).
 - **FR-041**: The leaderboard MUST display, for every entry, the statistic it is sorted by as
   the primary figure, together with the account's completed-trial count, hit rate and deviation
   from chance.
-- **FR-042**: System MUST assign ranks by leaderboard position rather than by absolute
-  thresholds, and MUST withhold ranks entirely until at least 200 accounts are
-  leaderboard-eligible, stating how many are currently eligible while it withholds them.
+- **FR-042**: System MUST assign ranks as shares of the eligible population rather than by
+  absolute thresholds or fixed seat counts, and MUST award a band only once that band holds at
+  least one account without rounding — `share x eligible >= 1` — stating how many accounts are
+  currently eligible whether or not any band is active (D23).
 - **FR-043**: System MUST assign a distinct rank to accounts performing markedly below chance,
   and MUST display the count of markedly-below and markedly-above accounts together, so the
   symmetry of the two tails is visible.
@@ -279,7 +284,16 @@ account and full history carry over.
 - **FR-034**: System MUST disclose, at the moment a name is entered, that the chosen name and
   the complete trial history are public.
 - **FR-035**: System MUST allow a user holding a valid access link to remove their chosen name
-  themselves, without contacting the operator.
+  themselves, without contacting the operator. Removal is permanent for that account: the account
+  remains playable under its opaque identifier and no new name may be set (D25).
+- **FR-047**: System MUST NOT display a chosen name on any public surface until it has been
+  approved, showing the opaque identifier in its place until then, and MUST tell the account
+  holder that their name is under review (D25).
+- **FR-048**: System MUST allow a user holding a valid access link to change their name, subject
+  to a rate limit. A name refused during review MUST NOT consume that limit, and the previously
+  approved name MUST remain displayed until a replacement is approved (D25).
+- **FR-049**: Display names need NOT be unique. The public identifier is what distinguishes
+  accounts, and MUST therefore be displayed wherever a name is (see FR-029).
 - **FR-036**: After a name is removed, the account's trials MUST remain in the public record
   under its opaque identifier.
 
@@ -303,8 +317,11 @@ account and full history carry over.
 
 - **SC-001**: A first-time visitor completes their first trial within 30 seconds of arriving,
   with no registration step.
-- **SC-002**: 100% of completed trials produce evidence an independent party can check without
-  trusting the operator.
+- **SC-002**: 100% of completed trials publish evidence and a documented procedure sufficient for
+  an independent party to verify them without trusting the operator. Shipping a verifier is not
+  part of the first release: the in-browser check (SC-003) is written against the same normative
+  specification but is served by the operator, so the interface must not claim third-party
+  independence it does not have.
 - **SC-003**: A user can check a trial's evidence entirely within the interface, needing no
   external tool and no technical knowledge.
 - **SC-004**: The published aggregate result is reproducible by a third party from the public
@@ -317,10 +334,11 @@ account and full history carry over.
   duplicate account is created by switching.
 - **SC-008**: After a name is removed, 100% of that account's previously published trials remain
   verifiable.
-- **SC-009**: No account appears anywhere on the leaderboard without having completed 100 trials
-  across at least three distinct days, so no short lucky run can occupy a ranked position.
-- **SC-010**: The image collection contains at least 500 images at launch, every one freely
-  licensed with its provenance recorded.
+- **SC-009**: No account appears anywhere on the leaderboard without meeting the eligibility floor
+  in force, so no short lucky run can occupy a ranked position.
+- **SC-010**: The image collection contains at least 160 images at launch, every one freely
+  licensed with its provenance recorded, and grows afterwards without invalidating earlier trials
+  (D5).
 - **SC-011**: Inspecting client-side state or network traffic before a choice is submitted does
   not reveal the target in any trial.
 - **SC-017**: Over a large simulated run, the target falls on each of the eight displayed
@@ -328,8 +346,11 @@ account and full history carry over.
   choosing the image from the largest category performs no better than 12.5%.
 - **SC-012**: The abandonment rate, overall and per account, is computable by a third party from
   the public record alone, so selective abandonment is detectable rather than hidden.
-- **SC-013**: No account holds a rank without having met the eligibility rule, and no rank is
-  awarded at all while fewer than 200 accounts are eligible.
+- **SC-013**: No account holds a rank without having met the eligibility rule, and no band is
+  awarded while the eligible population is too small for that band to hold one account without
+  rounding.
+- **SC-018**: No name reaches a public surface without having been approved, and a name refused
+  during review is discarded rather than stored.
 - **SC-014**: The counts of markedly-above-chance and markedly-below-chance accounts are both
   displayed, so a reader can see whether the two tails are balanced without computing anything.
 - **SC-015**: A rank image shared outside the site states the trial count and the by-chance
@@ -360,19 +381,24 @@ account and full history carry over.
 - Play itself is not rate-limited over time, but two limits apply: account creation is capped per
   client address, and each account may hold only a small number of uncompleted trials at once. The
   second is what bounds growth of the permanent log, since every trial is recorded at creation.
-  Abuse of the leaderboard through many throwaway accounts is answered separately — by the
-  eligibility rule in FR-040, the ranking rule in FR-028, and the aggregate figure in FR-020
-  carrying the main claim rather than the top entry.
-- The leaderboard's effective minimum is 100 completed trials, spread over at least three days,
-  subject to adjustment once real distributions are observed.
+  Abuse of the leaderboard through many throwaway accounts is **not** answered by a scoring rule,
+  because none exists: at true chance there is no signal to rank, so any ordering orders luck and
+  more accounts buy more luck (D27). The eligibility rule in FR-040 raises its price, the
+  aggregate figure in FR-020 carries the main claim rather than the top entry, and the position is
+  stated on the statistics page rather than defended.
+- The leaderboard's effective minimum is 100 completed trials, spread over at least three days.
+  It is deliberately low at launch, when attracting users matters more than a farm-proof board,
+  and it is configuration rather than a constant so it can rise with activity (D26). It is not a
+  defence against multi-accounting and is not intended as one (D27).
 - The leaderboard is sorted by the lower bound of a confidence interval on the hit rate, which
   weighs trial count rather than surprise alone. A lucky 100-trial run at 25% produces a larger
   deviation from chance than a steady 1000 trials at 15%, and the latter is treated as the
   stronger result.
-- The rank ladder is assumed to be: top 3 *Insektoider Archont*, ranks 4–10 *Reptiloidenarchont*,
-  11–30 *Grey Alien*, 31–80 *Flugscheibenpilot*, 81–200 *Psionic Asset*, everything below
-  *Normie*, and markedly below chance *Kartoffel*. Positions, not thresholds — the supply of each
-  rank is fixed regardless of how lucky the population gets.
+- The rank ladder is eleven bands, symmetric around *Normie*: *Annunaki* (best 0,1 %),
+  *Insektoider Loosh-Farmer* (0,5 %), *Reptiloidenarchont* (2 %), *Grey Alien* (7 %),
+  *Psionisches Asset* (20 %), *Normie* (middle 60 %), then mirrored downward through *Zirbeldrüse
+  verkalkt*, *Erdstrahlen-Opfer*, *Orgonit-Enjoyer*, *Psi-Nullleiter* and *Kartoffel*. Shares, not
+  seats and not thresholds — a share means the same thing at any population size (D23).
 - The product's stated position is that it is a public experiment whose most likely outcome is no
   detectable effect, delivered in an irreverent register. This is a premise, not a prediction the
   system enforces: the statistics are computed the same way whatever they show.
@@ -382,14 +408,15 @@ account and full history carry over.
 - The interface describes the record as *published*, not as tamper-proof. External anchoring was
   deliberately deferred (D4), so the record's integrity rests on publication and on copies held
   by third parties.
-- German and English are the only languages. A third would break the one-language-per-domain
-  arrangement and require revisiting it.
+- German and English are the only languages, and each domain is served by its own process started
+  with a hard locale switch, both sharing one database (D24). A third language would break the
+  one-language-per-domain arrangement and require revisiting it.
 - Source availability under a licence obliging modified hosted versions to publish their changes
   is a project-level commitment (D14), not a behaviour of the running system.
 
 ## Dependencies
 
-- A curated collection of at least 500 freely licensed images, normalised so that no image is
+- A curated collection of at least 160 freely licensed images, normalised so that no image is
   distinguishable from another by anything but its content, must exist before User Story 1 is
   playable. This is the largest piece of manual work in the project and it gates the MVP. It also
 requires a documented curation workflow that someone other than the author can follow, since the

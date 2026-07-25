@@ -33,7 +33,7 @@ artefacts both implementations consume. Structure fixed in plan.md.
 
 - [X] T001 Create the workspace layout from plan.md — `server/`, `tools/poolctl/`, `client/`, `shared/vectors/`, `shared/pool/`
 - [X] T002 Create the Cargo workspace in `Cargo.toml` with members `server` and `tools/poolctl`
-- [X] T003 [P] Add server dependencies in `server/Cargo.toml` — axum, rusqlite, sha2, chacha20poly1305, serde, tracing
+- [ ] T003 [P] Add server dependencies in `server/Cargo.toml` — axum, tokio, rusqlite, tower-http, clap, sha2, chacha20poly1305, serde, tracing. **Unticked 2026-07-25: this was marked done but only sha2/serde/chacha20poly1305/base64/rand are present. There is no axum and no rusqlite.**
 - [ ] T004 [P] Add pool tool dependencies in `tools/poolctl/Cargo.toml` — image, sha2, serde, clap
 - [X] T005 [P] Initialise the Angular application in `client/` with `@angular/localize`, `PathLocationStrategy` (required by D9 — `HashLocationStrategy` would collide with the access-link fragment)
 - [X] T006 [P] Write `.gitignore` covering `target/`, `node_modules/`, `dist/`, `*.sqlite*`, `.env*`
@@ -65,7 +65,7 @@ the derivation vectors. Neither can be worked around later.
 - [ ] T084 [P] Add the manifest format test in `tools/poolctl/tests/manifest_format.rs` — asserts ascending order, the hash over the sorted list, and that a reordered manifest is rejected; the ordering silently determines every future derivation (constitution III, contracts/pool-manifest.md)
 - [X] T092 Write the curation guide in `docs/curation-guide.md` — accepted sources and how to confirm a licence, what makes a usable target, exclusions (legible text, recognisable faces, arguable licences), recording provenance at capture time, and when to cut a pool version. Written to be followed by someone other than the author, because the pool keeps growing after launch
 - [ ] T093 [P] Add `poolctl check` in `tools/poolctl/src/check.rs` — refuse an image with no source or licence recorded, refuse a duplicate of an existing hash, refuse an image with no category, and report images per category so a thin category is visible before it starts repeating
-- [ ] T016 Curate and normalise at least 500 freely licensed images into `shared/pool/v1.json` following `docs/curation-guide.md` — every image assigned a category, and **variety kept inside each category** — D22 stops two images of the same kind sharing a trial, but twenty near-identical landscapes still produce repetitive trials and no code can repair that; the largest piece of manual work in the project, and it blocks every playable scenario (FR-012, SC-010, D5)
+- [ ] T016 Curate and normalise at least 160 freely licensed images (D5, amended — was 500) into `shared/pool/v1.json` following `docs/curation-guide.md` — every image assigned a category, and **variety kept inside each category** — D22 stops two images of the same kind sharing a trial, but twenty near-identical landscapes still produce repetitive trials and no code can repair that; the largest piece of manual work in the project, and it blocks every playable scenario (FR-012, SC-010, D5)
 
 ### Storage, chain and crypto
 
@@ -78,7 +78,7 @@ the derivation vectors. Neither can be worked around later.
 ### Service scaffolding
 
 - [ ] T022 Set up the axum server and routing skeleton in `server/src/http/mod.rs`
-- [ ] T023 Implement `Host`-based locale selection in `server/src/http/locale.rs` — D10 selects the bundle from this header alone
+- [ ] T023 Implement locale selection from the `--locale de|en` startup flag in `server/src/http/locale.rs` — **D24 supersedes D10 here**: two processes, one per domain, and a German process cannot serve English by accident
 - [ ] T024 Implement forwarded client address handling in `server/src/http/client_addr.rs`, trusting the header **only** from the proxy address — without this the per-address limit is inert or global, with a naive version any client forges its own address (research.md R8)
 - [ ] T025 Add structured logging with a per-request correlation identifier in `server/src/http/trace.rs`, and assert no URL fragment can reach the logs (constitution IV, FR-006)
 
@@ -151,7 +151,7 @@ it independently.
 - [ ] T053 [US3] Implement `GET /api/log` and `GET /api/log/head` in `server/src/http/routes/log.rs` (FR-025)
 - [ ] T054 [US3] Implement `GET /api/pool/{version}/manifest` in `server/src/http/routes/pool.rs` — without it nobody can recompute anything
 - [ ] T055 [US3] Implement leaderboard eligibility in `server/src/stats/eligibility.rs` — 100 completed trials across at least three distinct UTC days, which is also what keeps short lucky runs off the board (FR-040, FR-028, SC-009, research.md R4)
-- [ ] T056 [US3] Implement positional rank assignment in `server/src/stats/ranks.rs` — the ladder from D19, withheld entirely below 200 eligible accounts and reporting progress toward it instead (FR-042, SC-013)
+- [ ] T056 [US3] Implement share-based rank assignment in `server/src/stats/ranks.rs` — the eleven bands from D23, each awarded only once `share x eligible >= 1` with no rounding up, reporting the eligible count either way (FR-042, SC-013)
 - [ ] T057 [US3] Implement `GET /api/leaderboard` in `server/src/http/routes/leaderboard.rs` — sorted by the Wilson lower bound, which is also the primary figure displayed (FR-041, D20)
 - [ ] T058 [P] [US3] Build the leaderboard view in `client/src/app/leaderboard/leaderboard.component.ts` — sort key shown as the headline number, trials, hit rate and deviation alongside, each entry naming the account and its public identifier (FR-029)
 - [ ] T059 [US3] Build rank artefact rendering in `client/src/app/leaderboard/rank-card.component.ts` — trial count and by-chance frequency **inside** the image, because it travels without the page around it (FR-044, SC-015)
@@ -172,7 +172,7 @@ over and no second account appears.
 
 - [ ] T062 [P] [US4] Extract translatable strings and configure locale builds in `client/angular.json` — one bundle per locale, no runtime i18n library, both offering identical functionality (FR-030, D10)
 - [ ] T063 [P] [US4] Provide German and English message catalogues in `client/src/locale/`
-- [ ] T064 [US4] Serve the locale bundle by `Host` in `server/src/http/static.rs`, one binary for both domains
+- [ ] T064 [US4] Serve the locale bundle fixed at startup in `server/src/http/static.rs` — one binary, two processes, two systemd units, two nginx upstreams (D24)
 - [ ] T065 [US4] Implement handoff code minting and redemption in `server/src/account/handoff.rs` — single use, roughly 30 seconds
 - [ ] T066 [US4] Implement `POST /api/handoff` and `POST /api/handoff/redeem` in `server/src/http/routes/handoff.rs`
 - [ ] T067 [US4] Build the language switch in `client/src/app/account/language-switch.component.ts` — carries the session via a handoff code, never the long-lived token, so the switch stays safe to stream (FR-031, D11)
@@ -198,11 +198,30 @@ over and no second account appears.
 - [X] T078 [P] Write the systemd unit in `deploy/vriltrainer.service`
 - [ ] T079 Verify the backup path end to end — dump, push, and **restore into a scratch database**; an untested backup of the audit log is an untested product promise (D12)
 - [ ] T080 [P] Confirm the S3 bucket is not public-read — a dump carries `s_server` for trials still in flight, which are live answers (D12, D16)
-- [ ] T081 [P] Produce the seven rank artefacts as original work in `client/src/assets/ranks/` — owned outright, which is what closes the licensing question; blocks nothing before ranks first render (research.md R10)
-- [ ] T082 [P] Run a simulated population of random players and confirm the aggregate lands within sampling bounds of 12.5% and the two tails stay comparable (SC-005, SC-014)
+- [X] T081 [P] Produce the rank artefacts as original work in `client/public/rank/` — **done, and there are eleven** (D23). Original pixel work, owned outright, which is what closes the licensing question (research.md R10)
+- [ ] T082 [P] Run a simulated population of random players and confirm the aggregate lands within sampling bounds of 12.5% and the two tails stay comparable (SC-005, SC-014). **Include an adversarial farmer** splitting a fixed trial budget across many accounts, so D27's claim that splitting beats concentrating is measured rather than argued
 - [ ] T094 [P] Verify the draw is unbiased across categories in `server/tests/category_bias.rs` — with deliberately uneven category sizes, the target must land on each displayed position equally often, and always choosing the largest category's image must score 12.5% (FR-046, SC-017)
 - [X] T083 [P] Write `README.md` — what the experiment is, how to verify it yourself, and what the published record does and does not prove
-- [ ] T091 [P] Measure time from cold arrival to first completed trial and confirm it stays under 30 seconds (SC-001) — a manual acceptance check, not an automated test
+- [ ] T091 [P] Measure time from cold arrival to first completed trial and confirm it stays under 30 seconds (SC-001) — a manual acceptance check, not an automated test — **through the combined landing-and-name screen**, which is now the first thing a visitor sees
+
+### Added 2026-07-25, from the launch-plan grilling
+
+- [ ] T095 Make `/` a combined landing-and-name screen in `client/src/app/` — the premise and the 12.5% above the name field, one button into the trial. Today `/` redirects to `/trial` and a cold visitor's first screen is a form demanding a public name with nothing explaining the site (SC-001, FR-001)
+- [ ] T096 Implement the name state machine in `server/src/account/name.rs` — `pending` -> `approved` | `rejected`, the opaque identifier shown in place of an unapproved name, the last approved name retained across a rename (FR-047, FR-048, SC-018, D25)
+- [ ] T097 Port `checkDisplayName` to `server/src/account/name_filter.rs` and enforce it on name submission — the client copy is UX only, and a rule checked only in the client is not checked (D25)
+- [ ] T098 Implement the public admin API in `server/src/http/routes/admin.rs` — list pending, approve, reject. **Reversible operations only**; anything destructive stays a CLI subcommand behind SSH (D25)
+- [ ] T099 Implement one admin key with its hash in the database, and `server admin-key --rotate` printing the key once — in the database rather than the environment file so rotation needs no restart (D25)
+- [ ] T100 Implement the rename endpoint with its rate limit in `server/src/http/routes/account.rs`, and confirm a rejected name does not consume it (FR-048)
+- [ ] T101 Make the thresholds configuration in `server/src/config.rs` and report them in the responses that depend on them — statistics unlock, eligibility floor, band edges (FR-050, D26)
+- [ ] T102 Recompute ranks on a ~15-minute background task and materialise them, exposing when they were last computed (D23)
+- [ ] T103 Enforce the D24 append discipline in `server/src/db/mod.rs` — `BEGIN IMMEDIATE` before reading the chain head, `busy_timeout`, `UNIQUE` on sequence number and `prev_hash`, chain walk at startup (R9, D24)
+- [ ] T104 Rewrite `deploy/nginx.conf` for two upstreams and two `server` blocks, and delete the claim that `Host` selects the language build — it no longer does (D24)
+- [ ] T105 [P] Add the empty state to the statistics page — a grey empty chart and one honest line while there are not enough trials. Today the page hardcodes 148,213 trials and 720 players and has no n=0 behaviour
+- [ ] T106 [P] State the multi-accounting position on the statistics page in the site's own voice (D27)
+- [ ] T107 [P] Add the DSA notice-and-action line to the Impressum and footer — what to report and where. The Impressum contact is the mechanism; there is no report button in v1
+- [ ] T108 [P] Make the log export prominent and invite readers to keep their own copy — this is what makes the record survive the service (D12 bus factor)
+- [ ] T109 [P] Remove the demo data from the client — `demoMode`, the demo pool, the hardcoded access key, the fabricated player and leaderboard figures
+- [ ] T110 [P] Delete `client/public/ui/flag-de.svg` and `globe-en.svg`; the language switch is DE and EN as text
 
 ---
 

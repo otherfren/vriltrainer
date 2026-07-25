@@ -117,15 +117,38 @@ uniqueness. An operator can maintain two divergent logs and stamp both, and each
 verifies. Detecting that requires publication plus clients comparing heads, in the manner of
 Certificate Transparency. Anchoring alone would never have closed that gap.
 
-## D5 — Public image pool, at least 500 images
+## D5 — Public image pool, at least 160 images at launch
 
 The pool is public, versioned and hashed, as D3 requires: without it the client cannot
-recompute a trial and the audit story collapses. `P >= 500` at launch.
+recompute a trial and the audit story collapses. `P >= 160` at launch, growing afterwards.
 
-Sizing rationale: with a public log, a user can look up image sets they have seen before. At
-P = 500 and N = 8 (see D8) there are on the order of 10^17 possible sets, so exact repeats
-effectively never occur. A small pool (P = 50) would let a lookup table accumulate within
-days and would kill the leaderboard.
+**Amended 2026-07-25. The original sizing rationale was wrong and is recorded here because
+someone will otherwise reinvent it.** It read: with a public log a user can look up image sets
+they have seen before, so at P = 500 exact repeats never occur, while a small pool would let a
+lookup table accumulate and kill the leaderboard.
+
+That threat does not exist. The target index is drawn from `seed = framed(s_server, s_client)`,
+freshly per trial, and D22 step 3 draws it uniformly over the eight shown. Recognising the exact
+eight images from a past trial tells an attacker nothing about this trial's target, because this
+trial's seed is not that one's. **Pool size does not appear anywhere in the target's
+distribution.** A lookup table over image sets buys nothing.
+
+What P actually controls is repetition as experience. A player sees a given image roughly `8T/P`
+times over `T` trials: 5 times at P = 160 over 100 trials, 10 times at P = 80. That is a boredom
+and credibility constraint, and it degrades gracefully rather than falling off a cliff. Even on
+the original argument's own terms 500 was far too conservative — at 20 categories of 8 there are
+already C(20,8) x 8^8 ~ 2x10^12 possible sets.
+
+The pool is versioned (`pool_version`, `GET /api/pool/{version}/manifest`) and every trial records
+the manifest hash it was drawn under, so growing the pool invalidates nothing. Launch at 160,
+ship v2 at 500 while live.
+
+**Manifests are served for every version for as long as the service runs**, because a trial
+recorded under v1 stays verifiable only while v1's manifest answers. **Image bytes are
+replaceable**: the derivation is computed over ids, not bytes, so a withdrawn image — a licence
+that turns out to be wrong, a takedown — costs the ability to *look* at that trial and costs
+nothing about checking it. That separation is what lets a takedown be honoured without touching
+the log.
 
 Pipeline requirements, all of them anti-leakage measures: fixed edge length, uniform
 requantization, metadata stripped, opaque IDs derived from the normalized bytes rather than
@@ -302,8 +325,9 @@ Consequences:
 
 - **A third language breaks the mapping.** Domain-as-language does not extend past the number
   of domains owned. Adding one means revisiting this decision, not appending to it.
-- The Rust server from D7 selects the locale bundle by `Host` header, so two languages remain
-  one binary and one deployment.
+- ~~The Rust server from D7 selects the locale bundle by `Host` header, so two languages remain
+  one binary and one deployment.~~ **Superseded by D24**: the locale is a startup flag and each
+  domain gets its own process.
 
 **Confirmed:** the two domains are functionally identical apart from language. One backend,
 one database, one leaderboard. Separate per-domain leaderboards would have split the sample
@@ -538,6 +562,13 @@ result are the same one.
 
 ## D19 — Ranks are positional, and only exist once there is a population
 
+> **Superseded by D23 (2026-07-25).** Positions were replaced by shares of the population, and
+> the flat 200-account gate by a per-band rule. The reasoning below about *why* positional beat
+> absolute thresholds still holds and is the reason D23 is not a return to thresholds — it is a
+> refinement of the same insight. The rank names here are also out of date; D23 carries the
+> current ladder.
+
+
 | Rank | Position |
 |---|---|
 | Insektoider Archont | top 3 |
@@ -683,10 +714,162 @@ For a trainer it is judged a net gain — it gives the discrimination something 
 - Node is required regardless, as the Angular build toolchain. It is not currently installed
   on the development machine; Rust 1.95, Python 3.13, uv and sqlite3 are.
 
+## D23 — Ranks are shares of the population, not positions
+
+Supersedes D19. The ladder is eleven bands, symmetric around Normie:
+
+| Rank | Band |
+|---|---|
+| Annunaki | best 0,1 % |
+| Insektoider Loosh-Farmer | best 0,5 % |
+| Reptiloidenarchont | best 2 % |
+| Grey Alien | best 7 % |
+| Psionisches Asset | best 20 % |
+| Normie | the middle 60 % |
+| Zirbeldrüse verkalkt | bottom 20 % |
+| Erdstrahlen-Opfer | bottom 7 % |
+| Orgonit-Enjoyer | bottom 2 % |
+| Psi-Nullleiter | bottom 0,5 % |
+| Kartoffel | bottom 0,1 % |
+
+D19 was right that supply must be fixed rather than earned by hitting a threshold. It was wrong
+to fix supply as a *seat count*. A seat does not mean the same thing at two population sizes:
+third place out of ten is nothing, third place out of two hundred thousand is a title. A share
+means the same thing at every size, which is the only form that survives the site growing.
+
+**A band is awarded once `share x eligible >= 1`.** This replaces D19's flat 200-account gate with
+a rule the bands derive themselves — best 20 % needs 5 eligible, best 7 % needs 15, best 2 % needs
+50, best 0,5 % needs 200, best 0,1 % needs 1000. Ranks then appear progressively as the site grows
+and every title means what it says on the day it first exists. There is deliberately no rounding
+up: rounding would hand out the rarest title at any population, which is the opposite of what a
+share is. The top rung is unreachable until a thousand people have taken this seriously, and that
+is the correct joke.
+
+**Ranks are recomputed server-side every ~15 minutes**, not per request and not frozen per block.
+A materialised table keeps the board cheap and stable between recomputations, and the board states
+when ranks were last updated — otherwise a rank that has not moved reads as a bug.
+
+D19's closing argument carries over unchanged and is the reason the ladder is symmetric: under the
+null, low outliers are exactly as common as high ones, so if the site keeps producing about as
+many Kartoffeln as Annunaki, that ratio *is* the significance test, readable without statistics.
+The symmetry is now visible in the ladder itself rather than only in the tail counts.
+
+## D24 — Two processes, one machine, one database; the locale is a startup flag
+
+Amends D10. `vriltrainer.de` and `vriltrainer.com` are served by **two instances of the same
+binary**, each started with a hard `--locale de|en` switch that fixes which frontend it serves.
+Both point at the same SQLite file.
+
+This is simpler than selecting the bundle from the `Host` header, and it deletes a silent failure
+mode: `deploy/nginx.conf` previously called `Host` load-bearing for language, which meant a
+proxy misconfiguration served the wrong language rather than failing. A process that was started
+as the German one cannot serve English by accident.
+
+Sharing the database is what makes the two domains one product: one account table, one log, one
+leaderboard, exactly as D10 confirmed. It also means the D9 access link **works on either
+domain** — paste a `.de` link at `.com` and the token resolves against the same row. The D11
+handoff therefore exists to switch *without pasting the secret*, not to make the account portable.
+
+**This reopens R9 and must be got right.** R9 chose a single writer connection specifically so
+that strictly increasing sequence numbers and a correct `prev_hash` chain would be trivially
+correct "rather than a locking exercise". Two processes reinstate the locking exercise. Appending
+to a hash chain is read-the-head-then-write, and two processes can read the same head and write
+two entries claiming the same predecessor — a **forked audit log**, the one artefact this product
+cannot get wrong, and one that passes every test on a quiet machine.
+
+Required discipline, all four parts:
+
+- every append inside `BEGIN IMMEDIATE`, taking the write lock *before* reading the head;
+- `busy_timeout` set, so the loser waits instead of failing;
+- `UNIQUE` on the sequence number and on `prev_hash`, so a lapse in the above **fails loudly**
+  instead of forking silently;
+- a chain walk at startup and in the nightly backup job.
+
+Consequence for D12: two processes sharing a SQLite file means **one machine**. SQLite's locking
+is unreliable over network filesystems, so the two domains cannot be split across hosts, and
+there is no horizontal scaling path that keeps SQLite.
+
+## D25 — A name is public only after it has been approved
+
+`checkDisplayName` stops being the gate and becomes the **pre-filter**. It refuses the shapeless,
+the reserved, addresses, hate terms and vulgarity — including through leet folding — so that what
+reaches the review queue is only what survived. Everything that survives is then approved by a
+human before it is shown to anyone else.
+
+A name has state: `pending` -> `approved` | `rejected`. Until approved, every public surface shows
+`<anonymous>` beside the public identifier. The account holder sees their own name with a note
+that it is under review. On rename, the last **approved** name stays displayed until the new one
+clears, so renaming is not punished with anonymity. A rejection is told to the user with a reason,
+lets them choose again, and does **not** consume the rename rate limit. Rejected names are
+discarded rather than retained — holding a name you refused is holding personal data for no
+purpose.
+
+FR-026 is untouched: the log references the opaque account id and never the name, so none of this
+reaches the record.
+
+The honest cost is that the operator becomes a bottleneck. Every new player is `<anonymous>` until
+somebody logs in, and that is worst exactly on the days the site is growing. The pre-filter keeps
+the queue short; nothing keeps it off the calendar.
+
+Review runs over a small **public** admin API — public rather than loopback because the reviewers
+are not only the operator. Its blast radius is bounded by design instead of by authentication:
+**the public admin API performs only reversible operations.** Approve and reject, nothing else.
+Every destructive operation — deleting an account, touching the log, changing pool versions —
+stays a CLI subcommand behind SSH. A leaked admin key therefore costs an embarrassing name on the
+board for an hour, not the audit log, and the API needs no roles or scopes because there is only
+one privilege level and it cannot do damage.
+
+One key, its **hash** in the database and never the key itself, matching the D9 discipline for
+player tokens. `server admin-key --rotate` writes a new hash and prints the key once. The hash
+lives in the database rather than the environment file precisely so rotation needs no restart: a
+rotation that costs downtime is a rotation that never happens.
+
+## D26 — Thresholds are configuration, published, and expected to move
+
+The statistics unlock count, the leaderboard eligibility floor and the D23 band edges are
+**server configuration**, returned in the API responses that depend on them and stated on the
+pages that display them. None of them is a constant in the client.
+
+The reason is that they will move. At launch the site is unknown and the priority is users, so
+the bars start low — the D17 eligibility floor of 100 trials across three distinct days stays as
+it is — and they rise as activity justifies it. That is a deliberate trade: a low floor is
+farmable (see D27) and an empty leaderboard is a worse launch than a gamed one.
+
+What makes this fair rather than arbitrary is saying so first. The board states the thresholds in
+force and that they will be adjusted while the site grows. Announce before raising, and nobody who
+loses a rank has been ambushed.
+
+## D27 — Multi-accounting is absorbed, not defended
+
+One person can run many accounts. On a share-based leaderboard that is the obvious exploit: run
+twenty, keep whichever got lucky, and that one is your Annunaki.
+
+**No scoring rule fixes this, and the reason is the product's own thesis.** At true chance every
+account's real value is identical — 12,5 %. There is no signal to rank, so any ordering is an
+ordering of luck, and buying more tickets buys more luck. Concretely, with a 1000-trial budget:
+ten accounts of 100 trials, keeping the best, expects about 17,6 hits and a Wilson lower bound
+near 11,4 %, against 10,6 % for one account of 1000 trials. Splitting wins — the single account
+regresses to the mean while the farmer keeps only the tail. Raising the confidence level to 99 %
+flips it at ten accounts and loses again at a hundred, because the penalty at fixed `n` is fixed
+while the max-of-K gain grows like sqrt(2 ln K).
+
+D20's Wilson lower bound therefore stays, because it is the right thing to *show* — it is simply
+not a defence. The only lever that scales with a farmer's effort is what an account costs to make
+eligible, and D26 keeps that low on purpose for now.
+
+So the position is: let people do what they want, and say so on the statistics page in the site's
+own voice. Multi-accounting does not undermine the argument, it demonstrates it. Any real
+countermeasure — device fingerprinting, email, payment — would cost the anonymity FR-001 exists to
+protect, which is a much worse trade.
+
+T082's simulated-population run should include an adversarial farmer, so this is measured rather
+than argued; the figures above are a normal approximation to E[max of K], not a simulation.
+
+
 ## Remaining actions
 
-- Create the seven rank artefacts. Original work by the operator, owned outright, which is
-  what closed the meme licensing question (research.md R10).
+- ~~Create the seven rank artefacts.~~ **Done, and there are eleven** (D23). Original pixel work,
+  owned outright, which is what closed the meme licensing question (research.md R10).
 
 - Flip the repository to public (D6)
 - Source and curate the image pool. The operator curates, using the annotate-and-scale tool

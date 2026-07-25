@@ -137,13 +137,32 @@ source would let any client forge its own address, so the trust boundary is the 
 
 ## R9 — SQLite under concurrent load
 
-**Decision.** WAL mode, a single writer connection, a pool of readers. The log append and the
-trial-status update happen in one transaction.
+**Decision.** WAL mode, a reader pool, and — since D24 — **two writing processes**, one per
+domain, against the same file on the same machine. The log append and the trial-status update
+happen in one transaction, opened with `BEGIN IMMEDIATE`.
 
 **Rationale.** The append-only log requires strictly increasing sequence numbers and a correct
-`prev_hash` chain; serialising writes through one connection makes that trivially correct rather
-than a locking exercise. Read traffic — leaderboard, statistics, log export — dominates and is
-unaffected.
+`prev_hash` chain. The original decision serialised writes through a single connection so that
+this was trivially correct rather than a locking exercise. D24 splits the service into two
+processes to make the locale a startup flag, which reinstates the locking exercise, so the
+discipline is now explicit rather than structural:
+
+- `BEGIN IMMEDIATE` **before** reading the chain head, so the write lock is held across
+  read-head-then-append. Two processes that both read the same head would write two entries
+  claiming the same predecessor — a forked audit log.
+- `busy_timeout` set, so the process that loses the lock waits rather than failing.
+- `UNIQUE` on the sequence number and on `prev_hash`, so any lapse in the above **fails loudly**
+  instead of forking silently. This is the part that matters: a fork passes every test on a quiet
+  machine and appears only under concurrency.
+- A chain walk at startup and in the nightly backup job.
+
+Read traffic — leaderboard, statistics, log export — dominates and is unaffected. Ranks are
+recomputed by a background task every ~15 minutes (D23) and materialised, so the board is a read
+of one table rather than a computation.
+
+**Consequence.** Two processes sharing a SQLite file means one machine: SQLite's locking is
+unreliable over network filesystems. The two domains cannot be split across hosts, and there is no
+horizontal scaling path that keeps SQLite.
 
 ## R10 — Rank artwork and meme licensing
 
