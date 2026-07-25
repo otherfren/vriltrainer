@@ -39,6 +39,12 @@ enum Command {
         /// The categories a pool image may use, in both languages.
         #[arg(long, default_value = "pool/categories.toml")]
         categories: PathBuf,
+        /// Drop catalogue entries the spec no longer names.
+        ///
+        /// Off by default, and deliberately: run against a half-written spec it would empty the
+        /// catalogue, and the report alone is enough to notice a disagreement.
+        #[arg(long)]
+        prune: bool,
     },
     /// Normalise an image, record where it came from, and take it into the catalogue.
     Add {
@@ -104,12 +110,17 @@ fn run(command: &Command, catalogue_path: &Path, images_dir: &Path) -> Result<Ex
     let mut catalogue = Catalogue::load(catalogue_path)?;
 
     match command {
-        Command::Import { images, categories } => {
+        Command::Import {
+            images,
+            categories,
+            prune,
+        } => {
             let spec = PoolSpec::load(categories, images)?;
             std::fs::create_dir_all(images_dir)
                 .map_err(|e| format!("{}: {e}", images_dir.display()))?;
 
             let (mut taken, mut known, mut updated) = (0usize, 0usize, 0usize);
+            let mut in_spec: std::collections::BTreeSet<String> = Default::default();
             for entry in &spec.images {
                 if !is_free_licence(&entry.licence) {
                     return Err(format!(
@@ -131,6 +142,8 @@ fn run(command: &Command, catalogue_path: &Path, images_dir: &Path) -> Result<Ex
                 // source of truth. Skipping outright would mean that correcting a category in
                 // images.toml — the whole reason to keep the pool in a file — silently did
                 // nothing, and the file would then describe a catalogue that disagreed with it.
+                in_spec.insert(image.id.clone());
+
                 if let Some(held) = catalogue.get_mut(&image.id) {
                     let was = (
                         held.category.clone(),
@@ -179,9 +192,35 @@ fn run(command: &Command, catalogue_path: &Path, images_dir: &Path) -> Result<Ex
                 println!("{}  {}  {}", image.id, entry.category, entry.path.display());
                 taken += 1;
             }
+            // Entries the spec no longer names. Reported either way, because a catalogue holding
+            // an image no file asks for is a disagreement worth seeing, and removed only when
+            // asked — the spec is authoritative, but not so authoritative that a half-written one
+            // empties the pool.
+            let orphans: Vec<String> = catalogue
+                .images
+                .iter()
+                .map(|r| r.id.clone())
+                .filter(|id| !in_spec.contains(id))
+                .collect();
+
+            for id in &orphans {
+                if *prune {
+                    let png = images_dir.join(format!("{id}.png"));
+                    let _ = std::fs::remove_file(&png);
+                    println!("{id}  pruned");
+                } else {
+                    println!("{id}  in the catalogue, not in the spec (--prune removes it)");
+                }
+            }
+            if *prune {
+                catalogue.images.retain(|r| in_spec.contains(&r.id));
+            }
+
             catalogue.save(catalogue_path)?;
             println!(
-                "{taken} taken, {updated} updated, {known} unchanged, {} categories declared",
+                "{taken} taken, {updated} updated, {known} unchanged, {} {}, {} categories declared",
+                orphans.len(),
+                if *prune { "pruned" } else { "orphaned" },
                 spec.categories.len()
             );
             Ok(ExitCode::SUCCESS)

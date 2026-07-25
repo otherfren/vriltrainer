@@ -114,6 +114,22 @@ category = "plant"
   de = "Verwelkte Rose an grünem Stiel"
   en = "Wilted rose on a green stem"
 
+  # Tulips beside the tulip field, for the obvious reason.
+  [[group.image]]
+  file = "three_pink_tulips.jpg"
+  de = "Drei rosa Tulpen"
+  en = "Three pink tulips"
+
+  [[group.image]]
+  file = "vibrant_red_leaves.jpg"
+  de = "Leuchtend rote Blätter"
+  en = "Vivid red leaves"
+
+  [[group.image]]
+  file = "lush_greenhouse_interior.jpg"
+  de = "Üppiges Gewächshaus von innen"
+  en = "Lush greenhouse interior"
+
 [[group]]
 dir = "person"
 category = "person"
@@ -151,12 +167,18 @@ category = "person"
   de = "Frau in einer goldenen Rettungsdecke"
   en = "Woman in a gold emergency blanket"
 
-  # On a bicycle and therefore arguably `vehicle`, and filed here because what a viewer sees first
-  # is a woman. Four portraits of women in one category cannot meet each other, which is the point.
+  # The astronaut is here rather than in `machine` because of the blanket above it: a figure
+  # wrapped in gold foil and a figure in a metallic suit are the same photograph to someone
+  # deciding quickly, and one category is what keeps them out of one set.
   [[group.image]]
-  file = "woman_on_bike.jpg"
-  de = "Frau auf einem Fahrrad"
-  en = "Woman on a bicycle"
+  file = "astronaut_on_metallic_structure.jpg"
+  de = "Astronaut an einer Metallkonstruktion"
+  en = "Astronaut on a metal structure"
+
+  [[group.image]]
+  file = "chinese_woman_red_dress_before_rocks.jpg"
+  de = "Frau im roten Kleid vor Felsen"
+  en = "Woman in a red dress before rocks"
 
 [[group]]
 dir = "ornament"
@@ -218,6 +240,16 @@ category = "vehicle"
   de = "Weißer Mercedes 280 SE"
   en = "White Mercedes 280 SE"
 
+  [[group.image]]
+  file = "classic_car_tire.jpg"
+  de = "Reifen eines Oldtimers"
+  en = "Tyre of a classic car"
+
+  [[group.image]]
+  file = "parked_bicycle_ocean.jpg"
+  de = "Abgestelltes Fahrrad am Meer"
+  en = "Parked bicycle by the sea"
+
 [[group]]
 dir = "stairs"
 category = "stairs"
@@ -250,6 +282,23 @@ category = "animal"
   de = "Schlafende rote Katze auf schwarzer Decke"
   en = "Ginger cat asleep on a black blanket"
 
+  [[group.image]]
+  file = "highland_cow_with_horns.jpg"
+  de = "Hochlandrind mit Hörnern"
+  en = "Highland cow with horns"
+
+  [[group.image]]
+  file = "two_ostriches_peeking_fence.jpg"
+  de = "Zwei Strauße über einem Zaun"
+  en = "Two ostriches peering over a fence"
+
+  # A rider, and filed with the animals: the horse fills the frame, and a bucking horse beside a
+  # highland cow is the pair worth preventing.
+  [[group.image]]
+  file = "cowboy_riding_bucking_horse.jpg"
+  de = "Cowboy auf einem bockenden Pferd"
+  en = "Cowboy riding a bucking horse"
+
 # `stone` comes back with something that actually looks like stone. The pastel pebbles left for
 # `ornament` because of what they resemble, not what they are.
 [[group]]
@@ -281,3 +330,12 @@ category = "street"
   file = "narrow_alley_sun_split.jpg"
   de = "Enge Gasse, halb im Sonnenlicht"
   en = "Narrow alley split by sunlight"
+
+[[group]]
+dir = "machine"
+category = "machine"
+
+  [[group.image]]
+  file = "professional_video_camera_tripod.jpg"
+  de = "Profi-Videokamera auf einem Stativ"
+  en = "Professional video camera on a tripod"
