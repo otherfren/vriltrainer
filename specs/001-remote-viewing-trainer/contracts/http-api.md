@@ -32,6 +32,29 @@ hold. The name starts `pending` and is masked on public surfaces until approved 
 `access_token` is returned **once and never again**. There is no recovery (FR-005).
 `400` when the name pre-filter refuses it, `429` when the per-address creation limit is exceeded.
 
+### `GET /api/account` — authenticated
+
+Who the bearer of this token is.
+
+```jsonc
+// 200
+{ "public_id": "7F3A9C", "name": "otherfren", "name_state": "approved" }
+// 200 — after erasure, or while no name has been approved and none was ever set
+{ "public_id": "7F3A9C", "name": null, "name_state": "erased" }
+```
+
+`name` is the **holder's own** name in whatever review state it is in, exactly as `POST
+/api/account` returns it: the holder is not a stranger and is never shown the mask (D25, FR-047).
+`name_state` is `pending`, `approved`, `rejected` or `erased`, so the client can say *why* a name
+is not on the board without guessing.
+
+This exists because the access link is a capability and nothing else (D9). It carries a token, not
+an identity — the token is a random 32 bytes and the name is not derivable from it, deliberately,
+because a name in the fragment would travel into bookmark titles and shared links and would go
+stale the moment the name changed or was erased. So a browser arriving through an access link
+knows it has an account and knows nothing about whose it is, and without this endpoint the header
+shows a placeholder for the rest of the session.
+
 ### `DELETE /api/account/name`
 
 Removes the display name. Authenticated by the access token, which is the only proof of ownership

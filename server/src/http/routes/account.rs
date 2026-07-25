@@ -19,7 +19,7 @@ use crate::http::{ApiError, AppState};
 
 pub fn routes() -> Router<AppState> {
     // T069 and T100 — erasure and rename — mount here too, and stay 501 until they do.
-    Router::new().route("/api/account", post(create))
+    Router::new().route("/api/account", post(create).get(whoami))
 }
 
 /// The authenticated account's opaque identifier.
@@ -95,6 +95,36 @@ async fn create(
         }),
     )
         .into_response())
+}
+
+#[derive(Serialize)]
+struct WhoamiResponse {
+    public_id: String,
+    /// Null after erasure, and after a refusal discarded what was submitted.
+    name: Option<String>,
+    name_state: String,
+}
+
+/// Who the bearer of this token is.
+///
+/// The access link is a capability and carries no identity (D9), so a browser that arrived through
+/// one holds a token and knows nothing about whose account it opens. Everything else it could ask
+/// for — `GET /api/stats/me` — answers with figures and no name, which is how the header ended up
+/// showing a placeholder for the rest of the session.
+async fn whoami(
+    State(state): State<AppState>,
+    Holder(account): Holder,
+) -> Result<Response, ApiError> {
+    // A token that authenticated but whose row is gone is not a 404 about a missing page — it is
+    // this token no longer opening anything, which is what 401 says.
+    let own = account::own(&state.db, &account)?.ok_or(ApiError::Unauthorized)?;
+
+    Ok(Json(WhoamiResponse {
+        public_id: own.public_id,
+        name: own.name,
+        name_state: own.name_state,
+    })
+    .into_response())
 }
 
 /// A refused name is a 400 carrying the machine-readable code, never a sentence: the sentence is
@@ -204,6 +234,55 @@ mod tests {
             .unwrap();
         assert_eq!(response.status(), StatusCode::BAD_REQUEST);
         assert_eq!(body(response).await["error"], "hate");
+    }
+
+    /// The whole reason `GET /api/account` exists: an access link carries a capability and no
+    /// identity, so a browser holding only a token must be able to ask whose account it opens.
+    #[tokio::test]
+    async fn the_holder_can_ask_who_they_are() {
+        let state = test_support::state();
+        let created = body(
+            router(state.clone())
+                .oneshot(create_request("203.0.113.20", "otherfren"))
+                .await
+                .unwrap(),
+        )
+        .await;
+        let token = created["access_token"].as_str().unwrap().to_string();
+
+        let response = router(state.clone())
+            .oneshot(
+                Request::builder()
+                    .uri("/api/account")
+                    .header("authorization", format!("Bearer {token}"))
+                    .body(Body::empty())
+                    .unwrap(),
+            )
+            .await
+            .unwrap();
+
+        assert_eq!(response.status(), StatusCode::OK);
+        let json = body(response).await;
+        assert_eq!(json["public_id"], created["public_id"]);
+        // D25: the holder sees their own name whatever state it is in, and a new name is pending.
+        assert_eq!(json["name"], "otherfren");
+        assert_eq!(json["name_state"], "pending");
+    }
+
+    #[tokio::test]
+    async fn a_stranger_cannot_ask_who_somebody_is() {
+        let state = test_support::state();
+        let response = router(state)
+            .oneshot(
+                Request::builder()
+                    .uri("/api/account")
+                    .header("authorization", "Bearer not-a-token")
+                    .body(Body::empty())
+                    .unwrap(),
+            )
+            .await
+            .unwrap();
+        assert_eq!(response.status(), StatusCode::UNAUTHORIZED);
     }
 
     /// The per-address creation limit of D17 was removed by the operator. This is the test that

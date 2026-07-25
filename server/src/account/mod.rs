@@ -125,6 +125,40 @@ pub fn authenticate(db: &Db, token: &str) -> Result<Option<String>, DbError> {
     Ok(id)
 }
 
+/// What the holder's own account looks like to the holder.
+///
+/// `display_name` and not `public_name`: the mask is for strangers, and somebody who holds the
+/// token is not one (D25, FR-047). It is null after erasure and after a refusal, which is why the
+/// state travels with it — "no name" and "no name yet" are different sentences on screen.
+pub struct OwnAccount {
+    pub public_id: String,
+    pub name: Option<String>,
+    pub name_state: String,
+}
+
+/// Reads the account behind an authenticated request.
+///
+/// Needed because the access link carries a capability and not an identity (D9): a browser that
+/// arrived through one holds a token and knows nothing else, and the token is random bytes from
+/// which no name can be derived. Without this the header shows a placeholder forever.
+pub fn own(db: &Db, account_id: &str) -> Result<Option<OwnAccount>, DbError> {
+    let r = db.reader()?;
+    let row = r
+        .query_row(
+            "SELECT public_id, display_name, name_state FROM account WHERE id = ?1",
+            params![account_id],
+            |x| {
+                Ok(OwnAccount {
+                    public_id: x.get(0)?,
+                    name: x.get(1)?,
+                    name_state: x.get(2)?,
+                })
+            },
+        )
+        .optional()?;
+    Ok(row)
+}
+
 /// Removes the display name, satisfying erasure (FR-035). The account's trials stay in the log
 /// under its opaque identifier and every proof over them still verifies (FR-036) — which is the
 /// entire reason names were kept out of the chain in the first place.

@@ -46,8 +46,17 @@ export class PlayerService {
    */
   readonly failed = signal(false);
 
-  /** The holder's own name, whatever review state it is in — the holder is never masked (D25). */
-  readonly name = computed(() => this.session.account()?.name ?? null);
+  /**
+   * The holder's own name, whatever review state it is in — the holder is never masked (D25).
+   *
+   * An empty string counts as absent. An erased account has no name at all (FR-035) and the
+   * stored record cannot hold null, so the empty string is how that arrives here; treated as a
+   * name it would render the header as a blank gap instead of falling through to the public id.
+   */
+  readonly name = computed(() => {
+    const stored = this.session.account()?.name ?? '';
+    return stored === '' ? null : stored;
+  });
   readonly publicId = computed(() => this.session.account()?.publicId ?? null);
 
   readonly loaded = computed(() => this.stats() !== null);
@@ -83,11 +92,34 @@ export class PlayerService {
     effect(() => {
       if (this.session.signedIn()) {
         void this.refresh();
+        void this.identify();
       } else {
         this.stats.set(null);
         this.failed.set(false);
       }
     });
+  }
+
+  /**
+   * Asks the server whose account this token opens, unless it is already known.
+   *
+   * A browser that signed up here has the name in `localStorage` from the moment it was created.
+   * One that arrived through an access link has only the token — the two domains are separate
+   * origins and the link is a capability, not an identity — so without this the header shows a
+   * placeholder for the rest of the session, and the visitor is looking at somebody's account
+   * with no way to tell it is theirs.
+   *
+   * Failures are swallowed. This is a label, not a gate: nothing about playing depends on it, and
+   * a red bar over a name is a worse answer than the id that is already on screen.
+   */
+  private async identify(): Promise<void> {
+    if (this.session.account() !== null) return;
+    try {
+      const own = await this.api.whoami();
+      this.session.rememberAccount({ publicId: own.public_id, name: own.name ?? '' });
+    } catch {
+      // As above: the public id keeps standing in until the next load.
+    }
   }
 
   /**

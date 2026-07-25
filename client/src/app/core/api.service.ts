@@ -47,6 +47,14 @@ export class NetworkError extends Error {
 // ---- wire shapes ------------------------------------------------------------------------------
 // Named as the JSON names them, so a reader can hold this file and the contract side by side.
 
+/** `GET /api/account`: who the bearer of this token is. */
+export interface OwnAccount {
+  public_id: string;
+  /** Null after erasure, and after a refusal discarded what was submitted. */
+  name: string | null;
+  name_state: 'pending' | 'approved' | 'rejected' | 'erased';
+}
+
 export interface CreatedAccount {
   public_id: string;
   /** Handed over once and never again (FR-002, FR-005, D9). */
@@ -191,6 +199,18 @@ export class ApiService {
       name: created.name,
     });
     return created;
+  }
+
+  /**
+   * Who this browser is playing as.
+   *
+   * The access link carries a capability and not an identity (D9) — a random 32 bytes from which
+   * no name can be derived, deliberately, because a name in the fragment would travel into
+   * bookmark titles and go stale the moment it changed. So a browser that arrived through one
+   * knows it has an account and nothing else, and has to ask.
+   */
+  async whoami(): Promise<OwnAccount> {
+    return this.request<OwnAccount>('GET', '/api/account');
   }
 
   // ---- the trial loop -----------------------------------------------------------------------
