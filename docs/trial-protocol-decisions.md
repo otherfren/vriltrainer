@@ -1,11 +1,12 @@
 # Trial Protocol — Decisions
 
-Running record of a `/grill-me` session held 2026-07-25, before any specification exists.
-This file is **input** for the eventual `specs/001-*/spec.md` and the Phase 0 `research.md`;
-it is not itself a Spec Kit artifact and carries no authority over them.
+Running record of two `/grill-me` sessions held 2026-07-25 — the first on the trial mechanism
+(D1–D17), the second on the product concept (D18–D21). This file is **input** for
+`specs/001-remote-viewing-trainer/`; it is not itself a Spec Kit artifact and carries no
+authority over the spec or the plan.
 
-Status: **session complete** — 17 decisions settled. Remaining items are actions only,
-listed at the bottom.
+Status: **both sessions complete** — 21 decisions settled. One open question and a short list
+of actions at the bottom.
 
 ## What vriltrainer is
 
@@ -501,12 +502,132 @@ missed:**
 - The `Host` header must be passed through, because D10 selects the locale bundle from it.
   Without it the language split fails.
 
+## D18 — The premise: this is an experiment, and the null result is the expected one
+
+From a second grilling session on 2026-07-25, this one about the concept rather than the
+mechanism.
+
+At 100,000 trials the standard error of the hit rate is 0.105%, so the 95% interval is ±0.21%.
+The site will be able to detect a true rate from roughly 12.7% upward, and will almost certainly
+display **12.50%**. The premise it exists to test will, in all likelihood, fail.
+
+**This cannot be hidden.** The log is public and SC-004 requires any third party to be able to
+recompute the aggregate. The choice was never "show or conceal" but "frame it yourself or let
+critics frame it".
+
+Position taken: vriltrainer is a **public experiment**, not a promise. A null result is the
+result, not a failure. Every one of D1–D17 was built to avoid self-deception — server-side
+targets, two-party randomness, statistics that refuse to filter on success, a public log. That
+architecture is only coherent if the answer is allowed to be no.
+
+It also works in the other direction: if the aggregate ever did land at 13.2%, the first question
+anyone would ask is where the leak is, and D3 and D5 are the reason such a result could be
+defended at all.
+
+**Tone: the site does not take itself seriously.** The statistics stay accurate and defensible;
+the delivery is memes. Telling users they are, statistically, normies is what makes the honest
+outcome shareable — and it aligns the incentives, because the funny result and the truthful
+result are the same one.
+
+## D19 — Ranks are positional, and only exist once there is a population
+
+| Rank | Position |
+|---|---|
+| Insektoider Archont | top 3 |
+| Reptiloidenarchont | 4–10 |
+| Grey Alien | 11–30 |
+| Flugscheibenpilot | 31–80 |
+| Psionic Asset | 81–200 |
+| Normie | below that |
+| Kartoffel | significantly below average |
+
+Positional rather than absolute thresholds, which fixes a real defect. With statistics unlocking
+at 10 trials, 2.75% of users reach z ≈ 2.6 in their first ten — one in thirty-six. Absolute
+thresholds would have minted twenty-eight archons on a thousand-visitor launch day. Positional
+supply is fixed: there are three top slots regardless of luck.
+
+**Ranks activate only once 200 accounts are leaderboard-eligible** — eligible, not merely
+registered. The tier table runs to rank 200, so it needs 200 ranked entries to mean anything;
+counting registrations would leave the top three crowned among a dozen people. The gate doubles
+as a recruitment incentive: "ranks unlock at 200 qualified, currently 47" gives early users a
+reason to bring others.
+
+What positional ranks cannot do is say *nobody here is special*. A top 3 exists even when the
+aggregate is exactly 12.5% — those are simply the three luckiest. Displaying trial count and
+z-value in the leaderboard mitigates this for readers of the page. For the **shared image** it
+does not, so the trial count and the by-chance context belong **inside the graphic**, not beside
+it. The same reasoning as the access link in D9: what users share must be honest on its own.
+
+**The Kartoffel is the best scientific feature here.** Under the null, low outliers are exactly
+as common as high ones. If the site keeps producing roughly as many potatoes as archons, that
+ratio *is* the significance test — one anybody can read without statistics. Were psi real, the
+upper tail would be heavier. Both counts are therefore displayed together.
+
+## D20 — The leaderboard sorts by the Wilson lower bound, and shows it
+
+Wilson is kept over the raw z-value, confirming D8. The two rank different things: z measures
+evidence against chance, the Wilson bound estimates ability. A lucky run of 100 trials at 25%
+gives z = 3.78 and would outrank a steadier 1000 trials at 15% (z = 2.39). Trial count matters,
+so ability wins over surprise.
+
+Because the sort key must be the number on display, the **Wilson lower bound is the headline
+figure** — a percentage, so it reads naturally as "verified minimum rate: 17.7%" — with trial
+count, hit rate and z-value as further columns. A leaderboard sorted by an invisible statistic
+produces endless "why is that person above me".
+
+Entry requires the 100 completed trials from D17.
+
+## D21 — Friction, not barriers
+
+**A minimum of three seconds between reveal and choice**, enforced server-side. The reveal
+timestamp travels in token 2 from D16, which is issued at exactly that moment, so this needs no
+additional state.
+
+The rejection must happen **before evaluation** — the server answers "too fast" without looking
+at the chosen image, or the rule becomes an oracle. A speed-rejected submission does not consume
+the trial, which refines FR-037: at most one *evaluated* answer.
+
+**Honest accounting of what this achieves:** not bot defence. The rule is per trial per account,
+and a script defeats it with parallelism — a thousand accounts each waiting three seconds are all
+done in about five minutes. What it actually buys is data quality: a trial answered in 200
+milliseconds is click noise, not remote viewing, and it pollutes the aggregate. Good rule,
+different reason than the one it was introduced for.
+
+**Rank eligibility requires 100 trials across at least three distinct days.** This is the only
+cheap measure that resists parallel farming, because parallelism does not compress the calendar.
+A farm would have to keep a thousand accounts alive and playing across three days rather than
+running them through over lunch — the cost moves from "script" to "infrastructure", which is
+where most attackers stop.
+
+For genuine users it describes what they already do; a trainer is used over weeks. It is also
+better study design, since trials spread over sessions average out fatigue and warm-up instead of
+compounding them. The cost is the enthusiast who plays 150 trials in one evening and is not
+ranked the next morning — answered with a visible "2 more days until ranked" rather than silence.
+
+No captchas, no proof-of-work, no verification. Those would destroy the frictionless entry
+deliberately bought in D9.
+
+Also considered and rejected: doing nothing. The ranks are scarce and desirable, so there is now
+a motive. Farming a thousand accounts yields an expected best z of about 3.2 against an expected
+honest maximum of 2.75 among 200 real participants — the top three would fall reliably. Note that
+the **aggregate stays clean regardless**, because bot trials are genuine random draws; only the
+leaderboard is corruptible.
+
 ## Constraints
 
 - **No Python.** Excludes the reference OpenTimestamps client, which is moot while D4 defers
   anchoring.
 - Node is required regardless, as the Angular build toolchain. It is not currently installed
   on the development machine; Rust 1.95, Python 3.13, uv and sqlite3 are.
+
+## Open
+
+- **Meme licensing.** D18 puts memes in the interface, and memes are almost never freely
+  licensed. D5 restricted the image pool to CC0 precisely because a `.de` domain makes casual
+  reuse of found images a liability — the same exposure applies to the rest of the page. Raised
+  twice during the concept session and not yet answered. Options range from commissioning or
+  generating the rank artwork, to accepting the risk, to using only public-domain source
+  material for the joke images as well.
 
 ## Remaining actions
 
