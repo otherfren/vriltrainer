@@ -437,6 +437,13 @@ category = "vehicle"
   de = "Weißes Auto"
   en = "White car"
 
+  # A tank is a weapon and it is filed as a vehicle, because at 512 pixels it is a heavy thing on
+  # tracks and the sword next to it is not.
+  [[group.image]]
+  file = "tank.jpg"
+  de = "Panzer"
+  en = "Tank"
+
 [[group]]
 dir = "light"
 category = "light"
@@ -747,6 +754,18 @@ category = "machine"
   de = "Sanduhr"
   en = "Hourglass"
 
+  # Powered things with teeth, and a drill that belongs beside them.
+
+  [[group.image]]
+  file = "tischsäge.jpg"
+  de = "Tischsäge"
+  en = "Table saw"
+
+  [[group.image]]
+  file = "table_drill.jpg"
+  de = "Standbohrmaschine"
+  en = "Pillar drill"
+
 [[group]]
 dir = "instrument"
 category = "instrument"
@@ -838,6 +857,34 @@ category = "clothing"
   file = "satin_court_shoe_with_heel.jpg"
   de = "Satinpumps mit Absatz"
   en = "Satin court shoe with a heel"
+
+  # Five bags, which are neither clothing nor a category of their own. They are carried personal
+  # things, which is what everything else in here is, and five bags that could meet each other in
+  # one set of eight is the failure this scheme is built around.
+  [[group.image]]
+  file = "black_bag.jpg"
+  de = "Schwarze Tasche"
+  en = "Black bag"
+
+  [[group.image]]
+  file = "red_bag.jpg"
+  de = "Rote Tasche"
+  en = "Red bag"
+
+  [[group.image]]
+  file = "orange_bag.jpg"
+  de = "Orangefarbene Tasche"
+  en = "Orange bag"
+
+  [[group.image]]
+  file = "red_flora_bag.jpg"
+  de = "Rote Tasche mit Blumenmuster"
+  en = "Red bag with a floral pattern"
+
+  [[group.image]]
+  file = "leather_backpack.jpg"
+  de = "Lederrucksack"
+  en = "Leather backpack"
 
 [[group]]
 dir = "container"
@@ -939,6 +986,19 @@ category = "tool"
   de = "Messer mit eingelegtem Knochengriff"
   en = "Knife with an inlaid bone handle"
 
+  # A cigar among the implements, because at thumbnail size it is a slim brown thing held in the
+  # hand — which is also a fair description of the fountain pen two entries up.
+  [[group.image]]
+  file = "cigar.jpg"
+  de = "Zigarre"
+  en = "Cigar"
+
+  # A pipe wrench, which stays on the hand-tool side of the line the saws are on the other of.
+  [[group.image]]
+  file = "silber_rohrzange.jpg"
+  de = "Silberne Rohrzange"
+  en = "Silver pipe wrench"
+
 [[group]]
 dir = "toy"
 category = "toy"
@@ -995,6 +1055,12 @@ category = "armour"
   de = "Stahlhelm mit Visier"
   en = "Steel helmet with visor"
 
+  # A third suit. Two was the thinnest category in the pool.
+  [[group.image]]
+  file = "knight_armor.jpg"
+  de = "Ritterrüstung"
+  en = "Knight's armour"
+
 [[group]]
 dir = "insect"
 category = "insect"
@@ -1026,7 +1092,7 @@ category = "insect"
 dir = "weapon"
 category = "weapon"
 
-  # Two hafted blades, since the knife left for `tool` to meet the other knife.
+  # The halberd and the club, from when this category was two images.
 
   [[group.image]]
   file = "long_halberd_pole_axe.jpg"
@@ -1037,3 +1103,47 @@ category = "weapon"
   file = "wooden_club_with_blade.jpg"
   de = "Holzkeule mit Klinge"
   en = "Wooden club with a blade"
+
+  # Eight at once, and they arrive pre-sorted into the pairs this category exists for: three
+  # blades, two long guns, a handgun, a bow. Nothing here can meet its own twin in a set of eight,
+  # which is the whole reason a rack of similar weapons is one category and not four.
+  [[group.image]]
+  file = "sword.jpg"
+  de = "Schwert"
+  en = "Sword"
+
+  [[group.image]]
+  file = "rapier.jpg"
+  de = "Rapier"
+  en = "Rapier"
+
+  [[group.image]]
+  file = "sword_in_stone.jpg"
+  de = "Schwert im Stein"
+  en = "Sword in the stone"
+
+  [[group.image]]
+  file = "bow.jpg"
+  de = "Bogen"
+  en = "Bow"
+
+  [[group.image]]
+  file = "black_pistol.jpg"
+  de = "Schwarze Pistole"
+  en = "Black pistol"
+
+  [[group.image]]
+  file = "black_rifle.jpg"
+  de = "Schwarzes Gewehr"
+  en = "Black rifle"
+
+  [[group.image]]
+  file = "shotgun.jpg"
+  de = "Schrotflinte"
+  en = "Shotgun"
+
+  [[group.image]]
+  file = "sniper.jpg"
+  de = "Scharfschützengewehr"
+  en = "Sniper rifle"
+
