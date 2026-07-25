@@ -9,6 +9,7 @@ image.workspace = true
 sha2.workspace = true
 serde.workspace = true
 serde_json.workspace = true
+toml.workspace = true
 clap.workspace = true
 # The manifest type, its hash rule, the derivation's requirements and the project's one timestamp
 # format live in the server crate. A second copy here would be a second thing to keep in step with

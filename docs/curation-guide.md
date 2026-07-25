@@ -9,11 +9,22 @@ followed by someone other than the operator.
 Find images, record where they came from and under what licence, assign a category, run them
 through the tool.
 
+Two files describe the pool, and you edit both by hand:
+
+- `pool/categories.toml` — every category an image may use, `id` plus its German and English name.
+  A category not listed there is refused as a typo.
+- `pool/images.toml` — the images. Paths are relative to that file, under `base`, and **the folder
+  layout beneath it is yours**: identity is the hash of the normalised bytes and the category is
+  what the entry says, so reorganising folders is never a silent re-categorisation.
+
 ```bash
-poolctl add beach.jpg --source https://commons.wikimedia.org/... --licence CC0 --category landscape
+poolctl import                # takes everything images.toml names into the catalogue
 poolctl check                 # complains while it is still cheap
 poolctl build --version 1     # normalises, hashes, writes shared/pool/v1.json
 ```
+
+`import` is idempotent — an image already held is skipped — so the normal way to grow the pool is
+to append entries and run it again.
 
 ## Where images may come from
 

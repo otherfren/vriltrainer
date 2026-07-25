@@ -11,6 +11,9 @@ license = "AGPL-3.0-or-later"
 sha2 = "0.10"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
+# The pool spec is the one file in this project a human types 160 entries into: comments,
+# forgiving syntax, and a one-line diff for a one-line change.
+toml = "0.9"
 chacha20poly1305 = "0.10"
 base64 = "0.22"
 rand = "0.9"
@@ -19,8 +22,10 @@ tokio = { version = "1", features = ["rt-multi-thread", "macros", "signal"] }
 # `bundled` compiles SQLite in, so the deployed artifact stays the D7 static binary plus a
 # database file and cannot drift onto whatever libsqlite3 the host happens to carry.
 rusqlite = { version = "0.37", features = ["bundled"] }
-tower = "0.5"
-tower-http = { version = "0.6", features = ["trace"] }
+tower = { version = "0.5", features = ["util"] }
+# `fs` serves the built Angular bundle. nginx proxies every path to this process, so without it
+# the site has no frontend at all — see `server/src/http/static_files.rs`.
+tower-http = { version = "0.6", features = ["trace", "fs"] }
 tracing = "0.1"
 tracing-subscriber = { version = "0.3", features = ["env-filter"] }
 clap = { version = "4", features = ["derive"] }

@@ -1,0 +1,9 @@
+# Your source images. Big, and not what is published — `poolctl import` normalises them into
+# images/ and the manifest names those. Keep the originals wherever you like; this is only the
+# default place images.toml points at.
+originals/*
+!originals/.gitkeep
+
+# Written by poolctl. images/ holds the normalised PNGs, catalogue.json their provenance.
+images/
+catalogue.json

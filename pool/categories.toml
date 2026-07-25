@@ -1,0 +1,116 @@
+# Every category a pool image may use.
+#
+# A category not listed here is a typo, and `poolctl import` refuses it. Without this file
+# `landschaft` and `landschaften` are two half-empty buckets rather than one full one, and you
+# would find out from a wrong category count long after the image is in the catalogue.
+#
+# `id` goes into the manifest and into the derivation, so it is lower case and has no spaces.
+# Changing an id after a version is cut changes what every future draw does — add a category, do
+# not rename one.
+#
+# `de` and `en` are what a visitor sees. Both are required: a pool with one language leaves the
+# other domain rendering an identifier at somebody.
+#
+# Aim for 16 to 24 categories (poolctl check enforces the band) with 8 to 10 images in each. Two
+# images in one category should still be clearly different things — the draw guarantees eight
+# different categories per trial, and that is what stops a set containing a confusable pair.
+
+[[category]]
+id = "landscape"
+de = "Landschaft"
+en = "Landscape"
+
+[[category]]
+id = "building"
+de = "Bauwerk"
+en = "Building"
+
+[[category]]
+id = "animal"
+de = "Tier"
+en = "Animal"
+
+[[category]]
+id = "plant"
+de = "Pflanze"
+en = "Plant"
+
+[[category]]
+id = "vehicle"
+de = "Fahrzeug"
+en = "Vehicle"
+
+[[category]]
+id = "tool"
+de = "Werkzeug"
+en = "Tool"
+
+[[category]]
+id = "food"
+de = "Essen"
+en = "Food"
+
+[[category]]
+id = "clothing"
+de = "Kleidung"
+en = "Clothing"
+
+[[category]]
+id = "instrument"
+de = "Musikinstrument"
+en = "Musical instrument"
+
+[[category]]
+id = "furniture"
+de = "Möbel"
+en = "Furniture"
+
+[[category]]
+id = "water"
+de = "Gewässer"
+en = "Water"
+
+[[category]]
+id = "sky"
+de = "Himmel"
+en = "Sky"
+
+[[category]]
+id = "machine"
+de = "Maschine"
+en = "Machine"
+
+[[category]]
+id = "textile"
+de = "Stoff"
+en = "Textile"
+
+[[category]]
+id = "container"
+de = "Behälter"
+en = "Container"
+
+[[category]]
+id = "sign"
+de = "Schild"
+en = "Sign"
+
+[[category]]
+id = "stairs"
+de = "Treppe"
+en = "Stairs"
+
+[[category]]
+id = "bridge"
+de = "Brücke"
+en = "Bridge"
+
+[[category]]
+id = "door"
+de = "Tür"
+en = "Door"
+
+[[category]]
+id = "light"
+de = "Licht"
+en = "Light"

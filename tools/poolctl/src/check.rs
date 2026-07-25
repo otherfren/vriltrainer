@@ -136,6 +136,10 @@ mod tests {
         Record {
             id: id.into(),
             category: category.into(),
+            label: Some(crate::spec::Label {
+                de: "Name".into(),
+                en: "Name".into(),
+            }),
             source: "https://example.invalid/x".into(),
             licence: "CC0".into(),
             attribution: None,

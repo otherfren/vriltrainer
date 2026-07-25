@@ -13,6 +13,10 @@ fn record(id: &str, category: &str) -> Record {
     Record {
         id: id.into(),
         category: category.into(),
+        label: Some(poolctl::spec::Label {
+            de: "Name".into(),
+            en: "Name".into(),
+        }),
         source: "https://example.invalid/page".into(),
         licence: "CC0".into(),
         attribution: None,

@@ -1,0 +1,63 @@
+# The pool, as a list you edit rather than a hundred and sixty command lines.
+#
+#   poolctl import          reads this file and pool/categories.toml
+#   poolctl check           says what would stop a version being cut
+#   poolctl build --version 1
+#
+# Every path is relative to THIS FILE, under `base`. The folder layout below `base` is yours —
+# arrange it by subject, by source, by the afternoon you collected them. Nothing downstream sees
+# it: an image's identity is the hash of its normalised bytes, and its category is what the entry
+# says, not what folder it sits in. That is deliberate, so that reorganising your folders is never
+# a silent re-categorisation of the pool.
+#
+# Requirements per image:
+#   file      the source image. Shortest edge at least 512px — anything smaller would have to be
+#             upscaled, and invented detail is exactly the difference that marks one of the eight.
+#             Any format that decodes: JPEG, PNG, WebP.
+#   category  must be declared in categories.toml
+#   de / en   what the image is called, both required
+#   source    the PAGE it was found on, not the direct file link. The licence is stated on the page.
+#   licence   CC0, CC0-1.0, PD, PDM, UNSPLASH or PEXELS. Anything demanding a visible credit is
+#             refused: that credit would appear beside one image and mark it.
+#
+# You never name the output. Everything is centre-cropped square, resized to 512x512, flattened,
+# requantised to 5 bits per channel and re-encoded as PNG with all metadata stripped, and the id is
+# the hash of those bytes. Re-running import is safe: an image already held is skipped.
+
+base = "originals"
+
+# Anything an entry does not state, it inherits from here.
+[defaults]
+licence = "CC0"
+
+# ---------------------------------------------------------------------------
+# Groups share a folder and whatever fields you set on them. An entry always
+# wins over its group, and a group over [defaults].
+# ---------------------------------------------------------------------------
+
+# [[group]]
+# dir = "landschaft"
+# category = "landscape"
+#
+#   [[group.image]]
+#   file = "strand-sylt.jpg"
+#   de = "Strand bei Sonnenuntergang"
+#   en = "Beach at sunset"
+#   source = "https://commons.wikimedia.org/wiki/File:Beach_sunset.jpg"
+#
+#   [[group.image]]
+#   file = "hochgebirge/gipfel.jpg"        # subfolders inside a group are just more path
+#   de = "Berggipfel im Nebel"
+#   en = "Mountain summit in fog"
+#   source = "https://commons.wikimedia.org/wiki/File:Summit.jpg"
+
+# ---------------------------------------------------------------------------
+# Loose entries carry their own category. Use these for one-offs.
+# ---------------------------------------------------------------------------
+
+# [[image]]
+# file = "sonstiges/marienkaefer.jpg"
+# category = "animal"
+# de = "Marienkäfer auf einem Blatt"
+# en = "Ladybird on a leaf"
+# source = "https://commons.wikimedia.org/wiki/File:Ladybird.jpg"

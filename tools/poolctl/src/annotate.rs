@@ -24,6 +24,10 @@ pub struct Record {
     /// From [`crate::normalise`] — the hash of the normalised bytes.
     pub id: String,
     pub category: String,
+    /// What the image is called, in both languages. Optional only so that a catalogue written
+    /// before labels existed still loads; `poolctl check` refuses to cut a version without them.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub label: Option<crate::spec::Label>,
     pub source: String,
     pub licence: String,
     /// Kept for the operator's own defence if a licence is ever questioned. Never rendered.
@@ -134,6 +138,10 @@ mod tests {
         Record {
             id: id.into(),
             category: category.into(),
+            label: Some(crate::spec::Label {
+                de: "Name".into(),
+                en: "Name".into(),
+            }),
             source: "https://example.invalid/x".into(),
             licence: "CC0".into(),
             attribution: None,
