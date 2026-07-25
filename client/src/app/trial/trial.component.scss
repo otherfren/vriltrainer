@@ -266,39 +266,66 @@
   margin-bottom: var(--s8);
 }
 
+/* A stamp, not a control. No fill, no drop shadow, a doubled outline and the same tilt as
+   before — the things a rubber stamp has and a button does not. It keeps the colour, which is
+   what carries hit-versus-miss at a glance, but only in the ink and the frame. */
 .verdict__stamp {
   font-family: var(--shout);
   font-size: clamp(2rem, 7vw, 3.75rem);
   line-height: 1;
-  color: var(--card);
-  background: var(--pop);
-  border: 4px solid var(--ink);
-  box-shadow: var(--drop-lg);
+  color: var(--pop-ink);
+  background: transparent;
+  border: 4px double var(--pop-ink);
+  box-shadow: none;
   padding: var(--s2) var(--s6) var(--s3);
   transform: rotate(-2.5deg);
 }
 
 .verdict__stamp--hit {
-  background: var(--mint);
-  color: var(--ink);
+  color: var(--mint-ink);
+  border-color: var(--mint-ink);
   transform: rotate(2deg);
-}
-
-.verdict__rate {
-  font-family: var(--label);
-  font-weight: 800;
-  font-size: 0.875rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--zap);
-  margin: 0;
 }
 
 .after {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: var(--s4);
-  margin-bottom: var(--s8);
+  margin-bottom: var(--s4);
+}
+
+/* The one thing to press on this screen. Louder than an ordinary .btn on purpose: it used to be
+   the quieter of the two large elements here, which is the wrong way round. */
+.btn--go {
+  box-shadow: var(--drop-lg);
+}
+
+.btn--go::after {
+  content: ' →';
+}
+
+.btn--go:hover:not(:disabled) {
+  transform: translate(-3px, -3px);
+  box-shadow: 11px 11px 0 var(--ink);
+}
+
+/* Where this trial landed in the record, and what it was measured against. Footnotes to the
+   result, so they sit under the button in the type of a footnote. */
+.ledger {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s2) var(--s6);
+  margin: 0 0 var(--s8);
+}
+
+.ledger__item {
+  font-family: var(--label);
+  font-weight: 800;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--zap);
 }
 
 /* ---- the proof ---- */

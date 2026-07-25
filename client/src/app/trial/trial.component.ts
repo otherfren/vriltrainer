@@ -102,6 +102,15 @@ export class TrialComponent {
    * proof is built, which is the first moment its absence costs anything.
    */
   async next(): Promise<void> {
+    // The proof panel is several screens tall, so finishing a trial leaves the viewport far down
+    // the page. Without this the next coordinate — the whole point of the screen — appears above
+    // the fold and the visitor is looking at the old derivation.
+    //
+    // `auto` rather than `smooth` when the visitor asked for reduced motion, which is the same
+    // preference `deal()` already honours further down.
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
+
     this.stage.set('starting');
     this.slots.set([]);
     this.chosen.set(null);

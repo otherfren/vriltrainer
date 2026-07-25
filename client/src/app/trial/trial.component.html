@@ -149,6 +149,10 @@
         }
 
         @if (stage() === 'answered') {
+          <!-- The stamp is a result, the button below is the action. They used to be told apart
+               by nothing at all: the stamp carried --pop on an ink border with a drop shadow,
+               which is exactly the recipe .btn uses, so on a phone the two read as a pair of
+               buttons and the wrong one looked primary. -->
           <div class="verdict">
             <span class="verdict__stamp" [class.verdict__stamp--hit]="hit()">
               @if (hit()) {
@@ -157,14 +161,15 @@
                 <ng-container i18n="@@trial.miss">Daneben</ng-container>
               }
             </span>
-            <span class="verdict__rate" i18n="@@trial.chanceRate">Zufallsrate {{ chanceRate }} %</span>
-            @if (answered(); as a) {
-              <span class="verdict__rate" i18n="@@trial.logEntry">Protokoll-Eintrag #{{ a.seq }}</span>
-            }
           </div>
 
           <div class="after">
-            <button class="btn btn--big" type="button" (click)="next()" i18n="@@trial.nextSession">
+            <button
+              class="btn btn--big btn--go"
+              type="button"
+              (click)="next()"
+              i18n="@@trial.nextSession"
+            >
               Nächste Sitzung
             </button>
             <button class="btn btn--quiet" type="button" (click)="proofOpen.set(!proofOpen())">
@@ -191,6 +196,15 @@
               <span class="stamp stamp--wait" i18n="@@proof.stamp.wait">wird nachgerechnet …</span>
             }
           </div>
+
+          <!-- Below the button rather than beside the stamp. Both are footnotes to the result —
+               where this trial landed in the permanent record, and what it was measured against. -->
+          <p class="ledger">
+            <span class="ledger__item" i18n="@@trial.chanceRate">Zufallsrate {{ chanceRate }} %</span>
+            @if (answered(); as a) {
+              <span class="ledger__item" i18n="@@trial.logEntry">Protokoll-Eintrag #{{ a.seq }}</span>
+            }
+          </p>
 
           @if (proofOpen()) {
             <!-- The recomputation first, so `as p` sits on the primary branch; the two states in
