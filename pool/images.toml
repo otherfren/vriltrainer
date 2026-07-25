@@ -53,56 +53,51 @@ base = "originals"
 #     source = "https://commons.wikimedia.org/wiki/File:Summit.jpg"
 # ---------------------------------------------------------------------------
 
-# ===========================================================================
-# TODO BEFORE THIS IMPORTS: every `source` below says TODO and every `licence`
-# is missing, because I do not know where these five came from. Both are your
-# defence if a licence is ever questioned, and inventing either would be the
-# one mistake in this file with legal consequences. Fill them in.
-# ===========================================================================
+# All five came from Unsplash, so they share a licence and a source and belong in one group
+# rather than repeating both five times. `dir` is omitted: they sit directly under `base`.
+#
+# `source` is the site, not the photo page, because Unsplash's CDN strips attribution metadata and
+# the original slugs went with the renaming. That is enough to stand up the licence — the Unsplash
+# Licence is site-wide — but it is not enough to find the photograph again. When you know a photo's
+# page, `poolctl annotate <id> --source <url>` puts it on the record without a reimport.
 
-[[image]]
-file = "cntower.avif"
-category = "building"
-de = "Fernsehturm CN Tower, Toronto"
-en = "CN Tower, Toronto"
-source = "TODO: the page this was found on"
-licence = "TODO"
+[[group]]
+licence = "UNSPLASH"
+source = "https://unsplash.com"
 
-# Both flower entries are in `plant` on purpose. It looks like the wrong call — two similar images
-# in one bucket — and it is the opposite: D22 draws eight DIFFERENT categories per trial, so two
-# images sharing a category can never appear in the same set. Splitting them across `plant` and
-# `landscape` is what would let a confusable pair turn up together.
-[[image]]
-file = "orange_narzissen.avif"
-category = "plant"
-de = "Orangefarbene Narzissen"
-en = "Orange daffodils"
-source = "TODO: the page this was found on"
-licence = "TODO"
+  [[group.image]]
+  file = "cntower.avif"
+  category = "building"
+  de = "Fernsehturm CN Tower, Toronto"
+  en = "CN Tower, Toronto"
 
-[[image]]
-file = "feld_gelbe_tulpen.avif"
-category = "plant"
-de = "Feld mit gelben Tulpen"
-en = "Field of yellow tulips"
-source = "TODO: the page this was found on"
-licence = "TODO"
+  # Both flower entries are in `plant` on purpose. It looks like the wrong call — two similar
+  # images in one bucket — and it is the opposite: D22 draws eight DIFFERENT categories per trial,
+  # so two images sharing a category can never appear in the same set. Splitting them across
+  # `plant` and `landscape` is what would let a confusable pair turn up together.
+  [[group.image]]
+  file = "orange_narzissen.avif"
+  category = "plant"
+  de = "Orangefarbene Narzissen"
+  en = "Orange daffodils"
 
-[[image]]
-file = "steine_pastelfarben.avif"
-category = "stone"
-de = "Pastellfarbene Kieselsteine"
-en = "Pastel-coloured pebbles"
-source = "TODO: the page this was found on"
-licence = "TODO"
+  [[group.image]]
+  file = "feld_gelbe_tulpen.avif"
+  category = "plant"
+  de = "Feld mit gelben Tulpen"
+  en = "Field of yellow tulips"
 
-[[image]]
-file = "diskokugel_schwarz_weiss.avif"
-category = "ornament"
-de = "Diskokugel in Schwarzweiß"
-en = "Mirror ball in black and white"
-source = "TODO: the page this was found on"
-licence = "TODO"
+  [[group.image]]
+  file = "steine_pastelfarben.avif"
+  category = "stone"
+  de = "Pastellfarbene Kieselsteine"
+  en = "Pastel-coloured pebbles"
+
+  [[group.image]]
+  file = "diskokugel_schwarz_weiss.avif"
+  category = "ornament"
+  de = "Diskokugel in Schwarzweiß"
+  en = "Mirror ball in black and white"
 
 # ---------------------------------------------------------------------------
 # AVIF
