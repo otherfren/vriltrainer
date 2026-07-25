@@ -1,110 +1,100 @@
-# Bildpool kuratieren
+# Curating the image pool
 
-Auf Deutsch, weil das die Arbeitssprache beim Kuratieren ist. Alles andere in diesem Repository
-ist Englisch.
+The pool is the one part of this project no software can produce. It decides whether the trials
+are worth anything, and it blocks everything else until it exists. This guide is written to be
+followed by someone other than the operator.
 
-Der Pool ist der einzige Teil des Projekts, den keine Software erzeugen kann. Er entscheidet
-darüber, ob die Sitzungen etwas taugen — und er blockiert alles andere, bis er steht. Diese
-Anleitung ist so geschrieben, dass jemand anderes als der Betreiber ihr folgen kann.
+## What you are doing, in one sentence
 
-## Was du tust, in einem Satz
-
-Bilder finden, Herkunft und Lizenz notieren, eine Kategorie vergeben, durch das Werkzeug laufen
-lassen. Fertig.
+Find images, record where they came from and under what licence, assign a category, run them
+through the tool.
 
 ```bash
-poolctl add strand.jpg --source https://commons.wikimedia.org/... --licence CC0 --category landschaft
-poolctl check                 # meckert, bevor es zu spät ist
-poolctl build --version 1     # normalisiert, hasht, schreibt shared/pool/v1.json
+poolctl add beach.jpg --source https://commons.wikimedia.org/... --licence CC0 --category landscape
+poolctl check                 # complains while it is still cheap
+poolctl build --version 1     # normalises, hashes, writes shared/pool/v1.json
 ```
 
-## Woher die Bilder kommen dürfen
+## Where images may come from
 
-**Nur CC0 und Public Domain.** Kein CC-BY, keine „sieht frei aus"-Bilder, keine Bildersuche.
+**CC0 and public domain only.** No CC-BY, no "looks free" images, no image search.
 
-| Quelle | Worauf achten |
+| Source | What to check |
 |---|---|
-| Wikimedia Commons | Lizenz steht auf der Dateiseite. „PD-old" und „CC0" sind gut, „CC-BY-SA" nicht |
-| Unsplash | Eigene Lizenz, für diesen Zweck brauchbar; Quelle trotzdem notieren |
-| Pexels | wie Unsplash |
-| openverse | Filter auf CC0 stellen, nicht auf „alle" |
+| Wikimedia Commons | The licence is on the file page. "PD-old" and "CC0" are fine, "CC-BY-SA" is not |
+| Unsplash | Its own licence, usable for this purpose; record the source anyway |
+| Pexels | As Unsplash |
+| openverse | Set the filter to CC0, not to "all" |
 
-**Warum kein CC-BY:** Die Namensnennung müsste sichtbar am Bild stehen. Ein Bild von acht, das
-eine Zeile Text trägt, ist dadurch von den anderen sieben unterscheidbar — und damit als Ziel
-erkennbar, ohne dass irgendetwas Übersinnliches im Spiel wäre.
+**Why not CC-BY:** the attribution would have to appear visibly with the image. One image out of
+eight carrying a line of text is distinguishable from the other seven, and therefore identifiable
+as the target without anything paranormal being involved.
 
-**Warum überhaupt so streng:** Die Seite läuft auf einer `.de`-Domain und sieht kommerziell aus.
-Das macht dich für Abmahnungen bequem erreichbar. Fünf Minuten Lizenzprüfung sind billiger als
-ein Brief.
+**Why so strict at all:** the site runs on a `.de` domain and looks commercial, which makes the
+operator convenient to reach for a legal notice. Five minutes of licence checking is cheaper than
+a letter.
 
-## Was ein brauchbares Ziel ausmacht
+## What makes a usable target
 
-Ein Bild taugt, wenn jemand mit geschlossenen Augen einen Eindruck haben und ihn danach
-wiedererkennen kann.
+An image works if someone can form an impression with their eyes closed and then recognise it.
 
-**Nimm:** klare Motive, kräftige Formen, eindeutiger Bildgegenstand. Ein Leuchtturm. Ein
-Pferd. Eine Brücke bei Nacht. Ein Teller Kirschen.
+**Take:** clear subjects, strong shapes, an unambiguous thing in the frame. A lighthouse. A horse.
+A bridge at night. A plate of cherries.
 
-**Lass liegen:** diffuse Texturen, Nebel, Unschärfe, „ästhetische" Aufnahmen ohne Gegenstand. Wer
-den Eindruck „irgendwas Graues" hat, kann zwischen drei grauen Bildern nicht wählen.
+**Leave:** diffuse textures, fog, blur, "aesthetic" shots without a subject. Someone whose
+impression is "something grey" cannot choose between three grey images.
 
-## Was nie in den Pool kommt
+## What never enters the pool
 
-- **Lesbarer Text im Bild.** Schilder, Logos, Beschriftungen. Doppelt schlecht: Text markiert ein
-  Bild unter acht, und auf einer zweisprachigen Seite steht ein deutsches Wort auch noch falsch
-  auf der englischen Domain.
-- **Erkennbare Gesichter.** Persönlichkeitsrechte, und du willst die Diskussion nicht führen.
-- **Alles mit strittiger Lizenz.** Wenn du argumentieren musst, ist die Antwort nein.
-- **Bilder, die du schon hast.** `poolctl check` erkennt das am Hash, aber es spart Zeit, vorher
-  hinzusehen.
+- **Legible text in the image.** Signs, logos, captions. Bad twice over: text marks one image
+  among eight, and on a bilingual site a German word also sits wrongly on the English domain.
+- **Recognisable faces.** Personality rights, and you do not want the conversation.
+- **Anything with an arguable licence.** If you have to make a case, the answer is no.
+- **Images you already have.** `poolctl check` catches this by hash, but looking first saves time.
 
-## Kategorien
+## Categories
 
-Jedes Bild bekommt genau eine. Es gibt 16 bis 24 davon, und jede Sitzung zieht **acht
-verschiedene** — deshalb sieht ein Nutzer nie zwei Bilder derselben Art nebeneinander.
+Every image gets exactly one. There are 16 to 24 of them, and each trial draws **eight different
+ones** — which is why a user never sees two images of the same kind side by side.
 
-**Konsistenz ist wichtiger als Genauigkeit.** Eine Kategorie ist ein Ziehungstopf, keine
-Taxonomie. Wenn ein Bild in zwei passt, nimm die, in der du es später suchen würdest, und bleib
-dabei. Ein Wasserfall ist entweder immer „landschaft" oder immer „wasser" — nur nicht mal so und
-mal so.
+**Consistency matters more than precision.** A category is a drawing bucket, not a taxonomy. If an
+image fits two, pick the one you would look for it in later, and stay with that choice. A
+waterfall is either always `landscape` or always `water` — just not one and then the other.
 
-Faustregel für den Zuschnitt: Zwei Bilder derselben Kategorie sollten sich noch deutlich
-unterscheiden. Wenn „landschaft" nur noch Berge enthält, ist es Zeit, „gebirge" abzuspalten.
+Rule of thumb for how finely to cut: two images in the same category should still be clearly
+different from each other. When `landscape` holds nothing but mountains, it is time to split off
+`mountains`.
 
-## Vielfalt innerhalb der Kategorie
+## Variety inside a category
 
-Das ist der Punkt, den die Kategorien **nicht** lösen und den nur du lösen kannst.
+This is the part categories do **not** solve and only you can.
 
-Die Ziehung sorgt dafür, dass ein Set aus acht verschiedenen Kategorien besteht. Sie kann nichts
-dagegen tun, dass deine zwanzig Landschaftsbilder alle Küsten bei Sonnenuntergang sind. Dann
-kommen zwar nie zwei gleichzeitig vor — aber über hundert Sitzungen wird es eintönig, und die
-Leute hören auf.
+The draw guarantees that a set consists of eight different categories. It can do nothing about
+your twenty landscape images all being coastlines at sunset. Two of them will then never appear
+together — but across a hundred trials it becomes monotonous, and people stop.
 
-Wenn du eine Kategorie auffüllst, schau dir die vorhandenen zwanzig an, bevor du das
-einundzwanzigste hinzufügst.
+When topping up a category, look at the twenty already in it before adding the twenty-first.
 
-## Herkunft sofort notieren
+## Record provenance immediately
 
-Beim Hinzufügen, nicht später. Eine verlorene Quell-URL ist nicht wiederherstellbar, und sie ist
-das Einzige, womit du die Lizenz belegen kannst. `poolctl check` verweigert Bilder ohne Quelle
-und ohne Lizenz — nicht aus Prinzipienreiterei, sondern weil das die einzige Stelle ist, an der
-es noch billig ist.
+While adding, not later. A lost source URL cannot be recovered, and it is the only thing that
+substantiates the licence. `poolctl check` refuses images with no source and no licence — not out
+of pedantry, but because that is the last point at which it is still cheap.
 
-## Wann eine neue Version geschnitten wird
+## When to cut a new version
 
-Pool-Versionen sind unveränderlich. Jede Sitzung merkt sich, unter welcher Version sie lief, und
-bleibt dagegen für immer überprüfbar. Deshalb:
+Pool versions are immutable. Every trial records which version it ran under and stays verifiable
+against it forever. Therefore:
 
-- Sammle in Ruhe, schneide dann in einem Rutsch.
-- Sinnvoll ist ein Schnitt bei etwa fünfzig neuen Bildern oder wenn eine Kategorie neu dazukommt.
-- Nach dem Schneiden nichts mehr an der Version anfassen. Auch keine Kleinigkeit — die Reihenfolge
-  im Manifest bestimmt, welches Bild welche Nummer hat, und die Nummern bestimmen jede künftige
-  Ziehung. Ein „nur schnell umsortiert" verändert rückwirkend, was in Sitzungen hätte gezogen
-  werden sollen.
+- Collect at leisure, then cut in one go.
+- A cut makes sense at roughly fifty new images, or when a category is added.
+- After cutting, touch nothing in that version. Not even something small — the order in the
+  manifest determines which image holds which index, and the indices determine every future draw.
+  A quick re-sort retroactively changes what trials should have drawn.
 
-## Der Startpool
+## The launch pool
 
-Fünfhundert Bilder, verteilt auf 16 bis 24 Kategorien, also grob zwanzig pro Kategorie.
+Five hundred images across 16 to 24 categories, so roughly twenty per category.
 
-Das sind mehrere Abende Arbeit. Es gibt keine Abkürzung: die Pipeline lässt sich automatisieren,
-die Auswahl nicht. Fang früh an — bis der Pool steht, ist nichts anderes spielbar.
+That is several evenings of work. There is no shortcut: the pipeline can be automated, the
+selection cannot. Start early — until the pool exists, nothing is playable.

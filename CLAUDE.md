@@ -2,6 +2,19 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Documents are written in English
+
+Every document in this repository is English: `README.md`, everything under `docs/`, the
+specification artifacts, code comments, and commit messages. No exceptions, including documents
+that only the operator will read.
+
+**The exception that is not one:** user-facing product copy is content, not documentation.
+`vriltrainer.de` ships German strings and `vriltrainer.com` ships English ones — those live in the
+client's message catalogues and follow the domain, per D10.
+
+Conversation happens in whatever language the user writes in. That has no bearing on what goes
+into a file.
+
 ## Git workflow
 
 **Commit and push often** — small, frequent commits rather than one large one at the end of a task.

@@ -1,120 +1,121 @@
 # vriltrainer
 
-Ein öffentlicher Remote-Viewing-Test. Koordinate, acht Bilder, eine Wahl — und ein Nachweis, dass
-das Ziel schon vorher feststand. Der gesamte Datensatz ist herunterladbar, nachrechnen ist der
-Zweck. Zweisprachig auf `vriltrainer.de` (Deutsch) und `vriltrainer.com` (Englisch).
+A public remote viewing test. A coordinate, eight images, one choice — and a proof that the target
+was fixed beforehand. The whole record is downloadable, and recomputing it is the point.
+Bilingual: `vriltrainer.de` in German, `vriltrainer.com` in English.
 
-Das erwartete Ergebnis ist 12,5 %, also nichts. Die Seite ist darauf ausgelegt, das zu sagen.
+The expected result is 12.5%, which is nothing. The site is built to say so.
 
-**Stand: im Bau.** Der Server hat noch kein HTTP, es gibt noch keinen Bildpool. Was unten steht,
-funktioniert; was fehlt, steht unter [Was noch fehlt](#was-noch-fehlt).
+**Status: under construction.** The server has no HTTP layer yet and there is no image pool. What
+is documented below works; what does not exist is listed under [What is
+missing](#what-is-missing).
 
-## Voraussetzungen
+## Requirements
 
 - **Rust 1.95+** (`cargo`)
-- **Node 22+** — auf dieser Maschine unter `~/.local/node`, PATH-Zeile steht in `~/.bashrc`
+- **Node 22+** — on this machine under `~/.local/node`, with the PATH line in `~/.bashrc`
 
-## Lokal
+## Running locally
 
 ```bash
-# 1 — alle Rust-Tests, inklusive der Ableitungs-Konformanz
+# 1 — all Rust tests, including derivation conformance
 cargo test
 
-# 2 — prüfen, dass Rust und TypeScript dieselbe Ableitung rechnen
-#     Das ist die wichtigste Prüfung im Projekt. Weicht sie ab, scheitert
-#     in Produktion die Verifikation ehrlicher Sitzungen.
+# 2 — check that Rust and TypeScript compute the same derivation.
+#     This is the most important check in the project. If it diverges, verification
+#     fails in production on honest trials.
 npx tsx client/conformance.mts
 
-# 3 — Oberfläche im Entwicklungsmodus, http://localhost:4200
+# 3 — the interface in development mode, http://localhost:4200
 cd client && npm start
 ```
 
-Die Oberfläche läuft derzeit im **Demo-Modus** und sagt das auch: sie erzeugt Koordinaten und
-Ergebnisse lokal, weil es noch keinen Server gibt, mit dem sie sprechen könnte. Das Design und der
-Ablauf sind echt, die Zahlen nicht.
+The interface currently runs in **demo mode** and says so: it produces coordinates and outcomes
+locally, because there is no server for it to talk to yet. The design and the flow are real, the
+numbers are not.
 
-### Produktionsbündel bauen
+### Building the production bundle
 
 ```bash
 cd client && npm run build     # → client/dist/client/browser
 ```
 
-### Testvektoren neu erzeugen
+### Regenerating the test vectors
 
-Nur bewusst, nie als Teil eines Builds:
+Deliberately only, never as part of a build:
 
 ```bash
 cargo run --bin gen_vectors > shared/vectors/derivation.json
 ```
 
-Das ändert den Vertrag, an den beide Implementierungen gebunden sind, und macht bereits
-veröffentlichte Sitzungen unüberprüfbar. Siehe `shared/vectors/README.md`.
+This changes the contract both implementations are held to and makes any already published trial
+unverifiable. See `shared/vectors/README.md`.
 
-## Deployen
+## Deploying
 
-Ein statisches Binary plus eine Datenbankdatei, hinter dem nginx, das auf dem Hetzner-Server
-ohnehin läuft. Kein Container, keine Runtime.
+A static binary plus a database file, behind the nginx already running on the host. No container,
+no runtime.
 
 ```bash
-# bauen
+# build
 cargo build --release
 cd client && npm run build && cd ..
 
-# hochladen
-scp target/release/server        srv:/srv/vriltrainer/server
+# upload
+scp target/release/server         srv:/srv/vriltrainer/server
 scp -r client/dist/client/browser srv:/srv/vriltrainer/public
-scp shared/pool/v1.json          srv:/srv/vriltrainer/pool/v1.json
+scp shared/pool/v1.json           srv:/srv/vriltrainer/pool/v1.json
 
-# einrichten, einmalig
-scp deploy/vriltrainer.service   srv:/etc/systemd/system/
-scp deploy/nginx.conf            srv:/etc/nginx/sites-available/vriltrainer
+# one-time setup
+scp deploy/vriltrainer.service    srv:/etc/systemd/system/
+scp deploy/nginx.conf             srv:/etc/nginx/sites-available/vriltrainer
 ssh srv 'ln -sf /etc/nginx/sites-available/vriltrainer /etc/nginx/sites-enabled/ \
          && systemctl daemon-reload && systemctl enable --now vriltrainer \
          && nginx -t && systemctl reload nginx'
 ```
 
-**Zwei Header entscheiden, ob es funktioniert**, und beide brechen lautlos, wenn sie fehlen. Ohne
-weitergereichte Client-Adresse sieht der Dienst für jeden `127.0.0.1`, und das Limit auf
-Account-Erstellung ist entweder wirkungslos oder drosselt alle gemeinsam. Ohne unverändertes
-`Host` kann er die Sprachversion nicht wählen. Beides steht fertig in `deploy/nginx.conf`.
+**Two headers decide whether this works**, and both break silently when absent. Without a
+forwarded client address the service sees `127.0.0.1` for everyone, so the limit on account
+creation is either inert or throttles all users together. Without an unchanged `Host` it cannot
+select the language build. Both are set in `deploy/nginx.conf`.
 
-**Ein Geheimnis** gehört nach `/etc/vriltrainer/env`: der Schlüssel für die Trial-Token. Alles
-andere in der Datenbank ist öffentlich vorgesehen.
+**One secret** belongs in `/etc/vriltrainer/env`: the key for the trial tokens. Everything else in
+the database is public by design.
 
 ```
-VRILTRAINER_TOKEN_KEY=<32 zufällige Bytes, hex>
+VRILTRAINER_TOKEN_KEY=<32 random bytes, hex>
 ```
 
-**Das Backup ist kein Betriebsdetail.** Die SQLite-Datei *ist* das öffentliche Audit-Log. Geht sie
-verloren, sind nicht Nutzerdaten weg, sondern rückwirkend die Überprüfbarkeit jeder bisherigen
-Sitzung. Das vorhandene Dump-nach-S3-Skript deckt das ab — der Bucket darf nicht öffentlich
-lesbar sein, weil ein Dump `s_server` laufender Sitzungen enthält.
+**The backup is not an operational detail.** The SQLite file *is* the public audit log. Losing it
+does not cost user data that can be rebuilt — it retroactively removes the verifiability of every
+past trial. The existing dump-to-S3 script covers this; the bucket must not be publicly readable,
+because a dump contains `s_server` for trials still in flight.
 
-## Was noch fehlt
+## What is missing
 
 | | |
 |---|---|
-| HTTP-Schicht | Ableitung, Commitment, Token und Hash-Kette stehen und sind getestet, sind aber über keine Route erreichbar |
-| Bildpool | 500+ kuratierte Bilder. Der größte Handarbeitsbrocken, blockiert jede spielbare Sitzung. Anleitung: [`docs/curation-guide.md`](docs/curation-guide.md) |
-| `poolctl` | Normalisieren, annotieren, Manifest schreiben |
-| Statistik, Bestenliste, Log-Export | serverseitig |
-| Zweite Sprache | Englische Bündel und der Sprachwechsel |
+| HTTP layer | Derivation, commitment, tokens and the hash chain exist and are tested, but no route reaches them |
+| Image pool | 500+ curated images. The largest piece of manual work, and it blocks every playable trial. Guide: [`docs/curation-guide.md`](docs/curation-guide.md) |
+| `poolctl` | Normalising, annotating, writing the manifest |
+| Statistics, leaderboard, log export | Server side |
+| Second language | English bundles and the language switch |
 
-Vollständige Liste: [`specs/001-remote-viewing-trainer/tasks.md`](specs/001-remote-viewing-trainer/tasks.md).
+Full list: [`specs/001-remote-viewing-trainer/tasks.md`](specs/001-remote-viewing-trainer/tasks.md).
 
-## Wo was steht
+## Where things live
 
 | | |
 |---|---|
-| `docs/trial-protocol-decisions.md` | D1–D22 — warum das Protokoll so aussieht, wie es aussieht |
-| `docs/curation-guide.md` | Bildpool kuratieren |
-| `specs/001-remote-viewing-trainer/` | Spezifikation, Plan, Datenmodell, Contracts |
-| `shared/vectors/` | Ableitungs-Spezifikation und Testvektoren — der Vertrag zwischen beiden Implementierungen |
-| `server/` | Rust-Dienst |
-| `client/` | Angular-Oberfläche |
-| `tools/poolctl/` | Kurationswerkzeug |
+| `docs/trial-protocol-decisions.md` | D1–D22 — why the protocol looks the way it does |
+| `docs/curation-guide.md` | Curating the image pool |
+| `specs/001-remote-viewing-trainer/` | Specification, plan, data model, contracts |
+| `shared/vectors/` | Derivation specification and test vectors — the contract between the two implementations |
+| `server/` | Rust service |
+| `client/` | Angular interface |
+| `tools/poolctl/` | Curation tool |
 
-## Lizenz
+## Licence
 
-AGPL-3.0-or-later. Wer eine veränderte Fassung betreibt, muss die Änderungen offenlegen — bei
-einem Dienst, dessen ganzes Versprechen Überprüfbarkeit ist, ist das keine Formalität.
+AGPL-3.0-or-later. Anyone running a modified version must publish their changes — for a service
+whose entire promise is verifiability, that is not a formality.
