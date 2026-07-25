@@ -203,7 +203,10 @@ account and full history carry over.
 - **FR-011**: Candidate images MUST be indistinguishable from one another by any property other
   than their depicted content.
 - **FR-012**: Images MUST be drawn from a published, versioned collection of at least 500 freely
-  licensed images with recorded provenance.
+  licensed images with recorded provenance, each assigned to one of 16 to 24 subject categories.
+- **FR-046**: The eight candidates in a trial MUST come from eight different categories, and the
+  target MUST be equally likely to be any of the eight shown, regardless of how many images each
+  category holds.
 - **FR-013**: System MUST record every trial at the moment it is created, before its outcome is
   known.
 - **FR-014**: System MUST treat any trial that has not been completed as abandoned — no elapsed
@@ -320,6 +323,9 @@ account and full history carry over.
   licensed with its provenance recorded.
 - **SC-011**: Inspecting client-side state or network traffic before a choice is submitted does
   not reveal the target in any trial.
+- **SC-017**: Over a large simulated run, the target falls on each of the eight displayed
+  positions equally often and shows no relationship to category size — a strategy of always
+  choosing the image from the largest category performs no better than 12.5%.
 - **SC-012**: The abandonment rate, overall and per account, is computable by a third party from
   the public record alone, so selective abandonment is detectable rather than hidden.
 - **SC-013**: No account holds a rank without having met the eligibility rule, and no rank is
@@ -336,6 +342,9 @@ account and full history carry over.
 - The coordinate is an arbitrary fixed-format reference carrying no information the user could
   decode. It exists because remote viewing convention expects one; it does not encode the target.
 - The chance hit rate is 12.5%, one image in eight.
+- Candidates are drawn one per category from eight distinct categories, so a trial never shows two
+  images of the same kind. Without this, at realistic curation granularity, roughly two trials in
+  three would contain a confusable pair.
 - "Deviation from chance" is the term used throughout these artifacts for the standardised
   distance between an observed hit rate and 12.5%. It is the same quantity called a z-score
   elsewhere; the interface and the API field use the plainer name.

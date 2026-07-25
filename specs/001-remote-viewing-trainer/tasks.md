@@ -53,18 +53,18 @@ the derivation vectors. Neither can be worked around later.
 ### The derivation contract
 
 - [ ] T009 Specify the derivation in `shared/vectors/README.md` — SHA-256 counter stream, LE64 counter, 64-bit words, rejection sampling bound, partial Fisher-Yates for decoys, final shuffle for display order, exactly as fixed in research.md R1
-- [ ] T010 Generate the vector fixtures in `shared/vectors/derivation.json` — seed, pool version, expected target index, expected decoy indices, expected display order, covering pool sizes at and around rejection-sampling boundaries
-- [ ] T011 Implement the derivation in `server/src/trial/derive.rs`
+- [ ] T010 Generate the vector fixtures in `shared/vectors/derivation.json` — seed, pool version, expected target index, expected decoy indices, expected display order, covering pool sizes at and around rejection-sampling boundaries, and category counts with deliberately uneven category sizes so a size-proportional bias would fail the vectors
+- [ ] T011 Implement the derivation in `server/src/trial/derive.rs` — the four steps of D22: eight distinct categories, one image per category, target index over 0…7, then the display shuffle
 - [ ] T012 Add the conformance test in `server/tests/derivation_vectors.rs` reading `shared/vectors/derivation.json` — **this is the load-bearing test of the project** (D7, quickstart Scenario 2)
 
 ### The image pool
 
 - [ ] T013 [P] Implement image normalisation in `tools/poolctl/src/normalise.rs` — fixed edge length, uniform requantisation, metadata stripped, identifier from the hash of normalised bytes (FR-011)
 - [ ] T014 [P] Implement the annotate command in `tools/poolctl/src/annotate.rs` recording source URL, licence and attribution per image — this is the operator's curation interface, not only a build step (D17)
-- [ ] T015 Implement manifest emission in `tools/poolctl/src/manifest.rs` — sorted identifier list plus a plain hash over it, per contracts/pool-manifest.md; the ordering is normative because the derivation indexes into it
+- [ ] T015 Implement manifest emission in `tools/poolctl/src/manifest.rs` — sorted `(id, category)` pairs plus a plain hash over them, category inside the hash (D22), per contracts/pool-manifest.md; the ordering is normative because the derivation indexes into it
 - [ ] T084 [P] Add the manifest format test in `tools/poolctl/tests/manifest_format.rs` — asserts ascending order, the hash over the sorted list, and that a reordered manifest is rejected; the ordering silently determines every future derivation (constitution III, contracts/pool-manifest.md)
 - [ ] T092 Write the curation guide in `docs/curation-guide.md` — accepted sources and how to confirm a licence, what makes a usable target, exclusions (legible text, recognisable faces, arguable licences), recording provenance at capture time, and when to cut a pool version. Written to be followed by someone other than the author, because the pool keeps growing after launch
-- [ ] T093 [P] Add `poolctl check` in `tools/poolctl/src/check.rs` — refuse an image with no source or licence recorded, refuse a duplicate of an existing hash, and report the pool's current subject spread so drift toward one kind of image is visible
+- [ ] T093 [P] Add `poolctl check` in `tools/poolctl/src/check.rs` — refuse an image with no source or licence recorded, refuse a duplicate of an existing hash, refuse an image with no category, and report images per category so a thin category is visible before it starts repeating
 - [ ] T016 Curate and normalise at least 500 freely licensed images into `shared/pool/v1.json` following `docs/curation-guide.md` — curated for **diversity across the whole pool**, since decoys are drawn at random and no per-trial step can rescue a monotonous collection; the largest piece of manual work in the project, and it blocks every playable scenario (FR-012, SC-010, D5)
 
 ### Storage, chain and crypto
@@ -200,6 +200,7 @@ over and no second account appears.
 - [ ] T080 [P] Confirm the S3 bucket is not public-read — a dump carries `s_server` for trials still in flight, which are live answers (D12, D16)
 - [ ] T081 [P] Produce the seven rank artefacts as original work in `client/src/assets/ranks/` — owned outright, which is what closes the licensing question; blocks nothing before ranks first render (research.md R10)
 - [ ] T082 [P] Run a simulated population of random players and confirm the aggregate lands within sampling bounds of 12.5% and the two tails stay comparable (SC-005, SC-014)
+- [ ] T094 [P] Verify the draw is unbiased across categories in `server/tests/category_bias.rs` — with deliberately uneven category sizes, the target must land on each displayed position equally often, and always choosing the largest category's image must score 12.5% (FR-046, SC-017)
 - [ ] T083 [P] Write `README.md` — what the experiment is, how to verify it yourself, and what the published record does and does not prove
 - [ ] T091 [P] Measure time from cold arrival to first completed trial and confirm it stays under 30 seconds (SC-001) — a manual acceptance check, not an automated test
 

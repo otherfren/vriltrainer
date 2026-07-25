@@ -9,15 +9,26 @@ records the reasoning for choices that would otherwise look arbitrary in the cod
 **Decision.** `seed = SHA-256(s_server ‖ s_client)`. From it, a keystream
 `block(i) = SHA-256(seed ‖ LE64(i))` for `i = 0, 1, 2, …`, consumed as little-endian 64-bit
 words. Uniform integers below `m` are drawn by **rejection sampling**: take the next word `w`,
-reject it if `w >= floor(2^64 / m) * m`, otherwise return `w mod m`. The target is drawn from the
-pool with `m = P`. The seven decoys are drawn by partial Fisher-Yates over the remaining indices,
-and the display order by a further Fisher-Yates shuffle of the eight selected images.
+reject it if `w >= floor(2^64 / m) * m`, otherwise return `w mod m`.
+
+Four steps consume that stream in order (D22):
+
+1. **Eight distinct categories** — partial Fisher-Yates over the `K` category indices.
+2. **One image per chosen category** — uniform within that category's member list, which is the
+   sorted manifest filtered to that category.
+3. **The target index** — uniform over `0…7`, in *selection* order, before the display shuffle.
+4. **Display order** — Fisher-Yates over the eight selected images.
 
 **Rationale.** D7 puts one implementation in Rust and one in TypeScript, and they must agree
 byte-for-byte or honest trials fail verification. Everything here is fixed: the hash, the counter
-width and endianness, the word size, the rejection bound, and the shuffle direction. `seed mod P`
-alone was not a specification — it says nothing about decoys or order, which are equally part of
-what the client recomputes.
+width and endianness, the word size, the rejection bound, the step order, and the shuffle
+direction. `seed mod P` alone was not a specification — it says nothing about decoys or order,
+which are equally part of what the client recomputes.
+
+Step 3 exists to make bias impossible rather than merely avoided. Drawing the target from the
+pool and then filling the other categories would make the target's likelihood proportional to its
+category's size, so the image from the largest category would be the likeliest answer — a
+strategy worth far more than 12.5% to anyone who noticed (D22).
 
 **Alternatives considered.** HKDF-SHA256 as the stream: more standard, but adds a dependency on
 both sides for no gain over counter-mode hashing. Modulo without rejection: the bias at

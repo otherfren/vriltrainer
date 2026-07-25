@@ -67,11 +67,15 @@ backup contains no pending answers.
 | Entity | Fields |
 |---|---|
 | `pool_version` | `id`, `manifest_hash`, `image_count`, `created_at` |
-| `pool_image` | `pool_version`, `index`, `image_id`, `source_url`, `licence`, `attribution` |
+| `pool_image` | `pool_version`, `index`, `image_id`, **`category`**, `source_url`, `licence`, `attribution` |
 
 `image_id` is the hash of the **normalised** bytes, so identity follows content rather than
-filename (D5). `manifest_hash` is a plain hash over the sorted `image_id` list — the manifest is
-published whole, so a tree would buy nothing.
+filename (D5). `manifest_hash` is a plain hash over the sorted `(image_id, category)` pairs — the
+manifest is published whole, so a tree would buy nothing, but the category must be inside the hash
+or it could be reassigned invisibly and change every future derivation (D22).
+
+`category` is what lets a trial draw one image from each of eight distinct categories. It is a
+curation judgement, not a computed property.
 
 Provenance and licence are tracked per image but are **not** part of the manifest hash and are
 never rendered next to a candidate image: any per-image annotation visible in the interface is a

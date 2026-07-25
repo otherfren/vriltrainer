@@ -5,7 +5,7 @@ Running record of two `/grill-me` sessions held 2026-07-25 — the first on the 
 `specs/001-remote-viewing-trainer/`; it is not itself a Spec Kit artifact and carries no
 authority over the spec or the plan.
 
-Status: **both sessions complete** — 21 decisions settled, no open questions. Remaining items
+Status: **both sessions complete** — 22 decisions settled, no open questions. Remaining items
 are actions only, listed at the bottom.
 
 ## What vriltrainer is
@@ -54,8 +54,8 @@ Neither side controls the outcome alone:
 2. Reveal click   client: s_client ← crypto.getRandomValues()
                   → server
                   seed   = H(s_server ‖ s_client)
-                  target = pool[draw(seed)]        # rejection sampling, see D17
-                  decoys and display order drawn from the same stream
+                  8 categories, one image each, target index, order — all
+                  drawn from the same stream (see D22 for the four steps)
                   → client: the N images
 3. Pick           → server
 4. Reveal         → client: s_server, nonce
@@ -128,9 +128,11 @@ filenames. Anything that distinguishes the target from its decoys — resolution
 ratio, compression artifacts, the colour signature of a particular source — is a sensory
 channel, and sensory leakage is the classic failure mode of forced-choice ESP experiments.
 
-Manifest: sorted list of image IDs, hashed as a whole to give the `pool_manifest_hash` carried
-in each trial. Extending the pool creates a new version; older trials stay verifiable against
-the version they were run under.
+Manifest: sorted list of image IDs **with their category** (D22), hashed as a whole to give the
+`pool_manifest_hash` carried in each trial. The category belongs inside the hash — otherwise it
+could be reassigned without the manifest appearing to change, silently altering every future
+derivation. Extending the pool creates a new version; older trials stay verifiable against the
+version they were run under.
 
 A Merkle root was specified here originally. It is unnecessary: a Merkle tree buys inclusion
 proofs for a single element without downloading everything, and the manifest is published whole
@@ -612,6 +614,62 @@ a motive. Farming a thousand accounts yields an expected best z of about 3.2 aga
 honest maximum of 2.75 among 200 real participants — the top three would fall reliably. Note that
 the **aggregate stays clean regardless**, because bot trials are genuine random draws; only the
 leaderboard is corruptible.
+
+## D22 — The candidate set is drawn across categories, and the target index is drawn last
+
+Decoys were originally drawn uniformly from the whole pool, which leaves nothing preventing eight
+near-identical images from appearing together. The scale of that was underestimated. With 500
+images falling into motif groups of average size *s*, the expected number of confusable pairs per
+trial is `28·(s−1)/499`:
+
+| Motif groups | Average size | Expected pairs | Trials with a collision |
+|---|---|---|---|
+| 25 | 20 | 1.07 | **~66%** |
+| 50 | 10 | 0.51 | ~39% |
+| 100 | 5 | 0.22 | ~20% |
+
+At realistic curation granularity, one trial in two or three contains a confusable pair. Not an
+edge case.
+
+**The obvious fix is a trap.** Partition the pool into exactly eight categories, draw the target
+uniformly from the pool, then one decoy from each remaining category. If one category holds 200
+images and another 20, the target is ten times more likely to come from the larger one — and
+since exactly one image per category is shown, **the image from the larger category is ten times
+more likely to be the target**. Anyone who noticed would play far above 12.5%, and the published
+z-scores would report enormous psi that was pure bookkeeping. Eight fixed categories would also
+make every trial look the same after a few hundred rounds.
+
+**Chosen instead: more categories than images per trial, and the target index drawn last.**
+
+```
+K categories, 16 to 24, each holding roughly 20 images
+
+1. choose 8 distinct categories        — partial Fisher-Yates over the K indices
+2. choose one image per chosen category — uniform within that category's member list
+3. choose the target index              — uniform over 0…7, in selection order
+4. shuffle for display                  — Fisher-Yates over the eight
+```
+
+Step 3 is what matters. **The target is one of the eight shown, uniformly, independent of every
+category size.** The bias is structurally impossible rather than carefully avoided, so categories
+never need balancing and uneven growth can never hurt.
+
+Consequences:
+
+- **The manifest hash must cover the category assignment**, not only the identifier list.
+  Otherwise a category could be reassigned without changing the hash, silently altering every
+  future derivation while appearing unchanged.
+- Category member lists are obtained by **filtering the sorted identifier list**, so there is only
+  one normative ordering to agree on rather than two.
+- The derivation gains two draw steps, so the D7 test vectors grow. All four steps come from the
+  same counter stream with rejection sampling, so client-side recomputation is unaffected in kind.
+- Curation gains a rule: every category needs enough images that repeats stay rare. At 24
+  categories and roughly 20 images each, `P >= 500` still holds.
+
+**Accepted deliberately:** the categories sit in the public manifest, so a viewer knows the eight
+images will be eight different kinds of thing. This biases nothing, but it is a departure from
+classical remote viewing protocol, where the viewer ideally knows nothing about the target set.
+For a trainer it is judged a net gain — it gives the discrimination something to hold onto.
 
 ## Constraints
 

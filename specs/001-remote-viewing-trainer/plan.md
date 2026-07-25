@@ -140,12 +140,15 @@ inconsistently the moment there is a second pair of hands or a six-month gap.
 
 `tools/poolctl` mechanises the parts a machine can check. The guide covers the parts it cannot.
 
-**A constraint that falls out of D3 and is easy to miss.** Decoys are drawn at random from the
-whole pool, never curated per trial. Nothing at trial time prevents eight near-identical images
-from appearing together. Set quality is therefore a property of the **pool**, not of any
-selection step: a pool of five hundred beach photographs would produce ambiguous sets forever,
-and no code could repair it. The guide has to state that the pool is curated for **diversity
-across the whole collection**, which is a different instruction from "pick good images".
+**Categories carry most of this, but not all of it (D22).** A trial draws one image from each of
+eight distinct categories, so two images of the same kind can no longer appear together. That
+removes the acute problem — at realistic granularity roughly two trials in three would otherwise
+have contained a confusable pair.
+
+What categories do **not** solve is thinness within a category. Twenty near-identical landscapes
+in the landscape category still produce repetitive trials, and no code can repair that either. The
+guide therefore has to cover both: assigning a category consistently, and keeping variety
+*inside* each one.
 
 What the guide must settle, because each of these is a judgement a tool cannot make:
 
@@ -160,6 +163,9 @@ What the guide must settle, because each of these is a judgement a tool cannot m
   out.
 - **Recording provenance at capture time**, never afterwards — a lost source URL is not
   recoverable, and it is what makes the licence defensible later.
+- **How categories are assigned** — the fixed list, what belongs where, and what to do with an
+  image that plausibly fits two. Consistency matters more than precision: a category is a drawing
+  bucket, not a taxonomy.
 - **When to cut a pool version**, given that versions are immutable and every trial references
   the one it ran under.
 
