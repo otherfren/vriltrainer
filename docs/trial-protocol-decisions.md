@@ -799,9 +799,11 @@ human before it is shown to anyone else.
 A name has state: `pending` -> `approved` | `rejected`, and the two audiences see different
 things.
 
-**The account holder always sees the name they chose**, in whatever state it is, with a note when
-it is under review or was refused — they cannot pick a better one without seeing the one that was
-refused.
+**The account holder always sees the name they chose** while it is under review. A **refused** name
+is discarded rather than kept for them to look at again: holding a name you turned down is holding
+personal data for no purpose, and the holder does not need the string echoed back — they need to
+know it was refused and why, which the refusal code carries. An earlier draft of this decision said
+both things in one paragraph, and the implementation followed the half SC-018 forbids.
 
 **The public list shows the most recently approved name in clear text, and masks everything else.**
 Masked, not replaced: a row reads as *a name exists here and has not been cleared yet* rather than
@@ -814,6 +816,17 @@ clears, so renaming is not punished with anonymity. A rejection is told to the u
 lets them choose again, and does **not** consume the rename rate limit. Rejected names are
 discarded rather than retained — holding a name you refused is holding personal data for no
 purpose.
+
+**A decision is made about a name, not about an account.** Approve and reject each take the name
+the reviewer read and apply only if it is still there; a holder who resubmits between the queue
+being read and the button being pressed gets a no-op rather than a publication. Without that,
+pre-approval is theatre — `approve(account_id)` publishes whatever the row holds at the moment of
+the update, which is a string no human ever saw, and rejection clearing the rename cooldown makes
+the window seconds rather than a day.
+
+Erasure therefore carries its own state rather than being inferred from the name being absent,
+because a refusal now clears it too. Conflating them would lock a refused holder out of ever
+choosing again.
 
 FR-026 is untouched: the log references the opaque account id and never the name, so none of this
 reaches the record.
