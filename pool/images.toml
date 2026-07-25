@@ -287,6 +287,60 @@ category = "vehicle"
   de = "Weißer Mercedes 280 SE"
   en = "White Mercedes 280 SE"
 
+  # A second Mercedes. Same marque, same era — the pair that most needs one category between it.
+  [[group.image]]
+  file = "mercedes_coupe.jpg"
+  de = "Mercedes-Coupé"
+  en = "Mercedes coupé"
+
+  # Six more, five of them black. Colour is the resemblance that matters here more than marque:
+  # at 512px, requantised, a black coupé and a black Shelby are the same silhouette. One category
+  # holds the lot, so no set can contain two of them.
+  [[group.image]]
+  file = "black_coupe.jpg"
+  de = "Schwarzes Coupé"
+  en = "Black coupé"
+
+  [[group.image]]
+  file = "black_shelby.jpg"
+  de = "Schwarzer Shelby"
+  en = "Black Shelby"
+
+  [[group.image]]
+  file = "black_porsche.jpg"
+  de = "Schwarzer Porsche"
+  en = "Black Porsche"
+
+  [[group.image]]
+  file = "black_jeep_wrangler.jpg"
+  de = "Schwarzer Jeep Wrangler"
+  en = "Black Jeep Wrangler"
+
+  [[group.image]]
+  file = "black_bobber_bike.jpg"
+  de = "Schwarzes Bobber-Motorrad"
+  en = "Black bobber motorcycle"
+
+  [[group.image]]
+  file = "blue_vw_polo.jpg"
+  de = "Blauer VW Polo"
+  en = "Blue VW Polo"
+
+  [[group.image]]
+  file = "black_motorcycle.jpg"
+  de = "Schwarzes Motorrad"
+  en = "Black motorcycle"
+
+  [[group.image]]
+  file = "sport_motorcycles.jpg"
+  de = "Sportmotorräder"
+  en = "Sport motorcycles"
+
+  [[group.image]]
+  file = "yellow_vw_t2.jpg"
+  de = "Gelber VW T2"
+  en = "Yellow VW T2"
+
   [[group.image]]
   file = "classic_car_tire.jpg"
   de = "Reifen eines Oldtimers"
@@ -395,14 +449,101 @@ dir = "food"
 category = "food"
 
   [[group.image]]
+  file = "burger.jpg"
+  de = "Burger"
+  en = "Burger"
+
+  [[group.image]]
+  file = "bread_with_egg.jpg"
+  de = "Brot mit Ei"
+  en = "Bread with egg"
+
+  # Two plates of pasta. Together, necessarily.
+  [[group.image]]
+  file = "noodles.jpg"
+  de = "Nudeln"
+  en = "Noodles"
+
+  [[group.image]]
+  file = "pasta_tomatosauce.jpg"
+  de = "Pasta mit Tomatensauce"
+  en = "Pasta with tomato sauce"
+
+  [[group.image]]
+  file = "meat_balls.jpg"
+  de = "Fleischbällchen"
+  en = "Meatballs"
+
+# The same folder, split three ways. Eleven more arrived at once and `food` would have become a
+# fifteen-image bucket that still contributes exactly one image per trial — every one of those
+# fifteen drawn a fifteenth as often as the lone `landscape` picture. The folder stays as it is,
+# because the folder is yours and the category is the pool's: raw produce, prepared dish and sweet
+# are three things nobody would confuse for each other at 512 pixels, and each split keeps its own
+# near-duplicates inside it.
+[[group]]
+dir = "food"
+category = "produce"
+
+  [[group.image]]
   file = "red_apples.jpg"
   de = "Rote Äpfel"
   en = "Red apples"
 
+  # Lemon beside lemon, berry beside tomato — four red-and-yellow close-ups of small round fruit,
+  # which is the pair problem in its purest form.
   [[group.image]]
   file = "rotten_lemon.jpg"
   de = "Verfaulte Zitrone"
   en = "Rotten lemon"
+
+  [[group.image]]
+  file = "yellow_lemons.jpg"
+  de = "Gelbe Zitronen"
+  en = "Yellow lemons"
+
+  [[group.image]]
+  file = "red_tomatoes.jpg"
+  de = "Rote Tomaten"
+  en = "Red tomatoes"
+
+  [[group.image]]
+  file = "blueberries.jpg"
+  de = "Blaubeeren"
+  en = "Blueberries"
+
+  [[group.image]]
+  file = "green_salad.jpg"
+  de = "Grüner Salat"
+  en = "Green salad"
+
+  [[group.image]]
+  file = "grüner_spargel.jpg"
+  de = "Grüner Spargel"
+  en = "Green asparagus"
+
+[[group]]
+dir = "food"
+category = "sweet"
+
+  [[group.image]]
+  file = "raspberry_cake.jpg"
+  de = "Himbeertorte"
+  en = "Raspberry cake"
+
+  [[group.image]]
+  file = "donuts.jpg"
+  de = "Donuts"
+  en = "Doughnuts"
+
+  [[group.image]]
+  file = "strawberry_ice.jpg"
+  de = "Erdbeereis"
+  en = "Strawberry ice cream"
+
+  [[group.image]]
+  file = "cocktail.jpg"
+  de = "Cocktail"
+  en = "Cocktail"
 
 # An alley is architecture, and it goes here rather than into `building` because it is not
 # confusable with a tower or a cabin — and the pool needs categories as much as it needs images.
@@ -485,3 +626,8 @@ category = "instrument"
   file = "flöte.jpg"
   de = "Querflöte"
   en = "Flute"
+
+  [[group.image]]
+  file = "accordeon.jpg"
+  de = "Akkordeon"
+  en = "Accordion"
