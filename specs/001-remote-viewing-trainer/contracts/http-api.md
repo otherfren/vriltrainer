@@ -85,13 +85,16 @@ The response body is the same shape whatever the target is; nothing here disting
   "hit": false,
   "target": "img_9c2…",
   "s_server": "base64…",
+  "s_client": "base64…",
   "nonce": "base64…",
   "seq": 1043
 }
 ```
 
 The reveal payload is what the client feeds to its own derivation to check the server (FR-019,
-FR-020).
+FR-020). `s_client` is echoed although the browser produced it, so the verification panel checks
+one payload rather than half a payload and half its own memory — and so does the resolve entry in
+the log, for the same reason (D3, SC-002). `seq` names that entry.
 
 | Status | Meaning |
 |---|---|

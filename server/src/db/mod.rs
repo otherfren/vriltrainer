@@ -51,6 +51,14 @@ pub enum DbError {
     /// so half of it is not a state worth writing.
     #[error("trial {trial} has no commit entry to resolve")]
     OrphanResolve { trial: String },
+    /// An append the caller's own check refused after seeing the log from inside the write lock.
+    ///
+    /// [`Db::append_with`] inserts before it runs `also`, so this is the only way back out. The
+    /// concurrent-trial cap of D17 needs it: counting a caller's open trials is read-then-write,
+    /// and a count taken before the transaction lets two parallel requests both pass a full cap —
+    /// which is exactly the case a cap on a permanent log exists for.
+    #[error("the append was refused: {0}")]
+    Vetoed(&'static str),
 }
 
 /// Now, as the log and the API spell it: RFC 3339, UTC, whole seconds.

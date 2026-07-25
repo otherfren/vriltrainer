@@ -95,12 +95,12 @@ the chain can be appended to. User stories may now begin.
 start a second. Nothing else needs to exist.
 
 - [ ] T026 [P] [US1] Implement account creation and capability tokens in `server/src/account/mod.rs` — token from a CSPRNG, at least 128 bits, only its hash stored (FR-001, FR-002, D9)
-- [ ] T027 [US1] Implement `POST /api/account` in `server/src/http/routes/account.rs` per contracts/http-api.md
-- [ ] T028 [US1] Implement `POST /api/trial` in `server/src/http/routes/trial.rs` — draw the coordinate and `s_server`, write the `COMMIT` entry **before responding**, return the commitment with it (FR-007, FR-013, D3)
-- [ ] T029 [US1] Implement `POST /api/trial/reveal` in `server/src/http/routes/trial.rs` — combine `s_client`, derive target, decoys and order, issue token 2 carrying reveal time and expiry (FR-008, FR-009)
-- [ ] T030 [US1] Implement `POST /api/trial/answer` in `server/src/http/routes/trial.rs` — evaluate, append the `RESOLVE` entry, return `s_server`, `s_client` and nonce (FR-010, FR-022)
-- [ ] T031 [US1] Enforce the minimum viewing time in `server/src/trial/timing.rs` — reject under three seconds **before examining the chosen image**, leave the trial open; anything else turns the rule into an oracle for the target (FR-039, SC-016)
-- [ ] T032 [US1] Enforce one evaluated answer per trial and the validity period in `server/src/trial/state.rs` — a speed-rejected answer does not consume the trial (FR-037, FR-038)
+- [X] T027 [US1] Implement `POST /api/account` in `server/src/http/routes/account.rs` per contracts/http-api.md
+- [X] T028 [US1] Implement `POST /api/trial` in `server/src/http/routes/trial.rs` — draw the coordinate and `s_server`, write the `COMMIT` entry **before responding**, return the commitment with it (FR-007, FR-013, D3)
+- [X] T029 [US1] Implement `POST /api/trial/reveal` in `server/src/http/routes/trial.rs` — combine `s_client`, derive target, decoys and order, issue token 2 carrying reveal time and expiry (FR-008, FR-009)
+- [X] T030 [US1] Implement `POST /api/trial/answer` in `server/src/http/routes/trial.rs` — evaluate, append the `RESOLVE` entry, return `s_server`, `s_client` and nonce (FR-010, FR-022)
+- [X] T031 [US1] Enforce the minimum viewing time in `server/src/trial/timing.rs` — reject under three seconds **before examining the chosen image**, leave the trial open; anything else turns the rule into an oracle for the target (FR-039, SC-016)
+- [X] T032 [US1] Enforce one evaluated answer per trial and the validity period in `server/src/http/routes/trial.rs`, over the `log_entry_trial_kind` constraint, with the clock in `server/src/trial/timing.rs` — a speed-rejected answer does not consume the trial (FR-037, FR-038)
 - [ ] T033 [P] [US1] Build the trial screen in `client/src/app/trial/trial.component.ts` — coordinate, reveal, eight images, verdict, next
 - [ ] T034 [P] [US1] Implement access-link handling in `client/src/app/account/access-link.service.ts` — read the fragment, store it, clear the address bar with `history.replaceState` (FR-006)
 - [ ] T035 [US1] Build the access-link panel in `client/src/app/account/access-link.component.ts` — masked by default, reveal button, copy **without** revealing, re-mask on a timeout (FR-003, D9, D21)
@@ -192,8 +192,8 @@ over and no second account appears.
 
 ## Phase 7: Polish & Cross-Cutting Concerns
 
-- [ ] T075 [P] Implement the per-address limit on account creation in `server/src/http/limits.rs`, depending on T024 for a real client address
-- [ ] T076 [P] Implement the cap on concurrent uncompleted trials per account in `server/src/trial/limits.rs` — this is what bounds log growth, since every trial is permanent (D16, D17)
+- [X] T075 [P] Implement the per-address limit on account creation in `server/src/http/limits.rs`, depending on T024 for a real client address
+- [X] T076 [P] Implement the cap on concurrent uncompleted trials per account in `server/src/http/limits.rs`, beside the per-address limit D17 names in the same breath — this is what bounds log growth, since every trial is permanent (D16, D17)
 - [X] T077 Write the nginx configuration in `deploy/nginx.conf` — TLS for both domains, `Host` forwarded unchanged, real client address set; either omission silently breaks a decision (research.md R8)
 - [X] T078 [P] Write the systemd unit in `deploy/vriltrainer@.service` — a template, one instance per locale (D24)
 - [ ] T079 Verify the backup path end to end — dump, push, and **restore into a scratch database**; an untested backup of the audit log is an untested product promise (D12)

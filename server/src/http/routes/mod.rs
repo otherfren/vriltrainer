@@ -108,11 +108,14 @@ mod tests {
         assert_eq!(json["locale"], "de");
     }
 
+    /// The path here has to be one nobody has mounted yet, and each one stops being that as its
+    /// module lands — `/api/trial` was this test's subject until the trial loop was built. When
+    /// the last of them is mounted, this test and [`contracted`] go together.
     #[tokio::test]
     async fn a_contracted_path_that_is_not_built_yet_says_so() {
         let req = Request::builder()
-            .method("POST")
-            .uri("/api/trial")
+            .method("GET")
+            .uri("/api/stats/me")
             .body(Body::empty())
             .unwrap();
         let response = router(test_support::state()).oneshot(req).await.unwrap();

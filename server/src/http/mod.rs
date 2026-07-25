@@ -6,8 +6,10 @@
 //! wrong.
 
 pub mod client_addr;
+pub mod limits;
 pub mod locale;
 pub mod routes;
+pub mod static_files;
 pub mod trace;
 
 use std::net::SocketAddr;
@@ -69,6 +71,11 @@ pub enum ApiError {
     Gone,
     #[error("rate limited")]
     RateLimited,
+    /// The service cannot do its job — a published pool that cannot fill a trial, a sealed token
+    /// naming an image the manifest does not have. Operator faults, every one, so the detail is
+    /// logged where it is raised and the caller is told nothing they could act on.
+    #[error("internal error")]
+    Internal,
     #[error(transparent)]
     Db(#[from] crate::db::DbError),
 }
@@ -83,6 +90,7 @@ impl IntoResponse for ApiError {
             ApiError::TooFast => (too_early(), "too fast"),
             ApiError::Gone => (StatusCode::GONE, "gone"),
             ApiError::RateLimited => (StatusCode::TOO_MANY_REQUESTS, "rate limited"),
+            ApiError::Internal => (StatusCode::INTERNAL_SERVER_ERROR, "internal error"),
             ApiError::Db(e) => {
                 // Logged, never returned: a database message can name a table, a column or a
                 // constraint, and none of that is the caller's business.
@@ -100,7 +108,13 @@ impl IntoResponse for ApiError {
 /// the locale warning and every handler line carry them.
 pub fn router(state: AppState) -> Router {
     let locale = state.config.locale;
-    trace::instrument(locale::announce(routes::all().with_state(state), locale))
+    let public = state.config.public_dir.clone();
+    // The client bundle goes on inside the two outer layers, so a page load carries a request
+    // identifier and a `Content-Language` exactly like an API call does. It cannot be a fallback:
+    // the router has one already, and that fallback is what tells a client an endpoint is
+    // contracted but unbuilt.
+    let app = static_files::mount(routes::all().with_state(state), public.as_deref());
+    trace::instrument(locale::announce(app, locale))
 }
 
 /// What [`axum::serve()`] should be handed.

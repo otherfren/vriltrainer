@@ -2,4 +2,5 @@
 
 pub mod commit;
 pub mod derive;
+pub mod timing;
 pub mod token;

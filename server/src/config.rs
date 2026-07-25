@@ -120,6 +120,9 @@ pub struct Config {
     pub pool_path: PathBuf,
     /// Where to bind. Localhost by default: nginx terminates TLS and proxies (R8).
     pub listen: SocketAddr,
+    /// The built client bundle to serve. nginx proxies every path here, so with this unset the
+    /// site answers `/api` and nothing else — no page, no scripts, no images.
+    pub public_dir: Option<PathBuf>,
     /// Peers whose forwarded client-address header is believed. Anything else is taken at its
     /// socket address, or any client could forge its own and the per-address limit is gone (R8).
     pub trusted_proxies: Vec<IpAddr>,
@@ -163,6 +166,7 @@ impl Default for Config {
             db_path: PathBuf::from("vriltrainer.db"),
             pool_path: PathBuf::from("pool/manifest.json"),
             listen: SocketAddr::from((Ipv4Addr::LOCALHOST, 8080)),
+            public_dir: None,
             trusted_proxies: vec![
                 IpAddr::V4(Ipv4Addr::LOCALHOST),
                 IpAddr::V6(Ipv6Addr::LOCALHOST),
@@ -187,6 +191,7 @@ impl Config {
             db_path: cli.db,
             pool_path: cli.pool,
             listen: cli.listen,
+            public_dir: cli.public,
             trusted_proxies: if cli.trusted_proxy.is_empty() {
                 defaults.trusted_proxies
             } else {
@@ -213,6 +218,10 @@ pub struct Cli {
 
     #[arg(long, value_name = "ADDR", default_value = "127.0.0.1:8080")]
     pub listen: SocketAddr,
+
+    /// Directory holding the built client bundle, served with an SPA fallback.
+    #[arg(long, value_name = "DIR")]
+    pub public: Option<PathBuf>,
 
     // Deliberately has no default. D24 exists so the locale is chosen once, visibly, in the unit
     // file; a default would let a mistyped flag start a second German instance on the English
