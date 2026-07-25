@@ -22,8 +22,15 @@ dist/
 *.db-shm
 
 # Secrets and environment
+#
+# `token.key` is the one secret this product has (D9). It seals the trial tokens, so a leaked copy
+# lets anyone mint a token claiming any target — which is the single thing that would make the
+# published proof worthless. Everything else in the database is public on purpose; this is not, and
+# the README tells people to create it right here in the repository root.
 .env
 .env.*
+token.key
+*.key
 
 # Editors and OS
 .idea/
