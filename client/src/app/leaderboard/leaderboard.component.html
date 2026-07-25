@@ -38,9 +38,8 @@
           <tr>
             <td class="tbl__rk">{{ r.rank }}</td>
             <td>
-              <span class="badge">
-                <img class="badge__pic" [src]="icon(r)" alt="" />
-                {{ r.title }}
+              <span class="badge" [title]="r.title">
+                <img class="badge__pic" [src]="icon(r)" [attr.alt]="r.title" />
               </span>
             </td>
             <td class="tbl__name">{{ r.name }}<span class="tbl__id">{{ r.publicId }}</span></td>

@@ -40,22 +40,26 @@ export function rankIcon(iconOrTitle: string): string {
   return `rank/rank-${byTitle ? byTitle.icon : iconOrTitle}.svg`;
 }
 
+/** The share each band holds, best first. Mirrored below Normie. */
+const SHARES = [0.001, 0.005, 0.02, 0.07, 0.2];
+
 /**
- * The rank a percentile holds, where 0 is the very top of the board.
+ * The rank held by a place on a board of `population`.
  *
  * Taking a share rather than a seat count is the whole point: place 3 of 10 is nothing, place 3
  * of 200 000 is the top 0,0015 %, and only one of those deserves a title.
+ *
+ * Bands round up, so the top one is never empty — 0,1 % of 720 players is 0,72 people, and a
+ * ladder whose first rung nobody can stand on is not a ladder. It is also what keeps this
+ * agreeing with the distribution chart, which counts one Annunaki at that population.
  */
-export function rankForPercentile(topFraction: number): RankDef {
-  if (topFraction <= 0.001) return RANKS[0];
-  if (topFraction <= 0.005) return RANKS[1];
-  if (topFraction <= 0.02) return RANKS[2];
-  if (topFraction <= 0.07) return RANKS[3];
-  if (topFraction <= 0.2) return RANKS[4];
-  if (topFraction < 0.8) return RANKS[5];
-  if (topFraction < 0.93) return RANKS[6];
-  if (topFraction < 0.98) return RANKS[7];
-  if (topFraction < 0.995) return RANKS[8];
-  if (topFraction < 0.999) return RANKS[9];
-  return RANKS[10];
+export function rankForPlace(place: number, population: number): RankDef {
+  for (let i = 0; i < SHARES.length; i++) {
+    if (place <= Math.max(1, Math.ceil(SHARES[i] * population))) return RANKS[i];
+  }
+  for (let i = 0; i < SHARES.length; i++) {
+    const fromBottom = population - place + 1;
+    if (fromBottom <= Math.max(1, Math.ceil(SHARES[i] * population))) return RANKS[10 - i];
+  }
+  return RANKS[5];
 }

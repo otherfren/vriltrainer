@@ -1,6 +1,6 @@
 import { Component, computed, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { RankDef, rankForPercentile, rankIcon } from '../core/ranks';
+import { RankDef, rankForPlace, rankIcon } from '../core/ranks';
 
 interface Row {
   rank: number;
@@ -90,7 +90,7 @@ export class LeaderboardComponent {
     const population = 720;
     return NAMES.map((name, i) => {
       const place = i + 1;
-      const rank: RankDef = rankForPercentile(place / population);
+      const rank: RankDef = rankForPlace(place, population);
       wilson -= 0.04 + next() * 0.07;
       const completed = 120 + Math.floor(next() * 1400);
       const rate = wilson + 1.4 + next() * 3.4;
@@ -99,7 +99,7 @@ export class LeaderboardComponent {
         title: rank.title,
         icon: rank.icon,
         name,
-        publicId: (0x1000 + Math.floor(next() * 0xefff)).toString(16).toUpperCase(),
+        publicId: (0x100000 + Math.floor(next() * 0xefffff)).toString(16).toUpperCase(),
         wilson,
         completed,
         rate,

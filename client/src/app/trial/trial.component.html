@@ -33,9 +33,10 @@
         </p>
       </div>
 
-      <p class="bubble panel">Nimm dir Zeit mit der Koordinate. Erst danach aufdecken.</p>
-
-      <button class="btn btn--big" type="button" (click)="reveal()">Aufdecken</button>
+      <div class="reveal">
+        <button class="btn btn--big" type="button" (click)="reveal()">Aufdecken</button>
+        <p class="bubble panel">Nimm dir Zeit mit der Koordinate. Erst danach aufdecken.</p>
+      </div>
     }
 
     @if (phase() !== 'sealed') {

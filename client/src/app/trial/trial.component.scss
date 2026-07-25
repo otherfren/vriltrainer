@@ -132,21 +132,32 @@
   max-width: none;
 }
 
-.bubble.panel {
-  position: relative;
-  margin: 0 0 var(--s8);
+/* The machine speaks next to the control it is talking about, not above it. */
+.reveal {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s6);
 }
 
+.bubble.panel {
+  position: relative;
+  margin: 0;
+  max-width: 36ch;
+}
+
+/* Tail pointing left, at the button it belongs to. */
 .bubble::after {
   content: '';
   position: absolute;
-  left: var(--s6);
-  bottom: -14px;
+  left: -14px;
+  top: 50%;
+  margin-top: -7px;
   width: 0;
   height: 0;
-  border-left: 14px solid transparent;
-  border-right: 0 solid transparent;
-  border-top: 14px solid var(--ink);
+  border-top: 7px solid transparent;
+  border-bottom: 7px solid transparent;
+  border-right: 14px solid var(--ink);
 }
 
 /* ---- the eight slots ---- */
@@ -433,6 +444,16 @@ code.inline {
 @media (max-width: 52rem) {
   .grid {
     grid-template-columns: repeat(2, 1fr);
+  }
+  /* Wrapped under the button, so the tail turns to point at it there instead. */
+  .bubble::after {
+    left: var(--s6);
+    top: -14px;
+    margin-top: 0;
+    border-top: 0;
+    border-right: 14px solid transparent;
+    border-left: 14px solid transparent;
+    border-bottom: 14px solid var(--ink);
   }
   .trial {
     padding-top: var(--s8);
