@@ -26,3 +26,4 @@ dist/
 
 # Pre-existing entry, kept
 deleteme.md
+src/app/verify/derivation.vectors.json

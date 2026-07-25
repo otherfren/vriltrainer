@@ -35,7 +35,7 @@ artefacts both implementations consume. Structure fixed in plan.md.
 - [X] T002 Create the Cargo workspace in `Cargo.toml` with members `server` and `tools/poolctl`
 - [ ] T003 [P] Add server dependencies in `server/Cargo.toml` — axum, rusqlite, sha2, chacha20poly1305, serde, tracing
 - [ ] T004 [P] Add pool tool dependencies in `tools/poolctl/Cargo.toml` — image, sha2, serde, clap
-- [ ] T005 [P] Initialise the Angular application in `client/` with `@angular/localize`, `PathLocationStrategy` (required by D9 — `HashLocationStrategy` would collide with the access-link fragment)
+- [X] T005 [P] Initialise the Angular application in `client/` with `@angular/localize`, `PathLocationStrategy` (required by D9 — `HashLocationStrategy` would collide with the access-link fragment)
 - [X] T006 [P] Write `.gitignore` covering `target/`, `node_modules/`, `dist/`, `*.sqlite*`, `.env*`
 - [ ] T007 [P] Configure formatting and linting — `rustfmt.toml`, `clippy.toml`, ESLint and Prettier in `client/`
 - [ ] T008 Make the GitHub repository public, completing D6 — until this is done, "open source" is an intention rather than a fact
@@ -142,8 +142,8 @@ the deviation arrives with its by-chance context.
 **Independent Test**: Complete a trial, verify it in the browser, download the log and recompute
 it independently.
 
-- [ ] T047 [P] [US3] Implement the derivation in TypeScript in `client/src/app/verify/derive.ts` — independent of the Rust implementation by design; shared code would verify itself against itself (D7)
-- [ ] T048 [US3] Add the TypeScript conformance test in `client/src/app/verify/derive.spec.ts` against the **same** `shared/vectors/derivation.json`
+- [X] T047 [P] [US3] Implement the derivation in TypeScript in `client/src/app/verify/derive.ts` — independent of the Rust implementation by design; shared code would verify itself against itself (D7)
+- [X] T048 [US3] Add the TypeScript conformance test in `client/src/app/verify/derive.spec.ts` against the **same** `shared/vectors/derivation.json`
 - [ ] T049 [US3] Implement commitment verification in `client/src/app/verify/commitment.ts` using WebCrypto
 - [ ] T050 [US3] Build the verification panel in `client/src/app/verify/verify.component.ts` — recompute and compare in the browser with no external tool and no technical knowledge (FR-023, SC-003)
 - [ ] T051 [US3] Surface verification failure visibly in `client/src/app/verify/verify.component.ts` — a verifier that only ever says "ok" has not been tested (FR-024)

@@ -1,0 +1,263 @@
+/* ============================================================================
+   vriltrainer — the page is an instrument, not a brochure.
+
+   The product measures whether anything is there and expects to find nothing.
+   So the interface reads as a readout: monospace at display size, a graphite
+   panel, darkroom amber for anything you can touch, and phosphor only for
+   values that were actually measured. The one structural device is the null
+   line — the 12.5% chance rate, drawn as a real line, with every statistic
+   shown as displacement from it. The joke lands visually: everyone sits on it.
+   ============================================================================ */
+
+@use '@fontsource/ibm-plex-mono/400.css';
+@use '@fontsource/ibm-plex-mono/600.css';
+@use '@fontsource/ibm-plex-mono/700.css';
+@use '@fontsource/ibm-plex-sans/400.css';
+@use '@fontsource/ibm-plex-sans/500.css';
+
+:root {
+  /* Graphite is cold and slightly blue; amber is the darkroom safelight.
+     Phosphor appears only on measured values, never on chrome. */
+  --ink: #0e1013;
+  --panel: #15181d;
+  --panel-hi: #1b1f26;
+  --rule: #262b33;
+  --rule-hi: #3a424e;
+
+  --bone: #e4dfd4;
+  --bone-dim: #8a8b85;
+  --bone-faint: #5a5c58;
+
+  --amber: #e8a33d;
+  --amber-dim: #8a5f1f;
+  --phosphor: #6fd3be;
+  --danger: #d2624a;
+
+  --mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', monospace;
+  --sans: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+
+  /* One spacing scale, quarter-based, so panels line up like an instrument face. */
+  --s1: 0.25rem;
+  --s2: 0.5rem;
+  --s3: 0.75rem;
+  --s4: 1rem;
+  --s6: 1.5rem;
+  --s8: 2rem;
+  --s12: 3rem;
+  --s16: 4rem;
+
+  --shell: 68rem;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--ink);
+  color: var(--bone);
+  font-family: var(--sans);
+  font-size: 1rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+
+  /* A faint measurement grid. Barely visible, but it stops the background
+     reading as "dark mode" and starts it reading as graph paper. */
+  background-image:
+    linear-gradient(to right, rgba(58, 66, 78, 0.16) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(58, 66, 78, 0.16) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+/* ---------- type ---------------------------------------------------------- */
+
+.eyebrow {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--bone-dim);
+  margin: 0 0 var(--s3);
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--mono);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin: 0 0 var(--s4);
+}
+
+h1 {
+  font-size: clamp(1.75rem, 4vw, 2.75rem);
+}
+h2 {
+  font-size: clamp(1.25rem, 2.5vw, 1.6rem);
+}
+h3 {
+  font-size: 1.0625rem;
+}
+
+p {
+  margin: 0 0 var(--s4);
+  max-width: 62ch;
+}
+
+.dim {
+  color: var(--bone-dim);
+}
+.faint {
+  color: var(--bone-faint);
+}
+.measured {
+  font-family: var(--mono);
+  color: var(--phosphor);
+  font-variant-numeric: tabular-nums;
+}
+
+a {
+  color: var(--amber);
+  text-underline-offset: 3px;
+}
+
+/* ---------- shell --------------------------------------------------------- */
+
+.shell {
+  max-width: var(--shell);
+  margin: 0 auto;
+  padding: 0 var(--s6);
+}
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--rule);
+}
+
+/* ---------- controls ------------------------------------------------------ */
+
+.btn {
+  font-family: var(--mono);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink);
+  background: var(--amber);
+  border: 1px solid var(--amber);
+  padding: var(--s3) var(--s8);
+  cursor: pointer;
+  transition:
+    background 120ms ease,
+    color 120ms ease;
+}
+
+.btn:hover:not(:disabled) {
+  background: var(--bone);
+  border-color: var(--bone);
+}
+
+.btn:disabled {
+  background: transparent;
+  color: var(--bone-faint);
+  border-color: var(--rule);
+  cursor: not-allowed;
+}
+
+.btn--quiet {
+  background: transparent;
+  color: var(--amber);
+  border-color: var(--amber-dim);
+}
+
+.btn--quiet:hover:not(:disabled) {
+  background: transparent;
+  color: var(--bone);
+  border-color: var(--bone);
+}
+
+:focus-visible {
+  outline: 2px solid var(--phosphor);
+  outline-offset: 2px;
+}
+
+/* ---------- the null line -------------------------------------------------
+   The signature element. A real horizontal rule standing for the 12.5% chance
+   rate, with every figure drawn as displacement from it.
+   -------------------------------------------------------------------------- */
+
+.nullline {
+  position: relative;
+  height: 3.25rem;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  background: var(--panel);
+}
+
+.nullline__axis {
+  position: absolute;
+  inset-inline: 0;
+  top: 50%;
+  height: 1px;
+  background: var(--rule-hi);
+}
+
+.nullline__label {
+  position: absolute;
+  left: var(--s4);
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--bone-faint);
+  background: var(--panel);
+  padding-right: var(--s3);
+}
+
+.nullline__marker {
+  position: absolute;
+  top: 50%;
+  width: 2px;
+  height: 1.25rem;
+  background: var(--phosphor);
+  transform: translate(-50%, -50%);
+}
+
+.nullline__marker--you {
+  background: var(--amber);
+  height: 1.75rem;
+}
+
+.nullline__reading {
+  position: absolute;
+  right: var(--s4);
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--bone-dim);
+  background: var(--panel);
+  padding-left: var(--s3);
+}
+
+/* ---------- motion -------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
