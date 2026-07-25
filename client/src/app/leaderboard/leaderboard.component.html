@@ -10,85 +10,119 @@
     aus der sie kommt.
   </p>
 
-  @if (!ranksActive) {
+  @if (failed()) {
     <div class="gate panel">
-      <span class="gate__n measured">{{ eligible }}</span>
       <span class="gate__txt">
-        von {{ required }} ranglistenfähigen Spielern. Ränge werden erst danach vergeben — bei
-        kleiner Besetzung wäre ein Spitzenplatz keine Aussage.
+        Die Rangliste ist gerade nicht abrufbar.
+        <button class="btn btn--quiet" type="button" (click)="load(offset())">
+          Erneut versuchen
+        </button>
       </span>
     </div>
+  } @else if (loading() && board() === null) {
+    <div class="gate panel">
+      <span class="gate__txt">Wird geladen …</span>
+    </div>
+  } @else {
+    <!-- FR-042: the eligible count is reported whether or not any band exists, precisely so the
+         board can say how far off the next one is. A band appears once `share × eligible >= 1`,
+         with no rounding, so on a young site this line is the ladder's only visible progress. -->
+    <div class="gate panel">
+      <span class="gate__n measured">{{ eligible() }}</span>
+      <span class="gate__txt">
+        @if (nextBand(); as next) {
+          ranglistenfähige Spieler. <strong>{{ next.rank.title }}</strong> gibt es ab
+          {{ next.unlocksAt }} — bei kleiner Besetzung wäre ein Spitzenplatz keine Aussage,
+          sondern der beste Wurf einer kleinen Runde.
+        } @else {
+          ranglistenfähige Spieler. Alle Bänder sind besetzt.
+        }
+      </span>
+    </div>
+
+    @if (entries().length === 0) {
+      <div class="tblwrap panel">
+        <p class="board__empty">
+          Noch niemand auf der Liste. Ranglistenfähig ab {{ eligibilityTrials() }} Sitzungen an
+          mindestens {{ eligibilityDays() }} verschiedenen Tagen — und keine Zeile hier ist
+          erfunden, also bleibt sie leer, bis jemand das erreicht.
+        </p>
+      </div>
+    } @else {
+      <div class="tblwrap panel" [class.is-stale]="loading()">
+        <table class="tbl">
+          <thead>
+            <tr>
+              <th class="tbl__rk">#</th>
+              <th>Rang</th>
+              <th>Name</th>
+              <th class="tbl__num">Mindestquote</th>
+              <th class="tbl__num">Sitzungen</th>
+              <th class="tbl__num">Quote</th>
+              <th class="tbl__num">Abw.</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (r of entries(); track r.public_id) {
+              <tr>
+                <td class="tbl__rk">{{ r.place }}</td>
+                <td>
+                  <span class="badge" [title]="rank(r).title">
+                    <img class="badge__pic" [src]="icon(r)" [attr.alt]="rank(r).title" />
+                  </span>
+                </td>
+                <td class="tbl__name">
+                  @if (masked(r)) {
+                    <span
+                      class="tbl__masked"
+                      title="Name noch nicht freigegeben — die Kennung daneben bleibt nachprüfbar"
+                      >{{ r.name }}</span
+                    >
+                  } @else {
+                    {{ r.name }}
+                  }
+                  <span class="tbl__id">{{ r.public_id }}</span>
+                </td>
+                <td class="tbl__num measured">{{ pct(r.wilson_lower) }} %</td>
+                <td class="tbl__num">{{ r.completed.toLocaleString('de-DE') }}</td>
+                <td class="tbl__num">{{ pct(r.hit_rate) }} %</td>
+                <td class="tbl__num">{{ signed(r.deviation) }} σ</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <nav class="pager" aria-label="Seiten der Bestenliste">
+        <button
+          class="pager__step"
+          type="button"
+          [disabled]="!hasPrevious() || loading()"
+          (click)="step(-1)"
+        >
+          ← Zurück
+        </button>
+
+        <button
+          class="pager__step"
+          type="button"
+          [disabled]="!hasNext() || loading()"
+          (click)="step(1)"
+        >
+          Weiter →
+        </button>
+      </nav>
+
+      <p class="pager__count">Plätze {{ firstShown() }}–{{ lastShown() }}</p>
+    }
   }
 
-  <div class="tblwrap panel">
-    <table class="tbl">
-      <thead>
-        <tr>
-          <th class="tbl__rk">#</th>
-          <th>Rang</th>
-          <th>Name</th>
-          <th class="tbl__num">Mindestquote</th>
-          <th class="tbl__num">Sitzungen</th>
-          <th class="tbl__num">Quote</th>
-          <th class="tbl__num">Abw.</th>
-        </tr>
-      </thead>
-      <tbody>
-        @for (r of pageRows(); track r.publicId) {
-          <tr>
-            <td class="tbl__rk">{{ r.rank }}</td>
-            <td>
-              <span class="badge" [title]="r.title">
-                <img class="badge__pic" [src]="icon(r)" [attr.alt]="r.title" />
-              </span>
-            </td>
-            <td class="tbl__name">{{ r.name }}<span class="tbl__id">{{ r.publicId }}</span></td>
-            <td class="tbl__num measured">{{ de(r.wilson) }} %</td>
-            <td class="tbl__num">{{ r.completed.toLocaleString('de-DE') }}</td>
-            <td class="tbl__num">{{ de(r.rate) }} %</td>
-            <td class="tbl__num">+{{ de(r.z) }} σ</td>
-          </tr>
-        }
-      </tbody>
-    </table>
-  </div>
-
-  <nav class="pager" aria-label="Seiten der Bestenliste">
-    <button class="pager__step" type="button" [disabled]="page() === 0" (click)="go(page() - 1)">
-      ← Zurück
-    </button>
-
-    <span class="pager__nums">
-      @for (p of pages(); track p) {
-        <button
-          class="pager__num"
-          type="button"
-          [class.is-current]="p === page()"
-          [attr.aria-current]="p === page() ? 'page' : null"
-          (click)="go(p)"
-        >
-          {{ p + 1 }}
-        </button>
-      }
-    </span>
-
-    <button
-      class="pager__step"
-      type="button"
-      [disabled]="page() === pageCount() - 1"
-      (click)="go(page() + 1)"
-    >
-      Weiter →
-    </button>
-  </nav>
-
-  <p class="pager__count">
-    Plätze {{ firstShown() }}–{{ lastShown() }} von {{ rows.length }}
-  </p>
-
   <p class="board__note">
-    Ranglistenfähig ab 100 Sitzungen an mindestens drei verschiedenen Tagen. Über mehrere Tage,
-    weil Parallelität keinen Kalender zusammenschiebt — und weil verteilte Sitzungen ohnehin die
-    besseren Daten sind.
+    Ranglistenfähig ab {{ eligibilityTrials() }} Sitzungen an mindestens {{ eligibilityDays() }}
+    verschiedenen Tagen. Über mehrere Tage, weil Parallelität keinen Kalender zusammenschiebt —
+    und weil verteilte Sitzungen ohnehin die besseren Daten sind.
+    @if (updatedAt(); as at) {
+      Ränge zuletzt neu berechnet am {{ when(at) }}; sie laufen etwa alle fünfzehn Minuten nach.
+    }
   </p>
 </section>

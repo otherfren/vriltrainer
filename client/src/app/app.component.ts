@@ -1,9 +1,9 @@
-import { Component, ElementRef, inject, viewChild } from '@angular/core';
+import { Component, ElementRef, computed, inject, viewChild } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { StatusPanelComponent } from './core/status-panel.component';
 import { SceneComponent } from './core/scene.component';
-import { ApiService } from './core/api.service';
 import { PlayerService } from './core/player.service';
+import { SessionService } from './core/session.service';
 
 /**
  * Everything after `#t=` becomes dots. The origin stays legible, so what you are looking at is
@@ -25,15 +25,25 @@ function maskToken(url: string): string {
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  /** Shown in the HUD, because a demo trial that looked real would be the one dishonest
-   *  thing on a site whose entire promise is that you can check it yourself. */
-  readonly demoMode = inject(ApiService).demoMode;
   readonly player = inject(PlayerService);
+  readonly session = inject(SessionService);
 
-  readonly accessKey = 'https://vriltrainer.de/#t=8f2c41a09b7e5d63a1c8ff02e94b7d15';
-  readonly maskedKey = maskToken(this.accessKey);
+  /**
+   * The link that *is* the account, as this browser actually holds it.
+   *
+   * Read from the session rather than kept here, and empty until an account exists. The fragment
+   * never reached a server on the way in, and this string leaves the page only through the
+   * clipboard (D9, FR-006).
+   */
+  readonly accessKey = computed(() => this.session.accessLink() ?? '');
+  readonly maskedKey = computed(() => maskToken(this.accessKey()));
 
-  private readonly dialog = viewChild.required<ElementRef<HTMLDialogElement>>('keyDialog');
+  /**
+   * Optional, unlike before: the dialog is inside the same `@if` as the button that opens it, so
+   * for a visitor without an account it is not in the document at all. A required query would
+   * throw on that entirely ordinary first page load.
+   */
+  private readonly dialog = viewChild<ElementRef<HTMLDialogElement>>('keyDialog');
 
   copied = false;
   revealed = false;
@@ -49,12 +59,12 @@ export class AppComponent {
   openKey(): void {
     this.copied = false;
     this.revealed = false;
-    this.dialog().nativeElement.showModal();
+    this.dialog()?.nativeElement.showModal();
   }
 
   closeKey(): void {
     this.revealed = false;
-    this.dialog().nativeElement.close();
+    this.dialog()?.nativeElement.close();
   }
 
   toggleReveal(): void {
@@ -63,12 +73,12 @@ export class AppComponent {
 
   /** A click on the backdrop lands on the dialog element itself, never on its contents. */
   onDialogClick(event: MouseEvent): void {
-    if (event.target === this.dialog().nativeElement) this.closeKey();
+    if (event.target === this.dialog()?.nativeElement) this.closeKey();
   }
 
   copyKey(): void {
     // Copying never requires revealing: the common path must not render the secret at all.
-    navigator.clipboard?.writeText(this.accessKey);
+    navigator.clipboard?.writeText(this.accessKey());
     this.copied = true;
     setTimeout(() => (this.copied = false), 2000);
   }

@@ -1,6 +1,59 @@
-import { Injectable } from '@angular/core';
-import { commitment, frame, framed, fromHex, le64, toHex, utf8 } from '../verify/framing';
-import { derive, Draw } from '../verify/derive';
+import { Injectable, inject } from '@angular/core';
+import { PoolManifest } from '../verify/manifest';
+import { SessionService } from './session.service';
+
+/**
+ * The one place this application talks to the Rust service described in `contracts/http-api.md`.
+ *
+ * Two rules hold everywhere below.
+ *
+ * **Nothing is computed here that the server is supposed to prove.** An earlier version of this
+ * file generated `s_server`, the nonce and the coordinate in the browser and ran the derivation
+ * against a pool of eight demo images. That was honest only because a badge said so; a client
+ * that can produce a trial by itself cannot be told apart from one that is checking a server, and
+ * the checking is the product. The single value this file still draws is `s_client`, which is the
+ * browser's contribution by design (D3) — and the answer echoes it back so the proof panel can
+ * verify even that.
+ *
+ * **The access token appears in exactly one header.** Never a path, never a query string, never a
+ * log line, never an error body (FR-006, D9). `SessionService` owns it; this file only attaches it.
+ */
+
+/** Bytes each side contributes to the seed. Fixed by the contract, not negotiated. */
+const SEED_BYTES = 32;
+
+/** A refusal the server spelled out, carrying the terse code its body contained. */
+export class ApiError extends Error {
+  constructor(
+    readonly status: number,
+    /** The server's machine-readable code, e.g. `hate`, `gone`, `too fast`. */
+    readonly code: string,
+  ) {
+    super(`${status} ${code}`);
+    this.name = 'ApiError';
+  }
+}
+
+/** The network did not deliver an answer. Distinct from [`ApiError`], and the distinction matters:
+ *  a request that never arrived may still have been executed. */
+export class NetworkError extends Error {
+  constructor(cause: unknown) {
+    super('the request did not reach the server');
+    this.name = 'NetworkError';
+    this.cause = cause;
+  }
+}
+
+// ---- wire shapes ------------------------------------------------------------------------------
+// Named as the JSON names them, so a reader can hold this file and the contract side by side.
+
+export interface CreatedAccount {
+  public_id: string;
+  /** Handed over once and never again (FR-002, FR-005, D9). */
+  access_token: string;
+  /** The **stored** form — trimmed and collapsed — not necessarily what was typed. */
+  name: string;
+}
 
 export interface TrialStart {
   trialId: string;
@@ -8,222 +61,317 @@ export interface TrialStart {
   commitment: string;
   poolVersion: number;
   poolManifestHash: string;
+  /** Opaque. It carries the trial's state, sealed by the server (D16). */
   token: string;
 }
 
-export interface Candidate {
-  id: string;
-  category: string;
-  src: string;
+export interface Revealed {
+  /** Exactly eight identifiers, in derived display order. */
+  images: string[];
+  /** The next token. The one that started the trial is spent. */
+  token: string;
+  /** The bytes this browser drew and sent, kept so the proof can check the echo. */
+  sentSClient: Uint8Array;
 }
 
-/** One line of the recomputation, shown in full. */
-export interface ProofPart {
-  label: string;
-  value: string;
-  note?: string;
-}
-
-export interface Proof {
-  /** The three inputs to the commitment, revealed only after the answer. */
-  inputs: ProofPart[];
-  /** The framed preimage, segment by segment, then whole. */
-  commitmentParts: ProofPart[];
-  commitmentPreimage: string;
-  commitmentDigest: string;
-  published: string;
-  matches: boolean;
-
-  /** The draw: seed, then the four steps of D22. */
-  seedParts: ProofPart[];
-  seedPreimage: string;
-  seed: string;
-  steps: ProofPart[];
-}
-
-export interface Resolution {
-  /** The eight candidates in display order. */
-  candidates: Candidate[];
-  /** Which display position holds the target. */
-  targetSlot: number;
-  proof: Proof;
-}
-
-/**
- * The demo pool: eight categories with one image each.
- *
- * A real pool is 500+ curated photographs across many categories, and step 2 of the derivation
- * picks one image from each chosen category. Here that step has nothing to choose, and the page
- * says so — a demo that quietly looked like the real thing would be the one dishonest surface on
- * a site whose entire promise is that you can check it.
- */
-const DEMO_POOL: Candidate[] = [
-  { id: 'demo-01', category: 'Landschaft', src: 'demo/target-1.svg' },
-  { id: 'demo-02', category: 'Bauwerk', src: 'demo/target-2.svg' },
-  { id: 'demo-03', category: 'Tier', src: 'demo/target-3.svg' },
-  { id: 'demo-04', category: 'Objekt', src: 'demo/target-4.svg' },
-  { id: 'demo-05', category: 'Fahrzeug', src: 'demo/target-5.svg' },
-  { id: 'demo-06', category: 'Pflanze', src: 'demo/target-6.svg' },
-  { id: 'demo-07', category: 'Werkzeug', src: 'demo/target-7.svg' },
-  { id: 'demo-08', category: 'Himmelskörper', src: 'demo/target-8.svg' },
-];
-
-/** Secrets the server would hold until the answer is in. */
-interface Sealed {
+export interface Answered {
+  hit: boolean;
+  target: string;
   sServer: Uint8Array;
+  sClient: Uint8Array;
   nonce: Uint8Array;
-  coordinate: string;
-  commitment: string;
+  /** Where this trial's `RESOLVE` entry sits in the public record. */
+  seq: number;
+}
+
+/** The band edges in force, reported by the server rather than compiled in (D26, FR-050). */
+export interface RankBand {
+  high: string;
+  low: string;
+  share: number;
+}
+
+export interface Thresholds {
+  stats_unlock_at: number;
+  eligibility_trials: number;
+  eligibility_days: number;
+  bands: RankBand[];
+  block_size: number;
 }
 
 /**
- * Talks to the Rust service described in `contracts/http-api.md`.
- *
- * The demo path runs the real derivation in the browser so the interface can be exercised before
- * the server is wired up: the commitment is genuinely `framed(s_server, nonce, coordinate)`, the
- * eight candidates and the target genuinely come from `derive()`, and the proof panel genuinely
- * recomputes both. It is deliberately obvious which mode is active.
+ * `GET /api/stats/me`. Two shapes in one interface: everything past `abandoned` is absent until
+ * the account has completed `unlocks_at` trials (D8).
  */
+export interface MyStats {
+  completed: number;
+  abandoned: number;
+  unlocks_at: number;
+  thresholds: Thresholds;
+
+  hits?: number;
+  hit_rate?: number;
+  /** The `n` the three inferential figures stand over, and the hits inside it (FR-019). */
+  reported_trials?: number;
+  reported_hits?: number;
+  deviation?: number;
+  by_chance_per_10k?: number;
+  wilson_lower?: number;
+  distinct_days?: number;
+  eligible?: boolean;
+  /** A band slug. Absent for the middle 60 % and for a band the population cannot fill yet. */
+  rank?: string;
+}
+
+export interface AggregateStats {
+  trials: number;
+  hits: number;
+  hit_rate: number;
+  expected_rate: number;
+  deviation: number;
+  accounts: number;
+  abandoned: number;
+  tail_high: number;
+  tail_low: number;
+  /** What "markedly" means, in standard deviations, and over what minimum record. */
+  tail_sigma: number;
+  tail_min_trials: number;
+  thresholds: Thresholds;
+}
+
+export interface BoardEntry {
+  place: number;
+  band?: string;
+  /** The most recently approved name, or a fixed-length mask (FR-047, D25). */
+  name: string;
+  public_id: string;
+  wilson_lower: number;
+  completed: number;
+  hit_rate: number;
+  deviation: number;
+}
+
+export interface Board {
+  eligible_accounts: number;
+  bands_active: string[];
+  ranks_updated_at: string;
+  offset: number;
+  limit: number;
+  entries: BoardEntry[];
+  thresholds: Thresholds;
+}
+
 @Injectable({ providedIn: 'root' })
 export class ApiService {
-  readonly demoMode = true;
-  readonly poolNote = 'Demo-Pool: acht Kategorien mit je einem Bild.';
+  private readonly session = inject(SessionService);
 
-  private sealed = new Map<string, Sealed>();
+  /**
+   * Manifests already fetched, by version.
+   *
+   * A manifest is immutable once published — a change cuts a new version (FR-012) — so this can
+   * be held for the life of the page without ever going stale. It is also several hundred
+   * entries, and re-fetching it per trial would put the pool on the wire more often than the
+   * trials themselves.
+   */
+  private readonly manifests = new Map<number, Promise<PoolManifest>>();
 
-  private randomBytes(n: number): Uint8Array {
-    const b = new Uint8Array(n);
-    crypto.getRandomValues(b);
-    return b;
+  // ---- account ------------------------------------------------------------------------------
+
+  /**
+   * Creates the account and, with it, the only credential that will ever exist for it.
+   *
+   * The token is handed to [`SessionService`] immediately rather than returned, so there is no
+   * path by which a caller holds it and forgets to store it — that would be an account lost
+   * between two lines of code, with no recovery (FR-005).
+   */
+  async createAccount(name: string): Promise<CreatedAccount> {
+    const created = await this.request<CreatedAccount>('POST', '/api/account', { name }, false);
+    this.session.establish(created.access_token, {
+      publicId: created.public_id,
+      name: created.name,
+    });
+    return created;
   }
 
-  /** A coordinate is an arbitrary label. It encodes nothing (research.md R6). */
-  private coordinate(): string {
-    const d = () =>
-      Math.floor(Math.random() * 10000)
-        .toString()
-        .padStart(4, '0');
-    return `${d()}-${d()}`;
-  }
+  // ---- the trial loop -----------------------------------------------------------------------
 
-  async newTrial(): Promise<TrialStart> {
-    const sServer = this.randomBytes(32);
-    const nonce = this.randomBytes(32);
-    const coordinate = this.coordinate();
-    const trialId = toHex(this.randomBytes(8));
-
-    // The real thing, not a random-looking string: this is what the reveal has to reproduce.
-    const c = await commitment(sServer, nonce, coordinate);
-    this.sealed.set(trialId, { sServer, nonce, coordinate, commitment: c });
+  /** Starts a trial. The server writes the `COMMIT` entry before it answers (FR-007, D3). */
+  async startTrial(): Promise<TrialStart> {
+    const body = await this.request<{
+      trial_id: string;
+      coordinate: string;
+      commitment: string;
+      pool_version: number;
+      pool_manifest_hash: string;
+      token: string;
+    }>('POST', '/api/trial', {});
 
     return {
-      trialId,
-      coordinate,
-      commitment: c,
-      poolVersion: 1,
-      poolManifestHash: 'sha256:' + toHex(await framed([utf8('demo-pool-v1')])),
-      token: toHex(this.randomBytes(24)),
+      trialId: body.trial_id,
+      coordinate: body.coordinate,
+      commitment: body.commitment,
+      poolVersion: body.pool_version,
+      poolManifestHash: body.pool_manifest_hash,
+      token: body.token,
     };
   }
 
   /**
-   * The reveal. The client contributes `s_client` here, which is what stops the server from
-   * choosing the target on its own — the seed is `framed(s_server, s_client)` and neither side
-   * knows the other's half in time to steer it.
+   * Contributes this browser's half of the seed and receives the eight candidates.
+   *
+   * The randomness is drawn here, at the moment it is sent, and nowhere else. Drawing it when the
+   * trial starts would leave it sitting in memory across the whole sealed phase for no benefit;
+   * reusing one value across trials would make every trial's draw a function of the first.
    */
-  async reveal(trialId: string): Promise<Resolution> {
-    const s = this.sealed.get(trialId);
-    if (!s) throw new Error(`no sealed trial ${trialId}`);
+  async reveal(token: string): Promise<Revealed> {
+    const sentSClient = randomBytes(SEED_BYTES);
+    const body = await this.request<{ images: string[]; token: string }>(
+      'POST',
+      '/api/trial/reveal',
+      { token, s_client: toBase64(sentSClient) },
+    );
+    return { images: body.images, token: body.token, sentSClient };
+  }
 
-    const sClient = this.randomBytes(32);
-    const members = DEMO_POOL.map((_, i) => [i]);
-    const draw = await derive(s.sServer, sClient, members);
-
-    const candidates = draw.displayOrder.map((sel) => DEMO_POOL[draw.selectedImages[sel]]);
-    const targetSlot = draw.displayOrder.indexOf(draw.targetSlot);
+  /** Submits the choice and receives the verdict together with the three secrets (FR-010). */
+  async answer(token: string, chosen: string): Promise<Answered> {
+    const body = await this.request<{
+      hit: boolean;
+      target: string;
+      s_server: string;
+      s_client: string;
+      nonce: string;
+      seq: number;
+    }>('POST', '/api/trial/answer', { token, chosen });
 
     return {
-      candidates,
-      targetSlot,
-      proof: await this.proof(s, sClient, draw),
+      hit: body.hit,
+      target: body.target,
+      sServer: fromBase64(body.s_server),
+      sClient: fromBase64(body.s_client),
+      nonce: fromBase64(body.nonce),
+      seq: body.seq,
     };
   }
 
-  private async proof(s: Sealed, sClient: Uint8Array, draw: Draw): Promise<Proof> {
-    const coordBytes = utf8(s.coordinate);
-    const preimage = frame([s.sServer, s.nonce, coordBytes]);
-    const digest = 'sha256:' + toHex(await framed([s.sServer, s.nonce, coordBytes]));
+  /** The published image list for a pool version. Required by anyone recomputing a trial (D5). */
+  manifest(version: number): Promise<PoolManifest> {
+    const held = this.manifests.get(version);
+    if (held !== undefined) return held;
 
-    const seedPreimage = frame([s.sServer, sClient]);
-    const seedDigest = toHex(await framed([s.sServer, sClient]));
-
-    const cat = (i: number) => DEMO_POOL[i].category;
-
-    return {
-      inputs: [
-        { label: 's_server', value: toHex(s.sServer), note: '32 Bytes, vom Server' },
-        { label: 'nonce', value: toHex(s.nonce), note: '32 Bytes, vom Server' },
-        { label: 's_client', value: toHex(sClient), note: '32 Bytes, aus deinem Browser' },
-        {
-          label: 'Koordinate',
-          value: s.coordinate,
-          note: `${coordBytes.length} Bytes UTF-8 · ${toHex(coordBytes)}`,
-        },
-      ],
-
-      commitmentParts: [
-        { label: 'LE64(32)', value: toHex(le64(32n)), note: 'Länge von s_server' },
-        { label: 's_server', value: toHex(s.sServer) },
-        { label: 'LE64(32)', value: toHex(le64(32n)), note: 'Länge des nonce' },
-        { label: 'nonce', value: toHex(s.nonce) },
-        {
-          label: `LE64(${coordBytes.length})`,
-          value: toHex(le64(BigInt(coordBytes.length))),
-          note: 'Länge der Koordinate',
-        },
-        { label: 'Koordinate', value: toHex(coordBytes), note: `"${s.coordinate}" als UTF-8` },
-      ],
-      commitmentPreimage: toHex(preimage),
-      commitmentDigest: digest,
-      published: s.commitment,
-      matches: digest === s.commitment,
-
-      seedParts: [
-        { label: 'LE64(32)', value: toHex(le64(32n)) },
-        { label: 's_server', value: toHex(s.sServer) },
-        { label: 'LE64(32)', value: toHex(le64(32n)) },
-        { label: 's_client', value: toHex(sClient) },
-      ],
-      seedPreimage: toHex(seedPreimage),
-      seed: seedDigest,
-
-      steps: [
-        {
-          label: '1 · Acht Kategorien',
-          value: draw.chosenCategories.map(cat).join(', '),
-          note: `Indizes ${draw.chosenCategories.join(', ')} in Auswahlreihenfolge, partielles Fisher-Yates`,
-        },
-        {
-          label: '2 · Ein Bild je Kategorie',
-          value: draw.selectedImages.map((i) => DEMO_POOL[i].id).join(', '),
-          note: 'Im Demo-Pool hat jede Kategorie genau ein Bild — dieser Schritt hat hier nichts zu wählen',
-        },
-        {
-          label: '3 · Zielplatz',
-          value: `${draw.targetSlot}`,
-          note: 'Gleichverteilt über die acht, unabhängig von der Kategoriegröße',
-        },
-        {
-          label: '4 · Anzeigereihenfolge',
-          value: draw.displayOrder.join(', '),
-          note: 'Absteigendes Fisher-Yates; Position ' + draw.displayOrder.indexOf(draw.targetSlot) + ' zeigt das Ziel',
-        },
-      ],
-    };
+    // The promise is cached, not the value, so eight components asking at once make one request.
+    // A failed fetch is evicted: a manifest that could not be loaded once must be retryable, or
+    // one dropped connection costs the proof panel for the rest of the session.
+    const pending = this.request<PoolManifest>(
+      'GET',
+      `/api/pool/${version}/manifest`,
+      undefined,
+      false,
+    ).catch((e: unknown) => {
+      this.manifests.delete(version);
+      throw e;
+    });
+    this.manifests.set(version, pending);
+    return pending;
   }
 
-  /** Kept for the conformance harness and anything that needs the raw seed digest. */
-  async seedHex(sServer: string, sClient: string): Promise<string> {
-    return toHex(await framed([fromHex(sServer), fromHex(sClient)]));
+  // ---- figures ------------------------------------------------------------------------------
+
+  myStats(): Promise<MyStats> {
+    return this.request<MyStats>('GET', '/api/stats/me');
   }
+
+  aggregate(): Promise<AggregateStats> {
+    return this.request<AggregateStats>('GET', '/api/stats/aggregate', undefined, false);
+  }
+
+  leaderboard(offset: number, limit: number): Promise<Board> {
+    return this.request<Board>(
+      'GET',
+      `/api/leaderboard?offset=${offset}&limit=${limit}`,
+      undefined,
+      false,
+    );
+  }
+
+  // ---- the transport ------------------------------------------------------------------------
+
+  /**
+   * One request, one place where the token is attached and where a failure is classified.
+   *
+   * `authenticated` is explicit rather than inferred from whether a token happens to exist. The
+   * public endpoints must stay readable by a browser that has no account, and an `Authorization`
+   * header sent to them would make the leaderboard's cacheability depend on who is looking.
+   */
+  private async request<T>(
+    method: string,
+    path: string,
+    body?: unknown,
+    authenticated = true,
+  ): Promise<T> {
+    const headers: Record<string, string> = { Accept: 'application/json' };
+    if (body !== undefined) headers['Content-Type'] = 'application/json';
+    if (authenticated) {
+      const token = this.session.token();
+      if (token === null) throw new ApiError(401, 'unauthorized');
+      headers['Authorization'] = `Bearer ${token}`;
+    }
+
+    let response: Response;
+    try {
+      response = await fetch(path, {
+        method,
+        headers,
+        body: body === undefined ? undefined : JSON.stringify(body),
+        // The token is a header, not a cookie. Sending credentials would attach nothing and
+        // widen what a cross-origin response is allowed to do.
+        credentials: 'omit',
+        redirect: 'error',
+      });
+    } catch (e) {
+      // A network failure is not a refusal. A `POST /api/trial/answer` that dies here may well
+      // have been executed, and the caller has to say so rather than score a miss.
+      throw new NetworkError(e);
+    }
+
+    if (!response.ok) {
+      throw new ApiError(response.status, await errorCode(response));
+    }
+    if (response.status === 204) return undefined as T;
+    return (await response.json()) as T;
+  }
+}
+
+/** Every error body in this API is `{ "error": "<terse code>" }`. Anything else is the status. */
+async function errorCode(response: Response): Promise<string> {
+  try {
+    const body: unknown = await response.json();
+    if (typeof body === 'object' && body !== null) {
+      const { error } = body as { error?: unknown };
+      if (typeof error === 'string') return error;
+    }
+  } catch {
+    // A proxy's HTML error page, or an empty body. The status carries the meaning either way.
+  }
+  return `http ${response.status}`;
+}
+
+function randomBytes(n: number): Uint8Array {
+  const b = new Uint8Array(n);
+  crypto.getRandomValues(b);
+  return b;
+}
+
+/** Standard base64 with padding, which is what the server's `STANDARD` engine reads and writes. */
+function toBase64(b: Uint8Array): string {
+  let s = '';
+  for (const byte of b) s += String.fromCharCode(byte);
+  return btoa(s);
+}
+
+function fromBase64(s: string): Uint8Array {
+  const raw = atob(s);
+  const out = new Uint8Array(raw.length);
+  for (let i = 0; i < raw.length; i++) out[i] = raw.charCodeAt(i);
+  return out;
 }

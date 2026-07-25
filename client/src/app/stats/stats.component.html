@@ -1,99 +1,191 @@
 <section class="shell stats">
   <p class="eyebrow">Alle Spieler · alle Sitzungen</p>
 
-  <h1 class="headline">
-    <span class="headline__rate">{{ rateLabel }} %</span>
-    <span class="headline__vs">erwartet waren {{ expectedLabel }} %</span>
-  </h1>
+  <!-- The figures first, so `as a` sits on the primary branch; the two states in which there are
+       none follow it. -->
+  @if (aggregate(); as a) {
+    @if (empty()) {
+      <!-- T105: an empty grey chart and one honest line. A zero presented as a finding, or a
+           spinner that never resolves, would both be worse than saying there is nothing yet. -->
+      <h1 class="headline">
+        <span class="headline__rate">—</span>
+        <span class="headline__vs">erwartet sind {{ pct(a.expected_rate, 1) }} %</span>
+      </h1>
 
-  <p class="lede">
-    {{ trialsLabel }} Sitzungen · Abweichung {{ aggregateZLabel }} σ ·
-    <strong>bisher nichts.</strong>
-  </p>
+      <p class="lede">
+        Noch keine abgeschlossene Sitzung. Bis eine da ist, steht hier keine Quote —
+        <strong>eine erfundene wäre der einzige unehrliche Wert auf dieser Seite.</strong>
+      </p>
 
-  <div class="tails panel">
-    <p class="eyebrow">Verteilung der Spieler · n = {{ playersLabel }}</p>
-
-    <div class="hist" role="img" aria-label="Verteilung der Spieler über die elf Rang-Bänder">
-      @for (b of bins; track b.rank.title) {
-        <div class="hist__col" [attr.title]="b.rank.title + ' — ' + b.rank.span">
-          <span class="hist__count">{{ b.count }}</span>
-          <span
-            class="hist__bar"
-            [class.hist__bar--tail]="b.rank.z <= -2 || b.rank.z >= 2"
-            [class.hist__bar--mid]="b.rank.z === 0"
-            [style.height.%]="height(b.count)"
-          ></span>
-          <img class="hist__pic" [src]="icon(b.rank.icon)" [attr.alt]="b.rank.title" />
+      <div class="tails panel">
+        <p class="eyebrow">Die zwei Enden</p>
+        <div class="hist hist--empty" role="img" aria-label="Noch keine Daten">
+          <div class="hist__col">
+            <span class="hist__count">—</span>
+            <span class="hist__bar hist__bar--empty" style="height: 100%"></span>
+          </div>
+          <div class="hist__col">
+            <span class="hist__count">—</span>
+            <span class="hist__bar hist__bar--empty" style="height: 100%"></span>
+          </div>
         </div>
-      }
-    </div>
+        <p class="tails__note">
+          Hier stehen später die Spieler, die mehr als {{ tailSigma() }} σ über bzw. unter dem
+          Zufall liegen. Unter reinem Zufall sind das ungefähr gleich viele an beiden Enden — genau
+          das ist der Test, und er braucht keine Statistikkenntnisse, nur einen Blick.
+        </p>
+      </div>
+    } @else {
+      <h1 class="headline">
+        <span class="headline__rate">{{ pct(a.hit_rate) }} %</span>
+        <span class="headline__vs">erwartet waren {{ pct(a.expected_rate, 1) }} %</span>
+      </h1>
 
-    <div class="tails__read">
-      <div class="tails__end">
-        <span class="tails__n measured">{{ tailHigh }}</span>
-        über +2σ
-      </div>
-      <div class="tails__end">
-        <span class="tails__n measured">{{ tailLow }}</span>
-        unter −2σ
-      </div>
-      <div class="tails__end tails__end--exp">
-        <span class="tails__n">{{ expectedTail }}</span>
-        je Ende durch reinen Zufall erwartet
-      </div>
-    </div>
-  </div>
+      <p class="lede">
+        {{ count(a.trials) }} Sitzungen · {{ count(a.accounts) }}
+        {{ a.accounts === 1 ? 'Konto' : 'Konten' }} · Abweichung {{ signed(a.deviation) }} σ ·
+        {{ count(a.abandoned) }} abgebrochen ·
+        @if (a.deviation > -2 && a.deviation < 2) {
+          <strong>bisher nichts.</strong>
+        } @else {
+          <strong>das ist auffällig — und noch keine Erklärung.</strong>
+        }
+      </p>
 
-  <div class="ladder">
-    <p class="eyebrow">Die Leiter</p>
-    <ul class="ladder__list">
-      @for (l of ranks; track l.title) {
-        <li [class.is-mid]="l.z === 0">
-          <img class="ladder__pic" [src]="icon(l.icon)" alt="" />
-          <span class="ladder__title">{{ l.title }}</span>
-          <span class="ladder__span">{{ l.span }}</span>
-        </li>
-      }
-    </ul>
-  </div>
+      <div class="tails panel">
+        <p class="eyebrow">
+          Die zwei Enden · Konten ab {{ tailMinTrials() }} Sitzungen, {{ tailSigma() }} σ
+        </p>
+
+        <div
+          class="hist hist--tails"
+          role="img"
+          [attr.aria-label]="
+            tailHigh() + ' Konten über +' + tailSigma() + 'σ, ' + tailLow() + ' darunter'
+          "
+        >
+          <div class="hist__col">
+            <span class="hist__count">{{ count(tailHigh()) }}</span>
+            <span class="hist__bar hist__bar--tail" [style.height.%]="height(tailHigh())"></span>
+            <span class="hist__z">über +{{ tailSigma() }} σ</span>
+          </div>
+          <div class="hist__col">
+            <span class="hist__count">{{ count(tailLow()) }}</span>
+            <span class="hist__bar hist__bar--tail" [style.height.%]="height(tailLow())"></span>
+            <span class="hist__z">unter −{{ tailSigma() }} σ</span>
+          </div>
+        </div>
+
+        <p class="tails__note">
+          Unter reinem Zufall sind beide Enden ungefähr gleich schwer. Eine echte Fähigkeit könnte
+          nur das obere schwerer machen — solange die zwei Zahlen sich ähneln, ist zu sehen, was zu
+          erwarten war.
+        </p>
+      </div>
+    }
+
+    <div class="ladder">
+      <p class="eyebrow">Die Leiter</p>
+      <ul class="ladder__list">
+        @for (l of rungs(); track l.rank.slug) {
+          <li [class.is-mid]="l.middle">
+            <img class="ladder__pic" [src]="icon(l.rank.slug)" alt="" />
+            <span class="ladder__title">{{ l.rank.title }}</span>
+            <span class="ladder__span">
+              @if (l.middle) {
+                die mittleren {{ share(l.share) }} %
+              } @else {
+                {{ share(l.share) }} % · ab {{ l.unlocksAt }} Ranglistenfähigen
+              }
+            </span>
+          </li>
+        }
+      </ul>
+    </div>
+  } @else if (failed()) {
+    <h1 class="headline"><span class="headline__vs">Zahlen nicht abrufbar</span></h1>
+    <p class="lede">
+      Die Gesamtwerte kommen vom Server und werden nicht hier ausgedacht — also steht hier nichts,
+      solange er nicht antwortet.
+      <button class="btn btn--quiet" type="button" (click)="load()">Erneut versuchen</button>
+    </p>
+  } @else {
+    <h1 class="headline"><span class="headline__vs">Wird geladen …</span></h1>
+  }
 
   <div class="mine">
     <p class="eyebrow">Deine Werte</p>
 
-    @if (!player.unlocked()) {
+    @if (!session.signedIn()) {
       <p class="mine__locked panel">
-        Freigeschaltet nach {{ unlockAt }} Sitzungen — noch
-        <strong>{{ player.remaining() }}</strong>. Eine Trefferquote aus
-        {{ player.completed() }} Versuchen wäre keine Aussage, sondern eine Anekdote.
+        Noch kein Konto. Eine Sitzung anfangen legt eines an — danach steht hier dein eigener
+        Stand neben dem aller anderen.
+      </p>
+    } @else if (!player.loaded()) {
+      <p class="mine__locked panel">
+        @if (player.failed()) {
+          Deine Zahlen sind gerade nicht abrufbar.
+          <button class="btn btn--quiet" type="button" (click)="player.refresh()">
+            Erneut laden
+          </button>
+        } @else {
+          Wird geladen …
+        }
+      </p>
+    } @else if (!player.unlocked()) {
+      <p class="mine__locked panel">
+        Freigeschaltet nach {{ player.unlocksAt() }} Sitzungen — noch
+        <strong>{{ player.remaining() }}</strong
+        >. Eine Trefferquote aus {{ player.completed() }} Versuchen wäre keine Aussage, sondern
+        eine Anekdote.
+        @if (player.abandoned() > 0) {
+          Abgebrochen: <strong>{{ player.abandoned() }}</strong> — steht von Anfang an mit da.
+        }
       </p>
     } @else {
-    <div class="mine__grid">
-      <div class="mine__cell">
-        <span class="mine__label">Sitzungen</span>
-        <span class="mine__val measured">{{ player.completed() }}</span>
+      <div class="mine__grid">
+        <div class="mine__cell">
+          <span class="mine__label">Sitzungen</span>
+          <span class="mine__val measured">{{ player.completed() }}</span>
+        </div>
+        <div class="mine__cell">
+          <span class="mine__label">Treffer</span>
+          <span class="mine__val measured">{{ player.hits() }}</span>
+        </div>
+        <div class="mine__cell">
+          <span class="mine__label">Trefferquote</span>
+          <span class="mine__val measured">{{ minePct() }} %</span>
+        </div>
+        <div class="mine__cell">
+          <span class="mine__label">Abweichung</span>
+          <span class="mine__val measured">{{ mineZ() }} σ</span>
+        </div>
+        <div class="mine__cell">
+          <span class="mine__label">Abgebrochen</span>
+          <span class="mine__val measured">{{ player.abandoned() }}</span>
+        </div>
+        <div class="mine__cell">
+          <span class="mine__label">Tage</span>
+          <span class="mine__val measured">{{ player.distinctDays() }}</span>
+        </div>
       </div>
-      <div class="mine__cell">
-        <span class="mine__label">Treffer</span>
-        <span class="mine__val measured">{{ player.hits() }}</span>
-      </div>
-      <div class="mine__cell">
-        <span class="mine__label">Trefferquote</span>
-        <span class="mine__val measured">{{ mineRateLabel() }} %</span>
-      </div>
-      <div class="mine__cell">
-        <span class="mine__label">Abweichung</span>
-        <span class="mine__val measured">{{ mineZLabel() }} σ</span>
-      </div>
-    </div>
 
-    <app-vril-meter
-      [deviation]="player.z()"
-      [mine]="true"
-      label="Du"
-      needleLabel="du"
-      [reading]="mineZLabel() + ' σ · gesicherte Mindestquote ' + mineWilsonLabel() + ' %'"
-    />
+      <app-vril-meter
+        [deviation]="player.deviation()"
+        [mine]="true"
+        label="Du"
+        needleLabel="du"
+        [reading]="mineZ() + ' σ · gesicherte Mindestquote ' + mineWilson() + ' %'"
+      />
+
+      <!-- FR-019: the inferential figures advance per block, so the n they stand over is printed
+           beside them. Without it a reader divides one by the other and gets a wrong answer. -->
+      <p class="mine__basis">
+        Abweichung und Mindestquote stehen über {{ player.reportedTrials() }} gewerteten Sitzungen
+        mit {{ player.reportedHits() }} Treffern. Sitzungen und Quote darüber sind der laufende
+        Stand — die zwei Zahlen dürfen sich also über das <em>n</em> uneinig sein, und beide haben
+        recht.
+      </p>
     }
   </div>
 
@@ -114,13 +206,9 @@
       <div>
         <dt>Falsch-positive sind hier die Regel, nicht die Ausnahme</dt>
         <dd>
-          Bei {{ playersLabel }} Spielern landen allein durch Glück rund
-          <span class="measured">{{ expectedTail }}</span> an jedem Ende jenseits von 2σ.
-          Tatsächlich sind es <span class="measured">{{ tailHigh }}</span> oben und
-          <span class="measured">{{ tailLow }}</span> unten. Die Spitze der Bestenliste ist also
-          genau so besetzt, wie sie ohne jeden Effekt besetzt wäre. Wer genug Leute würfeln lässt,
-          bekommt immer jemanden mit einer erstaunlichen Serie — das ist eine Aussage über die
-          Anzahl der Leute, nicht über die Person.
+          Wer genug Leute würfeln lässt, bekommt immer jemanden mit einer erstaunlichen Serie —
+          das ist eine Aussage über die Anzahl der Leute, nicht über die Person. Deshalb stehen
+          oben beide Enden nebeneinander und nicht nur das obere.
         </dd>
       </div>
 
@@ -138,10 +226,19 @@
         <dd>
           Annunaki sind die besten 0,1 %, Loosh-Farmer die besten 0,5 %, und so weiter — nach
           unten spiegelbildlich. Ein Anteil bedeutet dasselbe, egal ob neun Leute spielen oder
-          neunhunderttausend; ein dritter Platz bedeutet das nicht. Die Grenzen liegen dort, wo
-          eine faire Münze sie hinlegt — deshalb ist die Grafik oben eine Aussage und keine
-          Definition: gäbe es einen Effekt, wären die rechten Balken überbesetzt.
-          Ranglistenfähig ab 100 Sitzungen an mindestens drei verschiedenen Tagen.
+          neunhunderttausend; ein dritter Platz bedeutet das nicht. Ein Band wird erst vergeben,
+          wenn der Anteil rechnerisch mindestens eine Person trifft — deshalb steht neben jedem
+          Rang, ab welcher Besetzung es ihn gibt.
+        </dd>
+      </div>
+
+      <div>
+        <dt>Mehrere Konten sind eingepreist, nicht bekämpft</dt>
+        <dd>
+          Wer zwanzig Konten anlegt und das beste vorzeigt, macht genau das, was die Zahlen oben
+          ohnehin schon messen: viele Versuche, von denen einer gut aussieht. Keine Scoring-Regel
+          repariert das, also wird es nicht behauptet — die Gesamtquote und die zwei Enden bleiben
+          die Aussage, nicht der oberste Eintrag.
         </dd>
       </div>
 
@@ -155,14 +252,14 @@
       </div>
 
       @if (player.unlocked()) {
-      <div>
-        <dt>Deine {{ mineRateLabel() }} % im Kontext</dt>
-        <dd>
-          Von 10 000 Leuten ohne jede Fähigkeit erreichen
-          <span class="measured">{{ perTenKLabel() }}</span> diesen Wert allein durch Glück. Ohne
-          diese Zeile ist die Zahl nicht interpretierbar.
-        </dd>
-      </div>
+        <div>
+          <dt>Deine {{ minePct() }} % im Kontext</dt>
+          <dd>
+            Von 10 000 Leuten ohne jede Fähigkeit erreichen
+            <span class="measured">{{ perTenK() }}</span> diesen Wert allein durch Glück. Ohne
+            diese Zeile ist die Zahl nicht interpretierbar.
+          </dd>
+        </div>
       }
     </dl>
   </div>

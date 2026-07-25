@@ -97,21 +97,6 @@ main {
   min-width: 0;
 }
 
-/* Says out loud that no server is answering yet, because a demo trial that
-   looked like a real one would be the one dishonest thing on the site. */
-.demo {
-  font-family: var(--label);
-  font-weight: 800;
-  font-size: 0.6875rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--ink);
-  background: var(--mint);
-  border: 3px solid var(--ink);
-  padding: var(--s1) var(--s2);
-  cursor: help;
-}
-
 /* ---- the login ---- */
 /* The panel is the button. It had two of its own before, which meant three hit targets in a
    15rem slot and no room to say what any of them did. */
@@ -262,6 +247,14 @@ main {
   gap: var(--s3);
 }
 
+/* Why the board may not be showing your name yet (D25). It belongs next to the login rather than
+   on the board, because the board is where somebody else's masked row is none of your business. */
+.keydlg__note {
+  margin: var(--s6) 0 0;
+  font-size: 0.875rem;
+  opacity: 0.85;
+}
+
 /* ---- footer ---- */
 
 /* No fill and no rule: the horizon is the divider now, and a keyline drawn across it
@@ -291,12 +284,6 @@ main {
   flex-wrap: wrap;
   gap: var(--s4);
   font-size: 0.875rem;
-}
-
-/* Named but not linked, because it does not exist yet and a dead link would be the one
-   thing this page cannot afford to be. */
-.foot__soon {
-  opacity: 0.6;
 }
 
 .foot__legal {

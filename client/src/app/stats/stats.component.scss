@@ -94,27 +94,29 @@
   color: var(--pop-ink);
 }
 
-.tails__read {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--s8);
+.tails__note {
   border-top: 3px solid var(--ink);
   padding-top: var(--s4);
+  margin: 0;
+  max-width: 70ch;
 }
 
-.tails__end {
-  display: flex;
-  align-items: baseline;
-  gap: var(--s2);
-  font-weight: 700;
+/* Two bars, so they get room rather than the width eleven columns needed. */
+.hist--tails,
+.hist--empty {
+  gap: var(--s8);
+  padding: 0 15%;
 }
 
-.tails__n {
-  font-size: 1.75rem;
+/* T105: the empty state is a drawn chart with nothing in it, not a hidden one. A missing chart
+   reads as a page that failed; a grey one reads as a measurement nobody has taken yet. */
+.hist__bar--empty {
+  background: var(--card-sunk);
+  border-style: dashed;
 }
 
-.tails__end--exp {
-  opacity: 0.65;
+.hist--empty .hist__count {
+  opacity: 0.5;
 }
 
 /* ---- the ladder ---- */
@@ -265,4 +267,12 @@
     width: 22px;
     height: 22px;
   }
+}
+
+/* FR-019: the n the block-wise figures stand over, printed where they are. */
+.mine__basis {
+  margin: var(--s4) 0 0;
+  font-size: 0.875rem;
+  opacity: 0.85;
+  max-width: 70ch;
 }

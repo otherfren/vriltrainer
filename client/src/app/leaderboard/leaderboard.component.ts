@@ -1,35 +1,23 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { RankDef, rankForPlace, rankIcon } from '../core/ranks';
+import { ApiService, Board, BoardEntry } from '../core/api.service';
+import { MASKED_NAME } from '../core/display-name';
+import { RankDef, ladder, rankFor, rankIcon } from '../core/ranks';
 
-interface Row {
-  rank: number;
-  title: string;
-  icon: string;
-  name: string;
-  publicId: string;
-  wilson: number;
-  completed: number;
-  rate: number;
-  z: number;
-}
-
-const NAMES = [
-  'otherfren', 'ganzfeld_enjoyer', 'monroe_institut', 'stargate_9901', 'kein_name', 'vril_ya',
-  'coordinate_hound', 'zenerkarte', 'ingo_swann_fan', 'sitzt_im_dunkeln', 'psi_oder_nicht',
-  'aetherpost', 'nachtschicht', 'remote_viewer_42', 'hellsichtig_de', 'doppelblind',
-  'nullhypothese', 'kein_effekt', 'wuenschelrute', 'dritte_auge_ag', 'ferngucker',
-  'signal_im_rauschen', 'pendel_pilot', 'karten_leger', 'traumtagebuch', 'silberschnur',
-  'astral_abwesend', 'orgon_ok', 'radiaesthet', 'zwischenraum', 'stille_post', 'katzenaugen',
-  'nebelmaschine', 'tiefschlaf', 'wachtraum', 'kein_signal', 'suchbild', 'weitblick_ev',
-  'fernfuehler', 'grauzone', 'schwingung9', 'aetherwelle', 'bildersucher', 'stichprobe',
-  'konfidenz', 'binomial_bert', 'wilson_grenze', 'sigma_jaeger', 'ausreisser', 'langzeitreihe',
-  'geduldsprobe', 'trefferzaehler', 'muenzwurf', 'wuerfelbecher', 'lostrommel', 'zufallszahl',
-  'streuung', 'mittelwert', 'restrauschen', 'grundlinie', 'kalibriert', 'blindprobe',
-  'kontrollgruppe', 'placebo_p', 'vorregistriert', 'praeregistrierung', 'datensatz', 'rohdaten',
-  'nachrechner', 'pruefsumme', 'hashwert', 'seedgeber', 'wuerfelgott', 'letzter_platz',
-];
-
+/**
+ * The board, straight from `GET /api/leaderboard`.
+ *
+ * Two things it deliberately does not do.
+ *
+ * It does not sort, re-place or re-band anything. The server numbers the places in the same order
+ * it lists the rows in, and a second ordering in the browser is a second chance for the two to
+ * disagree about who is first — with nothing about the result looking like a bug until somebody
+ * counts.
+ *
+ * It does not know how many rows there are. The API answers a window and says nothing about the
+ * total, so the pager is previous/next rather than numbered pages: a full page means there is
+ * probably more, and that is the whole of what can honestly be claimed.
+ */
 @Component({
   selector: 'app-leaderboard',
   standalone: true,
@@ -38,34 +26,80 @@ const NAMES = [
   styleUrl: './leaderboard.component.scss',
 })
 export class LeaderboardComponent {
-  readonly eligible = 214;
-  readonly required = 200;
-  get ranksActive(): boolean {
-    return this.eligible >= this.required;
-  }
+  private readonly api = inject(ApiService);
 
   readonly pageSize = 20;
-  readonly page = signal(0);
+  readonly offset = signal(0);
+  readonly board = signal<Board | null>(null);
+  readonly loading = signal(true);
+  readonly failed = signal(false);
 
-  readonly rows: Row[] = LeaderboardComponent.demoRows();
+  readonly entries = computed<BoardEntry[]>(() => this.board()?.entries ?? []);
+  readonly eligible = computed(() => this.board()?.eligible_accounts ?? 0);
 
-  readonly pageCount = computed(() => Math.ceil(this.rows.length / this.pageSize));
-  readonly pageRows = computed(() =>
-    this.rows.slice(this.page() * this.pageSize, (this.page() + 1) * this.pageSize),
-  );
-  readonly pages = computed(() => Array.from({ length: this.pageCount() }, (_, i) => i));
-  readonly firstShown = computed(() => this.page() * this.pageSize + 1);
-  readonly lastShown = computed(() =>
-    Math.min((this.page() + 1) * this.pageSize, this.rows.length),
-  );
+  /** A full page is the only evidence there is that another one exists. */
+  readonly hasNext = computed(() => this.entries().length === this.pageSize);
+  readonly hasPrevious = computed(() => this.offset() > 0);
 
-  go(p: number): void {
-    this.page.set(Math.max(0, Math.min(this.pageCount() - 1, p)));
+  readonly firstShown = computed(() => this.offset() + 1);
+  readonly lastShown = computed(() => this.offset() + this.entries().length);
+
+  /**
+   * The nearest band that does not exist yet, and the population it needs.
+   *
+   * FR-042: the board reports `eligible_accounts` whether or not any band is active precisely so
+   * it can say how far off the next one is. A band appears once `share × eligible >= 1`, with no
+   * rounding, so on a young site this line is the ladder's only visible progress.
+   */
+  readonly nextBand = computed(() => {
+    const t = this.board()?.thresholds;
+    if (t === undefined) return null;
+    const missing = ladder(t.bands)
+      .filter((r) => !r.middle && r.unlocksAt > this.eligible())
+      .sort((a, b) => a.unlocksAt - b.unlocksAt);
+    return missing[0] ?? null;
+  });
+
+  readonly eligibilityTrials = computed(() => this.board()?.thresholds.eligibility_trials ?? 0);
+  readonly eligibilityDays = computed(() => this.board()?.thresholds.eligibility_days ?? 0);
+  readonly updatedAt = computed(() => this.board()?.ranks_updated_at ?? null);
+
+  constructor() {
+    void this.load(0);
+  }
+
+  async load(offset: number): Promise<void> {
+    this.loading.set(true);
+    this.failed.set(false);
+    try {
+      const board = await this.api.leaderboard(Math.max(0, offset), this.pageSize);
+      this.board.set(board);
+      // From the response, not from the argument: the server clamps, and the pager must count in
+      // the same units the rows were actually taken from.
+      this.offset.set(board.offset);
+    } catch {
+      this.failed.set(true);
+    } finally {
+      this.loading.set(false);
+    }
+  }
+
+  step(by: number): void {
+    void this.load(this.offset() + by * this.pageSize);
     scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  icon(r: Row): string {
-    return rankIcon(r.icon);
+  rank(entry: BoardEntry): RankDef {
+    return rankFor(entry.band);
+  }
+
+  icon(entry: BoardEntry): string {
+    return rankIcon(this.rank(entry).slug);
+  }
+
+  /** A row whose name has not been cleared for publication yet (D25, FR-047). */
+  masked(entry: BoardEntry): boolean {
+    return entry.name === MASKED_NAME;
   }
 
   de(n: number, digits = 1): string {
@@ -75,36 +109,17 @@ export class LeaderboardComponent {
     });
   }
 
-  /**
-   * Demo board. Deterministic, so a screenshot of page 3 is the same page 3 tomorrow, and
-   * monotone in the sort key, because a board that is not sorted by what it claims to sort by
-   * is the sort of detail people notice.
-   */
-  private static demoRows(): Row[] {
-    let seed = 0x7f4a21;
-    const next = () => ((seed = (seed * 1664525 + 1013904223) >>> 0) / 4294967296);
+  /** The board reports rates as fractions; the page has always shown them as percentages. */
+  pct(n: number, digits = 1): string {
+    return this.de(n * 100, digits);
+  }
 
-    let wilson = 18.6;
-    // Demo board: 74 rows standing in for a population of 720, so the shares land where the
-    // ladder says they should instead of where a 74-row list would put them.
-    const population = 720;
-    return NAMES.map((name, i) => {
-      const place = i + 1;
-      const rank: RankDef = rankForPlace(place, population);
-      wilson -= 0.04 + next() * 0.07;
-      const completed = 120 + Math.floor(next() * 1400);
-      const rate = wilson + 1.4 + next() * 3.4;
-      return {
-        rank: place,
-        title: rank.title,
-        icon: rank.icon,
-        name,
-        publicId: (0x100000 + Math.floor(next() * 0xefffff)).toString(16).toUpperCase(),
-        wilson,
-        completed,
-        rate,
-        z: 1.8 + next() * 2.6,
-      };
-    });
+  signed(n: number): string {
+    return (n >= 0 ? '+' : '') + this.de(n, 1);
+  }
+
+  when(iso: string): string {
+    const at = new Date(iso);
+    return Number.isNaN(at.getTime()) ? iso : at.toLocaleString('de-DE');
   }
 }

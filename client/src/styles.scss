@@ -397,3 +397,63 @@ a {
     transition-duration: 0.001ms !important;
   }
 }
+
+/* ---------- waiting, and the stamp that says whether the sums came out ------ */
+/* A demo cannot fail, so none of this existed. Every one of these states is a real answer the
+   server can give, and a page has to be able to sit in it without looking broken. Shell-level
+   rather than per component, because three pages now need the same two idioms. */
+
+.waiting.panel {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  padding: var(--s3) var(--s4);
+  font-weight: 700;
+  margin: 0 0 var(--s6);
+  box-shadow: var(--drop-sm);
+}
+
+.waiting__pulse {
+  flex: none;
+  width: 0.75rem;
+  height: 0.75rem;
+  background: var(--pop);
+  border: 3px solid var(--ink);
+  animation: waiting-pulse 1s steps(2, end) infinite;
+}
+
+@keyframes waiting-pulse {
+  50% {
+    background: var(--mint);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .waiting__pulse {
+    animation: none;
+  }
+}
+
+/* Sits beside the button that opens the proof, and reports the recomputation rather than
+   advertising it: it can say ✗, and then it is the most important thing on the page. */
+.stamp {
+  align-self: center;
+  font-family: var(--label);
+  font-weight: 800;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink);
+  background: var(--mint);
+  border: 3px solid var(--ink);
+  padding: var(--s2) var(--s3);
+}
+
+.stamp--bad {
+  background: var(--pop);
+  color: var(--card);
+}
+
+.stamp--wait {
+  background: var(--card-sunk);
+}

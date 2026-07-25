@@ -1,65 +1,103 @@
-export interface RankDef {
-  title: string;
-  icon: string;
-  /** The share of players this band holds. */
-  span: string;
-  /** The band's lower edge in standard deviations from chance, and its drawn centre. */
-  z: number;
-}
+import { RankBand } from './api.service';
 
 /**
  * The ladder, and the argument.
  *
- * Bands are shares, not seats: "the best 0,1 %" means the same thing whether nine people are
- * playing or nine hundred thousand, which is the only way a rank keeps its meaning as the site
- * grows. The edges are the values a fair coin predicts, so a real effect would show up as the
- * top bands holding more than their share — that is what makes the chart worth drawing.
+ * Two halves, deliberately separated. The **slugs** are the server's — they arrive in
+ * `thresholds.bands` and in an account's `rank`, and they are what a band *is*. The titles and
+ * the drawings are product copy and live here, one catalogue per domain (D10).
+ *
+ * The shares are not here at all. A band holds a share of the eligible population, that share is
+ * configuration, and it is expected to move (D26, FR-050) — so the ladder is built from what the
+ * server reported alongside the figures it is being drawn next to. A copy compiled into this file
+ * would show a visitor edges that no longer decide anything.
  *
  * It is symmetric on purpose. Under chance the two ends are equally populated, so a Kartoffel is
  * exactly as rare as an Annunaki, and anyone who reaches the top should be able to see from the
  * shape of the ladder alone that somebody reached the bottom just as improbably.
  */
-export const RANKS: RankDef[] = [
-  { title: 'Annunaki', icon: 'annunaki', span: 'beste 0,1 %', z: 3.3 },
-  { title: 'Insektoider Loosh-Farmer', icon: 'loosh', span: 'beste 0,5 %', z: 2.8 },
-  { title: 'Reptiloidenarchont', icon: 'reptilian', span: 'beste 2 %', z: 2.25 },
-  { title: 'Grey Alien', icon: 'grey', span: 'beste 7 %', z: 1.7 },
-  { title: 'Psionisches Asset', icon: 'asset', span: 'beste 20 %', z: 1.1 },
-  { title: 'Normie', icon: 'normie', span: 'die mittleren 60 %', z: 0 },
-  { title: 'Zirbeldrüse verkalkt', icon: 'pineal', span: 'unterste 20 %', z: -1.1 },
-  { title: 'Erdstrahlen-Opfer', icon: 'erdstrahlen', span: 'unterste 7 %', z: -1.7 },
-  { title: 'Orgonit-Enjoyer', icon: 'orgonit', span: 'unterste 2 %', z: -2.25 },
-  { title: 'Psi-Nullleiter', icon: 'nullleiter', span: 'unterste 0,5 %', z: -2.8 },
-  { title: 'Kartoffel', icon: 'potato', span: 'unterste 0,1 %', z: -3.3 },
-];
-
-const BY_TITLE = new Map(RANKS.map((r) => [r.title, r]));
-
-export function rankIcon(iconOrTitle: string): string {
-  const byTitle = BY_TITLE.get(iconOrTitle);
-  return `rank/rank-${byTitle ? byTitle.icon : iconOrTitle}.svg`;
+export interface RankDef {
+  /**
+   * The server's slug. `normie` is this client's name for "no band", which the API expresses by
+   * leaving `rank` out — the middle 60 % has no band and needs no seat.
+   */
+  slug: string;
+  title: string;
+  /**
+   * The drawing, at `rank/rank-<icon>.svg`. Not always the slug: the file predates the server and
+   * is called `potato`, while the band is `kartoffel`.
+   */
+  icon: string;
 }
 
-/** The share each band holds, best first. Mirrored below Normie. */
-const SHARES = [0.001, 0.005, 0.02, 0.07, 0.2];
+export const NORMIE: RankDef = { slug: 'normie', title: 'Normie', icon: 'normie' };
+
+const DEFS: RankDef[] = [
+  { slug: 'annunaki', title: 'Annunaki', icon: 'annunaki' },
+  { slug: 'loosh', title: 'Insektoider Loosh-Farmer', icon: 'loosh' },
+  { slug: 'reptilian', title: 'Reptiloidenarchont', icon: 'reptilian' },
+  { slug: 'grey', title: 'Grey Alien', icon: 'grey' },
+  { slug: 'asset', title: 'Psionisches Asset', icon: 'asset' },
+  NORMIE,
+  { slug: 'pineal', title: 'Zirbeldrüse verkalkt', icon: 'pineal' },
+  { slug: 'erdstrahlen', title: 'Erdstrahlen-Opfer', icon: 'erdstrahlen' },
+  { slug: 'orgonit', title: 'Orgonit-Enjoyer', icon: 'orgonit' },
+  { slug: 'nullleiter', title: 'Psi-Nullleiter', icon: 'nullleiter' },
+  { slug: 'kartoffel', title: 'Kartoffel', icon: 'potato' },
+];
+
+const BY_SLUG = new Map(DEFS.map((r) => [r.slug, r]));
 
 /**
- * The rank held by a place on a board of `population`.
+ * The band a slug names. An absent slug is Normie — the honest answer for almost everyone, and
+ * what the API means when it omits `rank`.
  *
- * Taking a share rather than a seat count is the whole point: place 3 of 10 is nothing, place 3
- * of 200 000 is the top 0,0015 %, and only one of those deserves a title.
- *
- * Bands round up, so the top one is never empty — 0,1 % of 720 players is 0,72 people, and a
- * ladder whose first rung nobody can stand on is not a ladder. It is also what keeps this
- * agreeing with the distribution chart, which counts one Annunaki at that population.
+ * A slug this catalogue does not know falls back to its own text rather than to Normie. An
+ * operator who adds a band to the configuration should see it appear untranslated, not see
+ * everybody in it silently demoted to the middle.
  */
-export function rankForPlace(place: number, population: number): RankDef {
-  for (let i = 0; i < SHARES.length; i++) {
-    if (place <= Math.max(1, Math.ceil(SHARES[i] * population))) return RANKS[i];
-  }
-  for (let i = 0; i < SHARES.length; i++) {
-    const fromBottom = population - place + 1;
-    if (fromBottom <= Math.max(1, Math.ceil(SHARES[i] * population))) return RANKS[10 - i];
-  }
-  return RANKS[5];
+export function rankFor(slug: string | null | undefined): RankDef {
+  if (slug === null || slug === undefined || slug === '') return NORMIE;
+  return BY_SLUG.get(slug) ?? { slug, title: slug, icon: 'normie' };
+}
+
+export function rankIcon(iconOrSlug: string): string {
+  const def = BY_SLUG.get(iconOrSlug);
+  return `rank/rank-${def ? def.icon : iconOrSlug}.svg`;
+}
+
+/** One rung, with the share it holds and the population at which it starts existing. */
+export interface Rung {
+  rank: RankDef;
+  /** The share of the eligible population, as the server reported it. */
+  share: number;
+  /**
+   * The smallest eligible population at which this band exists at all: `ceil(1 / share)`.
+   *
+   * Mirrors `Thresholds::band_unlocks_at`. The band itself is never rounded up — it is awarded
+   * once `share × eligible >= 1` — so a ladder drawn on a small site correctly shows most of its
+   * rungs as not yet reachable (D23, FR-042).
+   */
+  unlocksAt: number;
+  /** The middle rungs have no band and no seat; the ladder still shows where they sit. */
+  middle: boolean;
+}
+
+/**
+ * The whole ladder from the bands the server published, best first.
+ *
+ * Normie's share is what is left after both ends, computed rather than stated: the API publishes
+ * the bands, and the middle is by definition everything they do not cover. Writing "60 %" here
+ * would be a number that stops being true the first time a share moves.
+ */
+export function ladder(bands: RankBand[]): Rung[] {
+  const covered = bands.reduce((sum, b) => sum + b.share, 0);
+  const highs = bands.map((b) => rung(rankFor(b.high), b.share));
+  const lows = [...bands].reverse().map((b) => rung(rankFor(b.low), b.share));
+  const middle = { ...rung(NORMIE, Math.max(0, 1 - 2 * covered)), middle: true };
+  return [...highs, middle, ...lows];
+}
+
+function rung(rank: RankDef, share: number): Rung {
+  return { rank, share, unlocksAt: share > 0 ? Math.ceil(1 / share) : 0, middle: false };
 }

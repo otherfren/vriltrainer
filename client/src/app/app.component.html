@@ -13,29 +13,24 @@
     </nav>
 
     <div class="hud__right">
-      @if (demoMode) {
-        <span class="demo" title="Ohne Server: Koordinaten und Ergebnisse entstehen hier im Browser">
-          Demo
-        </span>
-      }
-
       <!-- "Spielstand" needed the metaphor explained before it meant anything. This panel is
            what gets you back into the account, so it carries the word for that, and the name so
-           you can see whose account it is. It appears only once there is an account: before the
-           name there is nothing to log back into.
+           you can see whose account it is. It appears only once there is an account — and that
+           is keyed on the token, not on the name: a browser that arrived through an access link
+           holds a token and has not been told a name yet.
 
            The whole panel is one button. Two half-labelled controls in a 15rem slot were one
            too many for what they did — everything you can do with a login you cannot read has
            room to be spelled out in the dialog instead. -->
-      @if (player.name()) {
-      <button class="login" type="button" (click)="openKey()" title="Login anzeigen oder kopieren">
-        <span class="login__label">Login:</span>
-        <span class="login__name">{{ player.name() }}</span>
-        <span class="login__show">
-          <img src="ui/eye.svg" alt="" />
-          Zeigen
-        </span>
-      </button>
+      @if (session.signedIn()) {
+        <button class="login" type="button" (click)="openKey()" title="Login anzeigen oder kopieren">
+          <span class="login__label">Login:</span>
+          <span class="login__name">{{ player.name() ?? player.publicId() ?? 'Konto' }}</span>
+          <span class="login__show">
+            <img src="ui/eye.svg" alt="" />
+            Zeigen
+          </span>
+        </button>
       }
 
       <div class="lang">
@@ -46,27 +41,39 @@
   </div>
 </header>
 
-<dialog class="keydlg" #keyDialog (click)="onDialogClick($event)">
-  <div class="keydlg__box">
-    <p class="eyebrow">Dein Login</p>
-    <p class="keydlg__lead">
-      Dieser Link <em>ist</em> dein Konto. Wer ihn hat, ist du. Es gibt keine Wiederherstellung —
-      speichere ihn als Lesezeichen oder im Passwortmanager.
-    </p>
-    <code class="keydlg__key" [class.is-masked]="!revealed" [attr.aria-label]="revealed ? null : 'Login verdeckt'">{{
-      revealed ? accessKey : maskedKey
-    }}</code>
-    <div class="keydlg__row">
-      <button class="btn" type="button" (click)="copyKey()">
-        {{ copied ? 'Kopiert' : 'Kopieren' }}
-      </button>
-      <button class="btn btn--quiet" type="button" (click)="toggleReveal()" [attr.aria-pressed]="revealed">
-        {{ revealed ? 'Verbergen' : 'Anzeigen' }}
-      </button>
-      <button class="btn btn--quiet" type="button" (click)="closeKey()">Schließen</button>
+@if (session.signedIn()) {
+  <dialog class="keydlg" #keyDialog (click)="onDialogClick($event)">
+    <div class="keydlg__box">
+      <p class="eyebrow">Dein Login</p>
+      <p class="keydlg__lead">
+        Dieser Link <em>ist</em> dein Konto. Wer ihn hat, ist du. Es gibt keine Wiederherstellung —
+        speichere ihn als Lesezeichen oder im Passwortmanager.
+      </p>
+      <code class="keydlg__key" [class.is-masked]="!revealed" [attr.aria-label]="revealed ? null : 'Login verdeckt'">{{
+        revealed ? accessKey() : maskedKey()
+      }}</code>
+      <div class="keydlg__row">
+        <button class="btn" type="button" (click)="copyKey()">
+          {{ copied ? 'Kopiert' : 'Kopieren' }}
+        </button>
+        <button class="btn btn--quiet" type="button" (click)="toggleReveal()" [attr.aria-pressed]="revealed">
+          {{ revealed ? 'Verbergen' : 'Anzeigen' }}
+        </button>
+        <button class="btn btn--quiet" type="button" (click)="closeKey()">Schließen</button>
+      </div>
+
+      <!-- Said here rather than only at the name gate: this is the panel somebody opens when they
+           wonder why the board is not showing their name (D25, FR-047). -->
+      @if (player.publicId(); as id) {
+        <p class="keydlg__note">
+          Öffentliche Kennung <span class="measured">{{ id }}</span>. Dein Name erscheint auf
+          öffentlichen Seiten erst, wenn er freigegeben ist — bis dahin steht dort eine Verdeckung
+          neben dieser Kennung. Dir zeigen wir ihn immer.
+        </p>
+      }
     </div>
-  </div>
-</dialog>
+  </dialog>
+}
 
 <main>
   <router-outlet />
@@ -84,9 +91,11 @@
       <nav class="foot__links" aria-label="Fußzeile">
         <a href="https://github.com/otherfren/vriltrainer">Quellcode · AGPL-3.0</a>
         <a href="https://github.com/otherfren/vriltrainer/blob/master/docs/trial-protocol-decisions.md">
-          Protokoll · D1–D22
+          Protokoll · D1–D28
         </a>
-        <span class="foot__soon">Datensatz — sobald der Server läuft</span>
+        <!-- The record itself, not a promise of one. Third-party copies are what make it survive
+             this service (D12), so the download is a link and not a footnote. -->
+        <a href="/api/log?from=1&limit=10000">Datensatz herunterladen</a>
       </nav>
     </div>
 

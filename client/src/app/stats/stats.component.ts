@@ -1,13 +1,25 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { VrilMeterComponent } from '../core/vril-meter.component';
-import { RANKS, RankDef, rankIcon } from '../core/ranks';
-import { PlayerService, STATS_UNLOCK_AT } from '../core/player.service';
+import { AggregateStats, ApiService } from '../core/api.service';
+import { Rung, ladder, rankIcon } from '../core/ranks';
+import { PlayerService } from '../core/player.service';
+import { SessionService } from '../core/session.service';
 
-interface Bin {
-  rank: RankDef;
-  count: number;
-}
-
+/**
+ * The headline finding, from `GET /api/stats/aggregate`.
+ *
+ * The page used to state 148 213 trials and a distribution of 720 players across eleven bands.
+ * None of it existed, and inventing the exact numbers a site of this kind would love to have is
+ * the one thing it cannot do and remain worth reading. All of it is gone.
+ *
+ * What replaces the invented histogram is not a smaller invented histogram. The API publishes two
+ * tail counts and not a per-band distribution, so the chart is the two tails — which is also
+ * exactly the test FR-043 asks a reader to perform by looking: under chance they arrive in
+ * roughly equal numbers, and a real effect can only make the upper one heavier.
+ *
+ * The empty state is an empty grey chart and one honest line (T105). Not a spinner that never
+ * resolves, and not a zero dressed up as a finding.
+ */
 @Component({
   selector: 'app-stats',
   standalone: true,
@@ -16,43 +28,48 @@ interface Bin {
   styleUrl: './stats.component.scss',
 })
 export class StatsComponent {
-  readonly trials = 148213;
-  readonly rate = 12.53;
-  readonly expected = 12.5;
-  readonly aggregateZ = 0.31;
+  private readonly api = inject(ApiService);
 
-  readonly ranks = RANKS;
+  /** Your own figures come from the one place that counts them, so the panel under every page and
+   *  this section can never disagree about how many trials you have played. */
+  readonly player = inject(PlayerService);
+  readonly session = inject(SessionService);
+
+  readonly aggregate = signal<AggregateStats | null>(null);
+  /**
+   * Paired with `aggregate()` rather than joined by a third "in flight" flag: the template has to
+   * tell apart figures, a failure, and neither — and neither *is* the request being in flight.
+   */
+  readonly failed = signal(false);
+
+  /** No trial has been completed anywhere yet. The expected state at launch, and for a while. */
+  readonly empty = computed(() => (this.aggregate()?.trials ?? 0) === 0);
+
+  readonly tailHigh = computed(() => this.aggregate()?.tail_high ?? 0);
+  readonly tailLow = computed(() => this.aggregate()?.tail_low ?? 0);
+  readonly tailSigma = computed(() => this.aggregate()?.tail_sigma ?? 2);
+  readonly tailMinTrials = computed(() => this.aggregate()?.tail_min_trials ?? 0);
+
+  /** The ladder, built from the shares the server reported rather than from a copy here (D26). */
+  readonly rungs = computed<Rung[]>(() => {
+    const t = this.aggregate()?.thresholds;
+    return t === undefined ? [] : ladder(t.bands);
+  });
+
   readonly icon = rankIcon;
 
-  /**
-   * Players by measured deviation, one column per rank band. The band edges are fixed at the
-   * values chance predicts, so these counts are a finding rather than a definition: an effect
-   * would show up as the right-hand columns holding more than their share.
-   *
-   * Ascending, so the chart reads left to right the way a number line does.
-   */
-  private readonly counts = [1, 3, 12, 34, 96, 430, 92, 38, 10, 3, 1];
+  constructor() {
+    void this.load();
+  }
 
-  readonly bins: Bin[] = [...RANKS]
-    .reverse()
-    .map((rank, i) => ({ rank, count: this.counts[i] }));
-
-  readonly players = this.counts.reduce((a, b) => a + b, 0);
-
-  /**
-   * The two ends, summed from the bars rather than typed in beside them. Under chance they are
-   * equally populated and that is the whole test, so they had better be the same numbers.
-   */
-  readonly tailHigh = this.bins.filter((b) => b.rank.z >= 2).reduce((a, b) => a + b.count, 0);
-  readonly tailLow = this.bins.filter((b) => b.rank.z <= -2).reduce((a, b) => a + b.count, 0);
-
-  /** What a pure coin would put past 2σ at each end: the one-sided normal tail, 2,275 %. */
-  readonly expectedTail = Math.round(this.players * 0.02275);
-
-  /** Your own figures come from the one place that counts them, so the panel under every
-   *  page and this section can never disagree about how many trials you have played. */
-  readonly player = inject(PlayerService);
-  readonly unlockAt = STATS_UNLOCK_AT;
+  async load(): Promise<void> {
+    this.failed.set(false);
+    try {
+      this.aggregate.set(await this.api.aggregate());
+    } catch {
+      this.failed.set(true);
+    }
+  }
 
   private de(n: number, digits = 2): string {
     return n.toLocaleString('de-DE', {
@@ -61,23 +78,36 @@ export class StatsComponent {
     });
   }
 
-  readonly trialsLabel = this.trials.toLocaleString('de-DE');
-  readonly playersLabel = this.players.toLocaleString('de-DE');
-  readonly rateLabel = this.de(this.rate);
-  readonly expectedLabel = this.de(this.expected, 1);
-  readonly aggregateZLabel = this.de(this.aggregateZ);
-  mineRateLabel = () => this.de(this.player.rate() * 100, 1);
-  mineZLabel = () => (this.player.z() >= 0 ? '+' : '') + this.de(this.player.z());
-  mineWilsonLabel = () => this.de(this.player.wilson() * 100, 1);
-  perTenKLabel = () => this.player.perTenK().toLocaleString('de-DE');
-
-  get peak(): number {
-    return Math.max(...this.bins.map((b) => b.count));
+  count(n: number): string {
+    return n.toLocaleString('de-DE');
   }
 
-  /** Square-root scaling. Linear against a peak of 402 crushes the tails to invisibility, and
-   *  the tails are the entire argument: under chance they are equally populated. */
-  height(c: number): number {
-    return Math.max(6, (Math.sqrt(c) / Math.sqrt(this.peak)) * 100);
+  pct(fraction: number, digits = 2): string {
+    return this.de(fraction * 100, digits);
+  }
+
+  signed(n: number): string {
+    return (n >= 0 ? '+' : '') + this.de(n);
+  }
+
+  share(fraction: number): string {
+    return this.de(fraction * 100, fraction < 0.01 ? 1 : 0);
+  }
+
+  minePct = () => this.pct(this.player.rate(), 1);
+  mineZ = () => this.signed(this.player.deviation());
+  mineWilson = () => this.pct(this.player.wilson(), 1);
+  perTenK = () => this.count(this.player.perTenK());
+
+  /**
+   * Bar height for a tail count, against the larger of the two.
+   *
+   * Against each other rather than against a fixed scale, because the comparison the chart is
+   * making is between the two ends and nothing else. A minimum height keeps a count of zero
+   * visible as a drawn bar of nothing rather than as a missing column.
+   */
+  height(n: number): number {
+    const peak = Math.max(this.tailHigh(), this.tailLow(), 1);
+    return Math.max(4, (n / peak) * 100);
   }
 }

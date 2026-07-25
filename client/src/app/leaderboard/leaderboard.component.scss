@@ -123,14 +123,7 @@
   margin-top: var(--s6);
 }
 
-.pager__nums {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--s1);
-}
-
-.pager__step,
-.pager__num {
+.pager__step {
   font-family: var(--label);
   font-weight: 800;
   font-size: 0.8125rem;
@@ -144,25 +137,9 @@
   cursor: pointer;
 }
 
-.pager__num {
-  font-family: var(--data);
-  min-width: 2.5rem;
-  letter-spacing: 0;
-}
-
-.pager__step:hover:not(:disabled),
-.pager__num:hover:not(.is-current) {
+.pager__step:hover:not(:disabled) {
   transform: translate(-1px, -1px);
   box-shadow: var(--drop);
-}
-
-/* The current page is pressed into the board, the same way the selected tab is. */
-.pager__num.is-current {
-  background: var(--pop);
-  color: var(--card);
-  box-shadow: none;
-  transform: translate(3px, 3px);
-  cursor: default;
 }
 
 .pager__step:disabled {
@@ -184,4 +161,28 @@
 .board__note {
   font-size: 0.9375rem;
   margin-top: var(--s8);
+}
+
+/* A name that has not been cleared for publication yet. Drawn as a state rather than as a name,
+   so a row reads "there is a name here and nobody has looked at it" instead of as somebody who
+   chose dots — the public identifier beside it keeps the row attributable either way (D25). */
+.tbl__masked {
+  font-family: var(--data);
+  letter-spacing: 0.1em;
+  color: var(--ink);
+  opacity: 0.55;
+}
+
+/* The board with nobody on it. It is the expected state for months, so it is a sentence and not
+   an apology. */
+.board__empty {
+  margin: 0;
+  padding: var(--s6);
+  max-width: 62ch;
+}
+
+/* A page still on screen while the next one is being fetched: dimmed, never blanked. Clearing the
+   table would make every page turn look like an empty board for a moment. */
+.tblwrap.is-stale {
+  opacity: 0.55;
 }

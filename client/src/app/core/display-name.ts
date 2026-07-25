@@ -120,3 +120,14 @@ export function checkDisplayName(raw: string): NameCheck {
 export function normaliseDisplayName(raw: string): string {
   return raw.replace(/\s+/g, ' ').trim();
 }
+
+/**
+ * The fixed-length mask the server puts in place of a name that has not been approved (D25).
+ *
+ * Compared against, never produced: masking is the server's decision and the client has no way to
+ * know a name's review state. This constant exists only so a masked row can be *styled* as one
+ * rather than rendered as somebody who has chosen dots for a name. Its length is deliberately
+ * fixed and unrelated to the name it hides — a mask that preserved the length would still
+ * communicate the shape of a slur, which is what pre-approval exists to keep off the page.
+ */
+export const MASKED_NAME = '••••••••';
