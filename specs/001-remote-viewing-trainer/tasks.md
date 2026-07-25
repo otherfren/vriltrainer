@@ -31,12 +31,12 @@ artefacts both implementations consume. Structure fixed in plan.md.
 
 **Purpose**: Repository skeleton and toolchains.
 
-- [ ] T001 Create the workspace layout from plan.md — `server/`, `tools/poolctl/`, `client/`, `shared/vectors/`, `shared/pool/`
-- [ ] T002 Create the Cargo workspace in `Cargo.toml` with members `server` and `tools/poolctl`
+- [X] T001 Create the workspace layout from plan.md — `server/`, `tools/poolctl/`, `client/`, `shared/vectors/`, `shared/pool/`
+- [X] T002 Create the Cargo workspace in `Cargo.toml` with members `server` and `tools/poolctl`
 - [ ] T003 [P] Add server dependencies in `server/Cargo.toml` — axum, rusqlite, sha2, chacha20poly1305, serde, tracing
 - [ ] T004 [P] Add pool tool dependencies in `tools/poolctl/Cargo.toml` — image, sha2, serde, clap
 - [ ] T005 [P] Initialise the Angular application in `client/` with `@angular/localize`, `PathLocationStrategy` (required by D9 — `HashLocationStrategy` would collide with the access-link fragment)
-- [ ] T006 [P] Write `.gitignore` covering `target/`, `node_modules/`, `dist/`, `*.sqlite*`, `.env*`
+- [X] T006 [P] Write `.gitignore` covering `target/`, `node_modules/`, `dist/`, `*.sqlite*`, `.env*`
 - [ ] T007 [P] Configure formatting and linting — `rustfmt.toml`, `clippy.toml`, ESLint and Prettier in `client/`
 - [ ] T008 Make the GitHub repository public, completing D6 — until this is done, "open source" is an intention rather than a fact
 
@@ -52,10 +52,10 @@ the derivation vectors. Neither can be worked around later.
 
 ### The derivation contract
 
-- [ ] T009 Specify the derivation in `shared/vectors/README.md` — SHA-256 counter stream, LE64 counter, 64-bit words, rejection sampling bound, partial Fisher-Yates for decoys, final shuffle for display order, exactly as fixed in research.md R1
-- [ ] T010 Generate the vector fixtures in `shared/vectors/derivation.json` — seed, pool version, expected target index, expected decoy indices, expected display order, covering pool sizes at and around rejection-sampling boundaries, and category counts with deliberately uneven category sizes so a size-proportional bias would fail the vectors
-- [ ] T011 Implement the derivation in `server/src/trial/derive.rs` — the four steps of D22: eight distinct categories, one image per category, target index over 0…7, then the display shuffle
-- [ ] T012 Add the conformance test in `server/tests/derivation_vectors.rs` reading `shared/vectors/derivation.json` — **this is the load-bearing test of the project** (D7, quickstart Scenario 2)
+- [X] T009 Specify the derivation in `shared/vectors/README.md` — SHA-256 counter stream, LE64 counter, 64-bit words, rejection sampling bound, partial Fisher-Yates for decoys, final shuffle for display order, exactly as fixed in research.md R1
+- [X] T010 Generate the vector fixtures in `shared/vectors/derivation.json` — seed, pool version, expected target index, expected decoy indices, expected display order, covering pool sizes at and around rejection-sampling boundaries, and category counts with deliberately uneven category sizes so a size-proportional bias would fail the vectors
+- [X] T011 Implement the derivation in `server/src/trial/derive.rs` — the four steps of D22: eight distinct categories, one image per category, target index over 0…7, then the display shuffle
+- [X] T012 Add the conformance test in `server/tests/derivation_vectors.rs` reading `shared/vectors/derivation.json` — **this is the load-bearing test of the project** (D7, quickstart Scenario 2)
 
 ### The image pool
 
@@ -72,7 +72,7 @@ the derivation vectors. Neither can be worked around later.
 - [ ] T017 Create the schema and migrations in `server/src/db/schema.sql` for `account`, `log_entry`, `pool_version`, `pool_image`, `handoff_code`, `account_stats`, per data-model.md — the log references the opaque account id, never the name (FR-026)
 - [ ] T018 Configure SQLite in `server/src/db/mod.rs` — WAL, single writer connection, reader pool (research.md R9)
 - [ ] T019 Implement the append-only chain in `server/src/log/chain.rs` — monotonic gapless `seq`, `prev_hash`, `entry_hash`, append inside one transaction; an abandoned trial is a commit with no resolve, so it needs no marker (FR-014)
-- [ ] T020 [P] Implement commitment hashing in `server/src/trial/commit.rs` — `SHA-256(s_server ‖ nonce ‖ coordinate)`; the coordinate is inside the hash, without which the reveal proves nothing about which coordinate was shown
+- [X] T020 [P] Implement commitment hashing in `server/src/trial/commit.rs` — `SHA-256(s_server ‖ nonce ‖ coordinate)`; the coordinate is inside the hash, without which the reveal proves nothing about which coordinate was shown
 - [ ] T021 [P] Implement token seal and open in `server/src/trial/token.rs` — XChaCha20-Poly1305, account identifier and trial sequence bound as additional authenticated data so tokens cannot be moved between accounts (research.md R7)
 
 ### Service scaffolding

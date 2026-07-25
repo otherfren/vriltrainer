@@ -1,0 +1,2 @@
+# Keep the derivation readable; it mirrors a written specification line for line.
+too-many-arguments-threshold = 8

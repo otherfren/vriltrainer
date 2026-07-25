@@ -1,1 +1,28 @@
+# Rust
+target/
+**/*.rs.bk
+*.pdb
+
+# Node — build-time only, never runs in production (D7)
+node_modules/
+dist/
+.angular/
+
+# Local data. The database is also the public audit log, so a stray copy is not harmless.
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm
+
+# Secrets and environment
+.env
+.env.*
+
+# Editors and OS
+.idea/
+.vscode/
+.DS_Store
+*.swp
+*.log
+
+# Pre-existing entry, kept
 deleteme.md
