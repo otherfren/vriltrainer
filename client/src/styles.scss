@@ -51,9 +51,17 @@
   --mint-ink: #0e7c57;
   --pop-ink: #c40f3c;
 
+  /* Four roles, and the bitmap face only gets the ones it is actually good at.
+     Silkscreen is for arcade chrome and for things that are either very short or very
+     large: the wordmark, the tabs, the buttons, the coordinate. Everything small that
+     has to be *read* — captions, keys, column heads — is Nunito in caps, which carries
+     the same HUD register at a fraction of the effort. Figures and hashes are mono,
+     because the product's whole promise is that you can compare them by eye. */
   --pixel: 'Percent', 'Silkscreen', 'Nunito', system-ui, sans-serif;
   --shout: 'Titan One', 'Silkscreen', system-ui, sans-serif;
   --body: 'Nunito', system-ui, -apple-system, sans-serif;
+  --label: 'Nunito', system-ui, sans-serif;
+  --data: 'JetBrains Mono', ui-monospace, monospace;
 
   --s1: 0.25rem;
   --s2: 0.5rem;
@@ -124,14 +132,19 @@ p {
   max-width: 60ch;
 }
 
-/* The eyebrow is the cabinet's own voice: small, pixel, shouting slightly. */
+/* The cabinet's own voice. Caps and tracking do the HUD work; the weight keeps it
+   legible at a size where the bitmap face was guesswork. */
 .eyebrow {
-  font-family: var(--pixel);
-  font-size: 0.6875rem;
-  letter-spacing: 0.1em;
+  font-family: var(--label);
+  font-weight: 800;
+  font-size: 0.8125rem;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--zap);
   margin: 0 0 var(--s4);
+  /* It is a <p>, so it would otherwise inherit the 60ch measure meant for prose and
+     wrap a one-line HUD caption onto two. */
+  max-width: none;
 }
 
 .panel .eyebrow,
@@ -147,10 +160,11 @@ p {
   font-size: 0.9375rem;
 }
 
-/* Anything that was actually measured is set in the pixel face. Values are
-   never dressed up: the face says "this came off the machine". */
+/* Anything that was actually measured is set in the mono. Values are never dressed up,
+   and the face is one you can check a digit at a time. */
 .measured {
-  font-family: var(--pixel);
+  font-family: var(--data);
+  font-weight: 700;
   font-variant-numeric: tabular-nums;
   color: var(--mint-ink);
 }
@@ -282,15 +296,17 @@ a {
 }
 
 .meter__label {
-  font-family: var(--pixel);
-  font-size: 0.75rem;
-  letter-spacing: 0.08em;
+  font-family: var(--label);
+  font-weight: 800;
+  font-size: 0.8125rem;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
 }
 
 .meter__reading {
-  font-family: var(--pixel);
-  font-size: 0.75rem;
+  font-family: var(--data);
+  font-weight: 700;
+  font-size: 0.8125rem;
   font-variant-numeric: tabular-nums;
   color: var(--mint-ink);
 }
@@ -303,11 +319,12 @@ a {
 .meter__stop {
   flex: 1;
   text-align: center;
-  font-family: var(--pixel);
-  font-size: 0.5625rem;
-  letter-spacing: 0.1em;
+  font-family: var(--label);
+  font-weight: 800;
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: #b9a98f;
+  color: #b0a08a;
 }
 
 /* Only the first stop is ever reached, so only the first stop is ever inked. */
@@ -352,8 +369,8 @@ a {
   flex-direction: column;
   align-items: center;
   font-family: var(--pixel);
-  font-size: 0.5625rem;
-  letter-spacing: 0.08em;
+  font-size: 0.625rem;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--ink);
   white-space: nowrap;

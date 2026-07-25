@@ -4,11 +4,19 @@
   min-height: 100vh;
 }
 
+/* Everything the page says sits above the horizon. The scene is at z-index 0 behind it. */
+main,
+.foot {
+  position: relative;
+  z-index: 1;
+}
+
 main {
   flex: 1;
 }
 
 /* ---- the HUD: the strip along the top of the cabinet ---- */
+/* Solid, unlike the footer: the top of a cabinet is a bezel, and the sky starts below it. */
 
 .hud {
   background: var(--field-hi);
@@ -90,9 +98,10 @@ main {
 /* Says out loud that no server is answering yet, because a demo trial that
    looked like a real one would be the one dishonest thing on the site. */
 .demo {
-  font-family: var(--pixel);
-  font-size: 0.625rem;
-  letter-spacing: 0.08em;
+  font-family: var(--label);
+  font-weight: 800;
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--ink);
   background: var(--mint);
@@ -117,16 +126,17 @@ main {
 }
 
 .save__label {
-  font-family: var(--pixel);
-  font-size: 0.5625rem;
-  letter-spacing: 0.08em;
+  font-family: var(--label);
+  font-weight: 800;
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--pop-ink);
 }
 
 .save__value {
-  font-family: var(--pixel);
-  font-size: 0.625rem;
+  font-family: var(--data);
+  font-size: 0.75rem;
   color: var(--ink);
   max-width: 15rem;
   overflow: hidden;
@@ -137,9 +147,10 @@ main {
 .save__btn {
   background: none;
   border: none;
-  font-family: var(--pixel);
-  font-size: 0.5625rem;
-  letter-spacing: 0.06em;
+  font-family: var(--label);
+  font-weight: 800;
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--pop-ink);
   cursor: pointer;
@@ -162,10 +173,10 @@ main {
 
 /* ---- footer ---- */
 
+/* No fill and no rule: the horizon is the divider now, and a keyline drawn across it
+   read as a wire strung over the mountains. */
 .foot {
-  border-top: 4px solid var(--ink);
-  background: var(--field-hi);
-  padding: var(--s8) 0 var(--s12);
+  padding: var(--s8) 0 var(--s16);
   margin-top: var(--s16);
 }
 

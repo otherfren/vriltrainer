@@ -1,0 +1,187 @@
+/* Behind everything, inert, and never a scroll surface of its own. */
+.scene {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.scene__sky {
+  position: absolute;
+  inset: 0;
+}
+
+/* ---- stars ---- */
+
+.scene__star {
+  position: absolute;
+  background: var(--card);
+  opacity: 0.5;
+}
+
+.scene__star--blink {
+  animation: twinkle 5s steps(2, end) infinite;
+}
+
+@keyframes twinkle {
+  0%,
+  70%,
+  100% {
+    opacity: 0.55;
+  }
+  80% {
+    opacity: 0.14;
+  }
+}
+
+/* ---- moons ---- */
+
+.scene__moon {
+  position: absolute;
+  image-rendering: pixelated;
+  opacity: 0.85;
+}
+
+.scene__moon--big {
+  right: 7%;
+  top: 12%;
+  width: 100px;
+}
+
+.scene__moon--small {
+  right: 20%;
+  top: 26%;
+  width: 48px;
+}
+
+/* ---- the saucer ---- */
+/* left/top is the resting position; the animation only ever adds transform, so killing
+   motion parks it in the sky instead of off the edge of the screen. */
+
+.scene__saucer {
+  position: absolute;
+  left: 0;
+  top: 9%;
+  width: 92px;
+  image-rendering: pixelated;
+  opacity: 0.92;
+  will-change: transform;
+  animation: cross 64s linear infinite;
+}
+
+@keyframes cross {
+  0% {
+    transform: translate(-20vw, 0);
+  }
+  50% {
+    transform: translate(42vw, -20px);
+  }
+  100% {
+    transform: translate(105vw, 0);
+  }
+}
+
+/* Parked somewhere worth looking at, rather than at the left edge where the crossing
+   happens to begin. */
+@media (prefers-reduced-motion: reduce) {
+  .scene__saucer {
+    left: 58%;
+  }
+}
+
+/* ---- the ridgeline ---- */
+
+.scene__ridge {
+  position: absolute;
+  left: 0;
+  right: 0;
+  background-repeat: repeat-x;
+  background-position: left bottom;
+  background-size: auto 100%;
+  image-rendering: pixelated;
+}
+
+.scene__ridge--far {
+  bottom: 4.5rem;
+  height: 7.5rem;
+  background-image: url('/scene/ridge-far.svg');
+}
+
+.scene__ridge--near {
+  bottom: 0;
+  height: 5rem;
+  background-image: url('/scene/ridge-near.svg');
+}
+
+/* ---- the cast, watching from behind the near ridge ---- */
+/* Parked at the outer margins, where the 70rem content column is not. */
+
+.scene__peek {
+  position: absolute;
+  bottom: 1.5rem;
+  width: 84px;
+  image-rendering: pixelated;
+  will-change: transform;
+}
+
+.scene__peek--archon {
+  left: 2.5%;
+  animation: sway 7s ease-in-out infinite;
+}
+
+.scene__peek--grey {
+  right: 3.5%;
+  width: 76px;
+  animation: bob 4.5s ease-in-out infinite;
+}
+
+.scene__peek--reptilian {
+  left: 46%;
+  width: 72px;
+  bottom: 2.25rem;
+  animation: bob 6s ease-in-out infinite 1.2s;
+}
+
+@keyframes bob {
+  0%,
+  100% {
+    transform: translateY(6px);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes sway {
+  0%,
+  100% {
+    transform: rotate(-3deg);
+  }
+  50% {
+    transform: rotate(3deg);
+  }
+}
+
+/* Below the content column's own width there is no margin left to stand in, so the crowd
+   thins out rather than hiding behind cards. */
+@media (max-width: 64rem) {
+  .scene__peek--reptilian {
+    display: none;
+  }
+  .scene__moon--small {
+    display: none;
+  }
+}
+
+@media (max-width: 44rem) {
+  .scene__peek {
+    width: 58px;
+  }
+  .scene__moon--big {
+    width: 64px;
+  }
+  .scene__saucer {
+    width: 64px;
+  }
+}

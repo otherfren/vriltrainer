@@ -26,14 +26,21 @@ export class LeaderboardComponent {
 
   /** Positions, not thresholds. The supply of each rank is fixed however lucky anyone gets. */
   readonly ladder = [
-    { title: 'Insektoider Archont', span: '1–3' },
-    { title: 'Reptiloidenarchont', span: '4–10' },
-    { title: 'Grey Alien', span: '11–30' },
-    { title: 'Flugscheibenpilot', span: '31–80' },
-    { title: 'Psionic Asset', span: '81–200' },
-    { title: 'Normie', span: 'darunter' },
-    { title: 'Kartoffel', span: 'deutlich unter dem Zufall' },
+    { title: 'Insektoider Archont', span: '1\u20133', icon: 'archon' },
+    { title: 'Reptiloidenarchont', span: '4\u201310', icon: 'reptilian' },
+    { title: 'Grey Alien', span: '11\u201330', icon: 'grey' },
+    { title: 'Flugscheibenpilot', span: '31\u201380', icon: 'pilot' },
+    { title: 'Psionic Asset', span: '81\u2013200', icon: 'psionic' },
+    { title: 'Normie', span: 'darunter', icon: 'normie' },
+    { title: 'Kartoffel', span: 'deutlich unter dem Zufall', icon: 'potato' },
   ];
+
+  private readonly iconByTitle = new Map(this.ladder.map((l) => [l.title, l.icon]));
+
+  /** The ladder is the funniest writing in the product; it deserves faces, not a text list. */
+  iconFor(title: string): string {
+    return `rank/rank-${this.iconByTitle.get(title) ?? 'normie'}.svg`;
+  }
 
   de(n: number, digits = 1): string {
     return n.toLocaleString('de-DE', { minimumFractionDigits: digits, maximumFractionDigits: digits });

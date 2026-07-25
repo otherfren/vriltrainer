@@ -25,20 +25,21 @@
   transform: rotate(-0.5deg);
 }
 
-/* Every small caption on this page is the same pixel label in the same red. */
+/* Every small caption on this page is the same label in the same red. */
 .label__cap,
 .seal__key,
 .proof__row span {
-  font-family: var(--pixel);
-  font-size: 0.5625rem;
-  letter-spacing: 0.1em;
+  font-family: var(--label);
+  font-weight: 800;
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--pop-ink);
 }
 
 .label__cap {
   display: block;
-  font-size: 0.625rem;
+  font-size: 0.75rem;
   margin-bottom: var(--s2);
 }
 
@@ -63,11 +64,12 @@
 
 .seal__stamp {
   position: absolute;
-  top: -0.9rem;
+  top: -0.95rem;
   left: var(--s4);
-  font-family: var(--pixel);
-  font-size: 0.6875rem;
-  letter-spacing: 0.06em;
+  font-family: var(--label);
+  font-weight: 800;
+  font-size: 0.8125rem;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--card);
   background: var(--pop);
@@ -100,13 +102,13 @@
 
 .seal__val,
 .proof__row code {
-  font-family: var(--pixel);
-  font-size: 0.6875rem;
+  font-family: var(--data);
+  font-size: 0.75rem;
   overflow-wrap: anywhere;
 }
 
 .seal__val {
-  font-size: 0.625rem;
+  font-size: 0.6875rem;
 }
 
 .seal__note {
@@ -221,9 +223,10 @@
   left: -1px;
   bottom: 0;
   right: -1px;
-  font-family: var(--pixel);
-  font-size: 0.625rem;
-  letter-spacing: 0.06em;
+  font-family: var(--label);
+  font-weight: 800;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   padding: var(--s1) var(--s2);
   border-top: 3px solid var(--ink);
@@ -270,9 +273,10 @@
 
 .verdict__rate,
 .progress {
-  font-family: var(--pixel);
-  font-size: 0.75rem;
-  letter-spacing: 0.06em;
+  font-family: var(--label);
+  font-weight: 800;
+  font-size: 0.875rem;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--zap);
   margin: 0;

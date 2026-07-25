@@ -35,7 +35,12 @@
         @for (r of rows; track r.publicId) {
           <tr>
             <td class="tbl__rk">{{ r.rank }}</td>
-            <td><span class="badge">{{ r.title }}</span></td>
+            <td>
+              <span class="badge">
+                <img class="badge__pic" [src]="iconFor(r.title)" alt="" />
+                {{ r.title }}
+              </span>
+            </td>
             <td class="tbl__name">{{ r.name }}<span class="tbl__id">{{ r.publicId }}</span></td>
             <td class="tbl__num measured">{{ de(r.wilson) }} %</td>
             <td class="tbl__num">{{ r.completed.toLocaleString('de-DE') }}</td>
@@ -52,6 +57,7 @@
     <ul class="ladder__list">
       @for (l of ladder; track l.title) {
         <li>
+          <img class="ladder__pic" [src]="'rank/rank-' + l.icon + '.svg'" alt="" />
           <span class="ladder__title">{{ l.title }}</span>
           <span class="ladder__span">{{ l.span }}</span>
         </li>

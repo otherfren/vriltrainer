@@ -1,12 +1,13 @@
 import { Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { VrilMeterComponent } from './core/vril-meter.component';
+import { SceneComponent } from './core/scene.component';
 import { ApiService } from './core/api.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, VrilMeterComponent],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, VrilMeterComponent, SceneComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })

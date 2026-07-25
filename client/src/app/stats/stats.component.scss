@@ -71,8 +71,9 @@
 
 .hist__count,
 .hist__z {
-  font-family: var(--pixel);
-  font-size: 0.625rem;
+  font-family: var(--data);
+  font-weight: 700;
+  font-size: 0.75rem;
   font-variant-numeric: tabular-nums;
 }
 
@@ -130,9 +131,10 @@
 }
 
 .mine__label {
-  font-family: var(--pixel);
-  font-size: 0.5625rem;
-  letter-spacing: 0.1em;
+  font-family: var(--label);
+  font-weight: 800;
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--pop-ink);
 }
