@@ -124,3 +124,8 @@ en = "Stone"
 id = "ornament"
 de = "Dekoration"
 en = "Ornament"
+
+[[category]]
+id = "person"
+de = "Mensch"
+en = "Person"

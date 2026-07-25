@@ -46,10 +46,25 @@ category = "building"
   de = "Fernsehturm CN Tower, Toronto"
   en = "CN Tower, Toronto"
 
-# Both flowers sit in one category on purpose. It looks like the wrong call — two similar images in
-# one bucket — and it is the opposite: D22 draws eight DIFFERENT categories per trial, so two
-# images sharing a category can never appear in the same set. Splitting them across `plant` and
-# `landscape` is what would let a confusable pair turn up together.
+  # Two towers, and two huts, all in one category. Both pairs would be confusable side by side, and
+  # sharing a category is exactly what stops that: D22 draws eight DIFFERENT categories per trial,
+  # so images filed together can never appear in the same set. Near-duplicates belong together, not
+  # spread out — which is the opposite of what a tidy taxonomy would tell you to do.
+  [[group.image]]
+  file = "Eifelturm.jpg"
+  de = "Eiffelturm in Paris"
+  en = "Eiffel Tower, Paris"
+
+  [[group.image]]
+  file = "hütte_im_wald.jpg"
+  de = "Hütte im Wald"
+  en = "Cabin in the woods"
+
+  [[group.image]]
+  file = "insel_mit_hütte.jpg"
+  de = "Kleine Insel mit Hütte"
+  en = "Small island with a cabin"
+
 [[group]]
 dir = "plant"
 category = "plant"
@@ -64,6 +79,54 @@ category = "plant"
   de = "Feld mit gelben Tulpen"
   en = "Field of yellow tulips"
 
+  [[group.image]]
+  file = "kirschblüten_vor_blauem_himmel.jpg"
+  de = "Kirschblüten vor blauem Himmel"
+  en = "Cherry blossom against a blue sky"
+
+  [[group.image]]
+  file = "löwenzahn_auf_feld.jpg"
+  de = "Löwenzahn auf einem Feld"
+  en = "Dandelion in a field"
+
+  [[group.image]]
+  file = "gruppe_von_fasskakteen.jpg"
+  de = "Gruppe von Fasskakteen"
+  en = "Cluster of barrel cacti"
+
+[[group]]
+dir = "person"
+category = "person"
+
+  [[group.image]]
+  file = "freu_mit_nasenring_hinter_blume.jpg"
+  de = "Frau mit Nasenring hinter einer Blume"
+  en = "Woman with a nose ring behind a flower"
+
+  [[group.image]]
+  file = "glückliches_baby_schaukelt.jpg"
+  de = "Lachendes Baby auf einer Schaukel"
+  en = "Laughing baby on a swing"
+
+  [[group.image]]
+  file = "tätowierte_frau_nachtclub.jpg"
+  de = "Tätowierte Frau in einem Nachtclub"
+  en = "Tattooed woman in a nightclub"
+
+[[group]]
+dir = "ornament"
+category = "ornament"
+
+  [[group.image]]
+  file = "diskokugel_schwarz_weiss.jpg"
+  de = "Diskokugel in Schwarzweiß"
+  en = "Mirror ball in black and white"
+
+  [[group.image]]
+  file = "dekorierte_eier_pastellfarben.jpg"
+  de = "Pastellfarben bemalte Eier"
+  en = "Pastel-painted eggs"
+
 [[group]]
 dir = "stone"
 category = "stone"
@@ -74,10 +137,37 @@ category = "stone"
   en = "Pastel-coloured pebbles"
 
 [[group]]
-dir = "ornament"
-category = "ornament"
+dir = "landscape"
+category = "landscape"
 
   [[group.image]]
-  file = "diskokugel_schwarz_weiss.jpg"
-  de = "Diskokugel in Schwarzweiß"
-  en = "Mirror ball in black and white"
+  file = "riesige_erleuchtete_höhle.jpg"
+  de = "Riesige beleuchtete Höhle"
+  en = "Vast illuminated cave"
+
+[[group]]
+dir = "sky"
+category = "sky"
+
+  [[group.image]]
+  file = "mond.jpg"
+  de = "Der Mond"
+  en = "The moon"
+
+[[group]]
+dir = "furniture"
+category = "furniture"
+
+  [[group.image]]
+  file = "moderne_weisse_küche_holzarbeitsplatte.jpg"
+  de = "Moderne weiße Küche mit Holzarbeitsplatte"
+  en = "Modern white kitchen with a wooden worktop"
+
+[[group]]
+dir = "vehicle"
+category = "vehicle"
+
+  [[group.image]]
+  file = "weißer_mercedes_280SE.jpg"
+  de = "Weißer Mercedes 280 SE"
+  en = "White Mercedes 280 SE"
