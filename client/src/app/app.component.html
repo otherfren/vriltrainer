@@ -20,7 +20,9 @@
       }
 
       <!-- "Spielstand" needed the metaphor explained before it meant anything. This link is
-           what gets you back into the account, so it carries the word for that. -->
+           what gets you back into the account, so it carries the word for that. It appears only
+           once there is an account: before the name there is nothing to log back into. -->
+      @if (player.name()) {
       <div class="login">
         <span class="login__label">Login</span>
         <button class="login__btn" type="button" (click)="copyKey()" title="Kopieren, ohne anzuzeigen">
@@ -31,6 +33,7 @@
           Zeigen
         </button>
       </div>
+      }
 
       <div class="lang">
         <span class="lang__item is-active" title="Deutsch · vriltrainer.de">

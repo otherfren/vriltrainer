@@ -3,6 +3,7 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { StatusPanelComponent } from './core/status-panel.component';
 import { SceneComponent } from './core/scene.component';
 import { ApiService } from './core/api.service';
+import { PlayerService } from './core/player.service';
 
 @Component({
   selector: 'app-root',
@@ -15,6 +16,7 @@ export class AppComponent {
   /** Shown in the HUD, because a demo trial that looked real would be the one dishonest
    *  thing on a site whose entire promise is that you can check it yourself. */
   readonly demoMode = inject(ApiService).demoMode;
+  readonly player = inject(PlayerService);
 
   readonly accessKey = 'https://vriltrainer.de/#t=8f2c41a09b7e5d63a1c8ff02e94b7d15';
 

@@ -1,6 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { ApiService, Resolution, TrialStart } from '../core/api.service';
 import { PlayerService, STATS_UNLOCK_AT } from '../core/player.service';
+import { NameGateComponent } from '../core/name-gate.component';
 
 type Phase = 'sealed' | 'revealed' | 'answered';
 
@@ -14,6 +15,7 @@ interface Slot {
 @Component({
   selector: 'app-trial',
   standalone: true,
+  imports: [NameGateComponent],
   templateUrl: './trial.component.html',
   styleUrl: './trial.component.scss',
 })

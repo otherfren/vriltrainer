@@ -1,4 +1,9 @@
-@if (trial(); as t) {
+@if (!player.name()) {
+  <section class="shell trial trial--sealed">
+    <app-name-gate />
+  </section>
+} @else {
+  @if (trial(); as t) {
   <section class="shell trial" [class.trial--sealed]="phase() === 'sealed'">
     @if (phase() === 'sealed') {
       <p class="eyebrow">Sitzung {{ player.completed() + 1 }} · versiegelt</p>
@@ -203,4 +208,5 @@
       }
     }
   </section>
+}
 }

@@ -36,6 +36,12 @@ export interface Rank {
  */
 @Injectable({ providedIn: 'root' })
 export class PlayerService {
+  /**
+   * The display name, and the gate in front of the first trial. Null until it is chosen.
+   * The server owns this once it exists; here it lives for the length of the session.
+   */
+  readonly name = signal<string | null>(null);
+
   readonly completed = signal(7);
   readonly hits = signal(1);
 
