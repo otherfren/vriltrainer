@@ -292,13 +292,6 @@ category = "animal"
   de = "Zwei Strauße über einem Zaun"
   en = "Two ostriches peering over a fence"
 
-  # A rider, and filed with the animals: the horse fills the frame, and a bucking horse beside a
-  # highland cow is the pair worth preventing.
-  [[group.image]]
-  file = "cowboy_riding_bucking_horse.jpg"
-  de = "Cowboy auf einem bockenden Pferd"
-  en = "Cowboy riding a bucking horse"
-
 # `stone` comes back with something that actually looks like stone. The pastel pebbles left for
 # `ornament` because of what they resemble, not what they are.
 [[group]]
