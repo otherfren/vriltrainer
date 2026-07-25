@@ -28,7 +28,11 @@ cargo test
 #     fails in production on honest trials.
 cd client && npm run conformance && cd ..
 
-# 3 — the interface in development mode, http://localhost:4200
+# 3 — the client's unit tests. Karma needs to be told which browser to use; there is no
+#     bundled Chrome, so point it at the system one.
+cd client && CHROME_BIN=$(command -v chromium) npm test -- --watch=false --browsers=ChromeHeadless
+
+# 4 — the interface in development mode, http://localhost:4200
 cd client && npm start
 ```
 

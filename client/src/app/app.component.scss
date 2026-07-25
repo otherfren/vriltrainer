@@ -113,6 +113,8 @@ main {
 }
 
 /* ---- the login ---- */
+/* The panel is the button. It had two of its own before, which meant three hit targets in a
+   15rem slot and no room to say what any of them did. */
 
 .login {
   display: flex;
@@ -120,11 +122,21 @@ main {
   gap: var(--s2);
   min-width: 0;
   background: var(--card);
+  color: var(--ink);
   border: 3px solid var(--ink);
   padding: var(--s1) var(--s2);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
 }
 
-.login__label {
+.login:hover {
+  background: var(--sky);
+}
+
+.login__label,
+.login__show {
+  flex: none;
   font-family: var(--label);
   font-weight: 800;
   font-size: 0.6875rem;
@@ -133,31 +145,28 @@ main {
   color: var(--pop-ink);
 }
 
-.login__btn {
-  background: none;
-  border: none;
+/* The one string in the bar the operator did not write. Twenty characters is the cap, but a
+   wide twenty still overruns the slot, so it truncates rather than shoving the language
+   switch off the end. */
+.login__name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
   white-space: nowrap;
   font-family: var(--label);
   font-weight: 800;
   font-size: 0.6875rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--pop-ink);
-  cursor: pointer;
-  padding: var(--s1);
+  letter-spacing: 0.04em;
 }
 
-.login__btn:hover {
-  color: var(--ink);
-}
-
-.login__btn--eye {
+.login__show {
   display: inline-flex;
   align-items: center;
   gap: 4px;
+  letter-spacing: 0.08em;
 }
 
-.login__btn--eye img {
+.login__show img {
   width: 20px;
   height: 14px;
   image-rendering: pixelated;
@@ -200,7 +209,8 @@ main {
 
 /* ---- the login, shown whole ---- */
 /* A key rendered as `…` is not rendered, so revealing happens here rather than in a 13rem
-   slot in the bar. */
+   slot in the bar. It still opens covered: the dialog is also where you come to copy, and
+   copying does not need the secret on screen. */
 
 .keydlg {
   border: none;
@@ -237,6 +247,13 @@ main {
   margin-bottom: var(--s6);
   overflow-wrap: anywhere;
   user-select: all;
+}
+
+/* Dots are not the key, so they are not selectable and not copyable — dragging across them
+   and pasting the result would be a quiet way to get the wrong string. */
+.keydlg__key.is-masked {
+  user-select: none;
+  color: var(--pop-ink);
 }
 
 .keydlg__row {

@@ -19,20 +19,23 @@
         </span>
       }
 
-      <!-- "Spielstand" needed the metaphor explained before it meant anything. This link is
-           what gets you back into the account, so it carries the word for that. It appears only
-           once there is an account: before the name there is nothing to log back into. -->
+      <!-- "Spielstand" needed the metaphor explained before it meant anything. This panel is
+           what gets you back into the account, so it carries the word for that, and the name so
+           you can see whose account it is. It appears only once there is an account: before the
+           name there is nothing to log back into.
+
+           The whole panel is one button. Two half-labelled controls in a 15rem slot were one
+           too many for what they did — everything you can do with a login you cannot read has
+           room to be spelled out in the dialog instead. -->
       @if (player.name()) {
-      <div class="login">
-        <span class="login__label">Login</span>
-        <button class="login__btn" type="button" (click)="copyKey()" title="Kopieren, ohne anzuzeigen">
-          {{ copied ? 'Kopiert' : 'Kopieren' }}
-        </button>
-        <button class="login__btn login__btn--eye" type="button" (click)="openKey()" title="Ganzen Link anzeigen">
+      <button class="login" type="button" (click)="openKey()" title="Login anzeigen oder kopieren">
+        <span class="login__label">Login:</span>
+        <span class="login__name">{{ player.name() }}</span>
+        <span class="login__show">
           <img src="ui/eye.svg" alt="" />
           Zeigen
-        </button>
-      </div>
+        </span>
+      </button>
       }
 
       <div class="lang">
@@ -50,10 +53,15 @@
       Dieser Link <em>ist</em> dein Konto. Wer ihn hat, ist du. Es gibt keine Wiederherstellung —
       speichere ihn als Lesezeichen oder im Passwortmanager.
     </p>
-    <code class="keydlg__key">{{ accessKey }}</code>
+    <code class="keydlg__key" [class.is-masked]="!revealed" [attr.aria-label]="revealed ? null : 'Login verdeckt'">{{
+      revealed ? accessKey : maskedKey
+    }}</code>
     <div class="keydlg__row">
       <button class="btn" type="button" (click)="copyKey()">
         {{ copied ? 'Kopiert' : 'Kopieren' }}
+      </button>
+      <button class="btn btn--quiet" type="button" (click)="toggleReveal()" [attr.aria-pressed]="revealed">
+        {{ revealed ? 'Verbergen' : 'Anzeigen' }}
       </button>
       <button class="btn btn--quiet" type="button" (click)="closeKey()">Schließen</button>
     </div>
