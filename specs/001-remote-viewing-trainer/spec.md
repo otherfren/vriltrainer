@@ -8,9 +8,9 @@
 
 **Input**: User description: "Online trainer for remote viewing. A user invents a name and receives a secret access link. Trial loop: a coordinate is shown, a click reveals 8 images, the user picks one, the next click shows right or wrong plus a cryptographic proof, the next click starts over. Score tracking, leaderboard, statistics with z-score from 10 trials. Bilingual across two domains, public audit log."
 
-**Design basis**: All mechanism decisions were settled in a prior interview and are recorded in
-`docs/trial-protocol-decisions.md` (D1–D15). That document is binding on planning; this
-specification states what the product must do, not how.
+**Design basis**: Mechanism and concept decisions were settled in two prior interviews and are
+recorded in `docs/trial-protocol-decisions.md` (D1–D21). That document is binding on planning;
+this specification states what the product must do, not how.
 
 ## User Scenarios & Testing *(mandatory)*
 
