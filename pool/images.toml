@@ -1061,6 +1061,23 @@ category = "armour"
   de = "Ritterrüstung"
   en = "Knight's armour"
 
+  # Three more, and `armour` stops being the thinnest thing in the pool. Two of them are a full
+  # suit seen head-on, which is precisely why they are filed together rather than admired apart.
+  [[group.image]]
+  file = "knight_armour_brass.jpg"
+  de = "Messingfarbene Ritterrüstung"
+  en = "Brass knight's armour"
+
+  [[group.image]]
+  file = "gray_armour.jpg"
+  de = "Graue Rüstung"
+  en = "Grey armour"
+
+  [[group.image]]
+  file = "chain_armour.jpg"
+  de = "Kettenrüstung"
+  en = "Chain mail"
+
 [[group]]
 dir = "insect"
 category = "insect"

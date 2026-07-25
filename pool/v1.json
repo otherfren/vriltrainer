@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "created": "2026-07-25T22:16:59Z",
-  "count": 189,
+  "created": "2026-07-25T22:24:58Z",
+  "count": 192,
   "categories": [
     "animal",
     "armour",
@@ -325,6 +325,10 @@
       "category": "plant"
     },
     {
+      "id": "img_59209a20f02a5445a3b7979badbfbb45",
+      "category": "armour"
+    },
+    {
       "id": "img_5b86d034898f54e2b5c613db4a7bec2a",
       "category": "toy"
     },
@@ -367,6 +371,10 @@
     {
       "id": "img_647afa5570c993d9afe24844618b6fa6",
       "category": "vehicle"
+    },
+    {
+      "id": "img_64e2fa2ee680da4ab13fb4808144d396",
+      "category": "armour"
     },
     {
       "id": "img_65f794fd3732866fed298600a113d1fb",
@@ -519,6 +527,10 @@
     {
       "id": "img_a4a99cf7396ecad55848e0d1b3e26f93",
       "category": "stone"
+    },
+    {
+      "id": "img_a55692a6a5b41809303212ac173750bd",
+      "category": "armour"
     },
     {
       "id": "img_a5e563e868e44afca2578567d0e68dc8",
@@ -781,5 +793,5 @@
       "category": "food"
     }
   ],
-  "manifest_hash": "sha256:406417a490378fce76dd1de56b3e48a0a94e211efe05081700ceb4b101a1e5e2"
+  "manifest_hash": "sha256:b359d99b6bb66e95860c9bedbfc77c996a38427b0bfd801b7c303cb953ca6477"
 }

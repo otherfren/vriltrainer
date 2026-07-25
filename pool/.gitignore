@@ -5,3 +5,7 @@ catalogue.json
 
 # Whatever a source arrived as before it was converted. Keep them if you like; nothing reads them.
 originals/
+
+# The copy `--pool` names, which is whichever v<N>.json is current. A duplicate that goes stale the
+# moment a version is cut; `v*.json` beside it is the permanent record and stays tracked.
+manifest.json
