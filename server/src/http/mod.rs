@@ -10,9 +10,11 @@ pub mod locale;
 pub mod routes;
 pub mod trace;
 
+use std::net::SocketAddr;
 use std::sync::Arc;
 
 use axum::Router;
+use axum::extract::connect_info::IntoMakeServiceWithConnectInfo;
 use axum::http::StatusCode;
 use axum::response::{IntoResponse, Response};
 
@@ -93,6 +95,54 @@ impl IntoResponse for ApiError {
 }
 
 /// The whole application. Route modules mount themselves; this only assembles them.
+///
+/// Layer order is deliberate: the correlation identifier and the request span are outermost, so
+/// the locale warning and every handler line carry them.
 pub fn router(state: AppState) -> Router {
-    trace::instrument(routes::all().with_state(state))
+    let locale = state.config.locale;
+    trace::instrument(locale::announce(routes::all().with_state(state), locale))
+}
+
+/// What [`axum::serve`] should be handed.
+///
+/// The make-service rather than the [`Router`], because `ConnectInfo` is the only way a handler
+/// learns which peer it is talking to, and without the peer the forwarded client address is either
+/// refused from the proxy or believed from anyone (R8, [`client_addr`]). Serving the bare router
+/// compiles and runs; it simply makes the per-address limit meaningless, which is the failure mode
+/// R8 exists to keep out of the deployment.
+pub fn service(state: AppState) -> IntoMakeServiceWithConnectInfo<Router, SocketAddr> {
+    router(state).into_make_service_with_connect_info::<SocketAddr>()
+}
+
+/// Fixtures for the route tests. Every handler needs the whole [`AppState`], so building one is
+/// the first thing each of those tests would otherwise do.
+#[cfg(test)]
+pub(crate) mod test_support {
+    use super::*;
+    use crate::pool::{ImageEntry, Manifest};
+
+    /// State over an empty in-memory database and a two-image manifest.
+    ///
+    /// The manifest is too small to draw a trial from — that needs eight categories — so a test
+    /// that derives anything must build its own. It exists here only so the pool is a validated
+    /// one rather than a hash that does not match its contents.
+    pub(crate) fn state() -> AppState {
+        let categories = vec!["a".to_string(), "b".to_string()];
+        let images = vec![
+            ImageEntry { id: "img_1".into(), category: "a".into() },
+            ImageEntry { id: "img_2".into(), category: "b".into() },
+        ];
+        let manifest = Manifest {
+            version: 1,
+            manifest_hash: Manifest::compute_hash(&categories, &images),
+            categories,
+            images,
+        };
+        AppState {
+            db: Arc::new(crate::db::Db::open_in_memory().expect("an in-memory database opens")),
+            config: Arc::new(Config::default()),
+            sealer: Arc::new(Sealer::new(&[7u8; 32])),
+            pool: Arc::new(manifest),
+        }
+    }
 }
