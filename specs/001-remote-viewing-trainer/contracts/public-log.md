@@ -17,7 +17,7 @@ Newline-delimited JSON, one entry per line, ordered by `seq` with no gaps.
 // RESOLVE — written when the trial is answered
 { "seq": 1043, "kind": "resolve", "trial": "7f3a…",
   "at": "2026-07-25T17:58:31Z", "chosen": "img_4e1…", "target": "img_9c2…",
-  "hit": false, "s_server": "base64…", "nonce": "base64…",
+  "hit": false, "s_server": "base64…", "s_client": "base64…", "nonce": "base64…",
   "prev": "sha256:…", "hash": "sha256:…" }
 ```
 
@@ -32,24 +32,23 @@ lets a name be erased without invalidating a single entry (FR-023, FR-036, D13).
 2. **Each commitment.** `SHA-256(s_server ‖ nonce ‖ coordinate)` must equal the `commitment` from
    the paired commit entry — proving the target was fixed before the choice, and that *this*
    coordinate belongs to *this* trial.
-3. **Each derivation.** With `s_server` from the resolve entry, `s_client`, and the pool manifest
-   for `pool_version`, recompute target, decoys and display order (R1) and compare to `target`.
+3. **Each derivation.** With `s_server` and `s_client` from the resolve entry and the pool
+   manifest for `pool_version`, recompute target, decoys and display order (R1) and compare to
+   `target`. Both contributions are published, so this is checkable by anyone, not only by the
+   participant whose browser generated `s_client`.
 4. **Abandonment.** A commit entry with no resolve entry is an abandoned trial. Counting them
    gives the abandonment rate, per account and overall (FR-027, SC-012).
 5. **The aggregate.** Hits over resolves, which must reproduce the published headline figure
    (SC-004).
 
-## Two limits, stated plainly
+## One limit, stated plainly
 
-`s_client` is not currently carried in the resolve entry, so an independent party can verify the
-commitment and the chain from the log alone, but reproducing the *derivation* requires the
-`s_client` the participant's own client generated. Participants can verify their own trials in
-full; a third party verifies everything except the decoy derivation. **If full third-party
-derivation checking is wanted, `s_client` must be added to the resolve entry** — a small change,
-listed here because it is the kind of gap that is invisible until someone tries.
+The log proves it has not been *rewritten* only to the extent that observers hold earlier copies.
+Anchoring was deferred (D4), and timestamping would not have closed the related gap anyway — it
+establishes non-backdating, not uniqueness, so an operator could maintain two divergent logs and
+stamp both. Detecting that needs readers comparing heads, which is why the export exists and why
+the head is published separately.
 
-Second: the log proves it has not been *rewritten* only to the extent that observers hold earlier
-copies. Anchoring was deferred (D4), and timestamping would not have closed the related gap
-anyway — it establishes non-backdating, not uniqueness, so an operator could maintain two
-divergent logs and stamp both. Detecting that needs readers comparing heads, which is why the
-export exists and why the head is published separately.
+Publishing `s_client` alongside `s_server` costs nothing once a trial has resolved: the target is
+already in the same entry, so the randomness reveals no secret. It is what makes SC-002 true as
+written — an independent party, not merely the participant, can recompute every trial in full.

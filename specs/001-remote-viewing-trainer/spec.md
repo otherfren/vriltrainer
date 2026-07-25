@@ -85,7 +85,9 @@ story is what separates the product from an unfalsifiable psi site, but trials m
 scored before there is anything to verify.
 
 **Independent Test**: Complete a trial, inspect its evidence in the interface, then fetch the
-public record and confirm independently that the outcome was fixed before the choice.
+public record and confirm independently that the outcome was fixed before the choice. The
+verification half of this story stands alone; **the leaderboard half does not** — it ranks the
+statistics built in User Story 2 and cannot be delivered before them.
 
 **Acceptance Scenarios**:
 
@@ -209,12 +211,12 @@ account and full history carry over.
 - **FR-037**: System MUST accept at most one *evaluated* answer per trial and MUST refuse any
   later answer for a trial already answered. An answer rejected without being evaluated does not
   consume the trial.
-- **FR-039**: System MUST reject an answer submitted less than three seconds after the images
-  were revealed, and MUST reject it **without evaluating the chosen image**, so that the rule
-  cannot be used to probe for the target.
 - **FR-038**: A trial MUST become permanently uncompletable once its validity period has passed,
   and a user answering after that point MUST be told the trial expired and offered a new one,
   never silently scored as a miss.
+- **FR-039**: System MUST reject an answer submitted less than three seconds after the images
+  were revealed, and MUST reject it **without evaluating the chosen image**, so that the rule
+  cannot be used to probe for the target.
 
 **Scoring and statistics**
 
@@ -312,8 +314,8 @@ account and full history carry over.
   duplicate account is created by switching.
 - **SC-008**: After a name is removed, 100% of that account's previously published trials remain
   verifiable.
-- **SC-009**: An account with fewer than ten completed trials never appears in the top ten of
-  the leaderboard.
+- **SC-009**: No account appears anywhere on the leaderboard without having completed 100 trials
+  across at least three distinct days, so no short lucky run can occupy a ranked position.
 - **SC-010**: The image collection contains at least 500 images at launch, every one freely
   licensed with its provenance recorded.
 - **SC-011**: Inspecting client-side state or network traffic before a choice is submitted does
@@ -334,6 +336,9 @@ account and full history carry over.
 - The coordinate is an arbitrary fixed-format reference carrying no information the user could
   decode. It exists because remote viewing convention expects one; it does not encode the target.
 - The chance hit rate is 12.5%, one image in eight.
+- "Deviation from chance" is the term used throughout these artifacts for the standardised
+  distance between an observed hit rate and 12.5%. It is the same quantity called a z-score
+  elsewhere; the interface and the API field use the plainer name.
 - A trial is abandoned simply by not being completed — no timer classifies it. Separately, a
   trial stays completable for a validity period assumed to be 24 hours, after which abandonment
   becomes final. Without that bound, a trial in progress and an abandoned one would remain
@@ -343,9 +348,12 @@ account and full history carry over.
 - FR numbers are stable identifiers, not an ordering. FR-037 was added after the first pass and
   sits with the trial requirements rather than at the end, so that existing references keep
   pointing at the same requirements.
-- Accounts may run unlimited trials; no per-user rate limit is imposed at launch. Abuse of the
-  leaderboard through many throwaway accounts is addressed by the ranking rule in FR-028 and by
-  the aggregate figure in FR-020 carrying the main claim, rather than by restricting play.
+- Play itself is not rate-limited over time, but two limits apply: account creation is capped per
+  client address, and each account may hold only a small number of uncompleted trials at once. The
+  second is what bounds growth of the permanent log, since every trial is recorded at creation.
+  Abuse of the leaderboard through many throwaway accounts is answered separately — by the
+  eligibility rule in FR-040, the ranking rule in FR-028, and the aggregate figure in FR-020
+  carrying the main claim rather than the top entry.
 - The leaderboard's effective minimum is 100 completed trials, spread over at least three days,
   subject to adjustment once real distributions are observed.
 - The leaderboard is sorted by the lower bound of a confidence interval on the hit rate, which

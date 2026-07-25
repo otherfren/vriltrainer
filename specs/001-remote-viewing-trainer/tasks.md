@@ -59,16 +59,17 @@ the derivation vectors. Neither can be worked around later.
 
 ### The image pool
 
-- [ ] T013 [P] Implement image normalisation in `tools/poolctl/src/normalise.rs` — fixed edge length, uniform requantisation, metadata stripped, identifier from the hash of normalised bytes
+- [ ] T013 [P] Implement image normalisation in `tools/poolctl/src/normalise.rs` — fixed edge length, uniform requantisation, metadata stripped, identifier from the hash of normalised bytes (FR-011)
 - [ ] T014 [P] Implement the annotate command in `tools/poolctl/src/annotate.rs` recording source URL, licence and attribution per image — this is the operator's curation interface, not only a build step (D17)
 - [ ] T015 Implement manifest emission in `tools/poolctl/src/manifest.rs` — sorted identifier list plus a plain hash over it, per contracts/pool-manifest.md; the ordering is normative because the derivation indexes into it
-- [ ] T016 Curate and normalise at least 500 freely licensed images into `shared/pool/v1.json` — the largest piece of manual work in the project, and it blocks every playable scenario (FR-012, D5)
+- [ ] T084 [P] Add the manifest format test in `tools/poolctl/tests/manifest_format.rs` — asserts ascending order, the hash over the sorted list, and that a reordered manifest is rejected; the ordering silently determines every future derivation (constitution III, contracts/pool-manifest.md)
+- [ ] T016 Curate and normalise at least 500 freely licensed images into `shared/pool/v1.json` — the largest piece of manual work in the project, and it blocks every playable scenario (FR-012, SC-010, D5)
 
 ### Storage, chain and crypto
 
-- [ ] T017 Create the schema and migrations in `server/src/db/schema.sql` for `account`, `log_entry`, `pool_version`, `pool_image`, `handoff_code`, `account_stats`, per data-model.md
+- [ ] T017 Create the schema and migrations in `server/src/db/schema.sql` for `account`, `log_entry`, `pool_version`, `pool_image`, `handoff_code`, `account_stats`, per data-model.md — the log references the opaque account id, never the name (FR-026)
 - [ ] T018 Configure SQLite in `server/src/db/mod.rs` — WAL, single writer connection, reader pool (research.md R9)
-- [ ] T019 Implement the append-only chain in `server/src/log/chain.rs` — monotonic gapless `seq`, `prev_hash`, `entry_hash`, append inside one transaction
+- [ ] T019 Implement the append-only chain in `server/src/log/chain.rs` — monotonic gapless `seq`, `prev_hash`, `entry_hash`, append inside one transaction; an abandoned trial is a commit with no resolve, so it needs no marker (FR-014)
 - [ ] T020 [P] Implement commitment hashing in `server/src/trial/commit.rs` — `SHA-256(s_server ‖ nonce ‖ coordinate)`; the coordinate is inside the hash, without which the reveal proves nothing about which coordinate was shown
 - [ ] T021 [P] Implement token seal and open in `server/src/trial/token.rs` — XChaCha20-Poly1305, account identifier and trial sequence bound as additional authenticated data so tokens cannot be moved between accounts (research.md R7)
 
@@ -95,12 +96,14 @@ start a second. Nothing else needs to exist.
 - [ ] T027 [US1] Implement `POST /api/account` in `server/src/http/routes/account.rs` per contracts/http-api.md
 - [ ] T028 [US1] Implement `POST /api/trial` in `server/src/http/routes/trial.rs` — draw the coordinate and `s_server`, write the `COMMIT` entry **before responding**, return the commitment with it (FR-007, FR-013, D3)
 - [ ] T029 [US1] Implement `POST /api/trial/reveal` in `server/src/http/routes/trial.rs` — combine `s_client`, derive target, decoys and order, issue token 2 carrying reveal time and expiry (FR-008, FR-009)
-- [ ] T030 [US1] Implement `POST /api/trial/answer` in `server/src/http/routes/trial.rs` — evaluate, append the `RESOLVE` entry, return `s_server` and nonce (FR-010, FR-019)
+- [ ] T030 [US1] Implement `POST /api/trial/answer` in `server/src/http/routes/trial.rs` — evaluate, append the `RESOLVE` entry, return `s_server`, `s_client` and nonce (FR-010, FR-022)
 - [ ] T031 [US1] Enforce the minimum viewing time in `server/src/trial/timing.rs` — reject under three seconds **before examining the chosen image**, leave the trial open; anything else turns the rule into an oracle for the target (FR-039, SC-016)
 - [ ] T032 [US1] Enforce one evaluated answer per trial and the validity period in `server/src/trial/state.rs` — a speed-rejected answer does not consume the trial (FR-037, FR-038)
 - [ ] T033 [P] [US1] Build the trial screen in `client/src/app/trial/trial.component.ts` — coordinate, reveal, eight images, verdict, next
 - [ ] T034 [P] [US1] Implement access-link handling in `client/src/app/account/access-link.service.ts` — read the fragment, store it, clear the address bar with `history.replaceState` (FR-006)
-- [ ] T035 [US1] Build the access-link panel in `client/src/app/account/access-link.component.ts` — masked by default, reveal button, copy **without** revealing, re-mask on a timeout (D9, D21)
+- [ ] T035 [US1] Build the access-link panel in `client/src/app/account/access-link.component.ts` — masked by default, reveal button, copy **without** revealing, re-mask on a timeout (FR-003, D9, D21)
+- [ ] T088 [US1] State plainly in the access-link panel that a lost link cannot be recovered, in `client/src/app/account/access-link.component.ts` (FR-005)
+- [ ] T089 [US1] Prompt the user to save the access link again on reaching the statistics threshold, in `client/src/app/account/save-reminder.component.ts` — the first prompt arrives before anything is worth keeping (FR-004, D9)
 - [ ] T036 [US1] Add the contract test for the trial endpoints in `server/tests/contract_trial.rs` — constitution principle III requires released contracts to be covered
 - [ ] T037 [US1] Verify no response before the answer identifies the target, in `server/tests/no_target_leak.rs` (SC-011)
 
@@ -115,15 +118,16 @@ start a second. Nothing else needs to exist.
 **Independent Test**: Run ten trials scoring zero hits; statistics appear regardless. Then confirm
 the deviation arrives with its by-chance context.
 
-- [ ] T038 [US2] Maintain `account_stats` incrementally on resolve in `server/src/stats/accumulate.rs` — completed, hits, abandoned, distinct UTC days
+- [ ] T038 [US2] Maintain `account_stats` incrementally on resolve in `server/src/stats/accumulate.rs` — completed, hits, abandoned, distinct UTC days (FR-015)
 - [ ] T039 [P] [US2] Implement the Wilson lower bound and deviation from chance in `server/src/stats/measures.rs`
-- [ ] T040 [P] [US2] Implement the exact binomial tail and its per-10,000 phrasing in `server/src/stats/by_chance.rs` — exact rather than normal-approximated, because small `n` is where the claim is loudest (research.md R3)
+- [ ] T040 [P] [US2] Implement the exact binomial tail and its per-10,000 phrasing in `server/src/stats/by_chance.rs` — exact rather than normal-approximated, because small `n` is where the claim is loudest (FR-018, research.md R3)
 - [ ] T041 [US2] Implement block-wise advancement in blocks of 25 in `server/src/stats/blocks.rs` (FR-019, D17)
-- [ ] T042 [US2] Implement `GET /api/stats/me` in `server/src/http/routes/stats.rs` — gate on completed-trial count alone, never on success, and always report the abandoned count (FR-015, FR-016, FR-021)
+- [ ] T042 [US2] Implement `GET /api/stats/me` in `server/src/http/routes/stats.rs` — gate on completed-trial count alone, never on success, and always report the abandoned count (FR-017, FR-016, FR-021)
 - [ ] T043 [US2] Implement `GET /api/stats/aggregate` in `server/src/http/routes/stats.rs` including both tail counts (FR-020, FR-043)
 - [ ] T044 [P] [US2] Build the personal statistics view in `client/src/app/stats/personal.component.ts` — deviation always beside its by-chance line, never alone
 - [ ] T045 [P] [US2] Build the aggregate view in `client/src/app/stats/aggregate.component.ts` — headline treatment that holds even when the result is exactly chance, which is the expected outcome (FR-045, D18)
 - [ ] T046 [US2] Test that the statistics gate ignores success in `server/tests/stats_gate.rs` — ten trials with zero hits and ten with hits must behave identically (SC-006)
+- [ ] T085 [US2] Add the contract test for the statistics endpoints in `server/tests/contract_stats.rs` (constitution III, contracts/http-api.md)
 
 **Checkpoint**: The product measures, and measures honestly.
 
@@ -139,18 +143,19 @@ it independently.
 - [ ] T047 [P] [US3] Implement the derivation in TypeScript in `client/src/app/verify/derive.ts` — independent of the Rust implementation by design; shared code would verify itself against itself (D7)
 - [ ] T048 [US3] Add the TypeScript conformance test in `client/src/app/verify/derive.spec.ts` against the **same** `shared/vectors/derivation.json`
 - [ ] T049 [US3] Implement commitment verification in `client/src/app/verify/commitment.ts` using WebCrypto
-- [ ] T050 [US3] Build the verification panel in `client/src/app/verify/verify.component.ts` — recompute and compare in the browser with no external tool (FR-020)
-- [ ] T051 [US3] Surface verification failure visibly in `client/src/app/verify/verify.component.ts` — a verifier that only ever says "ok" has not been tested (FR-021)
-- [ ] T052 [P] [US3] Implement the log export in `server/src/log/export.rs` per contracts/public-log.md — newline-delimited JSON from a sequence number
-- [ ] T053 [US3] Implement `GET /api/log` and `GET /api/log/head` in `server/src/http/routes/log.rs` (FR-022)
+- [ ] T050 [US3] Build the verification panel in `client/src/app/verify/verify.component.ts` — recompute and compare in the browser with no external tool and no technical knowledge (FR-023, SC-003)
+- [ ] T051 [US3] Surface verification failure visibly in `client/src/app/verify/verify.component.ts` — a verifier that only ever says "ok" has not been tested (FR-024)
+- [ ] T052 [P] [US3] Implement the log export in `server/src/log/export.rs` per contracts/public-log.md — newline-delimited JSON from a sequence number, abandoned trials included as commits without resolves (FR-027)
+- [ ] T053 [US3] Implement `GET /api/log` and `GET /api/log/head` in `server/src/http/routes/log.rs` (FR-025)
 - [ ] T054 [US3] Implement `GET /api/pool/{version}/manifest` in `server/src/http/routes/pool.rs` — without it nobody can recompute anything
-- [ ] T055 [US3] Implement leaderboard eligibility in `server/src/stats/eligibility.rs` — 100 completed trials across at least three distinct UTC days (FR-040, research.md R4)
-- [ ] T056 [US3] Implement positional rank assignment in `server/src/stats/ranks.rs` — the ladder from D19, withheld entirely below 200 eligible accounts and reporting progress toward it instead (FR-042)
+- [ ] T055 [US3] Implement leaderboard eligibility in `server/src/stats/eligibility.rs` — 100 completed trials across at least three distinct UTC days, which is also what keeps short lucky runs off the board (FR-040, FR-028, SC-009, research.md R4)
+- [ ] T056 [US3] Implement positional rank assignment in `server/src/stats/ranks.rs` — the ladder from D19, withheld entirely below 200 eligible accounts and reporting progress toward it instead (FR-042, SC-013)
 - [ ] T057 [US3] Implement `GET /api/leaderboard` in `server/src/http/routes/leaderboard.rs` — sorted by the Wilson lower bound, which is also the primary figure displayed (FR-041, D20)
-- [ ] T058 [P] [US3] Build the leaderboard view in `client/src/app/leaderboard/leaderboard.component.ts` — sort key shown as the headline number, trials, hit rate and deviation alongside
+- [ ] T058 [P] [US3] Build the leaderboard view in `client/src/app/leaderboard/leaderboard.component.ts` — sort key shown as the headline number, trials, hit rate and deviation alongside, each entry naming the account and its public identifier (FR-029)
 - [ ] T059 [US3] Build rank artefact rendering in `client/src/app/leaderboard/rank-card.component.ts` — trial count and by-chance frequency **inside** the image, because it travels without the page around it (FR-044, SC-015)
-- [ ] T060 [US3] Add the log format test in `server/tests/contract_log.rs` — chain links, commitments match, abandoned trials are commits without resolves (SC-012)
-- [ ] T061 [US3] Decide the `s_client` question recorded in contracts/public-log.md — either add it to the resolve entry so third parties can re-derive decoys, or keep the documented limit deliberately
+- [ ] T060 [US3] Add the log format test in `server/tests/contract_log.rs` — chain links, commitments match, abandoned trials are commits without resolves, and the aggregate recomputes from the file alone (SC-012, SC-004)
+- [ ] T086 [US3] Add the contract test for the leaderboard and pool-manifest endpoints in `server/tests/contract_leaderboard.rs` (constitution III)
+- [ ] T061 [US3] Include `s_client` in the resolve entry in `server/src/log/export.rs` and `server/src/log/chain.rs` — without it only the participant can re-derive the decoys, and SC-002 promises an independent party can
 
 **Checkpoint**: Level B verifiability from D2 is real rather than asserted.
 
@@ -163,19 +168,21 @@ it independently.
 **Independent Test**: Accumulate trials on one domain, switch, confirm identity and history carry
 over and no second account appears.
 
-- [ ] T062 [P] [US4] Extract translatable strings and configure locale builds in `client/angular.json` — one bundle per locale, no runtime i18n library (D10)
+- [ ] T062 [P] [US4] Extract translatable strings and configure locale builds in `client/angular.json` — one bundle per locale, no runtime i18n library, both offering identical functionality (FR-030, D10)
 - [ ] T063 [P] [US4] Provide German and English message catalogues in `client/src/locale/`
 - [ ] T064 [US4] Serve the locale bundle by `Host` in `server/src/http/static.rs`, one binary for both domains
 - [ ] T065 [US4] Implement handoff code minting and redemption in `server/src/account/handoff.rs` — single use, roughly 30 seconds
 - [ ] T066 [US4] Implement `POST /api/handoff` and `POST /api/handoff/redeem` in `server/src/http/routes/handoff.rs`
-- [ ] T067 [US4] Build the language switch in `client/src/app/account/language-switch.component.ts` — carries the session via a handoff code, never the long-lived token, so the switch stays safe to stream (FR-027, D11)
-- [ ] T068 [P] [US4] Add `hreflang` cross-references and suppress any automatic language redirect in `client/src/index.html` (FR-028)
+- [ ] T067 [US4] Build the language switch in `client/src/app/account/language-switch.component.ts` — carries the session via a handoff code, never the long-lived token, so the switch stays safe to stream (FR-031, D11)
+- [ ] T068 [P] [US4] Add `hreflang` cross-references and suppress any automatic language redirect in `client/src/index.html` (FR-032)
 - [ ] T069 [US4] Implement `DELETE /api/account/name` in `server/src/http/routes/account.rs` — self-service, authenticated by the access link, which is the only proof of ownership that exists (FR-035)
 - [ ] T070 [P] [US4] Build name removal in `client/src/app/account/remove-name.component.ts`
-- [ ] T071 [P] [US4] Write the data protection notice for both domains in `client/src/app/legal/` — the GDPR follows the operator and the visitor, not the interface language, so it belongs on both (FR-029, D13)
-- [ ] T072 [P] [US4] Add the disclosure at name entry that the name and full trial history are public (FR-030)
+- [ ] T071 [P] [US4] Write the data protection notice for both domains in `client/src/app/legal/` — the GDPR follows the operator and the visitor, not the interface language, so it belongs on both (FR-033, D13)
+- [ ] T072 [P] [US4] Add the disclosure at name entry that the name and full trial history are public (FR-034)
 - [ ] T073 [US4] Add the Impressum for the `.de` domain in `client/src/app/legal/` — a separate obligation from the GDPR notice
-- [ ] T074 [US4] Test that erasure leaves the record verifiable in `server/tests/erasure.rs` — remove a name, re-verify every one of that account's entries (SC-008)
+- [ ] T074 [US4] Test that erasure leaves the record verifiable in `server/tests/erasure.rs` — remove a name, re-verify every one of that account's entries, which stay under the opaque identifier (FR-036, SC-008)
+- [ ] T087 [US4] Add the contract test for the account and handoff endpoints in `server/tests/contract_account.rs` (constitution III)
+- [ ] T090 [US4] Test that a language switch preserves the account and creates no duplicate, in `server/tests/handoff_identity.rs` (SC-007)
 
 **Checkpoint**: Launch-ready.
 
@@ -192,6 +199,7 @@ over and no second account appears.
 - [ ] T081 [P] Produce the seven rank artefacts as original work in `client/src/assets/ranks/` — owned outright, which is what closes the licensing question; blocks nothing before ranks first render (research.md R10)
 - [ ] T082 [P] Run a simulated population of random players and confirm the aggregate lands within sampling bounds of 12.5% and the two tails stay comparable (SC-005, SC-014)
 - [ ] T083 [P] Write `README.md` — what the experiment is, how to verify it yourself, and what the published record does and does not prove
+- [ ] T091 [P] Measure time from cold arrival to first completed trial and confirm it stays under 30 seconds (SC-001) — a manual acceptance check, not an automated test
 
 ---
 
@@ -206,7 +214,8 @@ US1  P1  (T026–T037)  ─── MVP
    ↓
 US2  P2  (T038–T046)   depends on US1 producing trials
    ↓
-US3  P3  (T047–T061)   depends on US2 for the statistics it ranks
+US3  P3  (T047–T061)   split: verification (T047–T054, T060) is independent of US2;
+                       the leaderboard (T055–T059) ranks US2's statistics and cannot precede them
    ↓
 US4  P4  (T062–T074)   independent of US2/US3; could run alongside once US1 is done
    ↓

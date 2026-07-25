@@ -14,7 +14,7 @@ So each trial contributes **one commit entry** and **at most one resolve entry**
 ```
 seq 1041   COMMIT   trial 7f3a…   account a91c…   commitment C   pool v3
 seq 1042   COMMIT   trial b204…   account 55e1…   commitment C'  pool v3
-seq 1043   RESOLVE  trial 7f3a…   choice 5   target 2   miss   s_server   nonce
+seq 1043   RESOLVE  trial 7f3a…   choice 5   target 2   miss   s_server  s_client  nonce
                                                        ↑ trial b204 never resolves — abandoned
 ```
 
@@ -54,7 +54,9 @@ Validation: a name is not unique — collisions are expected and resolved for th
 
 `COMMIT` additionally carries the commitment `C`, the coordinate, and the `pool_version`.
 `RESOLVE` additionally carries the chosen image, the target image, hit or miss, and the revealed
-`s_server` and nonce — everything a third party needs to recompute the trial.
+`s_server`, `s_client` and nonce — everything a third party needs to recompute the trial. Both
+randomness contributions are published, so verification is open to anyone rather than only to the
+participant whose browser produced `s_client`.
 
 Note what is *absent* from `COMMIT`: `s_server`, the target, and the candidate set. Those live in
 the encrypted token held by the client until the trial resolves (D16), which is why a database

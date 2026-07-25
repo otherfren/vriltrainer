@@ -70,8 +70,9 @@ matches its resolve; hits over resolves reproduce the published aggregate. Commi
 a resolve are the abandoned trials, and counting them gives the published abandonment rate
 (SC-012).
 
-Note the limit recorded in `contracts/public-log.md`: without `s_client` in the resolve entry a
-third party can check the chain and the commitments but cannot re-derive the decoys.
+Both randomness contributions are in the resolve entry, so re-derive a trial's target, decoys and
+display order from the log and the pool manifest alone and confirm they match. No participant
+cooperation is required (SC-002).
 
 ## Scenario 5 — The statistics refuse to flatter (US2)
 

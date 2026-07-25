@@ -8,7 +8,7 @@ once, in a URL fragment, and is moved to local storage immediately; it **must ne
 path or query string, because those are transmitted to the server and recorded (FR-006).
 
 **Locale.** Selected from the `Host` header, not from a parameter and not from `Accept-Language`
-(FR-028, FR-032). The proxy must forward `Host` unchanged.
+(FR-030, FR-032). The proxy must forward `Host` unchanged.
 
 ## Account
 
@@ -174,4 +174,4 @@ Required for anyone recomputing a trial.
 
 `200 { "access_token": "…" }`, burning the code. This is how a session crosses the origin
 boundary between the two domains without the long-lived token ever entering an address bar
-(FR-027, D11). `410` if already used or expired.
+(FR-031, D11). `410` if already used or expired.
