@@ -16,11 +16,6 @@
 # different categories per trial, and that is what stops a set containing a confusable pair.
 
 [[category]]
-id = "landscape"
-de = "Landschaft"
-en = "Landscape"
-
-[[category]]
 id = "building"
 de = "Bauwerk"
 en = "Building"
@@ -49,8 +44,6 @@ en = "Tool"
 id = "food"
 de = "Essen"
 en = "Food"
-
-
 
 [[category]]
 id = "clothing"
@@ -98,11 +91,6 @@ de = "Schild"
 en = "Sign"
 
 [[category]]
-id = "stairs"
-de = "Treppe"
-en = "Stairs"
-
-[[category]]
 id = "bridge"
 de = "Brücke"
 en = "Bridge"
@@ -131,11 +119,6 @@ en = "Ornament"
 id = "person"
 de = "Mensch"
 en = "Person"
-
-[[category]]
-id = "street"
-de = "Straße"
-en = "Street"
 
 [[category]]
 id = "armour"

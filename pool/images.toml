@@ -105,6 +105,21 @@ category = "building"
   de = "Großes Riesenrad"
   en = "Large ferris wheel"
 
+  # A staircase and an alley, which used to be `stairs` and `street`. Each was the only image in
+  # its category, and a lone image in a category of twenty-four is on screen in a third of every
+  # trial ever played — recognisable long before it is viewable. Architecture is where they
+  # belong and sharing a category costs nothing here: neither is confusable with a tower, so the
+  # only thing lost is a co-occurrence nobody needed.
+  [[group.image]]
+  file = "elegante_haustreppe_detailliertes_geländer.jpg"
+  de = "Elegante Treppe mit verziertem Geländer"
+  en = "Elegant staircase with an ornate banister"
+
+  [[group.image]]
+  file = "narrow_alley_sun_split.jpg"
+  de = "Enge Gasse, halb im Sonnenlicht"
+  en = "Narrow alley split by sunlight"
+
 [[group]]
 dir = "plant"
 category = "plant"
@@ -262,15 +277,6 @@ category = "ornament"
   en = "Stone bear holding a shield"
 
 [[group]]
-dir = "landscape"
-category = "landscape"
-
-  [[group.image]]
-  file = "riesige_erleuchtete_höhle.jpg"
-  de = "Riesige beleuchtete Höhle"
-  en = "Vast illuminated cave"
-
-[[group]]
 dir = "sky"
 category = "sky"
 
@@ -370,15 +376,6 @@ category = "vehicle"
   file = "parked_bicycle_ocean.jpg"
   de = "Abgestelltes Fahrrad am Meer"
   en = "Parked bicycle by the sea"
-
-[[group]]
-dir = "stairs"
-category = "stairs"
-
-  [[group.image]]
-  file = "elegante_haustreppe_detailliertes_geländer.jpg"
-  de = "Elegante Treppe mit verziertem Geländer"
-  en = "Elegant staircase with an ornate banister"
 
 [[group]]
 dir = "light"
@@ -498,6 +495,13 @@ category = "stone"
   de = "Gelbe Schwefelkristalle"
   en = "Yellow sulfur crystals"
 
+  # A cave, which used to be the whole of `landscape`. It is rock at scale, and it goes beside the
+  # minerals rather than into a category of one.
+  [[group.image]]
+  file = "riesige_erleuchtete_höhle.jpg"
+  de = "Riesige beleuchtete Höhle"
+  en = "Vast illuminated cave"
+
 [[group]]
 dir = "food"
 category = "food"
@@ -542,7 +546,6 @@ category = "food"
   file = "double_cheeseburger.jpg"
   de = "Doppelter Cheeseburger"
   en = "Double cheeseburger"
-
 
   [[group.image]]
   file = "red_apples.jpg"
@@ -611,7 +614,6 @@ category = "food"
   de = "Halbierte Kirschtomate"
   en = "Halved cherry tomato"
 
-
   [[group.image]]
   file = "raspberry_cake.jpg"
   de = "Himbeertorte"
@@ -636,18 +638,6 @@ category = "food"
   file = "chocolate_glazed_doughnut.jpg"
   de = "Donut mit Schokoglasur"
   en = "Chocolate-glazed doughnut"
-
-# An alley is architecture, and it goes here rather than into `building` because it is not
-# confusable with a tower or a cabin — and the pool needs categories as much as it needs images.
-# Filing everything urban under `building` would be safe and would leave a bucket that never fills.
-[[group]]
-dir = "street"
-category = "street"
-
-  [[group.image]]
-  file = "narrow_alley_sun_split.jpg"
-  de = "Enge Gasse, halb im Sonnenlicht"
-  en = "Narrow alley split by sunlight"
 
 [[group]]
 dir = "machine"
