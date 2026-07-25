@@ -144,3 +144,23 @@ en = "Person"
 id = "street"
 de = "Straße"
 en = "Street"
+
+[[category]]
+id = "armour"
+de = "Rüstung"
+en = "Armour"
+
+[[category]]
+id = "insect"
+de = "Insekt"
+en = "Insect"
+
+[[category]]
+id = "toy"
+de = "Spielzeug"
+en = "Toy"
+
+[[category]]
+id = "weapon"
+de = "Waffe"
+en = "Weapon"

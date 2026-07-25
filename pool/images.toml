@@ -177,6 +177,11 @@ category = "plant"
   de = "Palme vor blauem Himmel"
   en = "Palm tree against a blue sky"
 
+  [[group.image]]
+  file = "orange_lily_blossom.jpg"
+  de = "Orangefarbene Lilienblüte"
+  en = "Orange lily blossom"
+
 [[group]]
 dir = "person"
 category = "person"
@@ -251,6 +256,11 @@ category = "ornament"
   de = "Pastellfarbene Kieselsteine"
   en = "Pastel-coloured pebbles"
 
+  [[group.image]]
+  file = "stone_bear_holding_a_shield.png"
+  de = "Steinbär mit Wappenschild"
+  en = "Stone bear holding a shield"
+
 [[group]]
 dir = "landscape"
 category = "landscape"
@@ -277,6 +287,16 @@ category = "furniture"
   file = "moderne_weisse_küche_holzarbeitsplatte.jpg"
   de = "Moderne weiße Küche mit Holzarbeitsplatte"
   en = "Modern white kitchen with a wooden worktop"
+
+  [[group.image]]
+  file = "cantilever_chair_with_cane_seat.jpg"
+  de = "Freischwinger mit Geflechtsitz"
+  en = "Cantilever chair with a cane seat"
+
+  [[group.image]]
+  file = "cream_upholstered_side_chair.jpg"
+  de = "Cremefarbener Polsterstuhl"
+  en = "Cream upholstered side chair"
 
 [[group]]
 dir = "vehicle"
@@ -369,6 +389,11 @@ category = "light"
   de = "Kunstvolle Straßenlaterne vor blauem Himmel"
   en = "Ornate street lamp against a blue sky"
 
+  [[group.image]]
+  file = "clear_led_light_bulb.jpg"
+  de = "Klare LED-Glühbirne"
+  en = "Clear LED light bulb"
+
 [[group]]
 dir = "animal"
 category = "animal"
@@ -428,6 +453,18 @@ category = "animal"
   de = "Zwei Strauße über einem Zaun"
   en = "Two ostriches peering over a fence"
 
+  # A crocodile skull among the living animals. It is not an animal, it is what is left of
+  # one — and at thumbnail size that is a distinction nobody makes.
+  [[group.image]]
+  file = "salamander_larva_with_gills.jpg"
+  de = "Salamanderlarve mit Kiemen"
+  en = "Salamander larva with gills"
+
+  [[group.image]]
+  file = "crocodilian_skull_with_open_jaws.jpg"
+  de = "Krokodilschädel mit offenem Kiefer"
+  en = "Crocodilian skull with open jaws"
+
 # `stone` comes back with something that actually looks like stone. The pastel pebbles left for
 # `ornament` because of what they resemble, not what they are.
 [[group]]
@@ -443,6 +480,23 @@ category = "stone"
   file = "large_rock_black_background.jpg"
   de = "Großer Fels vor schwarzem Hintergrund"
   en = "Large rock against a black background"
+
+  # Minerals join the stones. An amethyst druse and a chunk of obsidian are both a rock on a
+  # plain background, whatever a geologist would say about them.
+  [[group.image]]
+  file = "amethyst_crystal_cluster.jpg"
+  de = "Amethystdruse"
+  en = "Amethyst crystal cluster"
+
+  [[group.image]]
+  file = "black_obsidian_chunk.jpg"
+  de = "Stück schwarzer Obsidian"
+  en = "Chunk of black obsidian"
+
+  [[group.image]]
+  file = "yellow_sulfur_crystals.jpg"
+  de = "Gelbe Schwefelkristalle"
+  en = "Yellow sulfur crystals"
 
 [[group]]
 dir = "food"
@@ -473,6 +527,21 @@ category = "food"
   file = "meat_balls.jpg"
   de = "Fleischbällchen"
   en = "Meatballs"
+
+  [[group.image]]
+  file = "pile_of_raw_shrimp.jpg"
+  de = "Haufen roher Garnelen"
+  en = "Pile of raw shrimp"
+
+  [[group.image]]
+  file = "bowl_of_colourful_cereal.jpg"
+  de = "Schale mit buntem Müsli"
+  en = "Bowl of colourful cereal"
+
+  [[group.image]]
+  file = "double_cheeseburger.jpg"
+  de = "Doppelter Cheeseburger"
+  en = "Double cheeseburger"
 
 # The same folder, split three ways. Eleven more arrived at once and `food` would have become a
 # fifteen-image bucket that still contributes exactly one image per trial — every one of those
@@ -521,6 +590,38 @@ category = "produce"
   de = "Grüner Spargel"
   en = "Green asparagus"
 
+  # Cherries, a halved cherry tomato, whole tomatoes and two chilis — small, red, round or nearly.
+  # This is the pair problem at its worst, and it is why they are all in one category.
+  [[group.image]]
+  file = "honeydew_melon_half_with_seeds.png"
+  de = "Halbe Honigmelone mit Kernen"
+  en = "Honeydew melon half with seeds"
+
+  [[group.image]]
+  file = "pair_of_red_cherries_on_stems.jpg"
+  de = "Zwei rote Kirschen am Stiel"
+  en = "Pair of red cherries on stems"
+
+  [[group.image]]
+  file = "red_apple_with_stem.jpg"
+  de = "Roter Apfel mit Stiel"
+  en = "Red apple with stem"
+
+  [[group.image]]
+  file = "chili_peppers_arranged_in_a_circle.jpg"
+  de = "Chilischoten im Kreis gelegt"
+  en = "Chili peppers arranged in a circle"
+
+  [[group.image]]
+  file = "dried_red_chili_pepper.jpg"
+  de = "Getrocknete rote Chilischote"
+  en = "Dried red chili pepper"
+
+  [[group.image]]
+  file = "halved_cherry_tomato.jpg"
+  de = "Halbierte Kirschtomate"
+  en = "Halved cherry tomato"
+
 [[group]]
 dir = "food"
 category = "sweet"
@@ -544,6 +645,11 @@ category = "sweet"
   file = "cocktail.jpg"
   de = "Cocktail"
   en = "Cocktail"
+
+  [[group.image]]
+  file = "chocolate_glazed_doughnut.jpg"
+  de = "Donut mit Schokoglasur"
+  en = "Chocolate-glazed doughnut"
 
 # An alley is architecture, and it goes here rather than into `building` because it is not
 # confusable with a tower or a cabin — and the pool needs categories as much as it needs images.
@@ -631,3 +737,183 @@ category = "instrument"
   file = "accordeon.jpg"
   de = "Akkordeon"
   en = "Accordion"
+
+  [[group.image]]
+  file = "violin_front_view.jpg"
+  de = "Geige von vorn"
+  en = "Violin, front view"
+
+[[group]]
+dir = "clothing"
+category = "clothing"
+
+  # Worn things, including the shoe and the sunglasses. A separate `footwear` or `eyewear`
+  # category would hold one image each, and a one-image category is drawn as often as this whole
+  # group — the rarest images in the pool would be the ones nobody thought about.
+  [[group.image]]
+  file = "brown_suede_beret.jpg"
+  de = "Braune Wildlederbaskenmütze"
+  en = "Brown suede beret"
+
+  [[group.image]]
+  file = "olive_green_field_jacket.jpg"
+  de = "Olivgrüne Feldjacke"
+  en = "Olive green field jacket"
+
+  [[group.image]]
+  file = "three_coloured_socks.jpg"
+  de = "Drei bunte Socken"
+  en = "Three coloured socks"
+
+  [[group.image]]
+  file = "gold_rimmed_sunglasses.jpg"
+  de = "Sonnenbrille mit Goldrand"
+  en = "Gold-rimmed sunglasses"
+
+  [[group.image]]
+  file = "satin_court_shoe_with_heel.jpg"
+  de = "Satinpumps mit Absatz"
+  en = "Satin court shoe with a heel"
+
+[[group]]
+dir = "container"
+category = "container"
+
+  # Six vessels, three of them ancient pottery and three of them modern glass and ceramic. The
+  # museum pieces and the teapot are the same shape problem: a rounded body with an opening.
+  [[group.image]]
+  file = "black_figure_greek_jug.jpg"
+  de = "Griechische Kanne, schwarzfigurig"
+  en = "Black-figure Greek jug"
+
+  [[group.image]]
+  file = "painted_alabastron_vessel.jpg"
+  de = "Bemaltes Alabastron"
+  en = "Painted alabastron vessel"
+
+  [[group.image]]
+  file = "rough_stone_goblet.png"
+  de = "Grober Steinkelch"
+  en = "Rough stone goblet"
+
+  [[group.image]]
+  file = "empty_wine_glass.jpg"
+  de = "Leeres Weinglas"
+  en = "Empty wine glass"
+
+  [[group.image]]
+  file = "glass_and_steel_teapot.jpg"
+  de = "Teekanne aus Glas und Stahl"
+  en = "Glass and steel teapot"
+
+  [[group.image]]
+  file = "red_ceramic_mug_with_coffee.jpg"
+  de = "Rote Keramiktasse mit Kaffee"
+  en = "Red ceramic mug with coffee"
+
+[[group]]
+dir = "tool"
+category = "tool"
+
+  # Held implements, writing included. A fountain pen and a safety razor are both a slim dark
+  # object at arm's length; the staple remover sits between them either way.
+  [[group.image]]
+  file = "chrome_safety_razor.jpg"
+  de = "Verchromter Rasierhobel"
+  en = "Chrome safety razor"
+
+  [[group.image]]
+  file = "old_hand_can_opener.jpg"
+  de = "Alter Handdosenöffner"
+  en = "Old hand can opener"
+
+  [[group.image]]
+  file = "black_staple_remover.jpg"
+  de = "Schwarzer Entklammerer"
+  en = "Black staple remover"
+
+  [[group.image]]
+  file = "five_coloured_pencils.jpg"
+  de = "Fünf Buntstifte"
+  en = "Five coloured pencils"
+
+  [[group.image]]
+  file = "green_fountain_pen.jpg"
+  de = "Grüner Füllfederhalter"
+  en = "Green fountain pen"
+
+[[group]]
+dir = "toy"
+category = "toy"
+
+  # Both small, both plastic, both red and white. They would have been an unfair set of eight.
+  [[group.image]]
+  file = "red_and_white_capsule_ball.jpg"
+  de = "Rot-weiße Kapselkugel"
+  en = "Red and white capsule ball"
+
+  [[group.image]]
+  file = "red_fidget_spinner.jpg"
+  de = "Roter Fidget Spinner"
+  en = "Red fidget spinner"
+
+[[group]]
+dir = "armour"
+category = "armour"
+
+  [[group.image]]
+  file = "full_suit_of_plate_armour.jpg"
+  de = "Vollständige Plattenrüstung"
+  en = "Full suit of plate armour"
+
+  [[group.image]]
+  file = "steel_helmet_visor_front.jpg"
+  de = "Stahlhelm mit Visier"
+  en = "Steel helmet with visor"
+
+[[group]]
+dir = "insect"
+category = "insect"
+
+  # The wasp spider is not an insect. It is eight legs and a striped abdomen on a web, which is
+  # what the ladybird and the beetle are too as far as a 512-pixel thumbnail is concerned —
+  # resemblance decides this file's categories, not taxonomy.
+  [[group.image]]
+  file = "yellow_black_wasp_spider.jpg"
+  de = "Wespenspinne"
+  en = "Wasp spider"
+
+  [[group.image]]
+  file = "black_and_yellow_ladybird_macro.jpg"
+  de = "Schwarz-gelber Marienkäfer"
+  en = "Black and yellow ladybird"
+
+  [[group.image]]
+  file = "green_longhorn_beetle.jpg"
+  de = "Grüner Bockkäfer"
+  en = "Green longhorn beetle"
+
+  [[group.image]]
+  file = "sphinx_moth_with_spread_wings.jpg"
+  de = "Schwärmer mit ausgebreiteten Flügeln"
+  en = "Sphinx moth with spread wings"
+
+[[group]]
+dir = "weapon"
+category = "weapon"
+
+  # Three hafted blades. Nothing else needs saying.
+  [[group.image]]
+  file = "knife_with_inlaid_bone_handle.jpg"
+  de = "Messer mit eingelegtem Knochengriff"
+  en = "Knife with an inlaid bone handle"
+
+  [[group.image]]
+  file = "long_halberd_pole_axe.jpg"
+  de = "Lange Hellebarde"
+  en = "Long halberd"
+
+  [[group.image]]
+  file = "wooden_club_with_blade.jpg"
+  de = "Holzkeule mit Klinge"
+  en = "Wooden club with a blade"

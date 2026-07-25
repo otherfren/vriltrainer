@@ -581,6 +581,17 @@ mod tests {
         serde_json::from_slice(&bytes).unwrap()
     }
 
+    /// The refusal as the wire carries it. Comparing parsed JSON would hide a difference in
+    /// length or key order, and a difference in length is a difference a stopwatch-free attacker
+    /// can read.
+    async fn status_and_bytes(response: Response) -> (StatusCode, Vec<u8>) {
+        let status = response.status();
+        let bytes = axum::body::to_bytes(response.into_body(), 64 * 1024)
+            .await
+            .unwrap();
+        (status, bytes.to_vec())
+    }
+
     async fn call(state: &AppState, request: Request<AxumBody>) -> Response {
         router(state.clone()).oneshot(request).await.unwrap()
     }
@@ -776,6 +787,168 @@ mod tests {
         assert!(images.contains(&body["target"].as_str().unwrap().to_string()));
         assert_eq!(resolves(&state), 1);
         assert_eq!(state.db.verify_chain().unwrap(), 2);
+    }
+
+    /// FR-039 and SC-016, in the form an attacker would use. The test above submits one image;
+    /// this submits all eight plus a name that was never on screen, and requires the nine refusals
+    /// to be indistinguishable byte for byte. If any of them differed — a status code, a word, a
+    /// length — a viewer could read the target off eight guesses made inside three seconds and
+    /// never spend the trial, because none of them writes anything.
+    ///
+    /// The image that is not in the pool is in the list on purpose. The membership check lives
+    /// *after* the gate, so a `400` here would be proof that the gate had already looked at the
+    /// choice.
+    #[tokio::test]
+    async fn the_speed_refusal_is_identical_for_every_candidate() {
+        let state = state_with_pool();
+        assert!(state.config.min_view_seconds > 0);
+        let token = holder(&state);
+        let (trial_token, images) = revealed(&state, &token).await;
+        let head_before = state.db.head().unwrap();
+
+        let mut probes = images.clone();
+        probes.push("img_999".to_string());
+        assert!(!state.pool.images.iter().any(|e| e.id == "img_999"));
+
+        let mut refusals = Vec::new();
+        for chosen in &probes {
+            let response = call(
+                &state,
+                post(
+                    "/api/trial/answer",
+                    &token,
+                    serde_json::json!({ "token": trial_token, "chosen": chosen }),
+                ),
+            )
+            .await;
+            refusals.push(status_and_bytes(response).await);
+        }
+
+        assert_eq!(refusals[0].0.as_u16(), 425);
+        for (i, refusal) in refusals.iter().enumerate() {
+            assert_eq!(
+                refusal, &refusals[0],
+                "the refusal for {} can be told apart from the others",
+                probes[i]
+            );
+        }
+
+        assert_eq!(
+            state.db.head().unwrap(),
+            head_before,
+            "nine guesses inside the minimum must leave the record exactly as it was"
+        );
+        assert_eq!(resolves(&state), 0);
+
+        // And the trial is still there to be answered honestly.
+        let patient = with_min_view(&state, 0);
+        let response = call(
+            &patient,
+            post(
+                "/api/trial/answer",
+                &token,
+                serde_json::json!({ "token": trial_token, "chosen": images[0] }),
+            ),
+        )
+        .await;
+        assert_eq!(response.status(), StatusCode::OK);
+    }
+
+    /// SC-011 as a measurement rather than a field list. The reveal sends
+    /// [`Draw::images_in_display_order`] and the answer scores
+    /// `selected_images[target_slot]` — the seam where an off-by-one or a forgotten permutation
+    /// would show up. Three strategies a client could actually run against the visible list must
+    /// all score chance:
+    ///
+    /// - take the image at display position *p*, for every *p*;
+    /// - take the one with the lowest manifest index, which is what sorting the identifiers gives;
+    /// - take the one drawn from the largest category, the bias D22's step 3 exists to remove.
+    ///
+    /// Deterministic seeds, so a failure is reproducible rather than a flake. The pool is
+    /// deliberately lopsided — one category holding 300 of 355 images — and its indices are
+    /// interleaved across categories, so "lowest index" is a real strategy and not an artefact of
+    /// categories occupying contiguous blocks.
+    #[test]
+    fn nothing_visible_in_the_reveal_predicts_the_target() {
+        const ROUNDS: usize = 60_000;
+        const BIG: usize = 0;
+
+        let sizes = [300usize, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5];
+        let total: usize = sizes.iter().sum();
+        let mut members: Vec<Vec<usize>> = vec![Vec::new(); sizes.len()];
+        let mut left = sizes;
+        let mut index = 0usize;
+        while index < total {
+            for (c, remaining) in left.iter_mut().enumerate() {
+                if *remaining > 0 {
+                    members[c].push(index);
+                    *remaining -= 1;
+                    index += 1;
+                }
+            }
+        }
+
+        let mut by_position = [0u32; derive::SET_SIZE];
+        let mut lowest_index = 0u32;
+        let mut big_shown = 0u32;
+        let mut big_was_target = 0u32;
+
+        for round in 0..ROUNDS {
+            let draw = derive::derive(&round.to_le_bytes(), b"fixed-client", &members).unwrap();
+            let shown = draw.images_in_display_order();
+            let target = draw.selected_images[draw.target_slot];
+
+            // The structural half: a display order that dropped or duplicated a slot would make
+            // every rate below meaningless while still looking like eight images.
+            let mut a = shown;
+            let mut b = draw.selected_images;
+            a.sort_unstable();
+            b.sort_unstable();
+            assert_eq!(a, b, "the shown set is not the selected set");
+            assert_eq!(
+                shown.iter().filter(|i| **i == target).count(),
+                1,
+                "the target must appear exactly once among the images shown"
+            );
+
+            for (p, image) in shown.iter().enumerate() {
+                if *image == target {
+                    by_position[p] += 1;
+                }
+            }
+            if *shown.iter().min().unwrap() == target {
+                lowest_index += 1;
+            }
+            if let Some(from_big) = shown.iter().find(|i| members[BIG].contains(i)) {
+                big_shown += 1;
+                if *from_big == target {
+                    big_was_target += 1;
+                }
+            }
+        }
+
+        // Five standard deviations of a binomial at one in eight. Wide enough that a correct
+        // implementation cannot trip it, narrow enough to catch a bias of half a percentage point.
+        let within_chance = |hits: u32, trials: u32, what: &str| {
+            let expected = trials as f64 / derive::SET_SIZE as f64;
+            let sigma = (trials as f64 * (1.0 / 8.0) * (7.0 / 8.0)).sqrt();
+            let off = (hits as f64 - expected).abs();
+            assert!(
+                off < 5.0 * sigma,
+                "{what} scores {hits} of {trials}, chance is {expected:.0} (off by {:.1} sigma)",
+                off / sigma
+            );
+        };
+
+        for (p, &hits) in by_position.iter().enumerate() {
+            within_chance(hits, ROUNDS as u32, &format!("always taking display position {p}"));
+        }
+        within_chance(lowest_index, ROUNDS as u32, "always taking the lowest identifier");
+        within_chance(
+            big_was_target,
+            big_shown,
+            "always taking the image from the largest category",
+        );
     }
 
     /// FR-037: one evaluated answer per trial, whichever image the second one names.
