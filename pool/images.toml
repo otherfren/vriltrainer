@@ -120,6 +120,23 @@ category = "building"
   de = "Enge Gasse, halb im Sonnenlicht"
   en = "Narrow alley split by sunlight"
 
+  [[group.image]]
+  file = "white_lighthouse.jpg"
+  de = "Weißer Leuchtturm"
+  en = "White lighthouse"
+
+  # A sea at sunset, which used to be the whole of `water`. `building` is the wrong word for it
+  # and the right bucket: its two nearest neighbours by composition — the island with a cabin and
+  # the lighthouse — are both in here, and a horizon over water is what all three are.
+  [[group.image]]
+  file = "sunset_tranquil_ocean.jpg"
+  de = "Ruhiges Meer bei Sonnenuntergang"
+  en = "Calm sea at sunset"
+
+# Six instruments, and almost every one of them has a twin in here: two strings, two horns, and a
+# drum kit that is nothing like either. That is the category working as intended — a viewer asked
+# to tell a violin from a double bass at a glance is being tested on eyesight, not on anything else.
+
 [[group]]
 dir = "plant"
 category = "plant"
@@ -277,15 +294,6 @@ category = "ornament"
   en = "Stone bear holding a shield"
 
 [[group]]
-dir = "sky"
-category = "sky"
-
-  [[group.image]]
-  file = "mond.jpg"
-  de = "Der Mond"
-  en = "The moon"
-
-[[group]]
 dir = "furniture"
 category = "furniture"
 
@@ -303,6 +311,48 @@ category = "furniture"
   file = "cream_upholstered_side_chair.jpg"
   de = "Cremefarbener Polsterstuhl"
   en = "Cream upholstered side chair"
+
+  # Eight at once, and five of them something to sit on. Chairs beside sofas beside a bench of a
+  # table: this is the pair problem arriving as a delivery, and one category absorbs all of it.
+  [[group.image]]
+  file = "black_brown_wooden_chair.jpg"
+  de = "Schwarzbrauner Holzstuhl"
+  en = "Black-brown wooden chair"
+
+  [[group.image]]
+  file = "grey_padded_chair.jpg"
+  de = "Grauer Polsterstuhl"
+  en = "Grey padded chair"
+
+  [[group.image]]
+  file = "tufted_white_leather_chair.jpg"
+  de = "Weißer Ledersessel, getuftet"
+  en = "Tufted white leather chair"
+
+  [[group.image]]
+  file = "brown_leather_sofa.jpg"
+  de = "Braunes Ledersofa"
+  en = "Brown leather sofa"
+
+  [[group.image]]
+  file = "green_sofa.jpg"
+  de = "Grünes Sofa"
+  en = "Green sofa"
+
+  [[group.image]]
+  file = "small_white_couch.jpg"
+  de = "Kleines weißes Sofa"
+  en = "Small white couch"
+
+  [[group.image]]
+  file = "brown_wooden_cabinet.jpg"
+  de = "Brauner Holzschrank"
+  en = "Brown wooden cabinet"
+
+  [[group.image]]
+  file = "brown_wooden_table_and_chairs.jpg"
+  de = "Holztisch mit Stühlen"
+  en = "Wooden table and chairs"
 
 [[group]]
 dir = "vehicle"
@@ -377,6 +427,16 @@ category = "vehicle"
   de = "Abgestelltes Fahrrad am Meer"
   en = "Parked bicycle by the sea"
 
+  [[group.image]]
+  file = "airplane.jpg"
+  de = "Flugzeug"
+  en = "Aeroplane"
+
+  [[group.image]]
+  file = "white_car.jpg"
+  de = "Weißes Auto"
+  en = "White car"
+
 [[group]]
 dir = "light"
 category = "light"
@@ -390,6 +450,18 @@ category = "light"
   file = "clear_led_light_bulb.jpg"
   de = "Klare LED-Glühbirne"
   en = "Clear LED light bulb"
+
+  [[group.image]]
+  file = "brown_pendant_lights.jpg"
+  de = "Braune Hängeleuchten"
+  en = "Brown pendant lights"
+
+  # The moon, which used to be the whole of `sky`. What it shares with a lit bulb and a pendant
+  # lamp is the only thing that matters here: a bright object with dark all around it.
+  [[group.image]]
+  file = "mond.jpg"
+  de = "Der Mond"
+  en = "The moon"
 
 [[group]]
 dir = "animal"
@@ -639,6 +711,11 @@ category = "food"
   de = "Donut mit Schokoglasur"
   en = "Chocolate-glazed doughnut"
 
+  [[group.image]]
+  file = "bunch_of_strawberries.jpg"
+  de = "Erdbeeren"
+  en = "Strawberries"
+
 [[group]]
 dir = "machine"
 category = "machine"
@@ -658,18 +735,18 @@ category = "machine"
   de = "Selbstgebaute Drohne"
   en = "Home-built drone"
 
-[[group]]
-dir = "water"
-category = "water"
+  # A clock and an hourglass. Both are a device for telling the time and neither is a machine in
+  # any useful sense, but `machine` is where the pool keeps mechanisms and the two belong together.
+  [[group.image]]
+  file = "clock.jpg"
+  de = "Uhr"
+  en = "Clock"
 
   [[group.image]]
-  file = "sunset_tranquil_ocean.jpg"
-  de = "Ruhiges Meer bei Sonnenuntergang"
-  en = "Calm sea at sunset"
+  file = "hour_glass.jpg"
+  de = "Sanduhr"
+  en = "Hourglass"
 
-# Six instruments, and almost every one of them has a twin in here: two strings, two horns, and a
-# drum kit that is nothing like either. That is the category working as intended — a viewer asked
-# to tell a violin from a double bass at a glance is being tested on eyesight, not on anything else.
 [[group]]
 dir = "instrument"
 category = "instrument"
@@ -718,6 +795,17 @@ category = "instrument"
   file = "violin_front_view.jpg"
   de = "Geige von vorn"
   en = "Violin, front view"
+
+  # The saxophone, finally arriving at a size that does not need inventing detail.
+  [[group.image]]
+  file = "piano.jpg"
+  de = "Klavier"
+  en = "Piano"
+
+  [[group.image]]
+  file = "saxophone.jpg"
+  de = "Saxofon"
+  en = "Saxophone"
 
 [[group]]
 dir = "clothing"
@@ -787,6 +875,17 @@ category = "container"
   de = "Rote Keramiktasse mit Kaffee"
   en = "Red ceramic mug with coffee"
 
+  # A vase and a pepper mill: two turned vessels standing upright on nothing.
+  [[group.image]]
+  file = "red_vase.jpg"
+  de = "Rote Vase"
+  en = "Red vase"
+
+  [[group.image]]
+  file = "peppermill.jpg"
+  de = "Pfeffermühle"
+  en = "Pepper mill"
+
 [[group]]
 dir = "tool"
 category = "tool"
@@ -818,6 +917,28 @@ category = "tool"
   de = "Grüner Füllfederhalter"
   en = "Green fountain pen"
 
+  # Cutlery, and the bone-handled knife moved in from `weapon` to meet the table knife. Two knives
+  # in different categories is precisely the set of eight this scheme exists to prevent.
+  [[group.image]]
+  file = "fork.jpg"
+  de = "Gabel"
+  en = "Fork"
+
+  [[group.image]]
+  file = "knife.jpg"
+  de = "Messer"
+  en = "Knife"
+
+  [[group.image]]
+  file = "shovel.jpg"
+  de = "Schaufel"
+  en = "Shovel"
+
+  [[group.image]]
+  file = "knife_with_inlaid_bone_handle.jpg"
+  de = "Messer mit eingelegtem Knochengriff"
+  en = "Knife with an inlaid bone handle"
+
 [[group]]
 dir = "toy"
 category = "toy"
@@ -832,6 +953,33 @@ category = "toy"
   file = "red_fidget_spinner.jpg"
   de = "Roter Fidget Spinner"
   en = "Red fidget spinner"
+
+  # A figure, a tin robot and a plush rabbit — three toys with a face, which is the resemblance
+  # that survives being shrunk to a thumbnail. The duck and the cube come along for the ride.
+  [[group.image]]
+  file = "buzz_lightyear.jpg"
+  de = "Buzz-Lightyear-Figur"
+  en = "Buzz Lightyear figure"
+
+  [[group.image]]
+  file = "vintage_robot.jpg"
+  de = "Alter Blechroboter"
+  en = "Vintage tin robot"
+
+  [[group.image]]
+  file = "rabbit_plushie.jpg"
+  de = "Plüschhase"
+  en = "Plush rabbit"
+
+  [[group.image]]
+  file = "yellow_rubber_duck.jpg"
+  de = "Gelbe Quietscheente"
+  en = "Yellow rubber duck"
+
+  [[group.image]]
+  file = "puzzle_cube.jpg"
+  de = "Zauberwürfel"
+  en = "Puzzle cube"
 
 [[group]]
 dir = "armour"
@@ -878,11 +1026,7 @@ category = "insect"
 dir = "weapon"
 category = "weapon"
 
-  # Three hafted blades. Nothing else needs saying.
-  [[group.image]]
-  file = "knife_with_inlaid_bone_handle.jpg"
-  de = "Messer mit eingelegtem Knochengriff"
-  en = "Knife with an inlaid bone handle"
+  # Two hafted blades, since the knife left for `tool` to meet the other knife.
 
   [[group.image]]
   file = "long_halberd_pole_axe.jpg"

@@ -61,16 +61,6 @@ de = "Möbel"
 en = "Furniture"
 
 [[category]]
-id = "water"
-de = "Gewässer"
-en = "Water"
-
-[[category]]
-id = "sky"
-de = "Himmel"
-en = "Sky"
-
-[[category]]
 id = "machine"
 de = "Maschine"
 en = "Machine"
