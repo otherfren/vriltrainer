@@ -1,4 +1,4 @@
-import { Component, LOCALE_ID, computed, inject, signal } from '@angular/core';
+import { Component, ElementRef, LOCALE_ID, computed, inject, signal, viewChild } from '@angular/core';
 import {
   ApiError,
   ApiService,
@@ -79,6 +79,9 @@ export class TrialComponent {
   readonly proof = signal<Proof | null>(null);
   readonly proofFailed = signal(false);
   readonly proofOpen = signal(false);
+
+  /** Optional: it exists only in the `answered` stage, which is exactly when it is scrolled to. */
+  private readonly verdictBlock = viewChild<ElementRef<HTMLElement>>('verdictBlock');
 
   /** The trial's current token. It is replaced at the reveal; the previous one is spent. */
   private token: string | null = null;
@@ -220,6 +223,7 @@ export class TrialComponent {
 
     this.answered.set(answered);
     this.stage.set('answered');
+    this.showVerdict();
     // From the server, never from a local increment: this is the moment the trial became
     // completed, and the server is the only party that knows it did.
     void this.player.refresh();
@@ -314,6 +318,29 @@ export class TrialComponent {
     }
     const spelt = e instanceof ApiError ? spelled[e.status] : undefined;
     this.notice.set({ text: spelt ?? unspelt(e), fatal });
+  }
+
+  /**
+   * Brings the verdict and the button under it into view.
+   *
+   * On a phone the eight images fill the screen, so the answer lands entirely below the fold:
+   * the tap appears to do nothing, and "Nächste Sitzung" is somewhere further down. Scrolling to
+   * the top would be wrong here — that is what starting a trial does, and it would throw away the
+   * grid the visitor is still looking at.
+   *
+   * `block: 'center'` rather than `'start'`, so the stamp and the button arrive together on a
+   * short viewport instead of the button sitting just past the bottom edge.
+   */
+  private showVerdict(): void {
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    // One frame, so the verdict block exists to scroll to: it is inside the `@if` that the
+    // signal above has only just satisfied.
+    requestAnimationFrame(() =>
+      this.verdictBlock()?.nativeElement.scrollIntoView({
+        behavior: reduce ? 'auto' : 'smooth',
+        block: 'center',
+      }),
+    );
   }
 
   /** How a slot is drawn once the verdict is in. */

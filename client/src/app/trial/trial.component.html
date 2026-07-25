@@ -153,7 +153,7 @@
                by nothing at all: the stamp carried --pop on an ink border with a drop shadow,
                which is exactly the recipe .btn uses, so on a phone the two read as a pair of
                buttons and the wrong one looked primary. -->
-          <div class="verdict">
+          <div class="verdict" #verdictBlock>
             <span class="verdict__stamp" [class.verdict__stamp--hit]="hit()">
               @if (hit()) {
                 <ng-container i18n="@@trial.hit">Treffer!</ng-container>
