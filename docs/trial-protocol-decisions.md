@@ -799,9 +799,11 @@ human before it is shown to anyone else.
 A name has state: `pending` -> `approved` | `rejected`, and the two audiences see different
 things.
 
-**The account holder always sees the name they chose**, in whatever state it is, with a note when
-it is under review or was refused — they cannot pick a better one without seeing the one that was
-refused.
+**The account holder always sees the name they chose** while it is under review. A **refused** name
+is discarded rather than kept for them to look at again: holding a name you turned down is holding
+personal data for no purpose, and the holder does not need the string echoed back — they need to
+know it was refused and why, which the refusal code carries. An earlier draft of this decision said
+both things in one paragraph, and the implementation followed the half SC-018 forbids.
 
 **The public list shows the most recently approved name in clear text, and masks everything else.**
 Masked, not replaced: a row reads as *a name exists here and has not been cleared yet* rather than
@@ -814,6 +816,17 @@ clears, so renaming is not punished with anonymity. A rejection is told to the u
 lets them choose again, and does **not** consume the rename rate limit. Rejected names are
 discarded rather than retained — holding a name you refused is holding personal data for no
 purpose.
+
+**A decision is made about a name, not about an account.** Approve and reject each take the name
+the reviewer read and apply only if it is still there; a holder who resubmits between the queue
+being read and the button being pressed gets a no-op rather than a publication. Without that,
+pre-approval is theatre — `approve(account_id)` publishes whatever the row holds at the moment of
+the update, which is a string no human ever saw, and rejection clearing the rename cooldown makes
+the window seconds rather than a day.
+
+Erasure therefore carries its own state rather than being inferred from the name being absent,
+because a refusal now clears it too. Conflating them would lock a refused holder out of ever
+choosing again.
 
 FR-026 is untouched: the log references the opaque account id and never the name, so none of this
 reaches the record.
@@ -876,6 +889,51 @@ protect, which is a much worse trade.
 T082's simulated-population run should include an adversarial farmer, so this is measured rather
 than argued; the figures above are a normal approximation to E[max of K], not a simulation.
 
+
+## D28 — Logging: operational lines, aggregate counters, and nothing per person
+
+The operator needs to know how many people are hitting the site. The product's promise is that it
+does not know who they are. Both are satisfiable, but only by being deliberate about it, because
+the default answer — an analytics script, or just keeping the access logs — quietly trades the
+second for the first.
+
+**Most of the question is already answered, publicly.** Every trial is recorded permanently in the
+audit log with its timestamp, so accounts created per day, trials started, completed and abandoned,
+hit rates and retention are all derivable from a file anybody can download. Nothing needs building
+for that, and nothing about it is private that was not already public by design. What the log
+cannot see is the visitor who never started a trial.
+
+Three layers, and the boundary between them is what matters:
+
+**1 — Request logs, structured, to stdout and therefore to journald.** One line per request with a
+correlation id, method, the *matched route pattern* rather than the raw path, status, duration and
+locale. The route pattern rather than the path because a path can carry an account identifier and a
+log is the wrong place for one. Never the URL fragment — browsers do not send it, and the code
+asserts that rather than assuming it (FR-006). Never a full referrer. These lines are for debugging
+a 500 at three in the morning, not for counting anybody.
+
+**2 — Daily aggregate counters in SQLite**: `daily_metric(day, locale, metric, count)`. Page views,
+accounts created, trials started, completed and abandoned, names submitted and approved, proofs
+opened, log downloads. Incremented in process. There is no per-visitor row to leak, subpoena or
+regret, and the table is small enough to keep forever.
+
+**3 — Unique visitors, counted without an identifier being retained.** The only honest way to count
+people without tracking them: hash the client address with a salt that is generated at startup of
+each day, held in memory and never written down, and keep the day's hashes in an in-memory set.
+At midnight the size of the set is written to `daily_metric` and the set and the salt are discarded.
+The count is real; the salt rotating daily makes it impossible to link a visitor across days; and
+because nothing is persisted, there is nothing to hand over. An exact set rather than a
+HyperLogLog sketch because at this scale exactness is free and a sketch is one more thing to
+explain.
+
+**Reading it is a CLI subcommand, not an endpoint.** `server metrics --since` over SSH. The public
+admin API stays what D25 made it: name approval and nothing else. Publishing the traffic figures
+alongside everything else this site publishes would be perfectly in character and can be added
+later; it is not worth a new public surface on day one.
+
+**nginx access logs are the exception and must be dealt with separately.** They record IP addresses
+and the application does not. Set a short retention — days, not months — and say so in the privacy
+notice, because that file is the only place a visitor's address is written down.
 
 ## Remaining actions
 

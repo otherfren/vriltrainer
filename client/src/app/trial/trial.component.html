@@ -6,7 +6,7 @@
   @if (trial(); as t) {
   <section class="shell trial" [class.trial--sealed]="phase() === 'sealed'">
     @if (phase() === 'sealed') {
-      <p class="eyebrow">Sitzung {{ player.completed() + 1 }} · versiegelt</p>
+      <p class="eyebrow">{{ player.name() }} · Sitzung {{ player.completed() + 1 }} · versiegelt</p>
 
       <!-- The coordinate is the most characteristic artifact the product makes, so it is the hero,
            printed like the label on a cartridge. It encodes nothing; it is a name to hold on to. -->
@@ -35,7 +35,9 @@
 
       <div class="reveal">
         <button class="btn btn--big" type="button" (click)="reveal()">Aufdecken</button>
-        <p class="bubble panel">Nimm dir Zeit mit der Koordinate. Erst danach aufdecken.</p>
+        <p class="bubble panel">
+          Nimm dir Zeit mit der Koordinate, {{ player.name() }}. Erst danach aufdecken.
+        </p>
       </div>
     }
 
@@ -69,8 +71,8 @@
 
       @if (tooFast()) {
         <p class="toofast panel panel--zap">
-          Zu schnell! Mindestens drei Sekunden zwischen Aufdecken und Wahl. Die Antwort wurde nicht
-          angesehen, die Sitzung läuft weiter.
+          Zu schnell, {{ player.name() }}! Mindestens drei Sekunden zwischen Aufdecken und Wahl. Die
+          Antwort wurde nicht angesehen, die Sitzung läuft weiter.
         </p>
       }
 

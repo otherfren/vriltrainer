@@ -253,6 +253,13 @@ account and full history carry over.
   identifier.
 - **FR-040**: An account MUST become leaderboard-eligible only after completing 100 trials
   spread across at least three distinct days.
+- **FR-051**: System MUST record operational request logs carrying no visitor identifier — a
+  correlation id, the matched route pattern rather than the raw path, status, duration and locale —
+  and MUST NOT log the URL fragment or a full referrer (D28, FR-006).
+- **FR-052**: System MUST maintain daily aggregate counters of traffic and activity, holding no
+  per-visitor row. Where a unique-visitor count is kept, the identifier it is derived from MUST be
+  salted with a value that rotates daily, is never persisted, and is discarded with the day's
+  working set, so that visitors cannot be linked across days (D28).
 - **FR-050**: The statistics-unlock count, the leaderboard eligibility floor and the rank band
   edges MUST be server-side configuration, reported in the responses that depend on them and
   stated on the pages that display them, and the interface MUST say that they are adjusted as the

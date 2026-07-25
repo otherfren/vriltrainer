@@ -7,8 +7,10 @@ Breaking changes to any of this require a major version bump (constitution, prin
 once, in a URL fragment, and is moved to local storage immediately; it **must never** appear in a
 path or query string, because those are transmitted to the server and recorded (FR-006).
 
-**Locale.** Selected from the `Host` header, not from a parameter and not from `Accept-Language`
-(FR-030, FR-032). The proxy must forward `Host` unchanged.
+**Locale.** Fixed by the `--locale` flag each process was started with, never read off a request —
+not from `Host`, not from a parameter, not from `Accept-Language` (FR-030, FR-032, D24). Two
+processes serve the two domains; a foreign `Host` is a warning in the log, not a language switch.
+Every response carries `Content-Language`.
 
 ## Account
 
@@ -20,11 +22,15 @@ Creates an account from a self-chosen name. Rate-limited per client address.
 // request
 { "name": "otherfren" }
 // 201
-{ "public_id": "K7QF", "access_token": "…", "name": "otherfren" }
+{ "public_id": "7F3A9C", "access_token": "…", "name": "otherfren" }
 ```
 
+`public_id` is six uppercase hex characters. `name` is the **stored** form — whitespace trimmed and
+collapsed — and not necessarily what was typed, or the client displays a name the server does not
+hold. The name starts `pending` and is masked on public surfaces until approved (D25, FR-047).
+
 `access_token` is returned **once and never again**. There is no recovery (FR-005).
-`429` when the per-address creation limit is exceeded.
+`400` when the name pre-filter refuses it, `429` when the per-address creation limit is exceeded.
 
 ### `DELETE /api/account/name`
 
@@ -107,12 +113,19 @@ FR-020).
   "by_chance_per_10k": 527,             // how many of 10,000 reach this by luck (R3)
   "wilson_lower": 0.117,
   "distinct_days": 4, "eligible": true,
-  "rank": 41, "rank_title": "flugscheibenpilot"
+  "rank": "grey"
 }
 ```
 
 `abandoned` is always present, so selective abandonment is visible rather than hidden (FR-021).
-`rank` and `rank_title` are absent entirely while fewer than 200 accounts are eligible (FR-042).
+`rank` is a band **slug**, not a position: bands are shares of the eligible population, so there is
+no seat number to report (D23, FR-042). The titles those slugs render as are product copy and live
+in the client's message catalogue, one per domain. `rank` is absent while the account's band does
+not yet exist — a band is awarded only once `share x eligible >= 1` — and absent entirely for the
+middle 60 %, which is Normie and the honest answer for almost everyone.
+
+`unlocks_at` and the band edges are configuration and are reported rather than assumed (D26,
+FR-050).
 
 ### `GET /api/stats/aggregate` — public
 
@@ -135,15 +148,25 @@ key as its primary figure plus the supporting numbers (FR-041).
 
 ```jsonc
 {
-  "ranks_active": true, "eligible_accounts": 214,
+  "eligible_accounts": 214, "bands_active": ["asset", "grey", "reptilian", "loosh"],
+  "ranks_updated_at": "2026-07-25T18:00:00Z",
   "entries": [
-    { "rank": 1, "title": "insektoider_archont", "name": "otherfren", "public_id": "K7QF",
+    { "place": 1, "band": "reptilian", "name": "otherfren", "public_id": "7F3A9C",
       "wilson_lower": 0.181, "completed": 430, "hit_rate": 0.212, "deviation": 3.9 }
   ]
 }
 ```
 
-When `ranks_active` is false, `eligible_accounts` still reports progress toward 200.
+`name` is the most recently **approved** name, or a fixed-length mask if none has been approved yet
+(FR-047, D25). The mask reveals neither the length nor the characters of what it hides; `public_id`
+is shown beside it either way, so a masked row is still attributable and still checkable against
+the log (FR-029).
+
+`eligible_accounts` is reported whether or not any band is active, so the board can say how far off
+the next one is (FR-042). `bands_active` names the bands that currently exist, widest first: a band
+appears only once `share x eligible >= 1`, with no rounding up, so the ladder fills in from the
+middle outward as the site grows (D23). `ranks_updated_at` is when the ranks were last recomputed —
+roughly every fifteen minutes — because a rank that has not moved otherwise reads as a bug.
 
 ## Public record
 

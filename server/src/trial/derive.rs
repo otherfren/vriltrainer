@@ -82,11 +82,7 @@ impl Draw {
 
     /// Manifest indices in the order they are shown to the viewer.
     pub fn images_in_display_order(&self) -> [usize; SET_SIZE] {
-        let mut out = [0usize; SET_SIZE];
-        for d in 0..SET_SIZE {
-            out[d] = self.selected_images[self.display_order[d]];
-        }
-        out
+        std::array::from_fn(|d| self.selected_images[self.display_order[d]])
     }
 }
 
@@ -104,7 +100,10 @@ impl std::fmt::Display for DeriveError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
             DeriveError::TooFewCategories(k) => {
-                write!(f, "pool has {k} categories, at least {SET_SIZE} are required")
+                write!(
+                    f,
+                    "pool has {k} categories, at least {SET_SIZE} are required"
+                )
             }
             DeriveError::EmptyCategory(c) => write!(f, "category index {c} holds no images"),
         }
@@ -152,10 +151,7 @@ pub fn derive(
     let target_slot = st.below(SET_SIZE as u64) as usize;
 
     // 4 — display order, descending Fisher-Yates.
-    let mut display_order = [0usize; SET_SIZE];
-    for (i, slot) in display_order.iter_mut().enumerate() {
-        *slot = i;
-    }
+    let mut display_order: [usize; SET_SIZE] = std::array::from_fn(|i| i);
     for i in (1..SET_SIZE).rev() {
         let j = st.below((i + 1) as u64) as usize;
         display_order.swap(i, j);
@@ -215,7 +211,14 @@ mod tests {
         let mut next = 0usize;
         for c in 0..10 {
             let size = if c == 0 { 400 } else { 5 };
-            members.push((0..size).map(|_| { next += 1; next }).collect());
+            members.push(
+                (0..size)
+                    .map(|_| {
+                        next += 1;
+                        next
+                    })
+                    .collect(),
+            );
         }
         let mut counts = [0u32; SET_SIZE];
         for i in 0..40_000u32 {
@@ -235,17 +238,24 @@ mod tests {
         let mut members: Vec<Vec<usize>> = vec![(0..400).collect()];
         let mut next = 400usize;
         for _ in 1..10 {
-            members.push((0..5).map(|_| { next += 1; next }).collect());
+            members.push(
+                (0..5)
+                    .map(|_| {
+                        next += 1;
+                        next
+                    })
+                    .collect(),
+            );
         }
         let mut hits = 0u32;
         let rounds = 40_000u32;
         for i in 0..rounds {
             let d = derive(&i.to_le_bytes(), b"fixed", &members).unwrap();
             // Category 0 is the big one; bet on it whenever it was drawn.
-            if let Some(slot) = d.chosen_categories.iter().position(|&c| c == 0) {
-                if slot == d.target_slot {
-                    hits += 1;
-                }
+            if let Some(slot) = d.chosen_categories.iter().position(|&c| c == 0)
+                && slot == d.target_slot
+            {
+                hits += 1;
             }
         }
         // Category 0 appears in 8 of 10 draws; when it does, it is the target 1 time in 8.

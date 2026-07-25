@@ -4,11 +4,14 @@
 //! using the server's own code verifies nothing. These fixtures are what the two agree on. A
 //! failure here means honest trials would fail verification in production.
 
-use server::trial::derive::{derive, SET_SIZE};
-use server::vectors::{from_hex, members_of, Case};
+use server::trial::derive::{SET_SIZE, derive};
+use server::vectors::{Case, from_hex, members_of};
 
 fn cases() -> Vec<Case> {
-    let path = concat!(env!("CARGO_MANIFEST_DIR"), "/../shared/vectors/derivation.json");
+    let path = concat!(
+        env!("CARGO_MANIFEST_DIR"),
+        "/../shared/vectors/derivation.json"
+    );
     let raw = std::fs::read_to_string(path)
         .unwrap_or_else(|e| panic!("cannot read {path}: {e} — run `cargo run --bin gen_vectors`"));
     serde_json::from_str(&raw).expect("fixtures are not valid JSON")
@@ -23,10 +26,29 @@ fn every_case_reproduces_exactly() {
         let got = derive(&from_hex(&c.s_server), &from_hex(&c.s_client), &members)
             .unwrap_or_else(|e| panic!("case {}: {e}", c.name));
 
-        assert_eq!(got.chosen_categories.to_vec(), c.expect.chosen_categories, "case {}: categories", c.name);
-        assert_eq!(got.selected_images.to_vec(), c.expect.selected_images, "case {}: images", c.name);
-        assert_eq!(got.target_slot, c.expect.target_slot, "case {}: target slot", c.name);
-        assert_eq!(got.display_order.to_vec(), c.expect.display_order, "case {}: display order", c.name);
+        assert_eq!(
+            got.chosen_categories.to_vec(),
+            c.expect.chosen_categories,
+            "case {}: categories",
+            c.name
+        );
+        assert_eq!(
+            got.selected_images.to_vec(),
+            c.expect.selected_images,
+            "case {}: images",
+            c.name
+        );
+        assert_eq!(
+            got.target_slot, c.expect.target_slot,
+            "case {}: target slot",
+            c.name
+        );
+        assert_eq!(
+            got.display_order.to_vec(),
+            c.expect.display_order,
+            "case {}: display order",
+            c.name
+        );
     }
     eprintln!("{} cases reproduced", cases.len());
 }
@@ -61,12 +83,25 @@ fn fixture_expectations_are_self_consistent() {
 
         for (i, &img) in c.expect.selected_images.iter().enumerate() {
             let cat = c.expect.chosen_categories[i];
-            assert!(members[cat].contains(&img), "case {}: image {i} is not in its category", c.name);
+            assert!(
+                members[cat].contains(&img),
+                "case {}: image {i} is not in its category",
+                c.name
+            );
         }
 
         let mut order = c.expect.display_order.clone();
         order.sort_unstable();
-        assert_eq!(order, (0..SET_SIZE).collect::<Vec<_>>(), "case {}: display order", c.name);
-        assert!(c.expect.target_slot < SET_SIZE, "case {}: target slot out of range", c.name);
+        assert_eq!(
+            order,
+            (0..SET_SIZE).collect::<Vec<_>>(),
+            "case {}: display order",
+            c.name
+        );
+        assert!(
+            c.expect.target_slot < SET_SIZE,
+            "case {}: target slot out of range",
+            c.name
+        );
     }
 }
