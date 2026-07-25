@@ -9,9 +9,17 @@ dist/
 .angular/
 
 # Local data. The database is also the public audit log, so a stray copy is not harmless.
+#
+# Both suffixes, because the two that matter disagree: the README and `--db`'s default say
+# `vriltrainer.db`, the systemd unit says `.db`, and only `.sqlite` was listed here — which is how
+# six dev databases reached a public repository. A committed database is worse than clutter: it
+# invites someone to trust a chain head that no deployment ever wrote.
 *.sqlite
 *.sqlite-wal
 *.sqlite-shm
+*.db
+*.db-wal
+*.db-shm
 
 # Secrets and environment
 .env
