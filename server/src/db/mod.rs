@@ -246,6 +246,27 @@ impl Db {
         self.append_with(at, body, |_, _| Ok(())).map(|(entry, ())| entry)
     }
 
+    /// A write transaction with no log entry to ride along with.
+    ///
+    /// Accounts, names, handoff codes and admin keys are exactly the state the log deliberately
+    /// does not carry (FR-026), so they have nothing to pass to [`Db::append_with`]. `IMMEDIATE`
+    /// for the same reason that path uses it: the other domain's process may be appending, and a
+    /// deferred transaction that upgrades to a write half way through fails with
+    /// `SQLITE_BUSY_SNAPSHOT`, which `busy_timeout` deliberately does not retry.
+    ///
+    /// Reads inside `f` must go through the transaction. An in-memory database serves
+    /// [`Db::reader`] from this very connection, so taking one here deadlocks.
+    pub fn write<T>(
+        &self,
+        f: impl FnOnce(&Transaction<'_>) -> Result<T, DbError>,
+    ) -> Result<T, DbError> {
+        let mut w = lock(&self.writer);
+        let tx = w.transaction_with_behavior(TransactionBehavior::Immediate)?;
+        let out = f(&tx)?;
+        tx.commit()?;
+        Ok(out)
+    }
+
     /// The published head: the last entry's sequence number and hash, or `(0, GENESIS)` on an
     /// empty chain.
     pub fn head(&self) -> Result<(u64, String), DbError> {
