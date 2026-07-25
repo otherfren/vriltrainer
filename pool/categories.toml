@@ -114,3 +114,13 @@ en = "Door"
 id = "light"
 de = "Licht"
 en = "Light"
+
+[[category]]
+id = "stone"
+de = "Stein"
+en = "Stone"
+
+[[category]]
+id = "ornament"
+de = "Dekoration"
+en = "Ornament"

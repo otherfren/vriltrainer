@@ -13,7 +13,7 @@
 # Requirements per image:
 #   file      the source image. Shortest edge at least 512px — anything smaller would have to be
 #             upscaled, and invented detail is exactly the difference that marks one of the eight.
-#             Any format that decodes: JPEG, PNG, WebP.
+#             JPEG, PNG or WebP. **AVIF and HEIC are not decodable** — see the note at the bottom.
 #   category  must be declared in categories.toml
 #   de / en   what the image is called, both required
 #   source    the PAGE it was found on, not the direct file link. The licence is stated on the page.
@@ -26,38 +26,99 @@
 
 base = "originals"
 
-# Anything an entry does not state, it inherits from here.
 [defaults]
-licence = "CC0"
+# Deliberately NOT set here. A licence is a legal claim about a specific file, and a default turns
+# it into one made by omission for every image you ever add. State it per entry, or per group when
+# a whole folder genuinely came from one place under one licence.
 
 # ---------------------------------------------------------------------------
 # Groups share a folder and whatever fields you set on them. An entry always
 # wins over its group, and a group over [defaults].
-# ---------------------------------------------------------------------------
-
-# [[group]]
-# dir = "landschaft"
-# category = "landscape"
 #
-#   [[group.image]]
-#   file = "strand-sylt.jpg"
-#   de = "Strand bei Sonnenuntergang"
-#   en = "Beach at sunset"
-#   source = "https://commons.wikimedia.org/wiki/File:Beach_sunset.jpg"
+#   [[group]]
+#   dir = "landschaft"
+#   category = "landscape"
+#   licence = "CC0"
 #
-#   [[group.image]]
-#   file = "hochgebirge/gipfel.jpg"        # subfolders inside a group are just more path
-#   de = "Berggipfel im Nebel"
-#   en = "Mountain summit in fog"
-#   source = "https://commons.wikimedia.org/wiki/File:Summit.jpg"
+#     [[group.image]]
+#     file = "strand-sylt.jpg"
+#     de = "Strand bei Sonnenuntergang"
+#     en = "Beach at sunset"
+#     source = "https://commons.wikimedia.org/wiki/File:Beach_sunset.jpg"
+#
+#     [[group.image]]
+#     file = "hochgebirge/gipfel.jpg"     # subfolders inside a group are just more path
+#     de = "Berggipfel im Nebel"
+#     en = "Mountain summit in fog"
+#     source = "https://commons.wikimedia.org/wiki/File:Summit.jpg"
+# ---------------------------------------------------------------------------
+
+# ===========================================================================
+# TODO BEFORE THIS IMPORTS: every `source` below says TODO and every `licence`
+# is missing, because I do not know where these five came from. Both are your
+# defence if a licence is ever questioned, and inventing either would be the
+# one mistake in this file with legal consequences. Fill them in.
+# ===========================================================================
+
+[[image]]
+file = "cntower.avif"
+category = "building"
+de = "Fernsehturm CN Tower, Toronto"
+en = "CN Tower, Toronto"
+source = "TODO: the page this was found on"
+licence = "TODO"
+
+# Both flower entries are in `plant` on purpose. It looks like the wrong call — two similar images
+# in one bucket — and it is the opposite: D22 draws eight DIFFERENT categories per trial, so two
+# images sharing a category can never appear in the same set. Splitting them across `plant` and
+# `landscape` is what would let a confusable pair turn up together.
+[[image]]
+file = "orange_narzissen.avif"
+category = "plant"
+de = "Orangefarbene Narzissen"
+en = "Orange daffodils"
+source = "TODO: the page this was found on"
+licence = "TODO"
+
+[[image]]
+file = "feld_gelbe_tulpen.avif"
+category = "plant"
+de = "Feld mit gelben Tulpen"
+en = "Field of yellow tulips"
+source = "TODO: the page this was found on"
+licence = "TODO"
+
+[[image]]
+file = "steine_pastelfarben.avif"
+category = "stone"
+de = "Pastellfarbene Kieselsteine"
+en = "Pastel-coloured pebbles"
+source = "TODO: the page this was found on"
+licence = "TODO"
+
+[[image]]
+file = "diskokugel_schwarz_weiss.avif"
+category = "ornament"
+de = "Diskokugel in Schwarzweiß"
+en = "Mirror ball in black and white"
+source = "TODO: the page this was found on"
+licence = "TODO"
 
 # ---------------------------------------------------------------------------
-# Loose entries carry their own category. Use these for one-offs.
+# AVIF
+#
+# All five files above are AVIF, and poolctl cannot decode them. The `image` crate is built with
+# `default-features = false, features = ["jpeg", "png", "webp"]`, and AVIF decoding needs its
+# `avif-native` feature, which links libdav1d — a C library. This machine has the dav1d runtime
+# but no headers, and no meson or ninja to build it, so the feature cannot be turned on here.
+#
+# Two ways forward, and the first is much cheaper:
+#
+#   1. Save them as JPEG, PNG or WebP and change the extensions above. Nothing else changes —
+#      identity is the hash of the NORMALISED bytes, so the source format never mattered anyway.
+#
+#   2. `sudo apt install libdav1d-dev meson ninja-build`, then poolctl gets AVIF support in one
+#      line of Cargo.toml. Worth it if you are collecting from sites that serve AVIF by default,
+#      which is increasingly all of them. It costs the tool a C dependency; the SERVER stays a
+#      static binary either way, because poolctl never ships.
 # ---------------------------------------------------------------------------
-
-# [[image]]
-# file = "sonstiges/marienkaefer.jpg"
-# category = "animal"
-# de = "Marienkäfer auf einem Blatt"
-# en = "Ladybird on a leaf"
-# source = "https://commons.wikimedia.org/wiki/File:Ladybird.jpg"
