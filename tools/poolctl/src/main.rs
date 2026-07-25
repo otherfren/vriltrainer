@@ -109,7 +109,7 @@ fn run(command: &Command, catalogue_path: &Path, images_dir: &Path) -> Result<Ex
             std::fs::create_dir_all(images_dir)
                 .map_err(|e| format!("{}: {e}", images_dir.display()))?;
 
-            let (mut taken, mut known) = (0usize, 0usize);
+            let (mut taken, mut known, mut updated) = (0usize, 0usize, 0usize);
             for entry in &spec.images {
                 if !is_free_licence(&entry.licence) {
                     return Err(format!(
@@ -124,11 +124,39 @@ fn run(command: &Command, catalogue_path: &Path, images_dir: &Path) -> Result<Ex
                 let image = normalise::normalise(&bytes)
                     .map_err(|e| format!("{}: {e}", entry.path.display()))?;
 
-                // A second copy of an image already held is not an error to stop on: the spec is
-                // a list the operator keeps extending, and re-running it is the normal way to add
-                // to a pool.
-                if catalogue.get(&image.id).is_some() {
-                    known += 1;
+                // An image already held is not an error to stop on: the spec is a list the
+                // operator keeps extending, and re-running it is the normal way to add to a pool.
+                //
+                // Its metadata is reconciled rather than skipped, because the spec file is the
+                // source of truth. Skipping outright would mean that correcting a category in
+                // images.toml — the whole reason to keep the pool in a file — silently did
+                // nothing, and the file would then describe a catalogue that disagreed with it.
+                if let Some(held) = catalogue.get_mut(&image.id) {
+                    let was = (
+                        held.category.clone(),
+                        held.label.clone(),
+                        held.source.clone(),
+                        held.licence.clone(),
+                        held.attribution.clone(),
+                    );
+                    held.category = entry.category.clone();
+                    held.label = Some(entry.label.clone());
+                    held.source = entry.source.clone();
+                    held.licence = entry.licence.clone();
+                    held.attribution = entry.attribution.clone();
+                    let now = (
+                        held.category.clone(),
+                        held.label.clone(),
+                        held.source.clone(),
+                        held.licence.clone(),
+                        held.attribution.clone(),
+                    );
+                    if was == now {
+                        known += 1;
+                    } else {
+                        println!("{}  {}  updated", image.id, entry.category);
+                        updated += 1;
+                    }
                     continue;
                 }
 
@@ -153,7 +181,7 @@ fn run(command: &Command, catalogue_path: &Path, images_dir: &Path) -> Result<Ex
             }
             catalogue.save(catalogue_path)?;
             println!(
-                "{taken} taken, {known} already held, {} categories declared",
+                "{taken} taken, {updated} updated, {known} unchanged, {} categories declared",
                 spec.categories.len()
             );
             Ok(ExitCode::SUCCESS)

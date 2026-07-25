@@ -46,7 +46,7 @@ category = "building"
   de = "Fernsehturm CN Tower, Toronto"
   en = "CN Tower, Toronto"
 
-  # Two towers, and two huts, all in one category. Both pairs would be confusable side by side, and
+  # Four towers, and two cabins, all in one category. Both pairs would be confusable side by side, and
   # sharing a category is exactly what stops that: D22 draws eight DIFFERENT categories per trial,
   # so images filed together can never appear in the same set. Near-duplicates belong together, not
   # spread out — which is the opposite of what a tidy taxonomy would tell you to do.
@@ -64,6 +64,16 @@ category = "building"
   file = "insel_mit_hütte.jpg"
   de = "Kleine Insel mit Hütte"
   en = "Small island with a cabin"
+
+  [[group.image]]
+  file = "orient_pearl_shanghai_china.jpg"
+  de = "Oriental Pearl Tower, Shanghai"
+  en = "Oriental Pearl Tower, Shanghai"
+
+  [[group.image]]
+  file = "tokio-turm_blauer_himmel.jpg"
+  de = "Tokyo Tower vor blauem Himmel"
+  en = "Tokyo Tower against a blue sky"
 
 [[group]]
 dir = "plant"
@@ -113,6 +123,19 @@ category = "person"
   de = "Tätowierte Frau in einem Nachtclub"
   en = "Tattooed woman in a nightclub"
 
+  # The second tattooed woman, and the second baby. Both pairs are here rather than spread across
+  # neighbouring categories for the reason the towers are: a category is the only thing that keeps
+  # two images out of one set.
+  [[group.image]]
+  file = "tätowierte_blondine_roter_hintergrund.jpg"
+  de = "Tätowierte Blondine vor rotem Hintergrund"
+  en = "Tattooed blonde against a red background"
+
+  [[group.image]]
+  file = "frau_mit_rosa_mütze_und_baby.jpg"
+  de = "Frau mit rosa Mütze und Baby"
+  en = "Woman in a pink hat with a baby"
+
 [[group]]
 dir = "ornament"
 category = "ornament"
@@ -127,10 +150,11 @@ category = "ornament"
   de = "Pastellfarben bemalte Eier"
   en = "Pastel-painted eggs"
 
-[[group]]
-dir = "stone"
-category = "stone"
-
+  # Pebbles are not ornaments, and they are here anyway. The two are different subjects with the
+  # same pastel palette, which is a resemblance a viewer would notice in a set of eight — and a
+  # category is the only mechanism that keeps two images apart, so it is the resemblance that
+  # decides where a thing is filed, not the taxonomy. `stone` stays declared for the day there are
+  # stones that look like stones.
   [[group.image]]
   file = "steine_pastelfarben.jpg"
   de = "Pastellfarbene Kieselsteine"
@@ -171,3 +195,41 @@ category = "vehicle"
   file = "weißer_mercedes_280SE.jpg"
   de = "Weißer Mercedes 280 SE"
   en = "White Mercedes 280 SE"
+
+[[group]]
+dir = "stairs"
+category = "stairs"
+
+  [[group.image]]
+  file = "elegante_haustreppe_detailliertes_geländer.jpg"
+  de = "Elegante Treppe mit verziertem Geländer"
+  en = "Elegant staircase with an ornate banister"
+
+[[group]]
+dir = "light"
+category = "light"
+
+  [[group.image]]
+  file = "kunstvolle_straßenlaterne_blauer_himmel.jpg"
+  de = "Kunstvolle Straßenlaterne vor blauem Himmel"
+  en = "Ornate street lamp against a blue sky"
+
+[[group]]
+dir = "animal"
+category = "animal"
+
+  [[group.image]]
+  file = "schwan_schwarz_weiss.jpg"
+  de = "Schwan in Schwarzweiß"
+  en = "Swan in black and white"
+
+# `stone` comes back with something that actually looks like stone. The pastel pebbles left for
+# `ornament` because of what they resemble, not what they are.
+[[group]]
+dir = "stone"
+category = "stone"
+
+  [[group.image]]
+  file = "balanced_rock_desert.jpg"
+  de = "Balancierender Fels in der Wüste"
+  en = "Balanced rock in the desert"
