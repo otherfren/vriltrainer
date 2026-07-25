@@ -8,161 +8,185 @@ main {
   flex: 1;
 }
 
-/* ---- masthead: an instrument's top bezel ---- */
+/* ---- the HUD: the strip along the top of the cabinet ---- */
 
-.masthead {
-  border-bottom: 1px solid var(--rule);
-  background: rgba(14, 16, 19, 0.88);
-  backdrop-filter: blur(6px);
+.hud {
+  background: var(--field-hi);
+  border-bottom: 4px solid var(--ink);
   position: sticky;
   top: 0;
   z-index: 10;
 }
 
-.masthead__inner {
+.hud__inner {
   display: flex;
   align-items: center;
-  gap: var(--s6);
-  height: 3.5rem;
-}
-
-.wordmark {
-  font-family: var(--mono);
-  font-weight: 700;
-  font-size: 0.9375rem;
-  letter-spacing: 0.26em;
-  text-transform: uppercase;
-  color: var(--bone);
-  text-decoration: none;
-}
-
-.nav {
-  display: flex;
   gap: var(--s4);
-  font-family: var(--mono);
-  font-size: 0.75rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  min-height: 4rem;
+  padding-top: var(--s2);
+  padding-bottom: var(--s2);
 }
 
-.nav a {
-  color: var(--bone-dim);
+/* The wordmark is a sticker slapped on the cabinet, slightly crooked, the way
+   they always are. Two colours because the product is a trainer for a thing
+   that does not exist, and the first half is the funny half. */
+.mark {
+  font-family: var(--pixel);
+  font-size: 1.0625rem;
   text-decoration: none;
-  padding: var(--s1) 0;
-  border-bottom: 1px solid transparent;
+  background: var(--zap);
+  border: 3px solid var(--ink);
+  box-shadow: var(--drop-sm);
+  padding: var(--s2) var(--s3);
+  transform: rotate(-1.5deg);
+  white-space: nowrap;
 }
 
-.nav a:hover {
-  color: var(--bone);
+.mark__vril {
+  color: var(--pop-ink);
+}
+.mark__trainer {
+  color: var(--ink);
 }
 
-.nav a.is-active {
-  color: var(--amber);
-  border-bottom-color: var(--amber);
+.tabs {
+  display: flex;
+  gap: var(--s2);
 }
 
-.masthead__right {
+.tabs a {
+  font-family: var(--pixel);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  color: var(--ink);
+  background: var(--card);
+  border: 3px solid var(--ink);
+  box-shadow: var(--drop-sm);
+  padding: var(--s2) var(--s3);
+}
+
+.tabs a:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: var(--drop);
+}
+
+/* The selected tab is pressed into the cabinet: no shadow, sitting lower. */
+.tabs a.is-active {
+  background: var(--pop);
+  color: var(--card);
+  box-shadow: none;
+  transform: translate(3px, 3px);
+}
+
+.hud__right {
   margin-left: auto;
   display: flex;
   align-items: center;
-  gap: var(--s4);
+  gap: var(--s2);
 }
 
-/* ---- the access key: masked, copyable without revealing ---- */
+/* Says out loud that no server is answering yet, because a demo trial that
+   looked like a real one would be the one dishonest thing on the site. */
+.demo {
+  font-family: var(--pixel);
+  font-size: 0.625rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink);
+  background: var(--mint);
+  border: 3px solid var(--ink);
+  padding: var(--s1) var(--s2);
+  cursor: help;
+}
 
-.keybox {
+/* ---- the save file ---- */
+
+.save {
   display: flex;
   align-items: center;
   gap: var(--s2);
-  border: 1px solid var(--rule);
+  background: var(--card);
+  border: 3px solid var(--ink);
   padding: var(--s1) var(--s2);
 }
 
-.keybox--open {
-  border-color: var(--amber-dim);
+.save--open {
+  background: var(--zap);
 }
 
-.keybox__label {
-  font-family: var(--mono);
+.save__label {
+  font-family: var(--pixel);
   font-size: 0.5625rem;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--bone-faint);
+  color: var(--pop-ink);
 }
 
-.keybox__value {
-  font-family: var(--mono);
-  font-size: 0.6875rem;
-  color: var(--bone-dim);
-  max-width: 17rem;
+.save__value {
+  font-family: var(--pixel);
+  font-size: 0.625rem;
+  color: var(--ink);
+  max-width: 15rem;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.keybox__btn {
+.save__btn {
   background: none;
   border: none;
-  font-family: var(--mono);
-  font-size: 0.625rem;
-  letter-spacing: 0.1em;
+  font-family: var(--pixel);
+  font-size: 0.5625rem;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--amber);
+  color: var(--pop-ink);
   cursor: pointer;
-  padding: var(--s1) var(--s2);
+  padding: var(--s1);
 }
 
-.keybox__btn:hover {
-  color: var(--bone);
+.save__btn:hover {
+  color: var(--ink);
 }
 
 .lang {
-  font-family: var(--mono);
+  font-family: var(--pixel);
   font-size: 0.6875rem;
-  letter-spacing: 0.16em;
-  color: var(--bone-dim);
+  color: var(--ink);
   text-decoration: none;
-  border: 1px solid var(--rule);
+  background: var(--sky);
+  border: 3px solid var(--ink);
   padding: var(--s1) var(--s2);
-}
-
-.lang:hover {
-  color: var(--bone);
-  border-color: var(--rule-hi);
 }
 
 /* ---- footer ---- */
 
-.footer {
-  border-top: 1px solid var(--rule);
+.foot {
+  border-top: 4px solid var(--ink);
+  background: var(--field-hi);
   padding: var(--s8) 0 var(--s12);
   margin-top: var(--s16);
 }
 
-.footer__note {
-  font-size: 0.8125rem;
-  margin-top: var(--s4);
-  max-width: 58ch;
+.foot__note {
+  font-size: 0.9375rem;
+  margin: var(--s6) 0 0;
+  max-width: 56ch;
 }
 
-@media (max-width: 60rem) {
-  .keybox__value {
+@media (max-width: 64rem) {
+  .save__value {
     display: none;
   }
-  .nav {
-    gap: var(--s3);
-  }
 }
 
-@media (max-width: 44rem) {
-  .masthead__inner {
-    height: auto;
+@media (max-width: 52rem) {
+  .hud__inner {
     flex-wrap: wrap;
-    padding-top: var(--s3);
-    padding-bottom: var(--s3);
     gap: var(--s3);
   }
-  .keybox__label {
-    display: none;
+  .hud__right {
+    margin-left: 0;
   }
 }

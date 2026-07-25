@@ -6,7 +6,7 @@ type Phase = 'sealed' | 'revealed' | 'answered';
 interface Slot {
   index: number;
   src: string;
-  developed: boolean;
+  dealt: boolean;
 }
 
 @Component({
@@ -37,18 +37,18 @@ export class TrialComponent {
     const slots: Slot[] = Array.from({ length: 8 }, (_, i) => ({
       index: i,
       src: `demo/target-${i + 1}.svg`,
-      developed: false,
+      dealt: false,
     }));
     this.slots.set(slots);
     this.phase.set('revealed');
     this.revealedAt = Date.now();
 
-    // One orchestrated moment rather than scattered effects: the frames develop in order, the
-    // way a print comes up in a tray.
+    // One orchestrated moment rather than scattered effects: the eight are dealt in order, each
+    // landing with a small overshoot. Nothing else on the page moves by itself.
     const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
     slots.forEach((_, i) => {
       setTimeout(
-        () => this.slots.update((s) => s.map((x, j) => (j === i ? { ...x, developed: true } : x))),
+        () => this.slots.update((s) => s.map((x, j) => (j === i ? { ...x, dealt: true } : x))),
         reduce ? 0 : 70 * i,
       );
     });

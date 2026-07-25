@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NullLineComponent } from '../core/null-line.component';
+import { VrilMeterComponent } from '../core/vril-meter.component';
 
 interface Bin {
   z: number;
@@ -9,7 +9,7 @@ interface Bin {
 @Component({
   selector: 'app-stats',
   standalone: true,
-  imports: [NullLineComponent],
+  imports: [VrilMeterComponent],
   templateUrl: './stats.component.html',
   styleUrl: './stats.component.scss',
 })

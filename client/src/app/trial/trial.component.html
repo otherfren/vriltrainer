@@ -1,42 +1,48 @@
 <section class="shell trial" [class.trial--sealed]="phase() === 'sealed'">
   @if (phase() === 'sealed') {
-    <p class="eyebrow">Koordinate · Sitzung {{ completed() + 1 }}</p>
+    <p class="eyebrow">Sitzung {{ completed() + 1 }} · versiegelt</p>
 
-    <div class="coord" aria-label="Koordinate">{{ trial().coordinate }}</div>
+    <!-- The coordinate is the most characteristic artifact the product makes, so it is the hero,
+         printed like the label on a cartridge. It encodes nothing; it is a name to hold on to. -->
+    <div class="label panel">
+      <span class="label__cap">Koordinate</span>
+      <span class="label__coord">{{ trial().coordinate }}</span>
+    </div>
 
-    <div class="seal panel">
-      <div class="seal__row">
-        <span class="seal__key">Commitment</span>
-        <code class="seal__val">{{ trial().commitment }}</code>
-      </div>
-      <div class="seal__row">
-        <span class="seal__key">Pool</span>
-        <code class="seal__val">v{{ trial().poolVersion }} · {{ trial().poolManifestHash }}</code>
+    <div class="seal panel panel--zap">
+      <span class="seal__stamp">Ziel steht fest</span>
+      <div class="seal__rows">
+        <div class="seal__row">
+          <span class="seal__key">Commitment</span>
+          <code class="seal__val">{{ trial().commitment }}</code>
+        </div>
+        <div class="seal__row">
+          <span class="seal__key">Pool</span>
+          <code class="seal__val">v{{ trial().poolVersion }} · {{ trial().poolManifestHash }}</code>
+        </div>
       </div>
       <p class="seal__note">
-        Das Ziel steht bereits fest und ist mit dieser Zahl versiegelt — <em>bevor</em> du wählst.
-        Nach der Auflösung kannst du das hier selbst nachrechnen.
+        Das Ziel ist mit dieser Zahl versiegelt, <em>bevor</em> du wählst. Nach der Auflösung
+        rechnest du das hier selbst nach.
       </p>
     </div>
 
-    <p class="instruction">
-      Nimm dir Zeit mit der Koordinate. Erst danach aufdecken.
-    </p>
+    <p class="bubble panel">Nimm dir Zeit mit der Koordinate. Erst danach aufdecken.</p>
 
-    <button class="btn" type="button" (click)="reveal()">Ziele aufdecken</button>
+    <button class="btn btn--big" type="button" (click)="reveal()">Aufdecken</button>
   }
 
   @if (phase() !== 'sealed') {
     <p class="eyebrow">
-      Koordinate {{ trial().coordinate }} · acht Kandidaten, acht verschiedene Kategorien
+      Koordinate {{ trial().coordinate }} · acht Kandidaten, acht Kategorien
     </p>
 
-    <div class="grid" [class.grid--resolved]="phase() === 'answered'">
+    <div class="grid">
       @for (s of slots(); track s.index) {
         <button
           class="slot"
           type="button"
-          [class.slot--developed]="s.developed"
+          [class.slot--dealt]="s.dealt"
           [attr.data-state]="slotState(s.index)"
           [disabled]="phase() === 'answered'"
           (click)="choose(s.index)"
@@ -54,24 +60,30 @@
     </div>
 
     @if (tooFast()) {
-      <p class="toofast">
-        Zu schnell. Mindestens drei Sekunden zwischen Aufdecken und Wahl — die Antwort wurde nicht
-        angesehen, der Trial läuft weiter.
+      <p class="toofast panel panel--zap">
+        Zu schnell! Mindestens drei Sekunden zwischen Aufdecken und Wahl. Die Antwort wurde nicht
+        angesehen, die Sitzung läuft weiter.
       </p>
     }
 
     @if (phase() === 'answered') {
-      <div class="verdict" [class.verdict--hit]="isHit">
-        <span class="verdict__word">{{ isHit ? 'Treffer' : 'Daneben' }}</span>
+      <div class="verdict">
+        <span class="verdict__stamp" [class.verdict__stamp--hit]="isHit">
+          {{ isHit ? 'Treffer!' : 'Daneben' }}
+        </span>
         <span class="verdict__rate">Zufallsrate 12,5 %</span>
       </div>
 
-      <button class="btn btn--quiet proof__toggle" type="button" (click)="proofOpen.set(!proofOpen())">
-        {{ proofOpen() ? 'Nachweis schließen' : 'Nachweis prüfen' }}
-      </button>
+      <div class="after">
+        <button class="btn btn--big" type="button" (click)="next()">Nächste Sitzung</button>
+        <button class="btn btn--quiet" type="button" (click)="proofOpen.set(!proofOpen())">
+          {{ proofOpen() ? 'Nachweis schließen' : 'Nachweis prüfen' }}
+        </button>
+      </div>
 
       @if (proofOpen()) {
         <div class="proof panel">
+          <p class="eyebrow">Nachgerechnet in deinem Browser</p>
           <div class="proof__row"><span>s_server</span><code>8f2c41a0…b7d15e93</code></div>
           <div class="proof__row"><span>s_client</span><code>04ba7712…3c9f0a48</code></div>
           <div class="proof__row"><span>nonce</span><code>c1d4e6b8…0a2f7e51</code></div>
@@ -80,18 +92,19 @@
             <span>framed(s_server, nonce, Koordinate)</span>
             <code class="measured">{{ trial().commitment }}</code>
           </div>
-          <p class="proof__ok measured">✓ stimmt mit dem Commitment von vor deiner Wahl überein</p>
-          <p class="proof__note faint">
-            Nachgerechnet im Browser, mit einer Implementierung, die unabhängig von der des Servers
-            geschrieben wurde. Beide werden gegen dieselben Testvektoren geprüft.
+          <p class="proof__ok">
+            <span class="proof__tick">✓</span>
+            Stimmt mit dem Commitment von vor deiner Wahl überein.
+          </p>
+          <p class="proof__note">
+            Gerechnet mit einer Implementierung, die unabhängig von der des Servers geschrieben
+            wurde. Beide werden gegen dieselben Testvektoren geprüft.
           </p>
         </div>
       }
 
-      <button class="btn" type="button" (click)="next()">Nächste Sitzung</button>
-
-      <p class="progress faint">
-        {{ completed() }} Sitzungen abgeschlossen ·
+      <p class="progress">
+        {{ completed() }} Sitzungen ·
         @if (completed() < statsUnlockAt) {
           Statistik ab {{ statsUnlockAt }} — noch {{ statsUnlockAt - completed() }}
         } @else {

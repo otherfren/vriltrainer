@@ -1,38 +1,60 @@
 /* ============================================================================
-   vriltrainer — the page is an instrument, not a brochure.
+   vriltrainer — an arcade cabinet for psychic powers, built in a parallel 1987.
 
-   The product measures whether anything is there and expects to find nothing.
-   So the interface reads as a readout: monospace at display size, a graphite
-   panel, darkroom amber for anything you can touch, and phosphor only for
-   values that were actually measured. The one structural device is the null
-   line — the 12.5% chance rate, drawn as a real line, with every statistic
-   shown as displacement from it. The joke lands visually: everyone sits on it.
+   The machine promises to train your Vril. It has a power meter, a high-score
+   table, alien ranks and big loud buttons. It also reports, cheerfully and
+   forever, that nothing is happening. That gap is the product's entire
+   argument, and it lands faster as a joke than as a lecture — so the interface
+   is a game, and the Vrilpegel (the meter nobody moves) carries the statistics
+   that the null line used to.
+
+   Flat spot colour, ink outlines, hard shadows, pixel sprites. No gradients,
+   no gloss, no background grids.
    Font faces are loaded via angular.json's styles array, not from here.
    ============================================================================ */
 
 
+/* Silkscreen draws the percent sign as two dots with no stroke through them: at display
+   size it reads as a blob, at caption size as a stray letter. On a site whose entire
+   content is percentages that is not survivable, so U+0025 alone is pulled from the body
+   face and every other character still comes from the bitmap font. Silkscreen has no
+   sigma at all, which is why the stack below ends in a sans rather than a mono. */
+@font-face {
+  font-family: 'Percent';
+  font-style: normal;
+  font-weight: 400 800;
+  src: url('@fontsource/nunito/files/nunito-latin-700-normal.woff2') format('woff2');
+  unicode-range: U+0025;
+}
+
 :root {
-  /* Graphite is cold and slightly blue; amber is the darkroom safelight.
-     Phosphor appears only on measured values, never on chrome. */
-  --ink: #0e1013;
-  --panel: #15181d;
-  --panel-hi: #1b1f26;
-  --rule: #262b33;
-  --rule-hi: #3a424e;
+  /* Ink outlines every shape. Cream is the sticker stock everything readable is
+     printed on. Violet is the cabinet.
 
-  --bone: #e4dfd4;
-  --bone-dim: #8a8b85;
-  --bone-faint: #5a5c58;
+     The four spot colours have jobs and keep them. Pink acts: primary buttons,
+     the selected tab, a wrong answer. Yellow is the cabinet talking back —
+     labels, badges, warnings — and on the meter it is specifically your own
+     reading, which reads as "you" because the aggregate meter sits next to it
+     in sky. Mint is a hit and nothing else. Sky is a number somebody measured. */
+  --ink: #191024;
+  --field: #34208c;
+  --field-hi: #5b3fe3;
+  --card: #fff3e0;
+  --card-sunk: #efe0c6;
 
-  --amber: #e8a33d;
-  --amber-dim: #8a5f1f;
-  --phosphor: #6fd3be;
-  --danger: #d2624a;
+  --pop: #ff3e6c;
+  --zap: #ffc93c;
+  --mint: #35d6a4;
+  --sky: #58d5ff;
 
-  --mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', monospace;
-  --sans: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+  /* Dark variants, for when a spot colour has to be text on cream. */
+  --mint-ink: #0e7c57;
+  --pop-ink: #c40f3c;
 
-  /* One spacing scale, quarter-based, so panels line up like an instrument face. */
+  --pixel: 'Percent', 'Silkscreen', 'Nunito', system-ui, sans-serif;
+  --shout: 'Titan One', 'Silkscreen', system-ui, sans-serif;
+  --body: 'Nunito', system-ui, -apple-system, sans-serif;
+
   --s1: 0.25rem;
   --s2: 0.5rem;
   --s3: 0.75rem;
@@ -42,7 +64,12 @@
   --s12: 3rem;
   --s16: 4rem;
 
-  --shell: 68rem;
+  /* Three sizes of the same hard, offset, never-blurred shadow. */
+  --drop: 5px 5px 0 var(--ink);
+  --drop-sm: 3px 3px 0 var(--ink);
+  --drop-lg: 8px 8px 0 var(--ink);
+
+  --shell: 70rem;
 }
 
 * {
@@ -56,75 +83,90 @@ body {
 }
 
 body {
-  background: var(--ink);
-  color: var(--bone);
-  font-family: var(--sans);
-  font-size: 1rem;
+  background: var(--field);
+  color: var(--card);
+  font-family: var(--body);
+  font-size: 1.0625rem;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+}
 
-  /* A faint measurement grid. Barely visible, but it stops the background
-     reading as "dark mode" and starts it reading as graph paper. */
-  background-image:
-    linear-gradient(to right, rgba(58, 66, 78, 0.16) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(58, 66, 78, 0.16) 1px, transparent 1px);
-  background-size: 48px 48px;
+/* Sprites must stay crunchy at every size. Smoothing a 16px sprite up to 200px
+   is the one thing that would break the whole look. */
+img {
+  image-rendering: pixelated;
 }
 
 /* ---------- type ---------------------------------------------------------- */
 
-.eyebrow {
-  font-family: var(--mono);
-  font-size: 0.6875rem;
-  font-weight: 600;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--bone-dim);
-  margin: 0 0 var(--s3);
-}
-
 h1,
 h2,
 h3 {
-  font-family: var(--mono);
-  font-weight: 700;
-  letter-spacing: -0.01em;
+  font-family: var(--shout);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: 0.01em;
   margin: 0 0 var(--s4);
 }
 
 h1 {
-  font-size: clamp(1.75rem, 4vw, 2.75rem);
+  font-size: clamp(2rem, 6vw, 3.5rem);
 }
 h2 {
-  font-size: clamp(1.25rem, 2.5vw, 1.6rem);
+  font-size: clamp(1.4rem, 3vw, 2rem);
 }
 h3 {
-  font-size: 1.0625rem;
+  font-size: 1.25rem;
 }
 
 p {
   margin: 0 0 var(--s4);
-  max-width: 62ch;
+  max-width: 60ch;
+}
+
+/* The eyebrow is the cabinet's own voice: small, pixel, shouting slightly. */
+.eyebrow {
+  font-family: var(--pixel);
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--zap);
+  margin: 0 0 var(--s4);
+}
+
+.panel .eyebrow,
+.card .eyebrow {
+  color: var(--pop-ink);
 }
 
 .dim {
-  color: var(--bone-dim);
+  opacity: 0.82;
 }
 .faint {
-  color: var(--bone-faint);
+  opacity: 0.66;
+  font-size: 0.9375rem;
 }
+
+/* Anything that was actually measured is set in the pixel face. Values are
+   never dressed up: the face says "this came off the machine". */
 .measured {
-  font-family: var(--mono);
-  color: var(--phosphor);
+  font-family: var(--pixel);
   font-variant-numeric: tabular-nums;
+  color: var(--mint-ink);
 }
 
 a {
-  color: var(--amber);
-  text-underline-offset: 3px;
+  color: var(--zap);
+  text-underline-offset: 4px;
+  text-decoration-thickness: 2px;
 }
 
-/* ---------- shell --------------------------------------------------------- */
+.panel a,
+.card a {
+  color: var(--pop-ink);
+}
+
+/* ---------- shell and surfaces -------------------------------------------- */
 
 .shell {
   max-width: var(--shell);
@@ -132,118 +174,199 @@ a {
   padding: 0 var(--s6);
 }
 
+/* A panel is a sticker: flat fill, ink keyline, hard shadow, square corners.
+   Squareness is the pixel discipline — the softness comes from the typefaces,
+   which are both round. */
 .panel {
-  background: var(--panel);
-  border: 1px solid var(--rule);
+  background: var(--card);
+  color: var(--ink);
+  border: 3px solid var(--ink);
+  box-shadow: var(--drop);
+}
+
+.panel--zap {
+  background: var(--zap);
+}
+.panel--sunk {
+  background: var(--card-sunk);
+  box-shadow: none;
 }
 
 /* ---------- controls ------------------------------------------------------ */
 
 .btn {
-  font-family: var(--mono);
-  font-size: 0.8125rem;
-  font-weight: 600;
-  letter-spacing: 0.14em;
+  display: inline-block;
+  font-family: var(--pixel);
+  font-size: 0.875rem;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--ink);
-  background: var(--amber);
-  border: 1px solid var(--amber);
-  padding: var(--s3) var(--s8);
+  text-decoration: none;
+  color: var(--card);
+  background: var(--pop);
+  border: 3px solid var(--ink);
+  box-shadow: var(--drop);
+  padding: var(--s3) var(--s6);
   cursor: pointer;
   transition:
-    background 120ms ease,
-    color 120ms ease;
+    transform 80ms steps(2),
+    box-shadow 80ms steps(2);
 }
 
 .btn:hover:not(:disabled) {
-  background: var(--bone);
-  border-color: var(--bone);
+  transform: translate(-2px, -2px);
+  box-shadow: var(--drop-lg);
+}
+
+/* Pressing drives the button into the page and the shadow collapses under it.
+   Steps rather than easing, so it clicks instead of glides. */
+.btn:active:not(:disabled) {
+  transform: translate(4px, 4px);
+  box-shadow: 1px 1px 0 var(--ink);
 }
 
 .btn:disabled {
-  background: transparent;
-  color: var(--bone-faint);
-  border-color: var(--rule);
+  background: var(--card-sunk);
+  color: #9a8f7d;
+  box-shadow: none;
+  transform: translate(4px, 4px);
   cursor: not-allowed;
 }
 
+.btn--big {
+  font-size: 1.125rem;
+  padding: var(--s4) var(--s8);
+}
+
 .btn--quiet {
-  background: transparent;
-  color: var(--amber);
-  border-color: var(--amber-dim);
+  background: var(--card);
+  color: var(--ink);
 }
 
-.btn--quiet:hover:not(:disabled) {
-  background: transparent;
-  color: var(--bone);
-  border-color: var(--bone);
-}
-
+/* The ring is yellow banded in ink, because it has to stay obvious on the
+   violet cabinet and on cream stickers alike, and no single colour does both. */
 :focus-visible {
-  outline: 2px solid var(--phosphor);
-  outline-offset: 2px;
+  outline: 3px solid var(--ink);
+  outline-offset: 5px;
+  box-shadow: 0 0 0 5px var(--zap);
 }
 
-/* ---------- the null line -------------------------------------------------
-   The signature element. A real horizontal rule standing for the 12.5% chance
-   rate, with every figure drawn as displacement from it.
+.btn:focus-visible {
+  box-shadow:
+    0 0 0 5px var(--zap),
+    var(--drop);
+}
+
+/* ---------- der Vrilpegel -------------------------------------------------
+   The signature element, and the one place the joke is load-bearing. A power
+   meter with an outrageously ambitious scale — NORMAL, WARM, HEISS, VRIL — in
+   which every player who has ever played sits inside the first segment. It
+   carries exactly what the figures carry: displacement from the 12.5 % chance
+   rate. Nobody is displaced. That is the finding.
    -------------------------------------------------------------------------- */
 
-.nullline {
-  position: relative;
-  height: 3.25rem;
-  border-top: 1px solid var(--rule);
-  border-bottom: 1px solid var(--rule);
-  background: var(--panel);
+.meter {
+  background: var(--card);
+  border: 3px solid var(--ink);
+  box-shadow: var(--drop);
+  color: var(--ink);
+  padding: var(--s3) var(--s4) var(--s4);
 }
 
-.nullline__axis {
-  position: absolute;
-  inset-inline: 0;
-  top: 50%;
-  height: 1px;
-  background: var(--rule-hi);
+.meter__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s2);
+  margin-bottom: var(--s2);
 }
 
-.nullline__label {
-  position: absolute;
-  left: var(--s4);
-  top: 50%;
-  transform: translateY(-50%);
-  font-family: var(--mono);
-  font-size: 0.625rem;
-  letter-spacing: 0.18em;
+.meter__label {
+  font-family: var(--pixel);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--bone-faint);
-  background: var(--panel);
-  padding-right: var(--s3);
 }
 
-.nullline__marker {
-  position: absolute;
-  top: 50%;
-  width: 2px;
-  height: 1.25rem;
-  background: var(--phosphor);
-  transform: translate(-50%, -50%);
-}
-
-.nullline__marker--you {
-  background: var(--amber);
-  height: 1.75rem;
-}
-
-.nullline__reading {
-  position: absolute;
-  right: var(--s4);
-  top: 50%;
-  transform: translateY(-50%);
-  font-family: var(--mono);
+.meter__reading {
+  font-family: var(--pixel);
   font-size: 0.75rem;
   font-variant-numeric: tabular-nums;
-  color: var(--bone-dim);
-  background: var(--panel);
-  padding-left: var(--s3);
+  color: var(--mint-ink);
+}
+
+.meter__scale {
+  display: flex;
+  margin-bottom: var(--s1);
+}
+
+.meter__stop {
+  flex: 1;
+  text-align: center;
+  font-family: var(--pixel);
+  font-size: 0.5625rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #b9a98f;
+}
+
+/* Only the first stop is ever reached, so only the first stop is ever inked. */
+.meter__stop--reached {
+  color: var(--ink);
+}
+
+.meter__bar {
+  display: flex;
+  gap: 2px;
+  height: 1.75rem;
+  background: var(--ink);
+  border: 3px solid var(--ink);
+  padding: 2px;
+}
+
+.meter__cell {
+  flex: 1;
+  min-width: 0;
+  background: #3b2f4d;
+}
+
+.meter__cell--lit {
+  background: var(--sky);
+}
+
+.meter__cell--mine {
+  background: var(--zap);
+}
+
+.meter__foot {
+  position: relative;
+  height: 1.25rem;
+}
+
+/* A chunky pixel needle rather than a smooth caret — three stacked rows. */
+.meter__needle {
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: var(--pixel);
+  font-size: 0.5625rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+.meter__needle::before {
+  content: '';
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 6px solid var(--ink);
+  margin-bottom: 1px;
 }
 
 /* ---------- motion -------------------------------------------------------- */

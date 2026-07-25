@@ -1,30 +1,146 @@
-.board { padding: var(--s16) 0 var(--s8); }
-.lede { margin-bottom: var(--s8); }
+.board {
+  padding: var(--s12) 0 var(--s8);
+}
 
-.gate { display: flex; align-items: baseline; gap: var(--s4); padding: var(--s4) var(--s6); margin-bottom: var(--s6); }
-.gate__n { font-size: 2rem; font-weight: 600; }
-.gate__txt { font-size: 0.875rem; color: var(--bone-dim); }
+.lede {
+  margin-bottom: var(--s8);
+}
 
-.tbl { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
-.tbl th { font-family: var(--mono); font-size: 0.5625rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--bone-faint); text-align: left; padding: var(--s2) var(--s3); border-bottom: 1px solid var(--rule-hi); }
-.tbl td { padding: var(--s3); border-bottom: 1px solid var(--rule); }
-.tbl tr:hover td { background: var(--panel); }
-.tbl__rk { font-family: var(--mono); color: var(--bone-faint); width: 2.5rem; }
-.tbl__num { text-align: right; font-family: var(--mono); font-variant-numeric: tabular-nums; }
-.tbl__title { font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.06em; color: var(--amber); }
-.tbl__name { font-weight: 500; }
-.tbl__id { font-family: var(--mono); font-size: 0.625rem; color: var(--bone-faint); margin-left: var(--s2); letter-spacing: 0.1em; }
+.gate {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--s3);
+  padding: var(--s4) var(--s6);
+  margin-bottom: var(--s8);
+}
 
-.ladder { margin-top: var(--s12); }
-.ladder__list { list-style: none; margin: 0 0 var(--s4); padding: 0; border-top: 1px solid var(--rule); }
-.ladder__list li { display: flex; justify-content: space-between; gap: var(--s4); padding: var(--s2) 0; border-bottom: 1px solid var(--rule); }
-.ladder__title { font-family: var(--mono); font-size: 0.8125rem; color: var(--bone); }
-.ladder__span { font-family: var(--mono); font-size: 0.75rem; color: var(--bone-faint); }
-.ladder__note { font-size: 0.8125rem; }
+.gate__n {
+  font-size: 2rem;
+}
 
-@media (max-width: 52rem) {
-  .tbl thead { display: none; }
-  .tbl tr { display: grid; grid-template-columns: 2rem 1fr auto; gap: var(--s2); padding: var(--s3) 0; border-bottom: 1px solid var(--rule); }
-  .tbl td { border: none; padding: 0; }
-  .tbl__title { grid-column: 2 / 4; }
+.gate__txt {
+  flex: 1;
+  min-width: 16rem;
+  font-weight: 700;
+}
+
+/* ---- the high-score table ---- */
+
+.tblwrap {
+  padding: var(--s2);
+  overflow-x: auto;
+}
+
+.tbl {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tbl th {
+  font-family: var(--pixel);
+  font-size: 0.5625rem;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--pop-ink);
+  text-align: left;
+  padding: var(--s2) var(--s3);
+  border-bottom: 3px solid var(--ink);
+  white-space: nowrap;
+}
+
+.tbl td {
+  padding: var(--s3);
+  border-bottom: 2px dotted #c9b89b;
+  font-weight: 700;
+}
+
+.tbl tr:last-child td {
+  border-bottom: none;
+}
+
+.tbl tbody tr:hover td {
+  background: var(--zap);
+}
+
+/* Place numbers are the loudest thing in the table, the way they are on a cabinet. */
+.tbl__rk {
+  font-family: var(--pixel);
+  font-size: 1.125rem;
+  width: 3rem;
+}
+
+.tbl__num {
+  text-align: right;
+  font-family: var(--pixel);
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.badge {
+  display: inline-block;
+  font-family: var(--shout);
+  font-size: 0.8125rem;
+  color: var(--card);
+  background: var(--field-hi);
+  line-height: 1.3;
+  border: 2px solid var(--ink);
+  padding: 2px var(--s2) 3px;
+  white-space: nowrap;
+}
+
+.tbl__name {
+  font-family: var(--pixel);
+  font-size: 0.8125rem;
+}
+
+.tbl__id {
+  font-family: var(--pixel);
+  font-size: 0.625rem;
+  color: var(--pop-ink);
+  margin-left: var(--s2);
+}
+
+/* ---- the ladder ---- */
+
+.ladder {
+  margin-top: var(--s12);
+}
+
+.ladder__list {
+  list-style: none;
+  margin: 0 0 var(--s4);
+  padding: 0;
+  display: grid;
+  gap: var(--s2);
+}
+
+.ladder__list li {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--s4);
+  background: var(--card);
+  color: var(--ink);
+  border: 3px solid var(--ink);
+  box-shadow: var(--drop-sm);
+  padding: var(--s2) var(--s4);
+}
+
+.ladder__title {
+  font-family: var(--shout);
+  font-size: 1rem;
+}
+
+.ladder__span {
+  font-family: var(--pixel);
+  font-size: 0.6875rem;
+  color: var(--pop-ink);
+}
+
+.ladder__note {
+  font-size: 0.9375rem;
+  margin-top: var(--s6);
 }

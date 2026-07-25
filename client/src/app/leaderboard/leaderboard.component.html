@@ -1,55 +1,63 @@
 <section class="shell board">
-  <p class="eyebrow">Rangliste · sortiert nach gesicherter Mindestquote</p>
+  <p class="eyebrow">Bestenliste · sortiert nach gesicherter Mindestquote</p>
   <h1>Wer über der Nulllinie steht</h1>
-  <p class="lede dim">
+
+  <p class="lede">
     Ränge sind Plätze, keine Schwellen — es gibt immer genau drei Archonten, egal wie viel Glück
     im Umlauf ist. Sortiert wird nach der gesicherten Mindestquote, weil sie die Anzahl der
-    Sitzungen mitwiegt. Die Abweichung steht daneben, sie ist die auffälligere, aber schwächere Zahl.
+    Sitzungen mitwiegt. Die Abweichung steht daneben: die auffälligere, aber schwächere Zahl.
   </p>
 
   @if (!ranksActive) {
     <div class="gate panel">
       <span class="gate__n measured">{{ eligible }}</span>
-      <span class="gate__txt">von {{ required }} ranglistenfähigen Teilnehmern. Ränge werden erst
-        danach vergeben — bei kleiner Besetzung wäre ein Spitzenplatz keine Aussage.</span>
+      <span class="gate__txt">
+        von {{ required }} ranglistenfähigen Spielern. Ränge werden erst danach vergeben — bei
+        kleiner Besetzung wäre ein Spitzenplatz keine Aussage.
+      </span>
     </div>
   }
 
-  <table class="tbl">
-    <thead>
-      <tr>
-        <th class="tbl__rk">#</th>
-        <th>Rang</th>
-        <th>Name</th>
-        <th class="tbl__num">Mindestquote</th>
-        <th class="tbl__num">Sitzungen</th>
-        <th class="tbl__num">Quote</th>
-        <th class="tbl__num">Abw.</th>
-      </tr>
-    </thead>
-    <tbody>
-      @for (r of rows; track r.publicId) {
+  <div class="tblwrap panel">
+    <table class="tbl">
+      <thead>
         <tr>
-          <td class="tbl__rk">{{ r.rank }}</td>
-          <td class="tbl__title">{{ r.title }}</td>
-          <td class="tbl__name">{{ r.name }}<span class="tbl__id">{{ r.publicId }}</span></td>
-          <td class="tbl__num measured">{{ de(r.wilson) }} %</td>
-          <td class="tbl__num">{{ r.completed.toLocaleString('de-DE') }}</td>
-          <td class="tbl__num">{{ de(r.rate) }} %</td>
-          <td class="tbl__num">+{{ de(r.z) }} σ</td>
+          <th class="tbl__rk">#</th>
+          <th>Rang</th>
+          <th>Name</th>
+          <th class="tbl__num">Mindestquote</th>
+          <th class="tbl__num">Sitzungen</th>
+          <th class="tbl__num">Quote</th>
+          <th class="tbl__num">Abw.</th>
         </tr>
-      }
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        @for (r of rows; track r.publicId) {
+          <tr>
+            <td class="tbl__rk">{{ r.rank }}</td>
+            <td><span class="badge">{{ r.title }}</span></td>
+            <td class="tbl__name">{{ r.name }}<span class="tbl__id">{{ r.publicId }}</span></td>
+            <td class="tbl__num measured">{{ de(r.wilson) }} %</td>
+            <td class="tbl__num">{{ r.completed.toLocaleString('de-DE') }}</td>
+            <td class="tbl__num">{{ de(r.rate) }} %</td>
+            <td class="tbl__num">+{{ de(r.z) }} σ</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
 
   <div class="ladder">
     <p class="eyebrow">Die Leiter</p>
     <ul class="ladder__list">
       @for (l of ladder; track l.title) {
-        <li><span class="ladder__title">{{ l.title }}</span><span class="ladder__span">{{ l.span }}</span></li>
+        <li>
+          <span class="ladder__title">{{ l.title }}</span>
+          <span class="ladder__span">{{ l.span }}</span>
+        </li>
       }
     </ul>
-    <p class="ladder__note faint">
+    <p class="ladder__note">
       Ranglistenfähig ab 100 Sitzungen an mindestens drei verschiedenen Tagen. Über mehrere Tage,
       weil Parallelität keinen Kalender zusammenschiebt — und weil verteilte Sitzungen ohnehin die
       besseren Daten sind.

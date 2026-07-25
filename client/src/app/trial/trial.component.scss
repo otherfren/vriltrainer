@@ -1,87 +1,153 @@
 .trial {
-  padding: var(--s16) 0 var(--s8);
+  padding: var(--s12) 0 var(--s8);
 }
 
-/* The sealed screen is deliberately sparse — you are meant to sit with the coordinate — but
-   sparse is not the same as empty. Centring turns the space into framing. */
+/* Sparse on purpose — you are meant to sit with the coordinate — but sparse is not empty.
+   Centring turns the space into framing rather than a gap. */
 .trial--sealed {
-  min-height: calc(100vh - 12rem);
+  min-height: calc(100vh - 14rem);
   display: flex;
   flex-direction: column;
   justify-content: center;
-  /* Without this the column stretches its children and the button spans the full width,
-     which turns a quiet control into the loudest thing on a deliberately quiet screen. */
   align-items: flex-start;
 }
 
-.trial--sealed .coord,
-.trial--sealed .seal {
+/* ---- the cartridge label ---- */
+
+/* The stickers on this page are all the global .panel, doubled up in the selector so the
+   local overrides win regardless of stylesheet order. */
+.label.panel {
   align-self: stretch;
-}
-
-/* The coordinate is the most characteristic artifact in the product, so it is the hero —
-   set as a machine designator rather than a headline. */
-.coord {
-  font-family: var(--mono);
-  font-weight: 700;
-  font-size: clamp(2.75rem, 11vw, 7rem);
-  letter-spacing: 0.06em;
-  line-height: 1;
-  color: var(--bone);
-  margin: 0 0 var(--s8);
-  font-variant-numeric: tabular-nums;
-}
-
-.seal {
-  padding: var(--s4) var(--s6);
+  border-width: 4px;
+  box-shadow: var(--drop-lg);
+  padding: var(--s3) var(--s6) var(--s6);
   margin-bottom: var(--s8);
+  transform: rotate(-0.5deg);
+}
+
+/* Every small caption on this page is the same pixel label in the same red. */
+.label__cap,
+.seal__key,
+.proof__row span {
+  font-family: var(--pixel);
+  font-size: 0.5625rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--pop-ink);
+}
+
+.label__cap {
+  display: block;
+  font-size: 0.625rem;
+  margin-bottom: var(--s2);
+}
+
+.label__coord {
+  display: block;
+  font-family: var(--pixel);
+  font-size: clamp(2rem, 9vw, 5.5rem);
+  line-height: 1;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+
+/* ---- the seal ---- */
+
+.seal.panel {
+  align-self: stretch;
+  position: relative;
+  padding: var(--s6) var(--s4) var(--s4);
+  margin-bottom: var(--s8);
+}
+
+.seal__stamp {
+  position: absolute;
+  top: -0.9rem;
+  left: var(--s4);
+  font-family: var(--pixel);
+  font-size: 0.6875rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--card);
+  background: var(--pop);
+  border: 3px solid var(--ink);
+  padding: 0 var(--s2);
+  transform: rotate(-2deg);
+}
+
+.seal__rows {
+  background: var(--card);
+  border: 3px solid var(--ink);
+  padding: var(--s2) var(--s3);
 }
 
 .seal__row {
   display: flex;
-  gap: var(--s4);
+  flex-wrap: wrap;
+  gap: var(--s3);
   align-items: baseline;
   padding: var(--s1) 0;
-  border-bottom: 1px solid var(--rule);
 }
 
-.seal__row:last-of-type {
-  border-bottom: none;
+.seal__row + .seal__row {
+  border-top: 2px dotted #c9b89b;
 }
 
 .seal__key {
-  font-family: var(--mono);
-  font-size: 0.625rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--bone-faint);
-  min-width: 7rem;
+  min-width: 6rem;
 }
 
-.seal__val {
-  font-family: var(--mono);
-  font-size: 0.75rem;
-  color: var(--bone-dim);
+.seal__val,
+.proof__row code {
+  font-family: var(--pixel);
+  font-size: 0.6875rem;
   overflow-wrap: anywhere;
 }
 
+.seal__val {
+  font-size: 0.625rem;
+}
+
 .seal__note {
-  font-size: 0.8125rem;
-  color: var(--bone-dim);
+  font-size: 0.9375rem;
   margin: var(--s3) 0 0;
+  max-width: 54ch;
 }
 
-.instruction {
-  color: var(--bone-dim);
-  margin-bottom: var(--s6);
+/* ---- the two things the machine says out loud ---- */
+
+.bubble.panel,
+.toofast.panel {
+  box-shadow: var(--drop-sm);
+  padding: var(--s3) var(--s4);
+  font-weight: 700;
+  max-width: none;
 }
 
-/* ---- the candidate grid ---- */
+.bubble.panel {
+  position: relative;
+  margin: 0 0 var(--s8);
+}
+
+.bubble::after {
+  content: '';
+  position: absolute;
+  left: var(--s6);
+  bottom: -14px;
+  width: 0;
+  height: 0;
+  border-left: 14px solid transparent;
+  border-right: 0 solid transparent;
+  border-top: 14px solid var(--ink);
+}
+
+/* ---- the eight slots ---- */
 
 .grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: var(--s3);
+  gap: var(--s4);
   margin: var(--s6) 0 var(--s8);
 }
 
@@ -89,21 +155,22 @@
   position: relative;
   aspect-ratio: 1;
   padding: 0;
-  border: 1px solid var(--rule);
-  background: var(--panel);
+  border: 3px solid var(--ink);
+  background: var(--card);
+  box-shadow: var(--drop);
   cursor: pointer;
   overflow: hidden;
 
-  /* The develop sequence: frames come up in display order, the way a print does in a tray. */
+  /* Dealt one at a time, each landing with a small overshoot. One orchestrated
+     moment; nothing else on the page moves on its own. */
   opacity: 0;
-  transform: scale(0.985);
+  transform: scale(0.72);
   transition:
-    opacity 320ms ease,
-    transform 320ms ease,
-    border-color 120ms ease;
+    opacity 160ms linear,
+    transform 260ms cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-.slot--developed {
+.slot--dealt {
   opacity: 1;
   transform: none;
 }
@@ -113,139 +180,125 @@
   height: 100%;
   object-fit: cover;
   display: block;
-  filter: saturate(0.75) contrast(1.05);
 }
 
 .slot:hover:not(:disabled) {
-  border-color: var(--amber-dim);
+  transform: translate(-3px, -3px);
+  box-shadow: var(--drop-lg);
 }
 
 .slot__no {
   position: absolute;
-  left: var(--s2);
-  top: var(--s2);
-  font-family: var(--mono);
-  font-size: 0.6875rem;
-  color: var(--bone);
-  background: rgba(14, 16, 19, 0.72);
-  padding: 0 var(--s1);
-}
-
-.slot[data-state='picked'] {
-  border-color: var(--amber);
-  border-width: 2px;
+  left: 0;
+  top: 0;
+  font-family: var(--pixel);
+  font-size: 0.75rem;
+  color: var(--ink);
+  background: var(--zap);
+  border-right: 3px solid var(--ink);
+  border-bottom: 3px solid var(--ink);
+  padding: 2px var(--s2);
 }
 
 .slot[data-state='target'] {
-  border-color: var(--amber);
-  border-width: 2px;
+  border-width: 6px;
+  border-color: var(--mint);
 }
 
 .slot[data-state='wrong'] {
-  border-color: var(--danger);
-  border-width: 2px;
+  border-width: 6px;
+  border-color: var(--pop);
 }
 
+/* The seven that were not it drop out of the picture entirely. */
+.slot[data-state='dim'] img,
 .slot[data-state='wrong'] img {
-  filter: saturate(0.2) contrast(0.9) brightness(0.7);
-}
-
-.slot[data-state='dim'] img {
-  filter: saturate(0.1) brightness(0.42);
+  filter: grayscale(1) brightness(0.62);
 }
 
 .slot__tag {
   position: absolute;
-  left: 0;
+  left: -1px;
   bottom: 0;
-  font-family: var(--mono);
+  right: -1px;
+  font-family: var(--pixel);
   font-size: 0.625rem;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   padding: var(--s1) var(--s2);
+  border-top: 3px solid var(--ink);
 }
 
 .slot__tag--target {
-  background: var(--amber);
+  background: var(--mint);
   color: var(--ink);
 }
 
 .slot__tag--wrong {
-  background: var(--danger);
-  color: var(--ink);
+  background: var(--pop);
+  color: var(--card);
 }
 
-/* ---- verdict ---- */
+
+/* ---- the verdict ---- */
 
 .verdict {
   display: flex;
-  align-items: baseline;
-  gap: var(--s4);
-  border-top: 1px solid var(--rule);
-  border-bottom: 1px solid var(--rule);
-  padding: var(--s4) 0;
-  margin-bottom: var(--s6);
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s6);
+  margin-bottom: var(--s8);
 }
 
-.verdict__word {
-  font-family: var(--mono);
-  font-weight: 700;
-  font-size: clamp(1.5rem, 4vw, 2.25rem);
-  letter-spacing: 0.02em;
-  color: var(--danger);
+.verdict__stamp {
+  font-family: var(--shout);
+  font-size: clamp(2rem, 7vw, 3.75rem);
+  line-height: 1;
+  color: var(--card);
+  background: var(--pop);
+  border: 4px solid var(--ink);
+  box-shadow: var(--drop-lg);
+  padding: var(--s2) var(--s6) var(--s3);
+  transform: rotate(-2.5deg);
 }
 
-.verdict--hit .verdict__word {
-  color: var(--phosphor);
+.verdict__stamp--hit {
+  background: var(--mint);
+  color: var(--ink);
+  transform: rotate(2deg);
 }
 
-.verdict__rate {
-  font-family: var(--mono);
+.verdict__rate,
+.progress {
+  font-family: var(--pixel);
   font-size: 0.75rem;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--bone-faint);
+  color: var(--zap);
+  margin: 0;
 }
 
-.toofast {
-  border-left: 2px solid var(--amber);
-  padding-left: var(--s4);
-  color: var(--bone-dim);
-  font-size: 0.875rem;
+.after {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s4);
+  margin-bottom: var(--s8);
 }
 
-/* ---- proof ---- */
-
-.proof__toggle {
-  margin-bottom: var(--s4);
-}
+/* ---- the proof ---- */
 
 .proof {
-  padding: var(--s4) var(--s6);
-  margin-bottom: var(--s6);
+  padding: var(--s4) var(--s6) var(--s6);
+  margin-bottom: var(--s8);
 }
 
 .proof__row {
   display: flex;
-  gap: var(--s4);
+  flex-wrap: wrap;
+  gap: var(--s3);
   justify-content: space-between;
   padding: var(--s2) 0;
-  border-bottom: 1px solid var(--rule);
-  font-size: 0.75rem;
-}
-
-.proof__row span {
-  font-family: var(--mono);
-  font-size: 0.625rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--bone-faint);
-}
-
-.proof__row code {
-  font-family: var(--mono);
-  color: var(--bone-dim);
-  overflow-wrap: anywhere;
+  border-bottom: 2px dotted #c9b89b;
 }
 
 .proof__row--result {
@@ -253,22 +306,28 @@
 }
 
 .proof__ok {
-  font-size: 0.8125rem;
-  margin: var(--s3) 0 0;
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  font-weight: 800;
+  margin: var(--s4) 0 0;
+}
+
+.proof__tick {
+  font-family: var(--pixel);
+  color: var(--ink);
+  background: var(--mint);
+  border: 3px solid var(--ink);
+  padding: 0 var(--s2);
 }
 
 .proof__note {
-  font-size: 0.75rem;
+  font-size: 0.875rem;
   margin: var(--s2) 0 0;
+  opacity: 0.8;
 }
 
-.progress {
-  font-family: var(--mono);
-  font-size: 0.75rem;
-  margin-top: var(--s6);
-}
-
-@media (max-width: 44rem) {
+@media (max-width: 52rem) {
   .grid {
     grid-template-columns: repeat(2, 1fr);
   }

@@ -1,32 +1,161 @@
-.stats { padding: var(--s16) 0 var(--s8); }
+.stats {
+  padding: var(--s12) 0 var(--s8);
+}
 
-.headline { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--s4); margin-bottom: var(--s4); }
-.headline__rate { font-size: clamp(2.5rem, 9vw, 5rem); letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
-.headline__vs { font-family: var(--mono); font-size: 0.875rem; font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase; color: var(--bone-dim); }
+.headline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--s4);
+  margin-bottom: var(--s4);
+}
 
-.lede { color: var(--bone-dim); margin-bottom: var(--s6); }
-.lede strong { color: var(--bone); font-weight: 500; }
+.headline__rate {
+  font-family: var(--pixel);
+  font-size: clamp(2.25rem, 8vw, 4.5rem);
+  color: var(--zap);
+  font-variant-numeric: tabular-nums;
+}
 
-.tails { padding: var(--s6); margin: var(--s8) 0; }
-.hist { display: flex; align-items: flex-end; gap: var(--s2); height: 9rem; margin-bottom: var(--s4); }
-.hist__col { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; }
-.hist__bar { width: 100%; background: var(--rule-hi); display: block; }
-.hist__bar--tail { background: var(--amber-dim); }
-.hist__count { font-family: var(--mono); font-size: 0.6875rem; color: var(--bone-dim); margin-top: var(--s1); font-variant-numeric: tabular-nums; }
-.hist__z { font-family: var(--mono); font-size: 0.625rem; color: var(--bone-faint); letter-spacing: 0.08em; }
+.headline__vs {
+  font-family: var(--body);
+  font-size: 1.125rem;
+  font-weight: 800;
+}
 
-.tails__read { display: flex; gap: var(--s8); border-top: 1px solid var(--rule); padding-top: var(--s3); font-size: 0.875rem; color: var(--bone-dim); }
-.tails__n { font-size: 1.25rem; font-weight: 600; margin-right: var(--s2); }
-.tails__note { font-size: 0.8125rem; margin: var(--s3) 0 0; }
+.lede {
+  margin-bottom: var(--s8);
+}
 
-.mine { margin-top: var(--s12); }
-.mine__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--rule); border: 1px solid var(--rule); margin-bottom: var(--s6); }
-.mine__cell { background: var(--panel); padding: var(--s4); display: flex; flex-direction: column; gap: var(--s1); }
-.mine__label { font-family: var(--mono); font-size: 0.5625rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--bone-faint); }
-.mine__val { font-size: 1.5rem; font-weight: 600; }
-.mine__context { font-size: 0.875rem; color: var(--bone-dim); margin-top: var(--s4); }
+.lede strong {
+  color: var(--zap);
+}
 
-@media (max-width: 44rem) {
-  .mine__grid { grid-template-columns: repeat(2, 1fr); }
-  .tails__read { flex-direction: column; gap: var(--s2); }
+/* ---- the two tails ---- */
+
+.tails {
+  padding: var(--s6);
+  margin: var(--s8) 0;
+}
+
+/* Blocks with a keyline rather than smooth columns: a bar here counts people, and the
+   pixel treatment keeps it a count instead of a shape. */
+.hist {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--s3);
+  height: 12rem;
+  margin-bottom: var(--s4);
+}
+
+.hist__col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  height: 100%;
+  gap: var(--s1);
+}
+
+.hist__bar {
+  width: 100%;
+  background: var(--sky);
+  border: 3px solid var(--ink);
+  display: block;
+}
+
+.hist__bar--tail {
+  background: var(--pop);
+}
+
+.hist__count,
+.hist__z {
+  font-family: var(--pixel);
+  font-size: 0.625rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.hist__z {
+  color: var(--pop-ink);
+}
+
+.tails__read {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s8);
+  border-top: 3px solid var(--ink);
+  padding-top: var(--s4);
+}
+
+.tails__end {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s2);
+  font-weight: 700;
+}
+
+.tails__n {
+  font-size: 1.75rem;
+}
+
+.tails__note {
+  font-size: 0.9375rem;
+  margin: var(--s4) 0 0;
+  max-width: 66ch;
+}
+
+/* ---- your own numbers ---- */
+
+.mine {
+  margin-top: var(--s12);
+}
+
+.mine__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--s4);
+  margin-bottom: var(--s6);
+}
+
+.mine__cell {
+  background: var(--card);
+  color: var(--ink);
+  border: 3px solid var(--ink);
+  box-shadow: var(--drop);
+  padding: var(--s3) var(--s4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s1);
+}
+
+.mine__label {
+  font-family: var(--pixel);
+  font-size: 0.5625rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--pop-ink);
+}
+
+.mine__val {
+  font-size: 1.5rem;
+}
+
+.mine__context {
+  padding: var(--s4);
+  margin-top: var(--s6);
+  max-width: none;
+  font-weight: 700;
+}
+
+@media (max-width: 52rem) {
+  .mine__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .tails__read {
+    gap: var(--s4);
+  }
+  .hist {
+    gap: var(--s1);
+  }
 }
