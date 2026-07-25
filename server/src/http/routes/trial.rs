@@ -32,6 +32,7 @@ use crate::http::routes::account::Holder;
 use crate::http::{ApiError, AppState, limits};
 use crate::log::chain::Body;
 use crate::pool::Manifest;
+use crate::stats::accumulate;
 use crate::trial::commit::commitment;
 use crate::trial::derive;
 use crate::trial::timing::{self, Timing, now_unix};
@@ -302,9 +303,14 @@ async fn answer(
     }
     let hit = request.chosen == target;
 
-    let entry = state
+    // `append_with`, so the account's running figures move inside the same transaction as the
+    // entry that justifies them. Counted afterwards in a second write, a crash in between leaves a
+    // resolve in the log that no total includes, and the statistics page and the export — which
+    // readers are invited to compare (SC-004, SC-012) — disagree with no way to tell which is
+    // right. The cache can always be replayed from the log; the log can never be replayed from it.
+    let (entry, ()) = state
         .db
-        .append(
+        .append_with(
             &now_rfc3339(),
             Body::Resolve {
                 trial: commit.trial,
@@ -315,6 +321,7 @@ async fn answer(
                 s_client: base64(&two.s_client),
                 nonce: base64(&two.nonce),
             },
+            |tx, entry| accumulate::on_resolve(tx, &state.config, &account, hit, &entry.at),
         )
         .map_err(answered_concurrently)?;
 

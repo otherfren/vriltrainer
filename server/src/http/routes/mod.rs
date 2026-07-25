@@ -49,27 +49,18 @@ async fn unrouted(uri: Uri) -> Response {
     ApiError::NotFound.into_response()
 }
 
+/// The contracted paths that are still unmounted — nothing else belongs here.
+///
+/// Every other route in `contracts/http-api.md` now has a module, and an entry for a mounted path
+/// can never be reached: the real route wins, so it would sit here reading like unfinished work
+/// long after the work was finished. `DELETE /api/account/name` (FR-035) is the last one left.
+///
+/// The name review is deliberately absent even though it is contracted. It is mounted under
+/// `/admin`, not `/api/admin` — an entry for the latter would promise a `501` "coming soon" for an
+/// address that will never exist, and send an integrator looking for a route instead of at the
+/// prefix they got wrong.
 fn contracted(path: &str) -> bool {
-    const PATHS: [&str; 11] = [
-        "/api/account",
-        "/api/account/name",
-        "/api/trial",
-        "/api/trial/reveal",
-        "/api/trial/answer",
-        "/api/stats/me",
-        "/api/stats/aggregate",
-        "/api/leaderboard",
-        "/api/log",
-        "/api/log/head",
-        "/api/handoff",
-    ];
-
-    PATHS.contains(&path)
-        || path == "/api/handoff/redeem"
-        // `GET /api/pool/{version}/manifest`, served for every version there has ever been (D5).
-        || (path.starts_with("/api/pool/") && path.ends_with("/manifest"))
-        // The name review of D25. Reversible operations only, so the surface is small by design.
-        || path.starts_with("/api/admin/")
+    path == "/api/account/name"
 }
 
 #[cfg(test)]
@@ -137,10 +128,41 @@ mod tests {
         assert_eq!(response.status(), StatusCode::NOT_FOUND);
     }
 
+    /// A mounted path must never also be listed as unbuilt. The listing is unreachable for one —
+    /// the route wins — so the mistake is invisible in behaviour and survives until someone reads
+    /// the contract and the file side by side.
     #[test]
-    fn the_versioned_manifest_path_is_contracted_for_every_version() {
-        assert!(super::contracted("/api/pool/1/manifest"));
-        assert!(super::contracted("/api/pool/97/manifest"));
-        assert!(!super::contracted("/api/pool/1"));
+    fn nothing_already_mounted_is_advertised_as_unbuilt() {
+        for mounted in [
+            "/api/account",
+            "/api/trial",
+            "/api/trial/reveal",
+            "/api/trial/answer",
+            "/api/stats/me",
+            "/api/stats/aggregate",
+            "/api/leaderboard",
+            "/api/log",
+            "/api/log/head",
+            "/api/pool/1/manifest",
+            "/api/handoff",
+            "/api/handoff/redeem",
+        ] {
+            assert!(!super::contracted(mounted), "{mounted} is mounted");
+        }
+    }
+
+    /// The name review lives at `/admin`, so `/api/admin/...` is a wrong address rather than an
+    /// unfinished one and has to say `404`. A `501` there reads as "not built yet" for a path that
+    /// is never going to be built, which is the more expensive of the two lies.
+    #[tokio::test]
+    async fn the_admin_api_is_not_under_api() {
+        assert!(!super::contracted("/api/admin/names"));
+
+        let req = Request::builder()
+            .uri("/api/admin/names")
+            .body(Body::empty())
+            .unwrap();
+        let response = router(test_support::state()).oneshot(req).await.unwrap();
+        assert_eq!(response.status(), StatusCode::NOT_FOUND);
     }
 }
