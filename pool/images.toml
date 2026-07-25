@@ -75,6 +75,36 @@ category = "building"
   de = "Tokyo Tower vor blauem Himmel"
   en = "Tokyo Tower against a blue sky"
 
+  # A second Eiffel Tower. Two photographs of one landmark are the strongest case there is for
+  # filing by resemblance: nothing else in the pool could be mistaken for each other more.
+  [[group.image]]
+  file = "eifel_tower.jpg"
+  de = "Eiffelturm, Aufsicht von unten"
+  en = "Eiffel Tower, seen from below"
+
+  [[group.image]]
+  file = "modern_house_green_field.jpg"
+  de = "Modernes Haus auf grüner Wiese"
+  en = "Modern house in a green field"
+
+  # Four dwellings now, and two of them are dark cabins in trees. `building` has stopped being a
+  # category and become the bucket that holds everything a viewer might mistake for something else
+  # in it — which is what a category is for here.
+  [[group.image]]
+  file = "black_cabin_woods.jpg"
+  de = "Schwarze Hütte im Wald"
+  en = "Black cabin in the woods"
+
+  [[group.image]]
+  file = "wooden_house_surrounded_by_pine_trees.jpg"
+  de = "Holzhaus zwischen Kiefern"
+  en = "Wooden house among pines"
+
+  [[group.image]]
+  file = "large_ferris_wheel.jpg"
+  de = "Großes Riesenrad"
+  en = "Large ferris wheel"
+
 [[group]]
 dir = "plant"
 category = "plant"
@@ -129,6 +159,23 @@ category = "plant"
   file = "lush_greenhouse_interior.jpg"
   de = "Üppiges Gewächshaus von innen"
   en = "Lush greenhouse interior"
+
+  [[group.image]]
+  file = "green_prickly_pear_cactus_field.jpg"
+  de = "Feld mit Feigenkakteen"
+  en = "Field of prickly pear cactus"
+
+  # Two single trees against sky. Trees are plants and they are also landscape compositions; they
+  # are here because they resemble each other, which is the only tie-break that matters.
+  [[group.image]]
+  file = "lone_tree_grassy_hill.jpg"
+  de = "Einzelner Baum auf grünem Hügel"
+  en = "Lone tree on a grassy hill"
+
+  [[group.image]]
+  file = "palm_tree_blue_sky.jpg"
+  de = "Palme vor blauem Himmel"
+  en = "Palm tree against a blue sky"
 
 [[group]]
 dir = "person"
@@ -283,6 +330,21 @@ category = "animal"
   en = "Ginger cat asleep on a black blanket"
 
   [[group.image]]
+  file = "blackbird.jpg"
+  de = "Amsel"
+  en = "Blackbird"
+
+  [[group.image]]
+  file = "grizzly_bear.jpg"
+  de = "Grizzlybär"
+  en = "Grizzly bear"
+
+  [[group.image]]
+  file = "deer_red_tag.jpg"
+  de = "Reh mit rotem Ohrmarken-Anhänger"
+  en = "Deer with a red ear tag"
+
+  [[group.image]]
   file = "highland_cow_with_horns.jpg"
   de = "Hochlandrind mit Hörnern"
   en = "Highland cow with horns"
@@ -303,6 +365,11 @@ category = "stone"
   de = "Balancierender Fels in der Wüste"
   en = "Balanced rock in the desert"
 
+  [[group.image]]
+  file = "large_rock_black_background.jpg"
+  de = "Großer Fels vor schwarzem Hintergrund"
+  en = "Large rock against a black background"
+
 [[group]]
 dir = "food"
 category = "food"
@@ -311,6 +378,11 @@ category = "food"
   file = "red_apples.jpg"
   de = "Rote Äpfel"
   en = "Red apples"
+
+  [[group.image]]
+  file = "rotten_lemon.jpg"
+  de = "Verfaulte Zitrone"
+  en = "Rotten lemon"
 
 # An alley is architecture, and it goes here rather than into `building` because it is not
 # confusable with a tower or a cabin — and the pool needs categories as much as it needs images.
@@ -332,3 +404,17 @@ category = "machine"
   file = "professional_video_camera_tripod.jpg"
   de = "Profi-Videokamera auf einem Stativ"
   en = "Professional video camera on a tripod"
+
+  [[group.image]]
+  file = "digital_camera_on_wooden_surface.jpg"
+  de = "Digitalkamera auf Holz"
+  en = "Digital camera on wood"
+
+[[group]]
+dir = "water"
+category = "water"
+
+  [[group.image]]
+  file = "sunset_tranquil_ocean.jpg"
+  de = "Ruhiges Meer bei Sonnenuntergang"
+  en = "Calm sea at sunset"
