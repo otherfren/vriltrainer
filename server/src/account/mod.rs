@@ -128,14 +128,14 @@ pub fn authenticate(db: &Db, token: &str) -> Result<Option<String>, DbError> {
 /// under its opaque identifier and every proof over them still verifies (FR-036) — which is the
 /// entire reason names were kept out of the chain in the first place.
 ///
-/// Permanent, and marked by `display_name` being null: every account is created with a name, so
-/// that is a state no live account reaches by any other route, and it is what stops
+/// Permanent, and marked by `name_state = 'erased'`. Not by `display_name` being null: a refusal
+/// discards the name too (SC-018), so nullness distinguishes nothing, and the state is what stops
 /// [`name::submit`] from ever setting one again.
 pub fn forget_name(db: &Db, account_id: &str, now: &str) -> Result<(), DbError> {
     db.write(|tx| {
         tx.execute(
             "UPDATE account
-                SET display_name = NULL, public_name = NULL, name_state = 'rejected',
+                SET display_name = NULL, public_name = NULL, name_state = 'erased',
                     name_reason = ?2, name_changed_at = ?3
               WHERE id = ?1",
             params![account_id, name::ERASED, now],

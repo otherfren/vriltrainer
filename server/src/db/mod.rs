@@ -127,6 +127,12 @@ impl Db {
     fn connect_writer(path: &Path) -> Result<Connection, DbError> {
         let conn = Connection::open(path)?;
 
+        // Before the first statement that can block, not after. Converting the journal to WAL
+        // takes a brief exclusive lock, and with D24's two processes started from one systemd
+        // target they reach it together on a fresh file. Set later, that conversion runs under
+        // SQLite's default zero busy handler and one of the two refuses to start.
+        conn.busy_timeout(BUSY_TIMEOUT)?;
+
         // WAL, so readers never block the writer and the writer never blocks readers. With two
         // writing processes this is not a performance choice: under the rollback journal a reader
         // holding a shared lock stalls the other domain's append.
@@ -140,7 +146,6 @@ impl Db {
                 want: "wal",
             });
         }
-        conn.busy_timeout(BUSY_TIMEOUT)?;
         conn.pragma_update(None, "foreign_keys", "ON")?;
         // The log is the product. Losing the last few entries to a power cut is not a tolerable
         // trade for write throughput a site of this size will never need.
@@ -172,7 +177,14 @@ impl Db {
                  applied_at TEXT    NOT NULL
              )",
         )?;
-        let current: u32 = w.query_row(
+
+        // The version is read INSIDE the write lock, not before it. Read in autocommit, this is
+        // structurally the same read-then-write race the append path exists to avoid: both
+        // processes see version 0, both enter the loop, and the loser dies on `table account
+        // already exists`. D24 starts two processes from one target, so they meet here on every
+        // fresh deployment — measured at roughly one failure in seven cold starts before this.
+        let tx = w.transaction_with_behavior(TransactionBehavior::Immediate)?;
+        let current: u32 = tx.query_row(
             "SELECT COALESCE(MAX(version), 0) FROM schema_version",
             [],
             |r| r.get(0),
@@ -182,10 +194,6 @@ impl Db {
             if *version <= current {
                 continue;
             }
-            // IMMEDIATE for the same reason appends use it: the other process may be starting at
-            // the same moment, and two processes applying the same migration is not a race worth
-            // having.
-            let tx = w.transaction_with_behavior(TransactionBehavior::Immediate)?;
             tx.execute_batch(sql).map_err(|e| DbError::Migration {
                 version: *version,
                 message: e.to_string(),
@@ -194,8 +202,8 @@ impl Db {
                 "INSERT INTO schema_version (version, applied_at) VALUES (?1, ?2)",
                 params![version, now_rfc3339()],
             )?;
-            tx.commit()?;
         }
+        tx.commit()?;
         Ok(())
     }
 

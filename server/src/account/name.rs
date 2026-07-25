@@ -27,6 +27,10 @@ pub enum NameState {
     Pending,
     Approved,
     Rejected,
+    /// Permanent (FR-035). Distinct from `Rejected` because both now leave `display_name` null —
+    /// a refusal discards the name too (SC-018) — so nullness can no longer tell them apart, and
+    /// confusing them would lock a rejected holder out of ever choosing again.
+    Erased,
 }
 
 /// The mask shown in place of a name that has not been approved.
@@ -37,8 +41,8 @@ pub enum NameState {
 pub const MASK: &str = "••••••••";
 
 /// The reason code left behind by erasure (FR-035). Written to `name_reason` so the client can say
-/// why no name field is offered; the *state* is `display_name` being null, which is what
-/// [`submit`] checks.
+/// why no name field is offered; the *state* is `name_state = 'erased'`, which is what [`submit`]
+/// checks.
 pub const ERASED: &str = "erased";
 
 /// Why a name was not accepted.
@@ -59,8 +63,9 @@ pub enum NameError {
 
 /// What the holder sees: their own name, its state, and why it was refused if it was.
 ///
-/// `name` is `None` only for an erased account: every account is created with one, so null is a
-/// state a live account cannot otherwise reach.
+/// `name` is `None` for an erased account and for one whose name was refused — a refusal discards
+/// the string (SC-018) and leaves only `reason`, which is what the holder needs in order to choose
+/// again.
 #[derive(Debug, Clone, serde::Serialize)]
 pub struct HolderView {
     pub name: Option<String>,
@@ -107,13 +112,16 @@ pub fn submit(
     // The refusals are decided inside the transaction: the cooldown is read-then-write, and two
     // requests racing it would each see an expired clock and both spend the turn.
     db.write(|tx| {
-        let (current, changed_at): (Option<String>, Option<String>) = tx.query_row(
-            "SELECT display_name, name_changed_at FROM account WHERE id = ?1",
+        let (state, changed_at): (String, Option<String>) = tx.query_row(
+            "SELECT name_state, name_changed_at FROM account WHERE id = ?1",
             params![account_id],
             |r| Ok((r.get(0)?, r.get(1)?)),
         )?;
 
-        if current.is_none() {
+        // On the state, not on `display_name` being null: a refusal discards the name as well
+        // (SC-018), so nullness stopped distinguishing "refused, pick another" from "erased,
+        // never again" the moment reject started clearing it.
+        if state == "erased" {
             return Ok(Err(NameError::Erased));
         }
         if let Some(retry_after_seconds) =
@@ -135,41 +143,75 @@ pub fn submit(
     })?
 }
 
-/// Publishes the name. Reversible, which is what allows this to sit behind a public admin API.
+/// Publishes the name **the reviewer read**, not whatever the account holds now.
 ///
-/// Reversible in both directions: a name [`reject`] pulled off the board goes back on if it turns
-/// out to have been fine, so a rejected row is accepted here as readily as a pending one.
-pub fn approve(db: &Db, account_id: &str) -> Result<(), DbError> {
+/// Keyed on the name rather than the account, because `approve(account_id)` alone is a
+/// time-of-check-to-time-of-use hole and it is the exact hole pre-approval exists to close: the
+/// holder resubmits between the reviewer reading the queue and clicking approve, and the UPDATE
+/// publishes a string no human ever saw. Echoing the reviewed name back makes a swap a no-op —
+/// [`Approval::Stale`] — instead of a publication.
+///
+/// Reversible, which is what allows it behind a public admin API (D25): approving a name puts it
+/// on the board and nothing else, and [`reject`] takes it off again.
+pub fn approve(db: &Db, account_id: &str, reviewed: &str) -> Result<Approval, DbError> {
     db.write(|tx| {
         // `display_name IS NOT NULL` keeps an erased account out. There is nothing to publish, and
         // publishing null would quietly re-mask an account that asked to be forgotten rather than
         // leaving it as it is.
-        tx.execute(
+        let n = tx.execute(
             "UPDATE account
                 SET public_name = display_name, name_state = 'approved', name_reason = NULL
-              WHERE id = ?1 AND display_name IS NOT NULL",
-            params![account_id],
+              WHERE id = ?1 AND display_name IS NOT NULL AND display_name = ?2",
+            params![account_id, reviewed],
         )?;
-        Ok(())
+        Ok(if n == 1 {
+            Approval::Applied
+        } else {
+            Approval::Stale
+        })
     })
 }
 
-/// Refuses the name: it comes off the board, and the holder is told why.
+/// Whether a review decision still applied to the name it was made about.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum Approval {
+    Applied,
+    /// The name changed under the reviewer. Nothing was published; the queue has to be re-read.
+    Stale,
+}
+
+/// Refuses the name the reviewer read, and **discards it**.
 ///
-/// `display_name` stays, because the holder has to see what was refused to pick something better;
-/// it is discarded when they submit a replacement, and it reaches no public surface in the
-/// meantime. `name_changed_at` is cleared, so a refusal does **not** consume the rename limit —
-/// the user has not had a turn yet.
-pub fn reject(db: &Db, account_id: &str, reason: &str) -> Result<(), DbError> {
+/// Keyed on the name for the same reason [`approve`] is: a decision made about one string must not
+/// land on another.
+///
+/// The name is discarded rather than kept for the holder to look at again (SC-018, D25 as amended).
+/// Holding a name you refused is holding personal data for no purpose, and the holder does not need
+/// the string echoed back — they need to know it was refused and why, which `name_reason` carries.
+/// `name_changed_at` is cleared, so a refusal does **not** consume the rename limit: the user has
+/// not had a turn yet.
+///
+/// This is still reversible in the sense D25 requires. A leaked admin key can clear a name off the
+/// board; it cannot destroy anything, and the holder puts a name back by submitting one.
+pub fn reject(
+    db: &Db,
+    account_id: &str,
+    reviewed: &str,
+    reason: &str,
+) -> Result<Approval, DbError> {
     db.write(|tx| {
-        tx.execute(
+        let n = tx.execute(
             "UPDATE account
-                SET name_state = 'rejected', name_reason = ?2, public_name = NULL,
-                    name_changed_at = NULL
-              WHERE id = ?1 AND display_name IS NOT NULL",
-            params![account_id, reason],
+                SET name_state = 'rejected', name_reason = ?3, public_name = NULL,
+                    display_name = NULL, name_changed_at = NULL
+              WHERE id = ?1 AND display_name IS NOT NULL AND display_name = ?2",
+            params![account_id, reviewed, reason],
         )?;
-        Ok(())
+        Ok(if n == 1 {
+            Approval::Applied
+        } else {
+            Approval::Stale
+        })
     })
 }
 
@@ -216,6 +258,7 @@ fn state_from_column(raw: &str) -> NameState {
     match raw {
         "approved" => NameState::Approved,
         "rejected" => NameState::Rejected,
+        "erased" => NameState::Erased,
         _ => NameState::Pending,
     }
 }
@@ -282,7 +325,7 @@ mod tests {
         let id = account_with_name(&db, "otherfren");
 
         assert_eq!(on_the_board(&db, &id), MASK);
-        approve(&db, &id).unwrap();
+        approve(&db, &id, "otherfren").unwrap();
         assert_eq!(on_the_board(&db, &id), "otherfren");
     }
 
@@ -297,15 +340,18 @@ mod tests {
         assert_eq!(view.name.as_deref(), Some("otherfren"));
         assert_eq!(view.state, NameState::Pending);
 
-        reject(&db, &id, "hate").unwrap();
+        reject(&db, &id, "otherfren", "hate").unwrap();
         let view = holder(&db, &id).unwrap();
         assert_eq!(
-            view.name.as_deref(),
-            Some("otherfren"),
-            "a refused name is still its owner's"
+            view.name, None,
+            "SC-018: a refused name is discarded, not kept for its owner to look at"
         );
         assert_eq!(view.state, NameState::Rejected);
-        assert_eq!(view.reason.as_deref(), Some("hate"));
+        assert_eq!(
+            view.reason.as_deref(),
+            Some("hate"),
+            "the reason is what the holder needs in order to pick a better one"
+        );
     }
 
     /// FR-048: renaming is not punished with anonymity. The board keeps the old name for as long
@@ -314,7 +360,7 @@ mod tests {
     fn the_last_approved_name_stays_up_while_a_rename_is_reviewed() {
         let db = Db::open_in_memory().unwrap();
         let id = account_with_name(&db, "otherfren");
-        approve(&db, &id).unwrap();
+        approve(&db, &id, "otherfren").unwrap();
 
         rename(&db, &id, "ganzfeld_enjoyer", NEXT_DAY).unwrap();
         assert_eq!(on_the_board(&db, &id), "otherfren");
@@ -323,7 +369,7 @@ mod tests {
             Some("ganzfeld_enjoyer")
         );
 
-        approve(&db, &id).unwrap();
+        approve(&db, &id, "ganzfeld_enjoyer").unwrap();
         assert_eq!(on_the_board(&db, &id), "ganzfeld_enjoyer");
     }
 
@@ -344,7 +390,7 @@ mod tests {
         let db = Db::open_in_memory().unwrap();
         let id = account_with_name(&db, "otherfren");
 
-        reject(&db, &id, "hate").unwrap();
+        reject(&db, &id, "otherfren", "hate").unwrap();
         // The very instant that was refused on the cooldown a moment ago.
         assert!(rename(&db, &id, "Monroe Institut", CREATED).is_ok());
     }
@@ -356,12 +402,55 @@ mod tests {
         let db = Db::open_in_memory().unwrap();
         let id = account_with_name(&db, "otherfren");
 
-        approve(&db, &id).unwrap();
-        reject(&db, &id, "hate").unwrap();
+        approve(&db, &id, "otherfren").unwrap();
+        reject(&db, &id, "otherfren", "hate").unwrap();
         assert_eq!(on_the_board(&db, &id), MASK);
 
-        approve(&db, &id).unwrap();
-        assert_eq!(on_the_board(&db, &id), "otherfren");
+        // Nothing was destroyed: the holder puts a name back by submitting one, which is the sense
+        // in which D25 calls the admin API reversible. The refused string itself is gone (SC-018).
+        rename(&db, &id, "Monroe Institut", CREATED).unwrap();
+        approve(&db, &id, "Monroe Institut").unwrap();
+        assert_eq!(on_the_board(&db, &id), "Monroe Institut");
+    }
+
+    /// The hole an adversarial review found: `approve(account_id)` published whatever the account
+    /// held at UPDATE time, so a holder who resubmitted between the reviewer reading the queue and
+    /// clicking approve got a string no human ever saw onto the board.
+    #[test]
+    fn approving_a_name_that_changed_underneath_publishes_nothing() {
+        let db = Db::open_in_memory().unwrap();
+        let id = account_with_name(&db, "otherfren");
+
+        // What the reviewer read.
+        let queue = pending(&db, 10).unwrap();
+        assert_eq!(queue[0].1, "otherfren");
+
+        // What the holder swapped it for while the queue sat there.
+        rename(&db, &id, "Monroe Institut", NEXT_DAY).unwrap();
+
+        assert_eq!(
+            approve(&db, &id, "otherfren").unwrap(),
+            Approval::Stale,
+            "the decision was about a name that is no longer there"
+        );
+        assert_eq!(on_the_board(&db, &id), MASK);
+    }
+
+    /// The tighter version of the same hole: rejection clears the rename cooldown, so the swap
+    /// needs no waiting at all.
+    #[test]
+    fn rejecting_a_name_that_changed_underneath_decides_nothing() {
+        let db = Db::open_in_memory().unwrap();
+        let id = account_with_name(&db, "otherfren");
+        rename(&db, &id, "Monroe Institut", NEXT_DAY).unwrap();
+
+        assert_eq!(
+            reject(&db, &id, "otherfren", "hate").unwrap(),
+            Approval::Stale
+        );
+        let view = holder(&db, &id).unwrap();
+        assert_eq!(view.state, NameState::Pending, "still awaiting review");
+        assert_eq!(view.name.as_deref(), Some("Monroe Institut"));
     }
 
     #[test]
@@ -369,7 +458,7 @@ mod tests {
         let db = Db::open_in_memory().unwrap();
         let first = account_with_name(&db, "otherfren");
         let second = account_with_name(&db, "Monroe Institut");
-        approve(&db, &first).unwrap();
+        approve(&db, &first, "otherfren").unwrap();
 
         assert_eq!(
             pending(&db, 10).unwrap(),
@@ -392,7 +481,7 @@ mod tests {
     fn an_erased_name_can_never_be_set_again() {
         let db = Db::open_in_memory().unwrap();
         let id = account_with_name(&db, "otherfren");
-        approve(&db, &id).unwrap();
+        approve(&db, &id, "otherfren").unwrap();
 
         account::forget_name(&db, &id, NEXT_DAY).unwrap();
         assert_eq!(on_the_board(&db, &id), MASK);
@@ -406,7 +495,11 @@ mod tests {
             rename(&db, &id, "Monroe Institut", DAY_AFTER),
             Err(NameError::Erased)
         ));
-        reject(&db, &id, "hate").unwrap();
+        assert_eq!(
+            reject(&db, &id, "otherfren", "hate").unwrap(),
+            Approval::Stale,
+            "an erased account has no name to refuse"
+        );
         assert!(matches!(
             rename(&db, &id, "Monroe Institut", DAY_AFTER),
             Err(NameError::Erased)

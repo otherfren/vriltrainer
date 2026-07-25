@@ -101,13 +101,38 @@ const EDGE: [char; 3] = [' ', '_', '-'];
 /// Top-level domains the address rule looks for.
 const TLDS: [&str; 5] = [".de", ".com", ".net", ".org", ".io"];
 
-/// Whitespace as JavaScript's `\s` understands it.
+/// Whitespace as JavaScript's `\s` understands it, which is not Unicode's White_Space.
 ///
-/// Unicode's White_Space property is the same set with one omission: `U+FEFF` is a format
-/// character rather than whitespace, but `\s` matches it. A name the two implementations normalise
-/// differently is a name stored as something other than what the user was shown accepting.
+/// Two differences, both of which change what gets stored:
+///   - `\s` matches `U+FEFF`, which White_Space does not, because it is a format character.
+///   - White_Space matches `U+0085` (NEL), which `\s` does **not**.
+///
+/// The second one mattered: collapsing NEL here made the charset rule below never see it, so Rust
+/// accepted a name the client refuses. A name the two implementations normalise differently is a
+/// name stored as something other than what the user was shown accepting.
 fn is_space(c: char) -> bool {
-    c.is_whitespace() || c == '\u{feff}'
+    (c.is_whitespace() && c != '\u{85}') || c == '\u{feff}'
+}
+
+/// `\p{L}` or `\p{N}` as the client's regex means them: General_Category, nothing wider.
+///
+/// `char::is_alphabetic` is Unicode Alphabetic, which also admits Other_Alphabetic — the combining
+/// marks that stack on a public board. That is the direction that breaks parity: it accepts names
+/// the client refuses, which is exactly what a pre-filter must never do, because the client is the
+/// side the user was shown.
+fn is_letter_or_number(c: char) -> bool {
+    use unicode_general_category::{GeneralCategory as G, get_general_category as cat};
+    matches!(
+        cat(c),
+        G::UppercaseLetter
+            | G::LowercaseLetter
+            | G::TitlecaseLetter
+            | G::ModifierLetter
+            | G::OtherLetter
+            | G::DecimalNumber
+            | G::LetterNumber
+            | G::OtherNumber
+    )
 }
 
 /// Trimmed, with runs of whitespace collapsed. What gets stored and displayed.
@@ -159,21 +184,20 @@ pub fn fold(name: &str) -> String {
 pub fn check(raw: &str) -> Result<(), Refusal> {
     let name = normalise(raw);
 
+    // Both units, and the longer one wins. The client counts UTF-16 code units (`String.length`)
+    // and this counts code points, so an astral character is one here and two there: counting only
+    // code points accepts a name twice the length the client allows.
     let length = name.chars().count();
     if length < NAME_MIN {
         return Err(Refusal::TooShort);
     }
-    if length > NAME_MAX {
+    if length > NAME_MAX || name.encode_utf16().count() > NAME_MAX {
         return Err(Refusal::TooLong);
     }
 
-    // `is_alphabetic` is Unicode Alphabetic, marginally wider than the client's `\p{L}`: it also
-    // admits combining marks. The two lists diverge only there, and only towards accepting what
-    // the client would have refused — the harmless direction for a pre-filter a human reviews
-    // behind.
     if !name
         .chars()
-        .all(|c| c.is_alphabetic() || c.is_numeric() || EDGE.contains(&c))
+        .all(|c| is_letter_or_number(c) || EDGE.contains(&c))
     {
         return Err(Refusal::Shapeless);
     }
@@ -244,6 +268,47 @@ fn looks_like_an_address(lower: &str) -> bool {
 
 #[cfg(test)]
 mod tests {
+
+    /// The four inputs an adversarial diff against `display-name.ts` found this side accepting.
+    ///
+    /// Each is a way for a name the client refuses to reach the review queue anyway. None was
+    /// catastrophic — a human sees the queue — but the two implementations are supposed to agree,
+    /// and this side is the enforcement point, so it must never be the looser one.
+    #[test]
+    fn nothing_the_client_refuses_gets_through_here() {
+        // Length unit. The client counts UTF-16 code units, this counted code points, so eleven
+        // astral letters were eleven here and twenty-two there.
+        let astral: String = ('\u{1d400}'..='\u{1d40a}').collect();
+        assert_eq!(astral.chars().count(), 11);
+        assert!(matches!(check(&astral), Err(Refusal::TooLong)));
+
+        // U+0085 NEL is Unicode White_Space but not JavaScript `\s`. Collapsing it here meant the
+        // charset rule never saw it, and the name was stored as something else again.
+        assert!(matches!(check("other\u{85}fren"), Err(Refusal::Shapeless)));
+
+        // Combining marks are Other_Alphabetic, so `is_alphabetic` admitted what `\p{L}` refuses —
+        // and marks stack on a public board.
+        assert!(matches!(
+            check("ab\u{5b0}\u{5b1}\u{5b2}"),
+            Err(Refusal::Shapeless)
+        ));
+        assert!(matches!(check("ab\u{903}"), Err(Refusal::Shapeless)));
+    }
+
+    /// The letters that must keep working, so the fix above is not a quiet ban on non-English names.
+    #[test]
+    fn letters_outside_ascii_are_still_letters() {
+        for ok in [
+            "Zoë",
+            "Müller",
+            "Aleksándr",
+            "Ουρανός",
+            "Владимир",
+            "北斗七星",
+        ] {
+            assert!(check(ok).is_ok(), "{ok} should be accepted");
+        }
+    }
     use super::*;
 
     fn ok(name: &str) {

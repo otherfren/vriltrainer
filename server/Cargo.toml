@@ -22,3 +22,4 @@ clap.workspace = true
 hex.workspace = true
 thiserror.workspace = true
 time.workspace = true
+unicode-general-category = "1.1.0"

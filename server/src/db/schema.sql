@@ -23,7 +23,7 @@ CREATE TABLE account (
     -- Both go to NULL on erasure (FR-035); the log is untouched and stays verifiable (FR-036).
     display_name    TEXT,
     name_state      TEXT NOT NULL DEFAULT 'pending'
-                    CHECK (name_state IN ('pending', 'approved', 'rejected')),
+                    CHECK (name_state IN ('pending', 'approved', 'rejected', 'erased')),
     -- Machine-readable refusal code. The sentence shown to the user is product copy and lives in
     -- the client's catalogue.
     name_reason     TEXT,
