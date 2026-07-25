@@ -164,8 +164,10 @@ main {
 }
 
 /* ---- language ---- */
-/* The domain is the switch: vriltrainer.de is German, .com is English (D10). Two marks rather
-   than one toggle, so which one you are on is visible without reading anything. */
+/* The domain is the switch: vriltrainer.de is German, .com is English (D10). Two labels rather
+   than one toggle, so which one you are on is visible without clicking. No flags and no
+   national marks — every icon that fits in 16px reads as a blob, and on this site in
+   particular a half-legible eagle is not a risk worth taking for a language switch. */
 
 .lang {
   display: flex;
@@ -176,7 +178,6 @@ main {
 .lang__item {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
   white-space: nowrap;
   font-family: var(--label);
   font-weight: 800;
@@ -187,22 +188,6 @@ main {
   background: var(--card);
   border: 3px solid var(--ink);
   padding: 3px var(--s2);
-}
-
-/* The eagle is drawn on a 16px grid and shown at 16px, so it lands 1:1 with no resampling —
-   the two heads are 3px wide each and do not survive being scaled down. */
-.lang__item img {
-  width: 16px;
-  height: 16px;
-  image-rendering: pixelated;
-  display: block;
-  flex: none;
-}
-
-/* The globe is the smaller mark, on a 13px grid. */
-.lang__item:last-child img {
-  width: 14px;
-  height: 14px;
 }
 
 .lang__item.is-active {

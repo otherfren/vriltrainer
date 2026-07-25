@@ -405,16 +405,9 @@ instead of eight.
    accounts exist, which will take months.
 5. **Which host, and who has the credentials** if you are unavailable? The audit log has no second
    copy of its operator.
-6. **Is the eagle staying?** The black-white-red flag is gone; the DE mark is now the
-   double-headed eagle of the Holy Roman Empire, black on gold. This is a milder marker than what
-   it replaced — the Nazi *Reichsadler* was single-headed, and Reichsbürger iconography leans on
-   1871 (black-white-red, single-headed eagle), so the *Doppeladler* points at 1400 rather than at
-   1871 or 1935. It is also not specifically German: the same device carries Habsburg, Russian,
-   Serbian and Albanian arms, which blunts it further.
-
-   What has not changed is the underlying problem: it is still functional chrome rather than a
-   joke rank, so it is the one element on the page not obviously in quotation marks. Decide
-   whether the language switch should carry a national mark at all, or just the letters `DE` /
-   `EN`.
+6. ~~**Is the black-white-red flag staying?**~~ **Decided: no national mark at all.** The flag was
+   the one piece of functional chrome not obviously in quotation marks, and no icon survived the
+   size it has to render at — the language switch is now the bare letters `DE` / `EN`. This also
+   removes the question for `.com`, which never had a sensible mark to begin with.
 7. **Age policy**, and whether the site says anything about it.
 8. **The moderation escalation path** — who acts on a reported name, and how fast?
