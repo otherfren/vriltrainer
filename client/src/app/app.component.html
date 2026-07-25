@@ -6,10 +6,10 @@
       <span class="mark__vril">Vril</span><span class="mark__trainer">trainer</span>
     </a>
 
-    <nav class="tabs" aria-label="Hauptnavigation">
-      <a routerLink="/trial" routerLinkActive="is-active">Sitzung</a>
-      <a routerLink="/statistik" routerLinkActive="is-active">Statistik</a>
-      <a routerLink="/rangliste" routerLinkActive="is-active">Rangliste</a>
+    <nav class="tabs" i18n-aria-label="@@nav.aria" aria-label="Hauptnavigation">
+      <a routerLink="/trial" routerLinkActive="is-active" i18n="@@nav.trial">Sitzung</a>
+      <a routerLink="/statistik" routerLinkActive="is-active" i18n="@@nav.stats">Statistik</a>
+      <a routerLink="/rangliste" routerLinkActive="is-active" i18n="@@nav.leaderboard">Rangliste</a>
     </nav>
 
     <div class="hud__right">
@@ -23,19 +23,47 @@
            too many for what they did — everything you can do with a login you cannot read has
            room to be spelled out in the dialog instead. -->
       @if (session.signedIn()) {
-        <button class="login" type="button" (click)="openKey()" title="Login anzeigen oder kopieren">
-          <span class="login__label">Login:</span>
-          <span class="login__name">{{ player.name() ?? player.publicId() ?? 'Konto' }}</span>
+        <button
+          class="login"
+          type="button"
+          (click)="openKey()"
+          i18n-title="@@login.button.title"
+          title="Login anzeigen oder kopieren"
+        >
+          <span class="login__label" i18n="@@login.label">Login:</span>
+          <span class="login__name">{{ player.name() ?? player.publicId() ?? fallbackAccountLabel }}</span>
           <span class="login__show">
             <img src="ui/eye.svg" alt="" />
-            Zeigen
+            <ng-container i18n="@@login.show">Zeigen</ng-container>
           </span>
+        </button>
+
+        <!-- Sits outside the login button rather than inside the dialog: signing out is a
+             different act from looking at the key, and burying it one click deep in the panel
+             that shows the secret would mean opening the secret in order to leave. -->
+        <button
+          class="logout"
+          type="button"
+          (click)="openLogout()"
+          i18n-title="@@logout.title"
+          title="Von diesem Browser abmelden"
+        >
+          <span i18n="@@logout.label">Abmelden</span>
         </button>
       }
 
+      <!-- The two codes are the names of the languages in themselves; translating "DE" would
+           produce a switch that labels both sides in the language you are already reading. -->
       <div class="lang">
-        <span class="lang__item is-active" title="Deutsch · vriltrainer.de">DE</span>
-        <a class="lang__item" href="https://vriltrainer.com" hreflang="en" title="English · vriltrainer.com">EN</a>
+        <span class="lang__item is-active" i18n-title="@@lang.de.title" title="Deutsch · vriltrainer.de">DE</span>
+        <a
+          class="lang__item"
+          href="https://vriltrainer.com"
+          hreflang="en"
+          i18n-title="@@lang.en.title"
+          title="English · vriltrainer.com"
+          >EN</a
+        >
       </div>
     </div>
   </div>
@@ -44,33 +72,77 @@
 @if (session.signedIn()) {
   <dialog class="keydlg" #keyDialog (click)="onDialogClick($event)">
     <div class="keydlg__box">
-      <p class="eyebrow">Dein Login</p>
-      <p class="keydlg__lead">
+      <p class="eyebrow" i18n="@@keydlg.eyebrow">Dein Login</p>
+      <p class="keydlg__lead" i18n="@@keydlg.lead">
         Dieser Link <em>ist</em> dein Konto. Wer ihn hat, ist du. Es gibt keine Wiederherstellung —
         speichere ihn als Lesezeichen oder im Passwortmanager.
       </p>
-      <code class="keydlg__key" [class.is-masked]="!revealed" [attr.aria-label]="revealed ? null : 'Login verdeckt'">{{
-        revealed ? accessKey() : maskedKey()
-      }}</code>
+      <code
+        class="keydlg__key"
+        [class.is-masked]="!revealed"
+        [attr.aria-label]="revealed ? null : maskedKeyLabel"
+        >{{ revealed ? accessKey() : maskedKey() }}</code
+      >
       <div class="keydlg__row">
+        <!-- Two separate messages rather than one ternary in an interpolation: a string inside a
+             template expression is code, and the extractor never sees it. -->
         <button class="btn" type="button" (click)="copyKey()">
-          {{ copied ? 'Kopiert' : 'Kopieren' }}
+          @if (copied) {
+            <ng-container i18n="@@keydlg.copied">Kopiert</ng-container>
+          } @else {
+            <ng-container i18n="@@keydlg.copy">Kopieren</ng-container>
+          }
         </button>
         <button class="btn btn--quiet" type="button" (click)="toggleReveal()" [attr.aria-pressed]="revealed">
-          {{ revealed ? 'Verbergen' : 'Anzeigen' }}
+          @if (revealed) {
+            <ng-container i18n="@@keydlg.hide">Verbergen</ng-container>
+          } @else {
+            <ng-container i18n="@@keydlg.reveal">Anzeigen</ng-container>
+          }
         </button>
-        <button class="btn btn--quiet" type="button" (click)="closeKey()">Schließen</button>
+        <button class="btn btn--quiet" type="button" (click)="closeKey()" i18n="@@keydlg.close">Schließen</button>
       </div>
 
       <!-- Said here rather than only at the name gate: this is the panel somebody opens when they
            wonder why the board is not showing their name (D25, FR-047). -->
       @if (player.publicId(); as id) {
-        <p class="keydlg__note">
-          Öffentliche Kennung <span class="measured">{{ id }}</span>. Dein Name erscheint auf
-          öffentlichen Seiten erst, wenn er freigegeben ist — bis dahin steht dort eine Verdeckung
-          neben dieser Kennung. Dir zeigen wir ihn immer.
+        <p class="keydlg__note" i18n="@@keydlg.publicId">
+          Öffentliche Kennung <span class="measured">{{ id }}</span
+          >. Dein Name erscheint auf öffentlichen Seiten erst, wenn er freigegeben ist — bis dahin
+          steht dort eine Verdeckung neben dieser Kennung. Dir zeigen wir ihn immer.
         </p>
       }
+    </div>
+  </dialog>
+
+  <!-- The confirmation is not ceremony. The server keeps only a hash of the token (D9), so this
+       button is the difference between "logged out" and "that account no longer has a holder" —
+       and the only thing that makes it the former is the link, which is therefore on screen and
+       copyable from inside the warning rather than one dialog away. -->
+  <dialog class="keydlg" #logoutDialog (click)="onLogoutDialogClick($event)">
+    <div class="keydlg__box">
+      <p class="eyebrow" i18n="@@logout.dialog.eyebrow">Wirklich abmelden?</p>
+      <p class="keydlg__lead" i18n="@@logout.dialog.lead">
+        Abmelden löscht den Zugang <em>aus diesem Browser</em>. Es gibt keine Wiederherstellung
+        über Mail oder Passwort — ohne diesen Link kommt niemand mehr an das Konto, auch wir nicht.
+        Sichere ihn jetzt, falls noch nicht geschehen.
+      </p>
+      <code class="keydlg__key">{{ accessKey() }}</code>
+      <div class="keydlg__row">
+        <button class="btn" type="button" (click)="copyKey()">
+          @if (copied) {
+            <ng-container i18n="@@keydlg.copied">Kopiert</ng-container>
+          } @else {
+            <ng-container i18n="@@keydlg.copy">Kopieren</ng-container>
+          }
+        </button>
+        <button class="btn btn--quiet" type="button" (click)="cancelLogout()" i18n="@@logout.cancel">
+          Abbrechen
+        </button>
+        <button class="btn btn--danger" type="button" (click)="confirmLogout()" i18n="@@logout.confirm">
+          Abmelden
+        </button>
+      </div>
     </div>
   </dialog>
 }
@@ -84,23 +156,26 @@
     <app-status-panel />
 
     <div class="foot__bar">
-      <p class="foot__note">
+      <p class="foot__note" i18n="@@foot.baseline">
         Die Nulllinie liegt bei 12,5 % — reines Raten. Jede Zahl hier ist ein Ausschlag davon.
       </p>
 
-      <nav class="foot__links" aria-label="Fußzeile">
-        <a href="https://github.com/otherfren/vriltrainer">Quellcode · AGPL-3.0</a>
-        <a href="https://github.com/otherfren/vriltrainer/blob/master/docs/trial-protocol-decisions.md">
+      <nav class="foot__links" i18n-aria-label="@@foot.aria" aria-label="Fußzeile">
+        <a href="https://github.com/otherfren/vriltrainer" i18n="@@foot.source">Quellcode · AGPL-3.0</a>
+        <a
+          href="https://github.com/otherfren/vriltrainer/blob/master/docs/trial-protocol-decisions.md"
+          i18n="@@foot.protocol"
+        >
           Protokoll · D1–D28
         </a>
         <!-- The record itself, not a promise of one. Third-party copies are what make it survive
              this service (D12), so the download is a link and not a footnote. -->
-        <a href="/api/log?from=1&limit=10000">Datensatz herunterladen</a>
+        <a href="/api/log?from=1&limit=10000" i18n="@@foot.download">Datensatz herunterladen</a>
       </nav>
     </div>
 
     <p class="foot__legal">
-      <a routerLink="/impressum">Impressum</a>
+      <a routerLink="/impressum" i18n="@@foot.impressum">Impressum</a>
     </p>
   </div>
 </footer>

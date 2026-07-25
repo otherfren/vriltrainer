@@ -12,16 +12,20 @@
     @if (stage() === 'starting') {
       <!-- There is nothing to show yet and something is happening. Both have to be visible: a
            blank screen and a broken screen look identical while you are waiting. -->
-      <p class="eyebrow">Neue Sitzung</p>
+      <p class="eyebrow" i18n="@@trial.new">Neue Sitzung</p>
       @if (notice() === null) {
         <p class="waiting panel">
           <span class="waiting__pulse" aria-hidden="true"></span>
-          Der Server legt das Ziel fest und schreibt es ins Protokoll, bevor er antwortet.
+          <ng-container i18n="@@trial.starting"
+            >Der Server legt das Ziel fest und schreibt es ins Protokoll, bevor er antwortet.</ng-container
+          >
         </p>
       } @else {
         <p class="toofast panel panel--zap">{{ notice()?.text }}</p>
         <div class="reveal">
-          <button class="btn btn--big" type="button" (click)="next()">Erneut versuchen</button>
+          <button class="btn btn--big" type="button" (click)="next()" i18n="@@trial.retry">
+            Erneut versuchen
+          </button>
         </div>
       }
     }
@@ -32,30 +36,32 @@
           @if (player.name(); as who) {
             <span>{{ who }} · </span>
           }
-          Sitzung {{ player.completed() + 1 }} · versiegelt
+          <ng-container i18n="@@trial.sealedLine"
+            >Sitzung {{ player.completed() + 1 }} · versiegelt</ng-container
+          >
         </p>
 
         <!-- The coordinate is the most characteristic artifact the product makes, so it is the
              hero, printed like the label on a cartridge. It encodes nothing; it is a name to
              hold on to. -->
         <div class="label panel">
-          <span class="label__cap">Koordinate</span>
+          <span class="label__cap" i18n="@@trial.coordinate">Koordinate</span>
           <span class="label__coord">{{ t.coordinate }}</span>
         </div>
 
         <div class="seal panel panel--zap">
-          <span class="seal__stamp">Ziel steht fest</span>
+          <span class="seal__stamp" i18n="@@trial.sealed.stamp">Ziel steht fest</span>
           <div class="seal__rows">
             <div class="seal__row">
-              <span class="seal__key">Commitment</span>
+              <span class="seal__key" i18n="@@trial.commitment">Commitment</span>
               <code class="seal__val">{{ t.commitment }}</code>
             </div>
             <div class="seal__row">
-              <span class="seal__key">Pool</span>
+              <span class="seal__key" i18n="@@trial.pool">Pool</span>
               <code class="seal__val">v{{ t.poolVersion }} · {{ t.poolManifestHash }}</code>
             </div>
           </div>
-          <p class="seal__note">
+          <p class="seal__note" i18n="@@trial.sealed.note">
             Das Ziel ist mit dieser Zahl versiegelt, <em>bevor</em> du wählst. Nach der Auflösung
             rechnest du das hier selbst nach — vollständig, Byte für Byte.
           </p>
@@ -72,16 +78,22 @@
             [disabled]="stage() === 'revealing'"
             (click)="reveal()"
           >
-            {{ stage() === 'revealing' ? 'Wird aufgedeckt …' : 'Aufdecken' }}
+            @if (stage() === 'revealing') {
+              <ng-container i18n="@@trial.revealing">Wird aufgedeckt …</ng-container>
+            } @else {
+              <ng-container i18n="@@trial.reveal">Aufdecken</ng-container>
+            }
           </button>
-          <p class="bubble panel">
+          <p class="bubble panel" i18n="@@trial.takeYourTime">
             Nimm dir Zeit mit der Koordinate. Erst danach aufdecken.
           </p>
         </div>
       }
 
       @if (stage() === 'revealed' || stage() === 'answering' || stage() === 'answered') {
-        <p class="eyebrow">Koordinate {{ t.coordinate }} · acht Kandidaten, acht Kategorien</p>
+        <p class="eyebrow" i18n="@@trial.candidates">
+          Koordinate {{ t.coordinate }} · acht Kandidaten, acht Kategorien
+        </p>
 
         <div class="grid">
           @for (s of slots(); track s.id; let i = $index) {
@@ -93,16 +105,16 @@
               [disabled]="stage() !== 'revealed'"
               (click)="choose(s.id)"
             >
-              <img [src]="s.src" [alt]="'Kandidat ' + (i + 1)" />
+              <img [src]="s.src" [alt]="candidateAlt(i + 1)" />
               <span class="slot__no">{{ i + 1 }}</span>
               @if (s.category) {
                 <span class="slot__cat">{{ s.category }}</span>
               }
               @if (stage() === 'answered' && s.id === target()) {
-                <span class="slot__tag slot__tag--target">Ziel</span>
+                <span class="slot__tag slot__tag--target" i18n="@@trial.tag.target">Ziel</span>
               }
               @if (stage() === 'answered' && s.id === chosen() && !hit()) {
-                <span class="slot__tag slot__tag--wrong">Deine Wahl</span>
+                <span class="slot__tag slot__tag--wrong" i18n="@@trial.tag.yourPick">Deine Wahl</span>
               }
             </button>
           }
@@ -111,13 +123,15 @@
         @if (stage() === 'answering') {
           <p class="waiting panel">
             <span class="waiting__pulse" aria-hidden="true"></span>
-            Die Wahl ist unterwegs. Gewertet ist sie erst, wenn der Server sie ins Protokoll
-            geschrieben hat.
+            <ng-container i18n="@@trial.answering"
+              >Die Wahl ist unterwegs. Gewertet ist sie erst, wenn der Server sie ins Protokoll
+              geschrieben hat.</ng-container
+            >
           </p>
         }
 
         @if (tooFast()) {
-          <p class="toofast panel panel--zap">
+          <p class="toofast panel panel--zap" i18n="@@trial.tooFast">
             Zu schnell! Mindestens drei Sekunden zwischen Aufdecken und Wahl. Die Antwort wurde
             nicht angesehen, die Sitzung läuft weiter.
           </p>
@@ -127,7 +141,9 @@
           <p class="toofast panel panel--zap">
             {{ n.text }}
             @if (n.fatal) {
-              <button class="btn btn--quiet" type="button" (click)="next()">Neue Sitzung</button>
+              <button class="btn btn--quiet" type="button" (click)="next()" i18n="@@trial.newSession">
+                Neue Sitzung
+              </button>
             }
           </p>
         }
@@ -135,30 +151,44 @@
         @if (stage() === 'answered') {
           <div class="verdict">
             <span class="verdict__stamp" [class.verdict__stamp--hit]="hit()">
-              {{ hit() ? 'Treffer!' : 'Daneben' }}
+              @if (hit()) {
+                <ng-container i18n="@@trial.hit">Treffer!</ng-container>
+              } @else {
+                <ng-container i18n="@@trial.miss">Daneben</ng-container>
+              }
             </span>
-            <span class="verdict__rate">Zufallsrate 12,5 %</span>
+            <span class="verdict__rate" i18n="@@trial.chanceRate">Zufallsrate {{ chanceRate }} %</span>
             @if (answered(); as a) {
-              <span class="verdict__rate">Protokoll-Eintrag #{{ a.seq }}</span>
+              <span class="verdict__rate" i18n="@@trial.logEntry">Protokoll-Eintrag #{{ a.seq }}</span>
             }
           </div>
 
           <div class="after">
-            <button class="btn btn--big" type="button" (click)="next()">Nächste Sitzung</button>
+            <button class="btn btn--big" type="button" (click)="next()" i18n="@@trial.nextSession">
+              Nächste Sitzung
+            </button>
             <button class="btn btn--quiet" type="button" (click)="proofOpen.set(!proofOpen())">
-              {{ proofOpen() ? 'Nachweis schließen' : 'Nachweis prüfen' }}
+              @if (proofOpen()) {
+                <ng-container i18n="@@proof.close">Nachweis schließen</ng-container>
+              } @else {
+                <ng-container i18n="@@proof.open">Nachweis prüfen</ng-container>
+              }
             </button>
 
             <!-- The stamp is the outcome of the recomputation, not decoration on the button that
                  opens it. It says "checked" only once every check has actually run. -->
             @if (proof(); as p) {
               <span class="stamp" [class.stamp--bad]="!p.verified">
-                {{ p.verified ? '✓ nachgerechnet' : '✗ weicht ab' }}
+                @if (p.verified) {
+                  <ng-container i18n="@@proof.stamp.ok">✓ nachgerechnet</ng-container>
+                } @else {
+                  <ng-container i18n="@@proof.stamp.bad">✗ weicht ab</ng-container>
+                }
               </span>
             } @else if (proofFailed()) {
-              <span class="stamp stamp--bad">Nachweis nicht geladen</span>
+              <span class="stamp stamp--bad" i18n="@@proof.stamp.failed">Nachweis nicht geladen</span>
             } @else {
-              <span class="stamp stamp--wait">wird nachgerechnet …</span>
+              <span class="stamp stamp--wait" i18n="@@proof.stamp.wait">wird nachgerechnet …</span>
             }
           </div>
 
@@ -167,9 +197,11 @@
                  which there is nothing to show follow it, and neither is silent. -->
             @if (proof(); as p) {
               <div class="proof panel">
-                <p class="eyebrow">Vollständige Herleitung, gerechnet in deinem Browser</p>
+                <p class="eyebrow" i18n="@@proof.eyebrow">
+                  Vollständige Herleitung, gerechnet in deinem Browser
+                </p>
 
-                <h3 class="proof__h">Was nachgerechnet wurde</h3>
+                <h3 class="proof__h" i18n="@@proof.h.checked">Was nachgerechnet wurde</h3>
                 <ul class="checks">
                   @for (c of p.checks; track c.label) {
                     <li class="check">
@@ -184,7 +216,7 @@
                   }
                 </ul>
 
-                <h3 class="proof__h">Was der Server vorher festgelegt hat</h3>
+                <h3 class="proof__h" i18n="@@proof.h.inputs">Was der Server vorher festgelegt hat</h3>
                 <dl class="rows">
                   @for (part of p.inputs; track part.label) {
                     <div class="row">
@@ -199,8 +231,8 @@
                   }
                 </dl>
 
-                <h3 class="proof__h">Gegen welchen Pool gerechnet wird</h3>
-                <p class="proof__lead">
+                <h3 class="proof__h" i18n="@@proof.h.pool">Gegen welchen Pool gerechnet wird</h3>
+                <p class="proof__lead" i18n="@@proof.pool.lead">
                   Die Herleitung zieht gegen <em>Indizes</em> im Manifest. Ein anderes Manifest
                   ergibt aus demselben Seed andere Bilder — deshalb wird es hier neu gehasht und
                   mit dem Hash verglichen, der schon mit der Koordinate kam.
@@ -219,8 +251,8 @@
                   }
                 </dl>
 
-                <h3 class="proof__h">Was gehasht wird</h3>
-                <p class="proof__lead">
+                <h3 class="proof__h" i18n="@@proof.h.hashed">Was gehasht wird</h3>
+                <p class="proof__lead" i18n="@@proof.hashed.lead">
                   Jedes Feld wird längenpräfigiert, damit die Grenzen eindeutig sind:
                   <code class="inline"
                     >framed(p₀, p₁, …) = SHA-256( LE64(|p₀|) ‖ p₀ ‖ LE64(|p₁|) ‖ p₁ ‖ … )</code
@@ -243,7 +275,7 @@
                   }
                 </dl>
 
-                <p class="proof__cap">
+                <p class="proof__cap" i18n="@@proof.preimage.commitment">
                   Der vollständige Präimage-String, {{ p.commitmentPreimage.length / 2 }} Bytes —
                   genau diese Bytes gehen in SHA-256:
                 </p>
@@ -251,11 +283,11 @@
 
                 <dl class="rows rows--result">
                   <div class="row">
-                    <dt>SHA-256 davon</dt>
+                    <dt i18n="@@proof.sha256of">SHA-256 davon</dt>
                     <dd><code class="measured">{{ p.commitmentDigest }}</code></dd>
                   </div>
                   <div class="row">
-                    <dt>Commitment von vorher</dt>
+                    <dt i18n="@@proof.commitmentBefore">Commitment von vorher</dt>
                     <dd><code>{{ p.published }}</code></dd>
                   </div>
                 </dl>
@@ -263,16 +295,20 @@
                 @if (p.matches) {
                   <p class="check">
                     <span class="proof__tick">✓</span>
-                    Identisch. Das Ziel stand fest, bevor du gewählt hast.
+                    <ng-container i18n="@@proof.matches"
+                      >Identisch. Das Ziel stand fest, bevor du gewählt hast.</ng-container
+                    >
                   </p>
                 } @else {
                   <p class="check">
                     <span class="proof__tick proof__tick--bad">✗</span>
-                    Weicht ab. Das wäre ein Grund, dieser Seite nicht zu glauben.
+                    <ng-container i18n="@@proof.mismatch"
+                      >Weicht ab. Das wäre ein Grund, dieser Seite nicht zu glauben.</ng-container
+                    >
                   </p>
                 }
 
-                <h3 class="proof__h">Wie aus dem Seed die acht Bilder wurden</h3>
+                <h3 class="proof__h" i18n="@@proof.h.seed">Wie aus dem Seed die acht Bilder wurden</h3>
                 <dl class="rows">
                   @for (part of p.seedParts; track $index) {
                     <div class="row">
@@ -282,7 +318,9 @@
                   }
                 </dl>
 
-                <p class="proof__cap">Präimage des Seeds, {{ p.seedPreimage.length / 2 }} Bytes:</p>
+                <p class="proof__cap" i18n="@@proof.preimage.seed">
+                  Präimage des Seeds, {{ p.seedPreimage.length / 2 }} Bytes:
+                </p>
                 <code class="blob">{{ p.seedPreimage }}</code>
 
                 <dl class="rows rows--result">
@@ -292,7 +330,7 @@
                   </div>
                 </dl>
 
-                <p class="proof__lead">
+                <p class="proof__lead" i18n="@@proof.keystream">
                   Aus dem Seed entsteht der Schlüsselstrom
                   <code class="inline">block(i) = SHA-256( seed ‖ LE64(i) )</code>, gelesen als
                   64-Bit-Wörter little-endian. Daraus, in dieser Reihenfolge:
@@ -312,7 +350,7 @@
                   }
                 </dl>
 
-                <p class="proof__note">
+                <p class="proof__note" i18n="@@proof.independence">
                   Gerechnet mit einer Implementierung, die unabhängig von der des Servers
                   geschrieben wurde. Beide werden gegen dieselben Testvektoren geprüft — das ist
                   der Punkt: eine Prüfung mit dem Code des Servers prüft nichts. Gerechnet wird im
@@ -322,20 +360,20 @@
               </div>
             } @else if (proofFailed()) {
               <div class="proof panel">
-                <p class="eyebrow">Nachweis</p>
-                <p class="proof__lead">
+                <p class="eyebrow" i18n="@@proof.title">Nachweis</p>
+                <p class="proof__lead" i18n="@@proof.manifestFailed">
                   Das Pool-Manifest zu dieser Sitzung konnte nicht geladen werden. Ohne die Liste
                   der Bilder in genau der veröffentlichten Reihenfolge gibt es nichts nachzurechnen
                   — und ein leeres Nachweis-Panel sähe aus wie ein bestandener Test.
                 </p>
-                <button class="btn btn--quiet" type="button" (click)="retryProof()">
+                <button class="btn btn--quiet" type="button" (click)="retryProof()" i18n="@@trial.retry">
                   Erneut versuchen
                 </button>
               </div>
             } @else {
               <div class="proof panel">
-                <p class="eyebrow">Nachweis</p>
-                <p class="proof__lead">Wird nachgerechnet …</p>
+                <p class="eyebrow" i18n="@@proof.title">Nachweis</p>
+                <p class="proof__lead" i18n="@@proof.recomputing">Wird nachgerechnet …</p>
               </div>
             }
           }

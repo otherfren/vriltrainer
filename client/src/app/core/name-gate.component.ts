@@ -21,16 +21,16 @@ import { NAME_MAX, checkDisplayName, normaliseDisplayName } from './display-name
   imports: [FormsModule],
   template: `
     <div class="gate panel">
-      <p class="eyebrow">Bevor es losgeht</p>
-      <h1 class="gate__h">Wie sollen wir dich nennen?</h1>
+      <p class="eyebrow" i18n="@@gate.eyebrow">Bevor es losgeht</p>
+      <h1 class="gate__h" i18n="@@gate.heading">Wie sollen wir dich nennen?</h1>
 
-      <p class="gate__lead">
+      <p class="gate__lead" i18n="@@gate.lead">
         Der Name steht auf der öffentlichen Rangliste und neben jeder einzelnen Sitzung im
         herunterladbaren Protokoll. Er ist das Einzige an dir, das nicht anonym ist — alles
         andere läuft unter einer zufälligen Kennung.
       </p>
 
-      <label class="gate__label" for="displayName">Anzeigename</label>
+      <label class="gate__label" for="displayName" i18n="@@gate.label">Anzeigename</label>
       <input
         id="displayName"
         class="gate__input"
@@ -52,7 +52,7 @@ import { NAME_MAX, checkDisplayName, normaliseDisplayName } from './display-name
       } @else if (touched() && !check().ok) {
         <p class="gate__msg gate__msg--bad" id="nameError">{{ check().message }}</p>
       } @else {
-        <p class="gate__msg" id="nameHint">
+        <p class="gate__msg" id="nameHint" i18n="@@gate.hint">
           3 bis {{ max }} Zeichen. Buchstaben, Ziffern, Leerzeichen, Bindestrich, Unterstrich.
         </p>
       }
@@ -63,10 +63,14 @@ import { NAME_MAX, checkDisplayName, normaliseDisplayName } from './display-name
         [disabled]="!check().ok || sending()"
         (click)="submit()"
       >
-        {{ sending() ? 'Konto wird angelegt …' : 'Loslegen' }}
+        @if (sending()) {
+          <ng-container i18n="@@gate.creating">Konto wird angelegt …</ng-container>
+        } @else {
+          <ng-container i18n="@@gate.start">Loslegen</ng-container>
+        }
       </button>
 
-      <p class="gate__note">
+      <p class="gate__note" i18n="@@gate.note">
         Der Name wird vor der Veröffentlichung von einem Menschen freigegeben. Bis dahin steht auf
         öffentlichen Seiten eine Verdeckung — dir selbst zeigen wir ihn immer. Entfernen kannst du
         ihn jederzeit; die Sitzungen bleiben dann unter der Kennung stehen und nachrechenbar.
@@ -125,26 +129,53 @@ export class NameGateComponent {
  * to a general refusal rather than being shown raw — `shapeless` on screen is neither German nor
  * an explanation.
  */
-const REFUSALS: Record<string, string> = {
-  too_short: 'Zu kurz.',
-  too_long: 'Zu lang.',
-  shapeless: 'Der Name muss wie ein Name aussehen: Buchstaben, nicht nur Zeichen und Ziffern.',
-  reserved: 'Der Name ist für die Seite selbst reserviert.',
-  hate: 'Such dir etwas anderes aus.',
-  vulgar: 'Der Name steht auf einer öffentlichen Rangliste. Nicht dieser.',
-  address: 'Keine Adressen im Namen.',
-};
+function refusals(): Record<string, string> {
+  return {
+    too_short: $localize`:@@refuse.tooShort:Zu kurz.`,
+    too_long: $localize`:@@refuse.tooLong:Zu lang.`,
+    shapeless: $localize`:@@refuse.shapeless:Der Name muss wie ein Name aussehen: Buchstaben, nicht nur Zeichen und Ziffern.`,
+    reserved: $localize`:@@refuse.reserved:Der Name ist für die Seite selbst reserviert.`,
+    hate: $localize`:@@refuse.hate:Such dir etwas anderes aus.`,
+    vulgar: $localize`:@@refuse.vulgar:Der Name steht auf einer öffentlichen Rangliste. Nicht dieser.`,
+    address: $localize`:@@refuse.address:Keine Adressen im Namen.`,
+  };
+}
 
+/**
+ * Why the account was not created — and, above all, *whether it was about the name at all*.
+ *
+ * The distinction this function exists to keep is between a name the service looked at and
+ * refused, and a service that never looked at anything. They used to collapse into one sentence:
+ * a `NetworkError` was caught, but a backend that is down behind a proxy that is up produces a
+ * perfectly successful `fetch` carrying `502`, which is an `ApiError` with no known code — and
+ * fell through to "the name was refused, pick another one". Somebody then sat there rewording a
+ * name that was never the problem.
+ *
+ * So only a `400` is allowed to speak about the name. Everything else says what is actually
+ * broken, and says that the name is not it.
+ */
 function reason(e: unknown): string {
   if (e instanceof NetworkError) {
-    return 'Keine Verbindung zum Server. Es wurde nichts angelegt — versuch es noch einmal.';
+    return $localize`:@@fail.network:Keine Verbindung zum Server. Es wurde nichts angelegt — dein Name ist in Ordnung, versuch es gleich noch einmal.`;
   }
+
   if (e instanceof ApiError) {
-    if (e.status === 429) {
-      return 'Von dieser Verbindung wurden gerade viele Konten angelegt. Versuch es später noch einmal.';
+    // 502/503/504 from the proxy, 500 from the service: it is not answering. A gateway's HTML
+    // error page lands here too, because `errorCode` cannot parse it and falls back to the status.
+    if (e.status >= 500) {
+      return $localize`:@@fail.serverDown:Der Dienst ist gerade nicht erreichbar (Fehler ${e.status}:status:). Das liegt nicht an deinem Namen — versuch es in ein paar Minuten noch einmal.`;
     }
-    const spelt = REFUSALS[e.code];
-    if (spelt !== undefined) return spelt;
+
+    if (e.status === 400) {
+      const spelt = refusals()[e.code];
+      if (spelt !== undefined) return spelt;
+      return $localize`:@@fail.nameRefused:Der Name wurde abgelehnt. Such dir einen anderen aus.`;
+    }
+
+    // A 401, 404, 405 … here means this build and the service disagree about the API. Nothing the
+    // visitor types will fix that, so the message must not send them back to the input field.
+    return $localize`:@@fail.unexpected:Unerwartete Antwort vom Server (Fehler ${e.status}:status:). Das liegt nicht an deinem Namen.`;
   }
-  return 'Der Name wurde abgelehnt. Such dir einen anderen aus.';
+
+  return $localize`:@@fail.unknown:Das Konto konnte nicht angelegt werden. Das liegt nicht an deinem Namen — versuch es noch einmal.`;
 }

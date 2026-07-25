@@ -47,13 +47,19 @@ import { Component, Input } from '@angular/core';
 export class VrilMeterComponent {
   /** Standard deviations from chance. Positive is above the line. */
   @Input() deviation = 0;
-  @Input() label = 'Vrilpegel';
+  @Input() label = $localize`:@@meter.defaultLabel:Vrilpegel`;
   @Input() reading = '';
   /** Draws the fill in the player's colour rather than the aggregate's. */
   @Input() mine = false;
   @Input() needleLabel = '';
 
-  readonly stops = ['Normal', 'Warm', 'Heiss', 'Vril'];
+  /** The four marks on the scale. "Vril" is the product's own word and stays put. */
+  readonly stops = [
+    $localize`:@@meter.stop.normal:Normal`,
+    $localize`:@@meter.stop.warm:Warm`,
+    $localize`:@@meter.stop.hot:Heiss`,
+    $localize`:@@meter.stop.vril:Vril`,
+  ];
   readonly cells = Array.from({ length: 28 }, (_, i) => i);
 
   /** The centre of the first scale stop, which is where chance itself sits. */

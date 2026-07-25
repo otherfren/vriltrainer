@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, LOCALE_ID, computed, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ApiService, Board, BoardEntry } from '../core/api.service';
 import { MASKED_NAME } from '../core/display-name';
@@ -27,6 +27,8 @@ import { RankDef, ladder, rankFor, rankIcon } from '../core/ranks';
 })
 export class LeaderboardComponent {
   private readonly api = inject(ApiService);
+  /** Set by the localized build, so numbers and dates follow the domain. */
+  private readonly locale = inject(LOCALE_ID);
 
   readonly pageSize = 20;
   readonly offset = signal(0);
@@ -103,7 +105,7 @@ export class LeaderboardComponent {
   }
 
   de(n: number, digits = 1): string {
-    return n.toLocaleString('de-DE', {
+    return n.toLocaleString(this.locale, {
       minimumFractionDigits: digits,
       maximumFractionDigits: digits,
     });
@@ -118,8 +120,13 @@ export class LeaderboardComponent {
     return (n >= 0 ? '+' : '') + this.de(n, 1);
   }
 
+  /** Thousands separators follow the bundle's locale, not a hard-coded German one. */
+  count(n: number): string {
+    return n.toLocaleString(this.locale);
+  }
+
   when(iso: string): string {
     const at = new Date(iso);
-    return Number.isNaN(at.getTime()) ? iso : at.toLocaleString('de-DE');
+    return Number.isNaN(at.getTime()) ? iso : at.toLocaleString(this.locale);
   }
 }

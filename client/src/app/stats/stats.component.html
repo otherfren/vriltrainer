@@ -1,5 +1,5 @@
 <section class="shell stats">
-  <p class="eyebrow">Alle Spieler · alle Sitzungen</p>
+  <p class="eyebrow" i18n="@@stats.eyebrow">Alle Spieler · alle Sitzungen</p>
 
   <!-- The figures first, so `as a` sits on the primary branch; the two states in which there are
        none follow it. -->
@@ -9,17 +9,19 @@
            spinner that never resolves, would both be worse than saying there is nothing yet. -->
       <h1 class="headline">
         <span class="headline__rate">—</span>
-        <span class="headline__vs">erwartet sind {{ pct(a.expected_rate, 1) }} %</span>
+        <span class="headline__vs" i18n="@@stats.expectedAre"
+          >erwartet sind {{ pct(a.expected_rate, 1) }} %</span
+        >
       </h1>
 
-      <p class="lede">
+      <p class="lede" i18n="@@stats.noTrialsYet">
         Noch keine abgeschlossene Sitzung. Bis eine da ist, steht hier keine Quote —
         <strong>eine erfundene wäre der einzige unehrliche Wert auf dieser Seite.</strong>
       </p>
 
       <div class="tails panel">
-        <p class="eyebrow">Die zwei Enden</p>
-        <div class="hist hist--empty" role="img" aria-label="Noch keine Daten">
+        <p class="eyebrow" i18n="@@stats.tails">Die zwei Enden</p>
+        <div class="hist hist--empty" role="img" i18n-aria-label="@@stats.noDataYet" aria-label="Noch keine Daten">
           <div class="hist__col">
             <span class="hist__count">—</span>
             <span class="hist__bar hist__bar--empty" style="height: 100%"></span>
@@ -29,7 +31,7 @@
             <span class="hist__bar hist__bar--empty" style="height: 100%"></span>
           </div>
         </div>
-        <p class="tails__note">
+        <p class="tails__note" i18n="@@stats.tails.noteEmpty">
           Hier stehen später die Spieler, die mehr als {{ tailSigma() }} σ über bzw. unter dem
           Zufall liegen. Unter reinem Zufall sind das ungefähr gleich viele an beiden Enden — genau
           das ist der Test, und er braucht keine Statistikkenntnisse, nur einen Blick.
@@ -38,45 +40,45 @@
     } @else {
       <h1 class="headline">
         <span class="headline__rate">{{ pct(a.hit_rate) }} %</span>
-        <span class="headline__vs">erwartet waren {{ pct(a.expected_rate, 1) }} %</span>
+        <span class="headline__vs" i18n="@@stats.expectedWere"
+          >erwartet waren {{ pct(a.expected_rate, 1) }} %</span
+        >
       </h1>
 
       <p class="lede">
-        {{ count(a.trials) }} Sitzungen · {{ count(a.accounts) }}
-        {{ a.accounts === 1 ? 'Konto' : 'Konten' }} · Abweichung {{ signed(a.deviation) }} σ ·
-        {{ count(a.abandoned) }} abgebrochen ·
+        <ng-container i18n="@@stats.summary"
+          >{{ count(a.trials) }} Sitzungen · {{ count(a.accounts) }}
+          {a.accounts, plural, =1 {Konto} other {Konten}} · Abweichung {{ signed(a.deviation) }} σ ·
+          {{ count(a.abandoned) }} abgebrochen ·</ng-container
+        >
         @if (a.deviation > -2 && a.deviation < 2) {
-          <strong>bisher nichts.</strong>
+          <strong i18n="@@stats.verdict.nothing">bisher nichts.</strong>
         } @else {
-          <strong>das ist auffällig — und noch keine Erklärung.</strong>
+          <strong i18n="@@stats.verdict.notable"
+            >das ist auffällig — und noch keine Erklärung.</strong
+          >
         }
       </p>
 
       <div class="tails panel">
-        <p class="eyebrow">
+        <p class="eyebrow" i18n="@@stats.tails.headWithBounds">
           Die zwei Enden · Konten ab {{ tailMinTrials() }} Sitzungen, {{ tailSigma() }} σ
         </p>
 
-        <div
-          class="hist hist--tails"
-          role="img"
-          [attr.aria-label]="
-            tailHigh() + ' Konten über +' + tailSigma() + 'σ, ' + tailLow() + ' darunter'
-          "
-        >
+        <div class="hist hist--tails" role="img" [attr.aria-label]="tailsAriaLabel()">
           <div class="hist__col">
             <span class="hist__count">{{ count(tailHigh()) }}</span>
             <span class="hist__bar hist__bar--tail" [style.height.%]="height(tailHigh())"></span>
-            <span class="hist__z">über +{{ tailSigma() }} σ</span>
+            <span class="hist__z" i18n="@@stats.tails.above">über +{{ tailSigma() }} σ</span>
           </div>
           <div class="hist__col">
             <span class="hist__count">{{ count(tailLow()) }}</span>
             <span class="hist__bar hist__bar--tail" [style.height.%]="height(tailLow())"></span>
-            <span class="hist__z">unter −{{ tailSigma() }} σ</span>
+            <span class="hist__z" i18n="@@stats.tails.below">unter −{{ tailSigma() }} σ</span>
           </div>
         </div>
 
-        <p class="tails__note">
+        <p class="tails__note" i18n="@@stats.tails.note">
           Unter reinem Zufall sind beide Enden ungefähr gleich schwer. Eine echte Fähigkeit könnte
           nur das obere schwerer machen — solange die zwei Zahlen sich ähneln, ist zu sehen, was zu
           erwarten war.
@@ -85,7 +87,7 @@
     }
 
     <div class="ladder">
-      <p class="eyebrow">Die Leiter</p>
+      <p class="eyebrow" i18n="@@stats.ladder">Die Leiter</p>
       <ul class="ladder__list">
         @for (l of rungs(); track l.rank.slug) {
           <li [class.is-mid]="l.middle">
@@ -93,9 +95,13 @@
             <span class="ladder__title">{{ l.rank.title }}</span>
             <span class="ladder__span">
               @if (l.middle) {
-                die mittleren {{ share(l.share) }} %
+                <ng-container i18n="@@stats.ladder.middle"
+                  >die mittleren {{ share(l.share) }} %</ng-container
+                >
               } @else {
-                {{ share(l.share) }} % · ab {{ l.unlocksAt }} Ranglistenfähigen
+                <ng-container i18n="@@stats.ladder.band"
+                  >{{ share(l.share) }} % · ab {{ l.unlocksAt }} Ranglistenfähigen</ng-container
+                >
               }
             </span>
           </li>
@@ -103,69 +109,78 @@
       </ul>
     </div>
   } @else if (failed()) {
-    <h1 class="headline"><span class="headline__vs">Zahlen nicht abrufbar</span></h1>
-    <p class="lede">
+    <h1 class="headline">
+      <span class="headline__vs" i18n="@@stats.unavailable.head">Zahlen nicht abrufbar</span>
+    </h1>
+    <p class="lede" i18n="@@stats.unavailable.lead">
       Die Gesamtwerte kommen vom Server und werden nicht hier ausgedacht — also steht hier nichts,
       solange er nicht antwortet.
       <button class="btn btn--quiet" type="button" (click)="load()">Erneut versuchen</button>
     </p>
   } @else {
-    <h1 class="headline"><span class="headline__vs">Wird geladen …</span></h1>
+    <h1 class="headline"><span class="headline__vs" i18n="@@stats.loading">Wird geladen …</span></h1>
   }
 
   <div class="mine">
-    <p class="eyebrow">Deine Werte</p>
+    <p class="eyebrow" i18n="@@stats.mine">Deine Werte</p>
 
     @if (!session.signedIn()) {
-      <p class="mine__locked panel">
+      <p class="mine__locked panel" i18n="@@stats.mine.noAccount">
         Noch kein Konto. Eine Sitzung anfangen legt eines an — danach steht hier dein eigener
         Stand neben dem aller anderen.
       </p>
     } @else if (!player.loaded()) {
       <p class="mine__locked panel">
         @if (player.failed()) {
-          Deine Zahlen sind gerade nicht abrufbar.
-          <button class="btn btn--quiet" type="button" (click)="player.refresh()">
+          <ng-container i18n="@@stats.mine.unavailable"
+            >Deine Zahlen sind gerade nicht abrufbar.</ng-container
+          >
+          <button class="btn btn--quiet" type="button" (click)="player.refresh()" i18n="@@status.reload">
             Erneut laden
           </button>
         } @else {
-          Wird geladen …
+          <ng-container i18n="@@stats.loading">Wird geladen …</ng-container>
         }
       </p>
     } @else if (!player.unlocked()) {
       <p class="mine__locked panel">
-        Freigeschaltet nach {{ player.unlocksAt() }} Sitzungen — noch
-        <strong>{{ player.remaining() }}</strong
-        >. Eine Trefferquote aus {{ player.completed() }} Versuchen wäre keine Aussage, sondern
-        eine Anekdote.
+        <ng-container i18n="@@stats.mine.locked"
+          >Freigeschaltet nach {{ player.unlocksAt() }} Sitzungen — noch
+          <strong>{{ player.remaining() }}</strong>. Eine Trefferquote aus
+          {{ player.completed() }} Versuchen wäre keine Aussage, sondern eine
+          Anekdote.</ng-container
+        >
         @if (player.abandoned() > 0) {
-          Abgebrochen: <strong>{{ player.abandoned() }}</strong> — steht von Anfang an mit da.
+          <ng-container i18n="@@stats.mine.abandoned"
+            >Abgebrochen: <strong>{{ player.abandoned() }}</strong> — steht von Anfang an mit
+            da.</ng-container
+          >
         }
       </p>
     } @else {
       <div class="mine__grid">
         <div class="mine__cell">
-          <span class="mine__label">Sitzungen</span>
+          <span class="mine__label" i18n="@@fig.trials">Sitzungen</span>
           <span class="mine__val measured">{{ player.completed() }}</span>
         </div>
         <div class="mine__cell">
-          <span class="mine__label">Treffer</span>
+          <span class="mine__label" i18n="@@fig.hits">Treffer</span>
           <span class="mine__val measured">{{ player.hits() }}</span>
         </div>
         <div class="mine__cell">
-          <span class="mine__label">Trefferquote</span>
+          <span class="mine__label" i18n="@@fig.hitRate">Trefferquote</span>
           <span class="mine__val measured">{{ minePct() }} %</span>
         </div>
         <div class="mine__cell">
-          <span class="mine__label">Abweichung</span>
+          <span class="mine__label" i18n="@@fig.deviation">Abweichung</span>
           <span class="mine__val measured">{{ mineZ() }} σ</span>
         </div>
         <div class="mine__cell">
-          <span class="mine__label">Abgebrochen</span>
+          <span class="mine__label" i18n="@@fig.abandoned">Abgebrochen</span>
           <span class="mine__val measured">{{ player.abandoned() }}</span>
         </div>
         <div class="mine__cell">
-          <span class="mine__label">Tage</span>
+          <span class="mine__label" i18n="@@fig.days">Tage</span>
           <span class="mine__val measured">{{ player.distinctDays() }}</span>
         </div>
       </div>
@@ -173,14 +188,16 @@
       <app-vril-meter
         [deviation]="player.deviation()"
         [mine]="true"
+        i18n-label="@@meter.you.label"
         label="Du"
+        i18n-needleLabel="@@meter.you.needle"
         needleLabel="du"
-        [reading]="mineZ() + ' σ · gesicherte Mindestquote ' + mineWilson() + ' %'"
+        [reading]="mineReading()"
       />
 
       <!-- FR-019: the inferential figures advance per block, so the n they stand over is printed
            beside them. Without it a reader divides one by the other and gets a wrong answer. -->
-      <p class="mine__basis">
+      <p class="mine__basis" i18n="@@stats.mine.basis">
         Abweichung und Mindestquote stehen über {{ player.reportedTrials() }} gewerteten Sitzungen
         mit {{ player.reportedHits() }} Treffern. Sitzungen und Quote darüber sind der laufende
         Stand — die zwei Zahlen dürfen sich also über das <em>n</em> uneinig sein, und beide haben
@@ -192,20 +209,22 @@
   <!-- Everything that would otherwise crowd the charts. The figures above are meant to be
        readable at a glance; the reasoning lives here, once, at the bottom. -->
   <div class="reading panel">
-    <p class="eyebrow">Wie man das liest</p>
+    <p class="eyebrow" i18n="@@stats.reading">Wie man das liest</p>
 
     <dl class="reading__list">
       <div>
-        <dt>Die Nulllinie liegt bei 12,5 %</dt>
-        <dd>
+        <dt i18n="@@read.baseline.t">Die Nulllinie liegt bei {{ chanceRate }} %</dt>
+        <dd i18n="@@read.baseline.d">
           Ein Ziel von acht. Wer rät, trifft im Schnitt jedes achte Mal. Jede Zahl auf dieser
           Seite ist ein Ausschlag von dieser Linie, nicht von null.
         </dd>
       </div>
 
       <div>
-        <dt>Falsch-positive sind hier die Regel, nicht die Ausnahme</dt>
-        <dd>
+        <dt i18n="@@read.falsePositives.t">
+          Falsch-positive sind hier die Regel, nicht die Ausnahme
+        </dt>
+        <dd i18n="@@read.falsePositives.d">
           Wer genug Leute würfeln lässt, bekommt immer jemanden mit einer erstaunlichen Serie —
           das ist eine Aussage über die Anzahl der Leute, nicht über die Person. Deshalb stehen
           oben beide Enden nebeneinander und nicht nur das obere.
@@ -213,8 +232,8 @@
       </div>
 
       <div>
-        <dt>Beide Enden gleich schwer heißt: kein Effekt</dt>
-        <dd>
+        <dt i18n="@@read.symmetry.t">Beide Enden gleich schwer heißt: kein Effekt</dt>
+        <dd i18n="@@read.symmetry.d">
           Eine echte Fähigkeit könnte nur das obere Ende schwerer machen. Solange sich die zwei
           Zahlen ähneln, ist zu sehen, was zu erwarten war. Dafür braucht es keine Statistik, nur
           einen Blick auf die Symmetrie.
@@ -222,8 +241,8 @@
       </div>
 
       <div>
-        <dt>Ränge sind Anteile, keine Bestenplätze</dt>
-        <dd>
+        <dt i18n="@@read.ranks.t">Ränge sind Anteile, keine Bestenplätze</dt>
+        <dd i18n="@@read.ranks.d">
           Annunaki sind die besten 0,1 %, Loosh-Farmer die besten 0,5 %, und so weiter — nach
           unten spiegelbildlich. Ein Anteil bedeutet dasselbe, egal ob neun Leute spielen oder
           neunhunderttausend; ein dritter Platz bedeutet das nicht. Ein Band wird erst vergeben,
@@ -233,8 +252,8 @@
       </div>
 
       <div>
-        <dt>Mehrere Konten sind eingepreist, nicht bekämpft</dt>
-        <dd>
+        <dt i18n="@@read.multiAccounts.t">Mehrere Konten sind eingepreist, nicht bekämpft</dt>
+        <dd i18n="@@read.multiAccounts.d">
           Wer zwanzig Konten anlegt und das beste vorzeigt, macht genau das, was die Zahlen oben
           ohnehin schon messen: viele Versuche, von denen einer gut aussieht. Keine Scoring-Regel
           repariert das, also wird es nicht behauptet — die Gesamtquote und die zwei Enden bleiben
@@ -243,8 +262,8 @@
       </div>
 
       <div>
-        <dt>Mindestquote schlägt Abweichung</dt>
-        <dd>
+        <dt i18n="@@read.wilson.t">Mindestquote schlägt Abweichung</dt>
+        <dd i18n="@@read.wilson.d">
           Die Abweichung in σ ist die auffälligere Zahl, die gesicherte Mindestquote die
           belastbarere: sie wiegt mit, wie oft jemand gespielt hat. Drei Treffer aus acht sind
           keine Begabung, sie sind ein Dienstagnachmittag.
@@ -253,8 +272,8 @@
 
       @if (player.unlocked()) {
         <div>
-          <dt>Deine {{ minePct() }} % im Kontext</dt>
-          <dd>
+          <dt i18n="@@read.yours.t">Deine {{ minePct() }} % im Kontext</dt>
+          <dd i18n="@@read.yours.d">
             Von 10 000 Leuten ohne jede Fähigkeit erreichen
             <span class="measured">{{ perTenK() }}</span> diesen Wert allein durch Glück. Ohne
             diese Zeile ist die Zahl nicht interpretierbar.

@@ -25,7 +25,8 @@
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
-              "zone.js"
+              "zone.js",
+              "@angular/localize/init"
             ],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
@@ -46,7 +47,8 @@
               "node_modules/@fontsource/jetbrains-mono/700.css",
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "localize": true
           },
           "configurations": {
             "production": {
@@ -110,6 +112,12 @@
             ],
             "scripts": []
           }
+        }
+      },
+      "i18n": {
+        "sourceLocale": "de",
+        "locales": {
+          "en": "src/locale/messages.en.xlf"
         }
       }
     }

@@ -1,0 +1,2479 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="de" target-language="en" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="nav.aria" datatype="html">
+        <source>Hauptnavigation</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">9,10</context>
+        </context-group>
+        <target>Main navigation</target>
+      </trans-unit>
+      <trans-unit id="nav.trial" datatype="html">
+        <source>Sitzung</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">10,11</context>
+        </context-group>
+        <target>Session</target>
+      </trans-unit>
+      <trans-unit id="nav.stats" datatype="html">
+        <source>Statistik</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">11,12</context>
+        </context-group>
+        <target>Statistics</target>
+      </trans-unit>
+      <trans-unit id="nav.leaderboard" datatype="html">
+        <source>Rangliste</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">12,15</context>
+        </context-group>
+        <target>Leaderboard</target>
+      </trans-unit>
+      <trans-unit id="login.button.title" datatype="html">
+        <source>Login anzeigen oder kopieren</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">31,33</context>
+        </context-group>
+        <target>Show or copy your login</target>
+      </trans-unit>
+      <trans-unit id="login.label" datatype="html">
+        <source>Login:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">33,34</context>
+        </context-group>
+        <target>Login:</target>
+      </trans-unit>
+      <trans-unit id="login.show" datatype="html">
+        <source>Zeigen</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">37,38</context>
+        </context-group>
+        <target>Show</target>
+      </trans-unit>
+      <trans-unit id="logout.title" datatype="html">
+        <source>Von diesem Browser abmelden</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">49,51</context>
+        </context-group>
+        <target>Sign out of this browser</target>
+      </trans-unit>
+      <trans-unit id="logout.label" datatype="html">
+        <source>Abmelden</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">51,53</context>
+        </context-group>
+        <target>Sign out</target>
+      </trans-unit>
+      <trans-unit id="lang.de.title" datatype="html">
+        <source>Deutsch · vriltrainer.de</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">58,60</context>
+        </context-group>
+        <target>Deutsch · vriltrainer.de</target>
+      </trans-unit>
+      <trans-unit id="lang.en.title" datatype="html">
+        <source>English · vriltrainer.com</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">64,66</context>
+        </context-group>
+        <target>English · vriltrainer.com</target>
+      </trans-unit>
+      <trans-unit id="keydlg.eyebrow" datatype="html">
+        <source>Dein Login</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">75,76</context>
+        </context-group>
+        <target>Your login</target>
+      </trans-unit>
+      <trans-unit id="keydlg.lead" datatype="html">
+        <source> Dieser Link <x id="START_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;em&gt;"/>ist<x id="CLOSE_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;/em&gt;"/> dein Konto. Wer ihn hat, ist du. Es gibt keine Wiederherstellung — speichere ihn als Lesezeichen oder im Passwortmanager. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">77,80</context>
+        </context-group>
+        <target>This link <x id="START_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;em&gt;"/>is<x id="CLOSE_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;/em&gt;"/> your account. Whoever holds it is you. There is no recovery — save it as a bookmark or in your password manager.</target>
+      </trans-unit>
+      <trans-unit id="keydlg.copied" datatype="html">
+        <source>Kopiert</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">91,92</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">134,135</context>
+        </context-group>
+        <target>Copied</target>
+      </trans-unit>
+      <trans-unit id="keydlg.copy" datatype="html">
+        <source>Kopieren</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">93,94</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">136,137</context>
+        </context-group>
+        <target>Copy</target>
+      </trans-unit>
+      <trans-unit id="keydlg.hide" datatype="html">
+        <source>Verbergen</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">98,99</context>
+        </context-group>
+        <target>Hide</target>
+      </trans-unit>
+      <trans-unit id="keydlg.reveal" datatype="html">
+        <source>Anzeigen</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">100,102</context>
+        </context-group>
+        <target>Show</target>
+      </trans-unit>
+      <trans-unit id="keydlg.close" datatype="html">
+        <source>Schließen</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">103,106</context>
+        </context-group>
+        <target>Close</target>
+      </trans-unit>
+      <trans-unit id="keydlg.publicId" datatype="html">
+        <source> Öffentliche Kennung <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;measured&quot;&gt;"/><x id="INTERPOLATION" equiv-text="{{ id }}"/><x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span
+          &gt;"/>. Dein Name erscheint auf öffentlichen Seiten erst, wenn er freigegeben ist — bis dahin steht dort eine Verdeckung neben dieser Kennung. Dir zeigen wir ihn immer. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">110,113</context>
+        </context-group>
+        <target>Public id <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;measured&quot;&gt;"/><x id="INTERPOLATION" equiv-text="{{ id }}"/><x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span
+          &gt;"/>. Your name appears on public pages only once it has been approved — until then a mask stands there beside this id. To you we always show it.</target>
+      </trans-unit>
+      <trans-unit id="logout.dialog.eyebrow" datatype="html">
+        <source>Wirklich abmelden?</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">124,125</context>
+        </context-group>
+        <target>Really sign out?</target>
+      </trans-unit>
+      <trans-unit id="logout.dialog.lead" datatype="html">
+        <source> Abmelden löscht den Zugang <x id="START_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;em&gt;"/>aus diesem Browser<x id="CLOSE_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;/em&gt;"/>. Es gibt keine Wiederherstellung über Mail oder Passwort — ohne diesen Link kommt niemand mehr an das Konto, auch wir nicht. Sichere ihn jetzt, falls noch nicht geschehen. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">126,129</context>
+        </context-group>
+        <target>Signing out deletes the access <x id="START_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;em&gt;"/>from this browser<x id="CLOSE_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;/em&gt;"/>. There is no recovery by mail or password — without this link nobody can reach the account again, us included. Save it now if you have not already.</target>
+      </trans-unit>
+      <trans-unit id="logout.cancel" datatype="html">
+        <source> Abbrechen </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">140,142</context>
+        </context-group>
+        <target>Cancel</target>
+      </trans-unit>
+      <trans-unit id="logout.confirm" datatype="html">
+        <source> Abmelden </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">143,145</context>
+        </context-group>
+        <target>Sign out</target>
+      </trans-unit>
+      <trans-unit id="foot.baseline" datatype="html">
+        <source> Die Nulllinie liegt bei 12,5 % — reines Raten. Jede Zahl hier ist ein Ausschlag davon. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">160,163</context>
+        </context-group>
+        <target>The baseline is 12.5 % — pure guessing. Every figure here is a deviation from it.</target>
+      </trans-unit>
+      <trans-unit id="foot.aria" datatype="html">
+        <source>Fußzeile</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">163,164</context>
+        </context-group>
+        <target>Footer</target>
+      </trans-unit>
+      <trans-unit id="foot.source" datatype="html">
+        <source>Quellcode · AGPL-3.0</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">164,166</context>
+        </context-group>
+        <target>Source · AGPL-3.0</target>
+      </trans-unit>
+      <trans-unit id="foot.protocol" datatype="html">
+        <source> Protokoll · D1–D28 </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">169,171</context>
+        </context-group>
+        <target>Protocol · D1–D28</target>
+      </trans-unit>
+      <trans-unit id="foot.download" datatype="html">
+        <source>Datensatz herunterladen</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">173,175</context>
+        </context-group>
+        <target>Download the record</target>
+      </trans-unit>
+      <trans-unit id="foot.impressum" datatype="html">
+        <source>Impressum</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">178,181</context>
+        </context-group>
+        <target>Legal notice</target>
+      </trans-unit>
+      <trans-unit id="meta.title" datatype="html">
+        <source>vriltrainer — öffentlicher Remote-Viewing-Test</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.ts</context>
+          <context context-type="linenumber">38</context>
+        </context-group>
+        <target>vriltrainer — a public remote viewing test</target>
+      </trans-unit>
+      <trans-unit id="meta.description" datatype="html">
+        <source>Ein öffentliches Forced-Choice-Experiment zum Remote Viewing. Jede Sitzung ist vorab versiegelt und im Nachhinein von jedem nachrechenbar.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.ts</context>
+          <context context-type="linenumber">41</context>
+        </context-group>
+        <target>A public forced-choice experiment in remote viewing. Every session is sealed in advance and can be recomputed afterwards by anyone.</target>
+      </trans-unit>
+      <trans-unit id="login.fallbackName" datatype="html">
+        <source>Konto</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.ts</context>
+          <context context-type="linenumber">71</context>
+        </context-group>
+        <target>Account</target>
+      </trans-unit>
+      <trans-unit id="keydlg.maskedLabel" datatype="html">
+        <source>Login verdeckt</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.ts</context>
+          <context context-type="linenumber">72</context>
+        </context-group>
+        <target>Login hidden</target>
+      </trans-unit>
+      <trans-unit id="check.empty" datatype="html">
+        <source>Bitte gib einen Namen ein.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/display-name.ts</context>
+          <context context-type="linenumber">85</context>
+        </context-group>
+        <target>Please enter a name.</target>
+      </trans-unit>
+      <trans-unit id="check.tooShort" datatype="html">
+        <source>Mindestens <x id="min" equiv-text="NAME_MIN"/> Zeichen.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/display-name.ts</context>
+          <context context-type="linenumber">87</context>
+        </context-group>
+        <target>At least <x id="min" equiv-text="NAME_MIN"/> characters.</target>
+      </trans-unit>
+      <trans-unit id="check.tooLong" datatype="html">
+        <source>Höchstens <x id="max" equiv-text="NAME_MAX"/> Zeichen.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/display-name.ts</context>
+          <context context-type="linenumber">88</context>
+        </context-group>
+        <target>At most <x id="max" equiv-text="NAME_MAX"/> characters.</target>
+      </trans-unit>
+      <trans-unit id="check.charset" datatype="html">
+        <source>Nur Buchstaben, Ziffern, Leerzeichen, Bindestrich, Unterstrich.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/display-name.ts</context>
+          <context context-type="linenumber">91</context>
+        </context-group>
+        <target>Letters, digits, spaces, hyphen, underscore only.</target>
+      </trans-unit>
+      <trans-unit id="check.edges" datatype="html">
+        <source>Nicht mit Leerzeichen, - oder _ anfangen oder aufhören.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/display-name.ts</context>
+          <context context-type="linenumber">94</context>
+        </context-group>
+        <target>Must not start or end with a space, - or _.</target>
+      </trans-unit>
+      <trans-unit id="check.digitsOnly" datatype="html">
+        <source>Nicht nur Ziffern.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/display-name.ts</context>
+          <context context-type="linenumber">96</context>
+        </context-group>
+        <target>Not digits alone.</target>
+      </trans-unit>
+      <trans-unit id="check.twoLetters" datatype="html">
+        <source>Mindestens zwei Buchstaben.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/display-name.ts</context>
+          <context context-type="linenumber">99</context>
+        </context-group>
+        <target>At least two letters.</target>
+      </trans-unit>
+      <trans-unit id="check.repeats" datatype="html">
+        <source>Nicht viermal dasselbe Zeichen hintereinander.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/display-name.ts</context>
+          <context context-type="linenumber">102</context>
+        </context-group>
+        <target>Not the same character four times over.</target>
+      </trans-unit>
+      <trans-unit id="check.reserved" datatype="html">
+        <source>Der Name ist für die Seite selbst reserviert.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/display-name.ts</context>
+          <context context-type="linenumber">105</context>
+        </context-group>
+        <target>That name is reserved for the site itself.</target>
+      </trans-unit>
+      <trans-unit id="check.address" datatype="html">
+        <source>Keine Adressen im Namen.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/display-name.ts</context>
+          <context context-type="linenumber">108</context>
+        </context-group>
+        <target>No addresses in the name.</target>
+      </trans-unit>
+      <trans-unit id="check.hate" datatype="html">
+        <source>Such dir etwas anderes aus.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/display-name.ts</context>
+          <context context-type="linenumber">112</context>
+        </context-group>
+        <target>Pick something else.</target>
+      </trans-unit>
+      <trans-unit id="check.vulgar" datatype="html">
+        <source>Der Name steht auf einer öffentlichen Rangliste. Nicht dieser.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/display-name.ts</context>
+          <context context-type="linenumber">114</context>
+        </context-group>
+        <target>This name goes on a public leaderboard. Not this one.</target>
+      </trans-unit>
+      <trans-unit id="gate.eyebrow" datatype="html">
+        <source>Bevor es losgeht</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
+          <context context-type="linenumber">24,25</context>
+        </context-group>
+        <target>Before we start</target>
+      </trans-unit>
+      <trans-unit id="gate.heading" datatype="html">
+        <source>Wie sollen wir dich nennen?</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
+          <context context-type="linenumber">25,27</context>
+        </context-group>
+        <target>What should we call you?</target>
+      </trans-unit>
+      <trans-unit id="gate.lead" datatype="html">
+        <source> Der Name steht auf der öffentlichen Rangliste und neben jeder einzelnen Sitzung im herunterladbaren Protokoll. Er ist das Einzige an dir, das nicht anonym ist — alles andere läuft unter einer zufälligen Kennung. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
+          <context context-type="linenumber">28,31</context>
+        </context-group>
+        <target>The name goes on the public leaderboard and beside every single session in the downloadable record. It is the only thing about you that is not anonymous — everything else runs under a random id.</target>
+      </trans-unit>
+      <trans-unit id="gate.label" datatype="html">
+        <source>Anzeigename</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
+          <context context-type="linenumber">33,35</context>
+        </context-group>
+        <target>Display name</target>
+      </trans-unit>
+      <trans-unit id="gate.hint" datatype="html">
+        <source> 3 bis <x id="INTERPOLATION" equiv-text="{{ max }}"/> Zeichen. Buchstaben, Ziffern, Leerzeichen, Bindestrich, Unterstrich. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
+          <context context-type="linenumber">56,58</context>
+        </context-group>
+        <target>3 to <x id="INTERPOLATION" equiv-text="{{ max }}"/> characters. Letters, digits, spaces, hyphen, underscore.</target>
+      </trans-unit>
+      <trans-unit id="gate.creating" datatype="html">
+        <source>Konto wird angelegt …</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
+          <context context-type="linenumber">67,68</context>
+        </context-group>
+        <target>Creating account …</target>
+      </trans-unit>
+      <trans-unit id="gate.start" datatype="html">
+        <source>Loslegen</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
+          <context context-type="linenumber">69,70</context>
+        </context-group>
+        <target>Start</target>
+      </trans-unit>
+      <trans-unit id="gate.note" datatype="html">
+        <source> Der Name wird vor der Veröffentlichung von einem Menschen freigegeben. Bis dahin steht auf öffentlichen Seiten eine Verdeckung — dir selbst zeigen wir ihn immer. Entfernen kannst du ihn jederzeit; die Sitzungen bleiben dann unter der Kennung stehen und nachrechenbar. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
+          <context context-type="linenumber">74,77</context>
+        </context-group>
+        <target>A human approves the name before it is published. Until then public pages show a mask — to you we always show it. You can remove it at any time; the sessions then stand under the id, still verifiable.</target>
+      </trans-unit>
+      <trans-unit id="refuse.tooShort" datatype="html">
+        <source>Zu kurz.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
+          <context context-type="linenumber">134</context>
+        </context-group>
+        <target>Too short.</target>
+      </trans-unit>
+      <trans-unit id="refuse.tooLong" datatype="html">
+        <source>Zu lang.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
+          <context context-type="linenumber">135</context>
+        </context-group>
+        <target>Too long.</target>
+      </trans-unit>
+      <trans-unit id="refuse.shapeless" datatype="html">
+        <source>Der Name muss wie ein Name aussehen: Buchstaben, nicht nur Zeichen und Ziffern.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
+          <context context-type="linenumber">136</context>
+        </context-group>
+        <target>The name has to look like a name: letters, not just marks and digits.</target>
+      </trans-unit>
+      <trans-unit id="refuse.reserved" datatype="html">
+        <source>Der Name ist für die Seite selbst reserviert.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
+          <context context-type="linenumber">137</context>
+        </context-group>
+        <target>That name is reserved for the site itself.</target>
+      </trans-unit>
+      <trans-unit id="refuse.hate" datatype="html">
+        <source>Such dir etwas anderes aus.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
+          <context context-type="linenumber">138</context>
+        </context-group>
+        <target>Pick something else.</target>
+      </trans-unit>
+      <trans-unit id="refuse.vulgar" datatype="html">
+        <source>Der Name steht auf einer öffentlichen Rangliste. Nicht dieser.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
+          <context context-type="linenumber">139</context>
+        </context-group>
+        <target>This name goes on a public leaderboard. Not this one.</target>
+      </trans-unit>
+      <trans-unit id="refuse.address" datatype="html">
+        <source>Keine Adressen im Namen.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
+          <context context-type="linenumber">140</context>
+        </context-group>
+        <target>No addresses in the name.</target>
+      </trans-unit>
+      <trans-unit id="fail.network" datatype="html">
+        <source>Keine Verbindung zum Server. Es wurde nichts angelegt — dein Name ist in Ordnung, versuch es gleich noch einmal.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
+          <context context-type="linenumber">159</context>
+        </context-group>
+        <target>No connection to the server. Nothing was created — your name is fine, try again in a moment.</target>
+      </trans-unit>
+      <trans-unit id="fail.serverDown" datatype="html">
+        <source>Der Dienst ist gerade nicht erreichbar (Fehler <x id="status" equiv-text="e.status"/>). Das liegt nicht an deinem Namen — versuch es in ein paar Minuten noch einmal.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
+          <context context-type="linenumber">166</context>
+        </context-group>
+        <target>The service is not reachable right now (error <x id="status" equiv-text="e.status"/>). This is not about your name — try again in a few minutes.</target>
+      </trans-unit>
+      <trans-unit id="fail.nameRefused" datatype="html">
+        <source>Der Name wurde abgelehnt. Such dir einen anderen aus.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
+          <context context-type="linenumber">172</context>
+        </context-group>
+        <target>The name was refused. Pick another one.</target>
+      </trans-unit>
+      <trans-unit id="fail.unexpected" datatype="html">
+        <source>Unerwartete Antwort vom Server (Fehler <x id="status" equiv-text="e.status"/>). Das liegt nicht an deinem Namen.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
+          <context context-type="linenumber">177</context>
+        </context-group>
+        <target>Unexpected answer from the server (error <x id="status" equiv-text="e.status"/>). This is not about your name.</target>
+      </trans-unit>
+      <trans-unit id="fail.unknown" datatype="html">
+        <source>Das Konto konnte nicht angelegt werden. Das liegt nicht an deinem Namen — versuch es noch einmal.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
+          <context context-type="linenumber">180</context>
+        </context-group>
+        <target>The account could not be created. This is not about your name — try again.</target>
+      </trans-unit>
+      <trans-unit id="category.landscape" datatype="html">
+        <source>Landschaft</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/pool.ts</context>
+          <context context-type="linenumber">38</context>
+        </context-group>
+        <target>Landscape</target>
+      </trans-unit>
+      <trans-unit id="category.building" datatype="html">
+        <source>Bauwerk</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/pool.ts</context>
+          <context context-type="linenumber">39</context>
+        </context-group>
+        <target>Building</target>
+      </trans-unit>
+      <trans-unit id="category.animal" datatype="html">
+        <source>Tier</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/pool.ts</context>
+          <context context-type="linenumber">40</context>
+        </context-group>
+        <target>Animal</target>
+      </trans-unit>
+      <trans-unit id="category.plant" datatype="html">
+        <source>Pflanze</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/pool.ts</context>
+          <context context-type="linenumber">41</context>
+        </context-group>
+        <target>Plant</target>
+      </trans-unit>
+      <trans-unit id="category.vehicle" datatype="html">
+        <source>Fahrzeug</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/pool.ts</context>
+          <context context-type="linenumber">42</context>
+        </context-group>
+        <target>Vehicle</target>
+      </trans-unit>
+      <trans-unit id="category.tool" datatype="html">
+        <source>Werkzeug</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/pool.ts</context>
+          <context context-type="linenumber">43</context>
+        </context-group>
+        <target>Tool</target>
+      </trans-unit>
+      <trans-unit id="category.food" datatype="html">
+        <source>Essen</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/pool.ts</context>
+          <context context-type="linenumber">44</context>
+        </context-group>
+        <target>Food</target>
+      </trans-unit>
+      <trans-unit id="category.clothing" datatype="html">
+        <source>Kleidung</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/pool.ts</context>
+          <context context-type="linenumber">45</context>
+        </context-group>
+        <target>Clothing</target>
+      </trans-unit>
+      <trans-unit id="category.instrument" datatype="html">
+        <source>Instrument</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/pool.ts</context>
+          <context context-type="linenumber">46</context>
+        </context-group>
+        <target>Instrument</target>
+      </trans-unit>
+      <trans-unit id="category.furniture" datatype="html">
+        <source>Möbel</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/pool.ts</context>
+          <context context-type="linenumber">47</context>
+        </context-group>
+        <target>Furniture</target>
+      </trans-unit>
+      <trans-unit id="category.water" datatype="html">
+        <source>Wasser</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/pool.ts</context>
+          <context context-type="linenumber">48</context>
+        </context-group>
+        <target>Water</target>
+      </trans-unit>
+      <trans-unit id="category.sky" datatype="html">
+        <source>Himmel</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/pool.ts</context>
+          <context context-type="linenumber">49</context>
+        </context-group>
+        <target>Sky</target>
+      </trans-unit>
+      <trans-unit id="category.machine" datatype="html">
+        <source>Maschine</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/pool.ts</context>
+          <context context-type="linenumber">50</context>
+        </context-group>
+        <target>Machine</target>
+      </trans-unit>
+      <trans-unit id="category.textile" datatype="html">
+        <source>Textil</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/pool.ts</context>
+          <context context-type="linenumber">51</context>
+        </context-group>
+        <target>Textile</target>
+      </trans-unit>
+      <trans-unit id="category.container" datatype="html">
+        <source>Behälter</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/pool.ts</context>
+          <context context-type="linenumber">52</context>
+        </context-group>
+        <target>Container</target>
+      </trans-unit>
+      <trans-unit id="category.sign" datatype="html">
+        <source>Schild</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/pool.ts</context>
+          <context context-type="linenumber">53</context>
+        </context-group>
+        <target>Sign</target>
+      </trans-unit>
+      <trans-unit id="category.stairs" datatype="html">
+        <source>Treppe</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/pool.ts</context>
+          <context context-type="linenumber">54</context>
+        </context-group>
+        <target>Stairs</target>
+      </trans-unit>
+      <trans-unit id="category.bridge" datatype="html">
+        <source>Brücke</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/pool.ts</context>
+          <context context-type="linenumber">55</context>
+        </context-group>
+        <target>Bridge</target>
+      </trans-unit>
+      <trans-unit id="category.door" datatype="html">
+        <source>Tür</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/pool.ts</context>
+          <context context-type="linenumber">56</context>
+        </context-group>
+        <target>Door</target>
+      </trans-unit>
+      <trans-unit id="category.light" datatype="html">
+        <source>Licht</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/pool.ts</context>
+          <context context-type="linenumber">57</context>
+        </context-group>
+        <target>Light</target>
+      </trans-unit>
+      <trans-unit id="category.stone" datatype="html">
+        <source>Stein</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/pool.ts</context>
+          <context context-type="linenumber">58</context>
+        </context-group>
+        <target>Stone</target>
+      </trans-unit>
+      <trans-unit id="category.ornament" datatype="html">
+        <source>Ornament</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/pool.ts</context>
+          <context context-type="linenumber">59</context>
+        </context-group>
+        <target>Ornament</target>
+      </trans-unit>
+      <trans-unit id="category.person" datatype="html">
+        <source>Mensch</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/pool.ts</context>
+          <context context-type="linenumber">60</context>
+        </context-group>
+        <target>Person</target>
+      </trans-unit>
+      <trans-unit id="category.street" datatype="html">
+        <source>Straße</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/pool.ts</context>
+          <context context-type="linenumber">61</context>
+        </context-group>
+        <target>Street</target>
+      </trans-unit>
+      <trans-unit id="rank.normie" datatype="html">
+        <source>Normie</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/ranks.ts</context>
+          <context context-type="linenumber">33</context>
+        </context-group>
+        <target>Normie</target>
+      </trans-unit>
+      <trans-unit id="rank.annunaki" datatype="html">
+        <source>Annunaki</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/ranks.ts</context>
+          <context context-type="linenumber">36</context>
+        </context-group>
+        <target>Annunaki</target>
+      </trans-unit>
+      <trans-unit id="rank.loosh" datatype="html">
+        <source>Insektoider Loosh-Farmer</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/ranks.ts</context>
+          <context context-type="linenumber">37</context>
+        </context-group>
+        <target>Insectoid Loosh Farmer</target>
+      </trans-unit>
+      <trans-unit id="rank.reptilian" datatype="html">
+        <source>Reptiloidenarchont</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/ranks.ts</context>
+          <context context-type="linenumber">38</context>
+        </context-group>
+        <target>Reptilian Archon</target>
+      </trans-unit>
+      <trans-unit id="rank.grey" datatype="html">
+        <source>Grey Alien</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/ranks.ts</context>
+          <context context-type="linenumber">39</context>
+        </context-group>
+        <target>Grey Alien</target>
+      </trans-unit>
+      <trans-unit id="rank.asset" datatype="html">
+        <source>Psionisches Asset</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/ranks.ts</context>
+          <context context-type="linenumber">40</context>
+        </context-group>
+        <target>Psionic Asset</target>
+      </trans-unit>
+      <trans-unit id="rank.pineal" datatype="html">
+        <source>Zirbeldrüse verkalkt</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/ranks.ts</context>
+          <context context-type="linenumber">42</context>
+        </context-group>
+        <target>Calcified Pineal Gland</target>
+      </trans-unit>
+      <trans-unit id="rank.erdstrahlen" datatype="html">
+        <source>Erdstrahlen-Opfer</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/ranks.ts</context>
+          <context context-type="linenumber">43</context>
+        </context-group>
+        <target>Earth-Ray Casualty</target>
+      </trans-unit>
+      <trans-unit id="rank.orgonit" datatype="html">
+        <source>Orgonit-Enjoyer</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/ranks.ts</context>
+          <context context-type="linenumber">44</context>
+        </context-group>
+        <target>Orgonite Enjoyer</target>
+      </trans-unit>
+      <trans-unit id="rank.nullleiter" datatype="html">
+        <source>Psi-Nullleiter</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/ranks.ts</context>
+          <context context-type="linenumber">45</context>
+        </context-group>
+        <target>Psi Neutral Wire</target>
+      </trans-unit>
+      <trans-unit id="rank.kartoffel" datatype="html">
+        <source>Kartoffel</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/ranks.ts</context>
+          <context context-type="linenumber">46</context>
+        </context-group>
+        <target>Potato</target>
+      </trans-unit>
+      <trans-unit id="status.heading" datatype="html">
+        <source>Dein Stand</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/status-panel.component.ts</context>
+          <context context-type="linenumber">28,30</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/status-panel.component.ts</context>
+          <context context-type="linenumber">43,44</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/status-panel.component.ts</context>
+          <context context-type="linenumber">77,78</context>
+        </context-group>
+        <target>Where you stand</target>
+      </trans-unit>
+      <trans-unit id="status.unavailable" datatype="html">
+        <source> Die Zahlen sind gerade nicht abrufbar. Gespielt ist gespielt — sie stehen im Protokoll, nicht in diesem Browser. <x id="START_TAG_BUTTON" ctype="x-button" equiv-text="&lt;button class=&quot;btn btn--quiet&quot; type=&quot;button&quot; (click)=&quot;player.refresh()&quot;&gt;"/> Erneut laden <x id="CLOSE_TAG_BUTTON" ctype="x-button" equiv-text="&lt;/button&gt;"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/status-panel.component.ts</context>
+          <context context-type="linenumber">32,38</context>
+        </context-group>
+        <target>The figures are not available right now. What is played is played — it is in the record, not in this browser. <x id="START_TAG_BUTTON" ctype="x-button" equiv-text="&lt;button class=&quot;btn btn--quiet&quot; type=&quot;button&quot; (click)=&quot;player.refresh()&quot;&gt;"/>Reload<x id="CLOSE_TAG_BUTTON" ctype="x-button" equiv-text="&lt;/button&gt;"/></target>
+      </trans-unit>
+      <trans-unit id="status.loading" datatype="html">
+        <source>Wird geladen …</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/status-panel.component.ts</context>
+          <context context-type="linenumber">39,41</context>
+        </context-group>
+        <target>Loading …</target>
+      </trans-unit>
+      <trans-unit id="status.locked.why" datatype="html">
+        <source> Noch <x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/><x id="INTERPOLATION" equiv-text="{{ player.remaining() }}"/><x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> <x id="ICU" equiv-text="{player.remaining(), plural, =1 {Sitzung} other {Sitzungen}}" xid="7282540405251226179"/>, dann schaltet die Statistik frei. Vorher ist eine Trefferquote keine Aussage: bei so wenigen Versuchen sieht reines Raten regelmäßig nach einer Begabung aus. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/status-panel.component.ts</context>
+          <context context-type="linenumber">63,67</context>
+        </context-group>
+        <target><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/><x id="INTERPOLATION" equiv-text="{{ player.remaining() }}"/><x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> more <x id="ICU" equiv-text="{player.remaining(), plural, =1 {Sitzung} other {Sitzungen}}" xid="7282540405251226179"/>, then the statistics unlock. Before that a hit rate says nothing: over so few attempts, pure guessing regularly looks like a gift.</target>
+      </trans-unit>
+      <trans-unit id="7282540405251226179" datatype="html">
+        <source>{VAR_PLURAL, plural, =1 {Sitzung} other {Sitzungen}}</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/status-panel.component.ts</context>
+          <context context-type="linenumber">64</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/status-panel.component.ts</context>
+          <context context-type="linenumber">71</context>
+        </context-group>
+        <target>{VAR_PLURAL, plural, =1 {session} other {sessions}}</target>
+      </trans-unit>
+      <trans-unit id="status.locked.abandoned" datatype="html">
+        <source><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/><x id="INTERPOLATION" equiv-text="{{ player.abandoned() }}"/><x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> <x id="ICU" equiv-text="{player.abandoned(), plural, =1 {Sitzung} other {Sitzungen}}" xid="7282540405251226179"/> abgebrochen — auch das steht im Protokoll, von der ersten an. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/status-panel.component.ts</context>
+          <context context-type="linenumber">70,73</context>
+        </context-group>
+        <target><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/><x id="INTERPOLATION" equiv-text="{{ player.abandoned() }}"/><x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> <x id="ICU" equiv-text="{player.abandoned(), plural, =1 {Sitzung} other {Sitzungen}}" xid="7282540405251226179"/> abandoned — that is in the record too, from the first one on.</target>
+      </trans-unit>
+      <trans-unit id="status.allStats" datatype="html">
+        <source>Alle Statistiken</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/status-panel.component.ts</context>
+          <context context-type="linenumber">78,81</context>
+        </context-group>
+        <target>All statistics</target>
+      </trans-unit>
+      <trans-unit id="fig.trials" datatype="html">
+        <source>Sitzungen</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/status-panel.component.ts</context>
+          <context context-type="linenumber">83,84</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/stats/stats.component.html</context>
+          <context context-type="linenumber">163,164</context>
+        </context-group>
+        <target>Sessions</target>
+      </trans-unit>
+      <trans-unit id="fig.hits" datatype="html">
+        <source>Treffer</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/status-panel.component.ts</context>
+          <context context-type="linenumber">87,88</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/stats/stats.component.html</context>
+          <context context-type="linenumber">167,168</context>
+        </context-group>
+        <target>Hits</target>
+      </trans-unit>
+      <trans-unit id="fig.rate" datatype="html">
+        <source>Quote</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/status-panel.component.ts</context>
+          <context context-type="linenumber">91,92</context>
+        </context-group>
+        <target>Rate</target>
+      </trans-unit>
+      <trans-unit id="fig.rank" datatype="html">
+        <source>Psi-Rang</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/status-panel.component.ts</context>
+          <context context-type="linenumber">98,99</context>
+        </context-group>
+        <target>Psi rank</target>
+      </trans-unit>
+      <trans-unit id="status.details.hide" datatype="html">
+        <source>Details schließen</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/status-panel.component.ts</context>
+          <context context-type="linenumber">106,107</context>
+        </context-group>
+        <target>Hide details</target>
+      </trans-unit>
+      <trans-unit id="status.details.show" datatype="html">
+        <source>Details anzeigen</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/status-panel.component.ts</context>
+          <context context-type="linenumber">108,110</context>
+        </context-group>
+        <target>Show details</target>
+      </trans-unit>
+      <trans-unit id="fig.deviation" datatype="html">
+        <source>Abweichung</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/status-panel.component.ts</context>
+          <context context-type="linenumber">116,117</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/stats/stats.component.html</context>
+          <context context-type="linenumber">175,176</context>
+        </context-group>
+        <target>Deviation</target>
+      </trans-unit>
+      <trans-unit id="fig.wilson" datatype="html">
+        <source>Gesicherte Mindestquote</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/status-panel.component.ts</context>
+          <context context-type="linenumber">120,121</context>
+        </context-group>
+        <target>Assured minimum</target>
+      </trans-unit>
+      <trans-unit id="fig.abandoned" datatype="html">
+        <source>Abgebrochen</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/status-panel.component.ts</context>
+          <context context-type="linenumber">124,125</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/stats/stats.component.html</context>
+          <context context-type="linenumber">179,180</context>
+        </context-group>
+        <target>Abandoned</target>
+      </trans-unit>
+      <trans-unit id="fig.chance" datatype="html">
+        <source>Zufallsrate</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/status-panel.component.ts</context>
+          <context context-type="linenumber">128,129</context>
+        </context-group>
+        <target>Chance rate</target>
+      </trans-unit>
+      <trans-unit id="meter.you.label" datatype="html">
+        <source>Du</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/status-panel.component.ts</context>
+          <context context-type="linenumber">138</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/stats/stats.component.html</context>
+          <context context-type="linenumber">193</context>
+        </context-group>
+        <target>You</target>
+      </trans-unit>
+      <trans-unit id="meter.you.needle" datatype="html">
+        <source>du</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/status-panel.component.ts</context>
+          <context context-type="linenumber">140</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/stats/stats.component.html</context>
+          <context context-type="linenumber">195</context>
+        </context-group>
+        <target>you</target>
+      </trans-unit>
+      <trans-unit id="status.detail.note" datatype="html">
+        <source> Die Abweichung ist die auffälligere Zahl, die Mindestquote die belastbarere: sie wiegt mit, wie oft du gespielt hast. Beide stehen über <x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/><x id="INTERPOLATION" equiv-text="{{ player.reportedTrials() }}"/><x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> gewerteten Sitzungen mit <x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/><x id="INTERPOLATION_1" equiv-text="{{ player.reportedHits() }}"/><x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> Treffern und rücken erst am nächsten Blockende weiter — sonst könnte man aufhören, sobald die Zahl gefällt. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/status-panel.component.ts</context>
+          <context context-type="linenumber">144,149</context>
+        </context-group>
+        <target>The deviation is the more striking figure, the assured minimum the sturdier one: it weighs in how often you have played. Both stand over <x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/><x id="INTERPOLATION" equiv-text="{{ player.reportedTrials() }}"/><x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> scored sessions with <x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/><x id="INTERPOLATION_1" equiv-text="{{ player.reportedHits() }}"/><x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> hits, and they only move at the next block boundary — otherwise you could stop as soon as the number flattered you.</target>
+      </trans-unit>
+      <trans-unit id="meter.you.reading" datatype="html">
+        <source><x id="deviation" equiv-text="this.signed(this.player.deviation())"/> σ · Mindestquote <x id="wilson" equiv-text="this.pct(this.player.wilson())"/> %</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/status-panel.component.ts</context>
+          <context context-type="linenumber">177</context>
+        </context-group>
+        <target><x id="deviation" equiv-text="this.signed(this.player.deviation())"/> σ · assured minimum <x id="wilson" equiv-text="this.pct(this.player.wilson())"/> %</target>
+      </trans-unit>
+      <trans-unit id="meter.defaultLabel" datatype="html">
+        <source>Vrilpegel</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/vril-meter.component.ts</context>
+          <context context-type="linenumber">50</context>
+        </context-group>
+        <target>Vril level</target>
+      </trans-unit>
+      <trans-unit id="meter.stop.normal" datatype="html">
+        <source>Normal</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/vril-meter.component.ts</context>
+          <context context-type="linenumber">58</context>
+        </context-group>
+        <target>Normal</target>
+      </trans-unit>
+      <trans-unit id="meter.stop.warm" datatype="html">
+        <source>Warm</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/vril-meter.component.ts</context>
+          <context context-type="linenumber">59</context>
+        </context-group>
+        <target>Warm</target>
+      </trans-unit>
+      <trans-unit id="meter.stop.hot" datatype="html">
+        <source>Heiss</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/vril-meter.component.ts</context>
+          <context context-type="linenumber">60</context>
+        </context-group>
+        <target>Hot</target>
+      </trans-unit>
+      <trans-unit id="meter.stop.vril" datatype="html">
+        <source>Vril</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/vril-meter.component.ts</context>
+          <context context-type="linenumber">61</context>
+        </context-group>
+        <target>Vril</target>
+      </trans-unit>
+      <trans-unit id="board.eyebrow" datatype="html">
+        <source>Bestenliste · sortiert nach gesicherter Mindestquote</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
+          <context context-type="linenumber">2,3</context>
+        </context-group>
+        <target>Leaderboard · sorted by assured minimum rate</target>
+      </trans-unit>
+      <trans-unit id="board.heading" datatype="html">
+        <source>Wer über der Nulllinie steht</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
+          <context context-type="linenumber">3,5</context>
+        </context-group>
+        <target>Who stands above the baseline</target>
+      </trans-unit>
+      <trans-unit id="board.lede" datatype="html">
+        <source> Ränge sind Anteile, keine Plätze — Annunaki sind immer die besten 0,1 %, egal wie viele mitspielen. Sortiert wird nach der gesicherten Mindestquote, weil sie die Anzahl der Sitzungen mitwiegt. Die Abweichung steht daneben: die auffälligere, aber schwächere Zahl. <x id="START_LINK" ctype="x-a" equiv-text="&lt;a routerLink=&quot;/statistik&quot;&gt;"/>Die ganze Leiter<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> steht bei der Statistik, neben der Verteilung, aus der sie kommt. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
+          <context context-type="linenumber">6,13</context>
+        </context-group>
+        <target>Ranks are shares, not places — Annunaki are always the top 0.1 %, however many are playing. Sorting is by the assured minimum rate, because it weighs in the number of sessions. The deviation stands beside it: the more striking but weaker figure. <x id="START_LINK" ctype="x-a" equiv-text="&lt;a routerLink=&quot;/statistik&quot;&gt;"/>The whole ladder<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> is on the statistics page, next to the distribution it comes from.</target>
+      </trans-unit>
+      <trans-unit id="board.unavailable" datatype="html">
+        <source>Die Rangliste ist gerade nicht abrufbar.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
+          <context context-type="linenumber">16,17</context>
+        </context-group>
+        <target>The leaderboard is not available right now.</target>
+      </trans-unit>
+      <trans-unit id="trial.retry" datatype="html">
+        <source> Erneut versuchen </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
+          <context context-type="linenumber">18,19</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/trial/trial.component.html</context>
+          <context context-type="linenumber">27,28</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/trial/trial.component.html</context>
+          <context context-type="linenumber">370,371</context>
+        </context-group>
+        <target>Try again</target>
+      </trans-unit>
+      <trans-unit id="stats.loading" datatype="html">
+        <source>Wird geladen …</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
+          <context context-type="linenumber">24,26</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/stats/stats.component.html</context>
+          <context context-type="linenumber">121,124</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/stats/stats.component.html</context>
+          <context context-type="linenumber">142,144</context>
+        </context-group>
+        <target>Loading …</target>
+      </trans-unit>
+      <trans-unit id="board.nextBand" datatype="html">
+        <source>ranglistenfähige Spieler. <x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/><x id="INTERPOLATION" equiv-text="{{ next.rank.title }}"/><x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> gibt es ab <x id="INTERPOLATION_1" equiv-text="{{ next.unlocksAt }}"/> — bei kleiner Besetzung wäre ein Spitzenplatz keine Aussage, sondern der beste Wurf einer kleinen Runde.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
+          <context context-type="linenumber">35,37</context>
+        </context-group>
+        <target>eligible players. <x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/><x id="INTERPOLATION" equiv-text="{{ next.rank.title }}"/><x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> exists from <x id="INTERPOLATION_1" equiv-text="{{ next.unlocksAt }}"/> on — with a small field a top place would be no finding, just the best throw of a small round.</target>
+      </trans-unit>
+      <trans-unit id="board.allBands" datatype="html">
+        <source>ranglistenfähige Spieler. Alle Bänder sind besetzt.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
+          <context context-type="linenumber">41,43</context>
+        </context-group>
+        <target>eligible players. Every band is filled.</target>
+      </trans-unit>
+      <trans-unit id="board.empty" datatype="html">
+        <source> Noch niemand auf der Liste. Ranglistenfähig ab <x id="INTERPOLATION" equiv-text="{{ eligibilityTrials() }}"/> Sitzungen an mindestens <x id="INTERPOLATION_1" equiv-text="{{ eligibilityDays() }}"/> verschiedenen Tagen — und keine Zeile hier ist erfunden, also bleibt sie leer, bis jemand das erreicht. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
+          <context context-type="linenumber">50,53</context>
+        </context-group>
+        <target>Nobody on the list yet. Eligible from <x id="INTERPOLATION" equiv-text="{{ eligibilityTrials() }}"/> sessions across at least <x id="INTERPOLATION_1" equiv-text="{{ eligibilityDays() }}"/> different days — and no row here is invented, so it stays empty until somebody gets there.</target>
+      </trans-unit>
+      <trans-unit id="board.col.rank" datatype="html">
+        <source>Rang</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
+          <context context-type="linenumber">61,62</context>
+        </context-group>
+        <target>Rank</target>
+      </trans-unit>
+      <trans-unit id="board.col.name" datatype="html">
+        <source>Name</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
+          <context context-type="linenumber">62,63</context>
+        </context-group>
+        <target>Name</target>
+      </trans-unit>
+      <trans-unit id="board.col.wilson" datatype="html">
+        <source>Mindestquote</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
+          <context context-type="linenumber">63,64</context>
+        </context-group>
+        <target>Min. rate</target>
+      </trans-unit>
+      <trans-unit id="board.col.trials" datatype="html">
+        <source>Sitzungen</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
+          <context context-type="linenumber">64,65</context>
+        </context-group>
+        <target>Sessions</target>
+      </trans-unit>
+      <trans-unit id="board.col.rate" datatype="html">
+        <source>Quote</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
+          <context context-type="linenumber">65,66</context>
+        </context-group>
+        <target>Rate</target>
+      </trans-unit>
+      <trans-unit id="board.col.deviation" datatype="html">
+        <source>Abw.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
+          <context context-type="linenumber">66,68</context>
+        </context-group>
+        <target>Dev.</target>
+      </trans-unit>
+      <trans-unit id="board.maskedTitle" datatype="html">
+        <source>Name noch nicht freigegeben — die Kennung daneben bleibt nachprüfbar</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
+          <context context-type="linenumber">83,84</context>
+        </context-group>
+        <target>Name not approved yet — the id beside it stays verifiable</target>
+      </trans-unit>
+      <trans-unit id="board.pager.aria" datatype="html">
+        <source>Seiten der Bestenliste</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
+          <context context-type="linenumber">101,103</context>
+        </context-group>
+        <target>Leaderboard pages</target>
+      </trans-unit>
+      <trans-unit id="board.prev" datatype="html">
+        <source>← Zurück</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
+          <context context-type="linenumber">108,109</context>
+        </context-group>
+        <target>← Back</target>
+      </trans-unit>
+      <trans-unit id="board.next" datatype="html">
+        <source>Weiter →</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
+          <context context-type="linenumber">117,118</context>
+        </context-group>
+        <target>Next →</target>
+      </trans-unit>
+      <trans-unit id="board.range" datatype="html">
+        <source>Plätze <x id="INTERPOLATION" equiv-text="{{ firstShown() }}"/>–<x id="INTERPOLATION_1" equiv-text="{{ lastShown() }}"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
+          <context context-type="linenumber">121,125</context>
+        </context-group>
+        <target>Places <x id="INTERPOLATION" equiv-text="{{ firstShown() }}"/>–<x id="INTERPOLATION_1" equiv-text="{{ lastShown() }}"/></target>
+      </trans-unit>
+      <trans-unit id="board.note" datatype="html">
+        <source> Ranglistenfähig ab <x id="INTERPOLATION" equiv-text="{{ eligibilityTrials() }}"/> Sitzungen an mindestens <x id="INTERPOLATION_1" equiv-text="{{ eligibilityDays() }}"/> verschiedenen Tagen. Über mehrere Tage, weil Parallelität keinen Kalender zusammenschiebt — und weil verteilte Sitzungen ohnehin die besseren Daten sind.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
+          <context context-type="linenumber">127,129</context>
+        </context-group>
+        <target>Eligible from <x id="INTERPOLATION" equiv-text="{{ eligibilityTrials() }}"/> sessions across at least <x id="INTERPOLATION_1" equiv-text="{{ eligibilityDays() }}"/> different days. Across several days, because running them in parallel does not compress a calendar — and because spread-out sessions are the better data anyway.</target>
+      </trans-unit>
+      <trans-unit id="board.recomputed" datatype="html">
+        <source>Ränge zuletzt neu berechnet am <x id="INTERPOLATION" equiv-text="{{ when(at) }}"/>; sie laufen etwa alle fünfzehn Minuten nach.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
+          <context context-type="linenumber">133,134</context>
+        </context-group>
+        <target>Ranks last recomputed <x id="INTERPOLATION" equiv-text="{{ when(at) }}"/>; they follow along roughly every fifteen minutes.</target>
+      </trans-unit>
+      <trans-unit id="legal.eyebrow" datatype="html">
+        <source>Angaben gemäß § 5 DDG</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/legal/impressum.component.ts</context>
+          <context context-type="linenumber">13,14</context>
+        </context-group>
+        <target>Information under § 5 DDG</target>
+      </trans-unit>
+      <trans-unit id="legal.heading" datatype="html">
+        <source>Impressum</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/legal/impressum.component.ts</context>
+          <context context-type="linenumber">14,16</context>
+        </context-group>
+        <target>Legal notice</target>
+      </trans-unit>
+      <trans-unit id="legal.responsible" datatype="html">
+        <source>Verantwortlich</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/legal/impressum.component.ts</context>
+          <context context-type="linenumber">17,18</context>
+        </context-group>
+        <target>Responsible</target>
+      </trans-unit>
+      <trans-unit id="legal.address" datatype="html">
+        <source> Peter Geschel<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/> Privatperson, nicht gewerblich<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/> c/o IP-Management #8514<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/> Ludwig-Erhard-Straße 18<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/> 20459 Hamburg<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/> Deutschland </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/legal/impressum.component.ts</context>
+          <context context-type="linenumber">19,25</context>
+        </context-group>
+        <target>Peter Geschel<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/> Private individual, not commercial<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/> c/o IP-Management #8514<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/> Ludwig-Erhard-Straße 18<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/> 20459 Hamburg<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/> Germany</target>
+      </trans-unit>
+      <trans-unit id="legal.contact" datatype="html">
+        <source>Kontakt</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/legal/impressum.component.ts</context>
+          <context context-type="linenumber">27,28</context>
+        </context-group>
+        <target>Contact</target>
+      </trans-unit>
+      <trans-unit id="legal.contactBlock" datatype="html">
+        <source> E-Mail: <x id="START_LINK" ctype="x-a" equiv-text="&lt;a href=&quot;mailto:kontakt&amp;#64;konkin.io&quot;&gt;"/>kontakt@konkin.io<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/><x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/> Telefon: +49 (0) 172 66 84 586<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/> X.com: <x id="START_LINK_1" equiv-text="&lt;a href=&quot;https://x.com/otherfren&quot;&gt;"/>@otherfren<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/legal/impressum.component.ts</context>
+          <context context-type="linenumber">29,33</context>
+        </context-group>
+        <target>E-mail: <x id="START_LINK" ctype="x-a" equiv-text="&lt;a href=&quot;mailto:kontakt&amp;#64;konkin.io&quot;&gt;"/>kontakt@konkin.io<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/><x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/> Phone: +49 (0) 172 66 84 586<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/> X.com: <x id="START_LINK_1" equiv-text="&lt;a href=&quot;https://x.com/otherfren&quot;&gt;"/>@otherfren<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/></target>
+      </trans-unit>
+      <trans-unit id="legal.disclaimer" datatype="html">
+        <source>Haftungsausschluss</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/legal/impressum.component.ts</context>
+          <context context-type="linenumber">34,36</context>
+        </context-group>
+        <target>Disclaimer</target>
+      </trans-unit>
+      <trans-unit id="legal.content.h" datatype="html">
+        <source>Haftung für Inhalte</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/legal/impressum.component.ts</context>
+          <context context-type="linenumber">36,37</context>
+        </context-group>
+        <target>Liability for content</target>
+      </trans-unit>
+      <trans-unit id="legal.content.p" datatype="html">
+        <source> Die Inhalte dieser Seiten wurden mit größter Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte können wir jedoch keine Gewähr übernehmen. Als Diensteanbieter sind wir gemäß § 7 Abs. 1 DDG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 DDG sind wir als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/legal/impressum.component.ts</context>
+          <context context-type="linenumber">38,43</context>
+        </context-group>
+        <target>The contents of these pages were produced with the greatest care. We cannot however guarantee that they are correct, complete or current. As a service provider we are responsible under § 7 (1) DDG for our own content on these pages under the general laws. Under §§ 8 to 10 DDG we are not obliged, as a service provider, to monitor transmitted or stored third-party information, or to investigate circumstances that point to unlawful activity.</target>
+      </trans-unit>
+      <trans-unit id="legal.links.h" datatype="html">
+        <source>Haftung für Links</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/legal/impressum.component.ts</context>
+          <context context-type="linenumber">47,48</context>
+        </context-group>
+        <target>Liability for links</target>
+      </trans-unit>
+      <trans-unit id="legal.links.p" datatype="html">
+        <source> Unser Angebot enthält Links zu externen Webseiten Dritter, auf deren Inhalte wir keinen Einfluss haben. Deshalb können wir für diese fremden Inhalte auch keine Gewähr übernehmen. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der Seiten verantwortlich. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/legal/impressum.component.ts</context>
+          <context context-type="linenumber">49,52</context>
+        </context-group>
+        <target>Our offering contains links to external third-party websites whose contents we have no influence over. We can therefore give no guarantee for that third-party content. The respective provider or operator of the linked pages is always responsible for their contents.</target>
+      </trans-unit>
+      <trans-unit id="legal.about.h" datatype="html">
+        <source>Zum Inhalt dieser Seite</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/legal/impressum.component.ts</context>
+          <context context-type="linenumber">55,56</context>
+        </context-group>
+        <target>About this site</target>
+      </trans-unit>
+      <trans-unit id="legal.about.p" datatype="html">
+        <source> vriltrainer ist ein öffentliches Forced-Choice-Experiment zum Remote Viewing. Die erwartete Trefferquote ist 12,5 % — reines Raten. Ränge, Titel und Abbildungen sind Satire auf die einschlägige Mythologie und keine Behauptung über die Wirklichkeit. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/legal/impressum.component.ts</context>
+          <context context-type="linenumber">57,59</context>
+        </context-group>
+        <target>vriltrainer is a public forced-choice experiment in remote viewing. The expected hit rate is 12.5 % — pure guessing. Ranks, titles and illustrations are satire on the relevant mythology and are not a claim about reality.</target>
+      </trans-unit>
+      <trans-unit id="legal.licence.h" datatype="html">
+        <source>Urheberrecht und Lizenz</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/legal/impressum.component.ts</context>
+          <context context-type="linenumber">62,63</context>
+        </context-group>
+        <target>Copyright and licence</target>
+      </trans-unit>
+      <trans-unit id="legal.licence.p" datatype="html">
+        <source> Der Quellcode steht unter der <x id="START_LINK" ctype="x-a" equiv-text="&lt;a href=&quot;https://github.com/otherfren/vriltrainer/blob/master/LICENSE&quot;&gt;"/> AGPL-3.0-or-later <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a
+          &gt;"/>. Wer eine veränderte Fassung betreibt, muss seine Änderungen veröffentlichen — für einen Dienst, dessen ganzes Versprechen Nachprüfbarkeit ist, ist das keine Formalie. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/legal/impressum.component.ts</context>
+          <context context-type="linenumber">64,69</context>
+        </context-group>
+        <target>The source code is under the <x id="START_LINK" ctype="x-a" equiv-text="&lt;a href=&quot;https://github.com/otherfren/vriltrainer/blob/master/LICENSE&quot;&gt;"/> AGPL-3.0-or-later <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a
+          &gt;"/>. Anyone running a modified version has to publish their changes — for a service whose entire promise is verifiability, that is not a formality.</target>
+      </trans-unit>
+      <trans-unit id="stats.eyebrow" datatype="html">
+        <source>Alle Spieler · alle Sitzungen</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/stats/stats.component.html</context>
+          <context context-type="linenumber">2,4</context>
+        </context-group>
+        <target>Every player · every session</target>
+      </trans-unit>
+      <trans-unit id="stats.expectedAre" datatype="html">
+        <source>erwartet sind <x id="INTERPOLATION" equiv-text="{{ pct(a.expected_rate, 1) }}"/> %</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/stats/stats.component.html</context>
+          <context context-type="linenumber">13,15</context>
+        </context-group>
+        <target>expected is <x id="INTERPOLATION" equiv-text="{{ pct(a.expected_rate, 1) }}"/> %</target>
+      </trans-unit>
+      <trans-unit id="stats.noTrialsYet" datatype="html">
+        <source> Noch keine abgeschlossene Sitzung. Bis eine da ist, steht hier keine Quote — <x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>eine erfundene wäre der einzige unehrliche Wert auf dieser Seite.<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/stats/stats.component.html</context>
+          <context context-type="linenumber">18,22</context>
+        </context-group>
+        <target>No completed session yet. Until there is one, no rate stands here — <x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>an invented one would be the only dishonest figure on this page.<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/></target>
+      </trans-unit>
+      <trans-unit id="stats.tails" datatype="html">
+        <source>Die zwei Enden</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/stats/stats.component.html</context>
+          <context context-type="linenumber">23,24</context>
+        </context-group>
+        <target>The two ends</target>
+      </trans-unit>
+      <trans-unit id="stats.noDataYet" datatype="html">
+        <source>Noch keine Daten</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/stats/stats.component.html</context>
+          <context context-type="linenumber">24,25</context>
+        </context-group>
+        <target>No data yet</target>
+      </trans-unit>
+      <trans-unit id="stats.tails.noteEmpty" datatype="html">
+        <source> Hier stehen später die Spieler, die mehr als <x id="INTERPOLATION" equiv-text="{{ tailSigma() }}"/> σ über bzw. unter dem Zufall liegen. Unter reinem Zufall sind das ungefähr gleich viele an beiden Enden — genau das ist der Test, und er braucht keine Statistikkenntnisse, nur einen Blick. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/stats/stats.component.html</context>
+          <context context-type="linenumber">35,37</context>
+        </context-group>
+        <target>This is where the players more than <x id="INTERPOLATION" equiv-text="{{ tailSigma() }}"/> σ above and below chance will stand. Under pure chance there are roughly as many at each end — that is the whole test, and it needs no statistics, only a look.</target>
+      </trans-unit>
+      <trans-unit id="stats.expectedWere" datatype="html">
+        <source>erwartet waren <x id="INTERPOLATION" equiv-text="{{ pct(a.expected_rate, 1) }}"/> %</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/stats/stats.component.html</context>
+          <context context-type="linenumber">44,46</context>
+        </context-group>
+        <target>expected was <x id="INTERPOLATION" equiv-text="{{ pct(a.expected_rate, 1) }}"/> %</target>
+      </trans-unit>
+      <trans-unit id="stats.summary" datatype="html">
+        <source><x id="INTERPOLATION" equiv-text="{{ count(a.trials) }}"/> Sitzungen · <x id="INTERPOLATION_1" equiv-text="{{ count(a.accounts) }}"/> <x id="ICU" equiv-text="{a.accounts, plural, =1 {Konto} other {Konten}}" xid="4678562321411626396"/> · Abweichung <x id="INTERPOLATION_2" equiv-text="{{ signed(a.deviation) }}"/> σ · <x id="INTERPOLATION_3" equiv-text="{{ count(a.abandoned) }}"/> abgebrochen ·</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/stats/stats.component.html</context>
+          <context context-type="linenumber">50,53</context>
+        </context-group>
+        <target><x id="INTERPOLATION" equiv-text="{{ count(a.trials) }}"/> sessions · <x id="INTERPOLATION_1" equiv-text="{{ count(a.accounts) }}"/> <x id="ICU" equiv-text="{a.accounts, plural, =1 {Konto} other {Konten}}" xid="4678562321411626396"/> · deviation <x id="INTERPOLATION_2" equiv-text="{{ signed(a.deviation) }}"/> σ · <x id="INTERPOLATION_3" equiv-text="{{ count(a.abandoned) }}"/> abandoned ·</target>
+      </trans-unit>
+      <trans-unit id="4678562321411626396" datatype="html">
+        <source>{VAR_PLURAL, plural, =1 {Konto} other {Konten}}</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/stats/stats.component.html</context>
+          <context context-type="linenumber">51</context>
+        </context-group>
+        <target>{VAR_PLURAL, plural, =1 {account} other {accounts}}</target>
+      </trans-unit>
+      <trans-unit id="stats.verdict.nothing" datatype="html">
+        <source>bisher nichts.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/stats/stats.component.html</context>
+          <context context-type="linenumber">55,57</context>
+        </context-group>
+        <target>nothing so far.</target>
+      </trans-unit>
+      <trans-unit id="stats.verdict.notable" datatype="html">
+        <source>das ist auffällig — und noch keine Erklärung.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/stats/stats.component.html</context>
+          <context context-type="linenumber">58,61</context>
+        </context-group>
+        <target>that is notable — and not yet an explanation.</target>
+      </trans-unit>
+      <trans-unit id="stats.tails.headWithBounds" datatype="html">
+        <source> Die zwei Enden · Konten ab <x id="INTERPOLATION" equiv-text="{{ tailMinTrials() }}"/> Sitzungen, <x id="INTERPOLATION_1" equiv-text="{{ tailSigma() }}"/> σ </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/stats/stats.component.html</context>
+          <context context-type="linenumber">65,68</context>
+        </context-group>
+        <target>The two ends · accounts from <x id="INTERPOLATION" equiv-text="{{ tailMinTrials() }}"/> sessions, <x id="INTERPOLATION_1" equiv-text="{{ tailSigma() }}"/> σ</target>
+      </trans-unit>
+      <trans-unit id="stats.tails.above" datatype="html">
+        <source>über +<x id="INTERPOLATION" equiv-text="{{ tailSigma() }}"/> σ</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/stats/stats.component.html</context>
+          <context context-type="linenumber">72,73</context>
+        </context-group>
+        <target>above +<x id="INTERPOLATION" equiv-text="{{ tailSigma() }}"/> σ</target>
+      </trans-unit>
+      <trans-unit id="stats.tails.below" datatype="html">
+        <source>unter −<x id="INTERPOLATION" equiv-text="{{ tailSigma() }}"/> σ</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/stats/stats.component.html</context>
+          <context context-type="linenumber">77,78</context>
+        </context-group>
+        <target>below −<x id="INTERPOLATION" equiv-text="{{ tailSigma() }}"/> σ</target>
+      </trans-unit>
+      <trans-unit id="stats.tails.note" datatype="html">
+        <source> Unter reinem Zufall sind beide Enden ungefähr gleich schwer. Eine echte Fähigkeit könnte nur das obere schwerer machen — solange die zwei Zahlen sich ähneln, ist zu sehen, was zu erwarten war. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/stats/stats.component.html</context>
+          <context context-type="linenumber">82,85</context>
+        </context-group>
+        <target>Under pure chance both ends weigh roughly the same. A real ability could only make the upper one heavier — as long as the two figures resemble each other, what is on screen is what was to be expected.</target>
+      </trans-unit>
+      <trans-unit id="stats.ladder" datatype="html">
+        <source>Die Leiter</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/stats/stats.component.html</context>
+          <context context-type="linenumber">90,91</context>
+        </context-group>
+        <target>The ladder</target>
+      </trans-unit>
+      <trans-unit id="stats.ladder.middle" datatype="html">
+        <source>die mittleren <x id="INTERPOLATION" equiv-text="{{ share(l.share) }}"/> %</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/stats/stats.component.html</context>
+          <context context-type="linenumber">99,100</context>
+        </context-group>
+        <target>the middle <x id="INTERPOLATION" equiv-text="{{ share(l.share) }}"/> %</target>
+      </trans-unit>
+      <trans-unit id="stats.ladder.band" datatype="html">
+        <source><x id="INTERPOLATION" equiv-text="{{ share(l.share) }}"/> % · ab <x id="INTERPOLATION_1" equiv-text="{{ l.unlocksAt }}"/> Ranglistenfähigen</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/stats/stats.component.html</context>
+          <context context-type="linenumber">103,104</context>
+        </context-group>
+        <target><x id="INTERPOLATION" equiv-text="{{ share(l.share) }}"/> % · from <x id="INTERPOLATION_1" equiv-text="{{ l.unlocksAt }}"/> eligible on</target>
+      </trans-unit>
+      <trans-unit id="stats.unavailable.head" datatype="html">
+        <source>Zahlen nicht abrufbar</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/stats/stats.component.html</context>
+          <context context-type="linenumber">113,115</context>
+        </context-group>
+        <target>Figures not available</target>
+      </trans-unit>
+      <trans-unit id="stats.unavailable.lead" datatype="html">
+        <source> Die Gesamtwerte kommen vom Server und werden nicht hier ausgedacht — also steht hier nichts, solange er nicht antwortet. <x id="START_TAG_BUTTON" ctype="x-button" equiv-text="&lt;button class=&quot;btn btn--quiet&quot; type=&quot;button&quot; (click)=&quot;load()&quot;&gt;"/>Erneut versuchen<x id="CLOSE_TAG_BUTTON" ctype="x-button" equiv-text="&lt;/button&gt;"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/stats/stats.component.html</context>
+          <context context-type="linenumber">116,120</context>
+        </context-group>
+        <target>The overall figures come from the server and are not invented here — so nothing stands here while it is not answering. <x id="START_TAG_BUTTON" ctype="x-button" equiv-text="&lt;button class=&quot;btn btn--quiet&quot; type=&quot;button&quot; (click)=&quot;load()&quot;&gt;"/>Try again<x id="CLOSE_TAG_BUTTON" ctype="x-button" equiv-text="&lt;/button&gt;"/></target>
+      </trans-unit>
+      <trans-unit id="stats.mine" datatype="html">
+        <source>Deine Werte</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/stats/stats.component.html</context>
+          <context context-type="linenumber">125,127</context>
+        </context-group>
+        <target>Your figures</target>
+      </trans-unit>
+      <trans-unit id="stats.mine.noAccount" datatype="html">
+        <source> Noch kein Konto. Eine Sitzung anfangen legt eines an — danach steht hier dein eigener Stand neben dem aller anderen. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/stats/stats.component.html</context>
+          <context context-type="linenumber">129,132</context>
+        </context-group>
+        <target>No account yet. Starting a session creates one — after that your own standing appears here beside everybody else's.</target>
+      </trans-unit>
+      <trans-unit id="stats.mine.unavailable" datatype="html">
+        <source>Deine Zahlen sind gerade nicht abrufbar.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/stats/stats.component.html</context>
+          <context context-type="linenumber">136,138</context>
+        </context-group>
+        <target>Your figures are not available right now.</target>
+      </trans-unit>
+      <trans-unit id="status.reload" datatype="html">
+        <source> Erneut laden </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/stats/stats.component.html</context>
+          <context context-type="linenumber">139,140</context>
+        </context-group>
+        <target>Reload</target>
+      </trans-unit>
+      <trans-unit id="stats.mine.locked" datatype="html">
+        <source>Freigeschaltet nach <x id="INTERPOLATION" equiv-text="{{ player.unlocksAt() }}"/> Sitzungen — noch <x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/><x id="INTERPOLATION_1" equiv-text="{{ player.remaining() }}"/><x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/>. Eine Trefferquote aus <x id="INTERPOLATION_2" equiv-text="{{ player.completed() }}"/> Versuchen wäre keine Aussage, sondern eine Anekdote.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/stats/stats.component.html</context>
+          <context context-type="linenumber">148,151</context>
+        </context-group>
+        <target>Unlocked after <x id="INTERPOLATION" equiv-text="{{ player.unlocksAt() }}"/> sessions — <x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/><x id="INTERPOLATION_1" equiv-text="{{ player.remaining() }}"/><x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> to go. A hit rate out of <x id="INTERPOLATION_2" equiv-text="{{ player.completed() }}"/> attempts would be no finding, it would be an anecdote.</target>
+      </trans-unit>
+      <trans-unit id="stats.mine.abandoned" datatype="html">
+        <source>Abgebrochen: <x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/><x id="INTERPOLATION" equiv-text="{{ player.abandoned() }}"/><x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> — steht von Anfang an mit da.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/stats/stats.component.html</context>
+          <context context-type="linenumber">155,156</context>
+        </context-group>
+        <target>Abandoned: <x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/><x id="INTERPOLATION" equiv-text="{{ player.abandoned() }}"/><x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> — counted in from the start.</target>
+      </trans-unit>
+      <trans-unit id="fig.hitRate" datatype="html">
+        <source>Trefferquote</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/stats/stats.component.html</context>
+          <context context-type="linenumber">171,172</context>
+        </context-group>
+        <target>Hit rate</target>
+      </trans-unit>
+      <trans-unit id="fig.days" datatype="html">
+        <source>Tage</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/stats/stats.component.html</context>
+          <context context-type="linenumber">183,184</context>
+        </context-group>
+        <target>Days</target>
+      </trans-unit>
+      <trans-unit id="stats.mine.basis" datatype="html">
+        <source> Abweichung und Mindestquote stehen über <x id="INTERPOLATION" equiv-text="{{ player.reportedTrials() }}"/> gewerteten Sitzungen mit <x id="INTERPOLATION_1" equiv-text="{{ player.reportedHits() }}"/> Treffern. Sitzungen und Quote darüber sind der laufende Stand — die zwei Zahlen dürfen sich also über das <x id="START_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;em&gt;"/>n<x id="CLOSE_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;/em&gt;"/> uneinig sein, und beide haben recht. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/stats/stats.component.html</context>
+          <context context-type="linenumber">201,207</context>
+        </context-group>
+        <target>Deviation and assured minimum stand over <x id="INTERPOLATION" equiv-text="{{ player.reportedTrials() }}"/> scored sessions with <x id="INTERPOLATION_1" equiv-text="{{ player.reportedHits() }}"/> hits. Sessions and rate above are the running total — so the two figures are allowed to disagree about the <x id="START_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;em&gt;"/>n<x id="CLOSE_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;/em&gt;"/>, and both are right.</target>
+      </trans-unit>
+      <trans-unit id="stats.reading" datatype="html">
+        <source>Wie man das liest</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/stats/stats.component.html</context>
+          <context context-type="linenumber">212,214</context>
+        </context-group>
+        <target>How to read this</target>
+      </trans-unit>
+      <trans-unit id="read.baseline.t" datatype="html">
+        <source>Die Nulllinie liegt bei <x id="INTERPOLATION" equiv-text="{{ chanceRate }}"/> %</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/stats/stats.component.html</context>
+          <context context-type="linenumber">216,217</context>
+        </context-group>
+        <target>The baseline is <x id="INTERPOLATION" equiv-text="{{ chanceRate }}"/> %</target>
+      </trans-unit>
+      <trans-unit id="read.baseline.d" datatype="html">
+        <source> Ein Ziel von acht. Wer rät, trifft im Schnitt jedes achte Mal. Jede Zahl auf dieser Seite ist ein Ausschlag von dieser Linie, nicht von null. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/stats/stats.component.html</context>
+          <context context-type="linenumber">218,220</context>
+        </context-group>
+        <target>One target out of eight. Anyone guessing hits every eighth time on average. Every figure on this page is a deviation from that line, not from zero.</target>
+      </trans-unit>
+      <trans-unit id="read.falsePositives.t" datatype="html">
+        <source> Falsch-positive sind hier die Regel, nicht die Ausnahme </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/stats/stats.component.html</context>
+          <context context-type="linenumber">225,227</context>
+        </context-group>
+        <target>False positives are the rule here, not the exception</target>
+      </trans-unit>
+      <trans-unit id="read.falsePositives.d" datatype="html">
+        <source> Wer genug Leute würfeln lässt, bekommt immer jemanden mit einer erstaunlichen Serie — das ist eine Aussage über die Anzahl der Leute, nicht über die Person. Deshalb stehen oben beide Enden nebeneinander und nicht nur das obere. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/stats/stats.component.html</context>
+          <context context-type="linenumber">228,231</context>
+        </context-group>
+        <target>Let enough people roll dice and you always get somebody with an astonishing streak — that is a statement about the number of people, not about the person. Which is why both ends stand side by side above, and not only the upper one.</target>
+      </trans-unit>
+      <trans-unit id="read.symmetry.t" datatype="html">
+        <source>Beide Enden gleich schwer heißt: kein Effekt</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/stats/stats.component.html</context>
+          <context context-type="linenumber">235,236</context>
+        </context-group>
+        <target>Both ends equally heavy means: no effect</target>
+      </trans-unit>
+      <trans-unit id="read.symmetry.d" datatype="html">
+        <source> Eine echte Fähigkeit könnte nur das obere Ende schwerer machen. Solange sich die zwei Zahlen ähneln, ist zu sehen, was zu erwarten war. Dafür braucht es keine Statistik, nur einen Blick auf die Symmetrie. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/stats/stats.component.html</context>
+          <context context-type="linenumber">237,240</context>
+        </context-group>
+        <target>A real ability could only make the upper end heavier. As long as the two figures resemble each other, what is on screen is what was to be expected. That needs no statistics, only a look at the symmetry.</target>
+      </trans-unit>
+      <trans-unit id="read.ranks.t" datatype="html">
+        <source>Ränge sind Anteile, keine Bestenplätze</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/stats/stats.component.html</context>
+          <context context-type="linenumber">244,245</context>
+        </context-group>
+        <target>Ranks are shares, not top places</target>
+      </trans-unit>
+      <trans-unit id="read.ranks.d" datatype="html">
+        <source> Annunaki sind die besten 0,1 %, Loosh-Farmer die besten 0,5 %, und so weiter — nach unten spiegelbildlich. Ein Anteil bedeutet dasselbe, egal ob neun Leute spielen oder neunhunderttausend; ein dritter Platz bedeutet das nicht. Ein Band wird erst vergeben, wenn der Anteil rechnerisch mindestens eine Person trifft — deshalb steht neben jedem Rang, ab welcher Besetzung es ihn gibt. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/stats/stats.component.html</context>
+          <context context-type="linenumber">246,250</context>
+        </context-group>
+        <target>Annunaki are the top 0.1 %, Loosh Farmers the top 0.5 %, and so on — mirrored downwards. A share means the same whether nine people play or nine hundred thousand; a third place does not. A band is only awarded once the share arithmetically covers at least one person — which is why each rank says from what field size it exists.</target>
+      </trans-unit>
+      <trans-unit id="read.multiAccounts.t" datatype="html">
+        <source>Mehrere Konten sind eingepreist, nicht bekämpft</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/stats/stats.component.html</context>
+          <context context-type="linenumber">255,256</context>
+        </context-group>
+        <target>Multiple accounts are priced in, not fought</target>
+      </trans-unit>
+      <trans-unit id="read.multiAccounts.d" datatype="html">
+        <source> Wer zwanzig Konten anlegt und das beste vorzeigt, macht genau das, was die Zahlen oben ohnehin schon messen: viele Versuche, von denen einer gut aussieht. Keine Scoring-Regel repariert das, also wird es nicht behauptet — die Gesamtquote und die zwei Enden bleiben die Aussage, nicht der oberste Eintrag. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/stats/stats.component.html</context>
+          <context context-type="linenumber">257,260</context>
+        </context-group>
+        <target>Anyone who creates twenty accounts and shows off the best one is doing exactly what the figures above already measure: many attempts, one of which looks good. No scoring rule repairs that, so none is claimed — the overall rate and the two ends remain the finding, not the topmost row.</target>
+      </trans-unit>
+      <trans-unit id="read.wilson.t" datatype="html">
+        <source>Mindestquote schlägt Abweichung</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/stats/stats.component.html</context>
+          <context context-type="linenumber">265,266</context>
+        </context-group>
+        <target>The assured minimum beats the deviation</target>
+      </trans-unit>
+      <trans-unit id="read.wilson.d" datatype="html">
+        <source> Die Abweichung in σ ist die auffälligere Zahl, die gesicherte Mindestquote die belastbarere: sie wiegt mit, wie oft jemand gespielt hat. Drei Treffer aus acht sind keine Begabung, sie sind ein Dienstagnachmittag. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/stats/stats.component.html</context>
+          <context context-type="linenumber">267,269</context>
+        </context-group>
+        <target>The deviation in σ is the more striking figure, the assured minimum rate the sturdier one: it weighs in how often somebody has played. Three hits out of eight are not a gift, they are a Tuesday afternoon.</target>
+      </trans-unit>
+      <trans-unit id="read.yours.t" datatype="html">
+        <source>Deine <x id="INTERPOLATION" equiv-text="{{ minePct() }}"/> % im Kontext</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/stats/stats.component.html</context>
+          <context context-type="linenumber">275,276</context>
+        </context-group>
+        <target>Your <x id="INTERPOLATION" equiv-text="{{ minePct() }}"/> % in context</target>
+      </trans-unit>
+      <trans-unit id="read.yours.d" datatype="html">
+        <source> Von 10 000 Leuten ohne jede Fähigkeit erreichen <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;measured&quot;&gt;"/><x id="INTERPOLATION" equiv-text="{{ perTenK() }}"/><x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/> diesen Wert allein durch Glück. Ohne diese Zeile ist die Zahl nicht interpretierbar. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/stats/stats.component.html</context>
+          <context context-type="linenumber">277,280</context>
+        </context-group>
+        <target>Of 10,000 people with no ability whatsoever, <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;measured&quot;&gt;"/><x id="INTERPOLATION" equiv-text="{{ perTenK() }}"/><x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/> reach this figure on luck alone. Without this line the number cannot be interpreted.</target>
+      </trans-unit>
+      <trans-unit id="stats.tails.aria" datatype="html">
+        <source><x id="high" equiv-text="this.tailHigh()"/> Konten über +<x id="sigma" equiv-text="this.tailSigma()"/>σ, <x id="low" equiv-text="this.tailLow()"/> darunter</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/stats/stats.component.ts</context>
+          <context context-type="linenumber">107</context>
+        </context-group>
+        <target><x id="high" equiv-text="this.tailHigh()"/> accounts above +<x id="sigma" equiv-text="this.tailSigma()"/>σ, <x id="low" equiv-text="this.tailLow()"/> below</target>
+      </trans-unit>
+      <trans-unit id="stats.mine.reading" datatype="html">
+        <source><x id="deviation" equiv-text="this.mineZ()"/> σ · gesicherte Mindestquote <x id="wilson" equiv-text="this.mineWilson()"/> %</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/stats/stats.component.ts</context>
+          <context context-type="linenumber">109</context>
+        </context-group>
+        <target><x id="deviation" equiv-text="this.mineZ()"/> σ · assured minimum <x id="wilson" equiv-text="this.mineWilson()"/> %</target>
+      </trans-unit>
+      <trans-unit id="trial.new" datatype="html">
+        <source>Neue Sitzung</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/trial/trial.component.html</context>
+          <context context-type="linenumber">15,16</context>
+        </context-group>
+        <target>New session</target>
+      </trans-unit>
+      <trans-unit id="trial.starting" datatype="html">
+        <source>Der Server legt das Ziel fest und schreibt es ins Protokoll, bevor er antwortet.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/trial/trial.component.html</context>
+          <context context-type="linenumber">20,22</context>
+        </context-group>
+        <target>The server fixes the target and writes it into the record before it answers.</target>
+      </trans-unit>
+      <trans-unit id="trial.sealedLine" datatype="html">
+        <source>Sitzung <x id="INTERPOLATION" equiv-text="{{ player.completed() + 1 }}"/> · versiegelt</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/trial/trial.component.html</context>
+          <context context-type="linenumber">40,41</context>
+        </context-group>
+        <target>Session <x id="INTERPOLATION" equiv-text="{{ player.completed() + 1 }}"/> · sealed</target>
+      </trans-unit>
+      <trans-unit id="trial.coordinate" datatype="html">
+        <source>Koordinate</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/trial/trial.component.html</context>
+          <context context-type="linenumber">48,49</context>
+        </context-group>
+        <target>Coordinate</target>
+      </trans-unit>
+      <trans-unit id="trial.sealed.stamp" datatype="html">
+        <source>Ziel steht fest</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/trial/trial.component.html</context>
+          <context context-type="linenumber">53,54</context>
+        </context-group>
+        <target>Target is fixed</target>
+      </trans-unit>
+      <trans-unit id="trial.commitment" datatype="html">
+        <source>Commitment</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/trial/trial.component.html</context>
+          <context context-type="linenumber">56,57</context>
+        </context-group>
+        <target>Commitment</target>
+      </trans-unit>
+      <trans-unit id="trial.pool" datatype="html">
+        <source>Pool</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/trial/trial.component.html</context>
+          <context context-type="linenumber">60,61</context>
+        </context-group>
+        <target>Pool</target>
+      </trans-unit>
+      <trans-unit id="trial.sealed.note" datatype="html">
+        <source> Das Ziel ist mit dieser Zahl versiegelt, <x id="START_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;em&gt;"/>bevor<x id="CLOSE_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;/em&gt;"/> du wählst. Nach der Auflösung rechnest du das hier selbst nach — vollständig, Byte für Byte. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/trial/trial.component.html</context>
+          <context context-type="linenumber">65,67</context>
+        </context-group>
+        <target>The target is sealed with this number <x id="START_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;em&gt;"/>before<x id="CLOSE_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;/em&gt;"/> you choose. After the reveal you recompute all of this yourself — completely, byte by byte.</target>
+      </trans-unit>
+      <trans-unit id="trial.revealing" datatype="html">
+        <source>Wird aufgedeckt …</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/trial/trial.component.html</context>
+          <context context-type="linenumber">82,83</context>
+        </context-group>
+        <target>Revealing …</target>
+      </trans-unit>
+      <trans-unit id="trial.reveal" datatype="html">
+        <source>Aufdecken</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/trial/trial.component.html</context>
+          <context context-type="linenumber">84,85</context>
+        </context-group>
+        <target>Reveal</target>
+      </trans-unit>
+      <trans-unit id="trial.takeYourTime" datatype="html">
+        <source> Nimm dir Zeit mit der Koordinate. Erst danach aufdecken. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/trial/trial.component.html</context>
+          <context context-type="linenumber">88,90</context>
+        </context-group>
+        <target>Take your time with the coordinate. Only then reveal.</target>
+      </trans-unit>
+      <trans-unit id="trial.candidates" datatype="html">
+        <source> Koordinate <x id="INTERPOLATION" equiv-text="{{ t.coordinate }}"/> · acht Kandidaten, acht Kategorien </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/trial/trial.component.html</context>
+          <context context-type="linenumber">95,98</context>
+        </context-group>
+        <target>Coordinate <x id="INTERPOLATION" equiv-text="{{ t.coordinate }}"/> · eight candidates, eight categories</target>
+      </trans-unit>
+      <trans-unit id="trial.tag.target" datatype="html">
+        <source>Ziel</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/trial/trial.component.html</context>
+          <context context-type="linenumber">114,116</context>
+        </context-group>
+        <target>Target</target>
+      </trans-unit>
+      <trans-unit id="trial.tag.yourPick" datatype="html">
+        <source>Deine Wahl</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/trial/trial.component.html</context>
+          <context context-type="linenumber">117,119</context>
+        </context-group>
+        <target>Your pick</target>
+      </trans-unit>
+      <trans-unit id="trial.answering" datatype="html">
+        <source>Die Wahl ist unterwegs. Gewertet ist sie erst, wenn der Server sie ins Protokoll geschrieben hat.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/trial/trial.component.html</context>
+          <context context-type="linenumber">127,129</context>
+        </context-group>
+        <target>The choice is on its way. It is scored only once the server has written it into the record.</target>
+      </trans-unit>
+      <trans-unit id="trial.tooFast" datatype="html">
+        <source> Zu schnell! Mindestens drei Sekunden zwischen Aufdecken und Wahl. Die Antwort wurde nicht angesehen, die Sitzung läuft weiter. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/trial/trial.component.html</context>
+          <context context-type="linenumber">135,137</context>
+        </context-group>
+        <target>Too fast! At least three seconds between reveal and choice. The answer was not looked at, the session is still running.</target>
+      </trans-unit>
+      <trans-unit id="trial.newSession" datatype="html">
+        <source> Neue Sitzung </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/trial/trial.component.html</context>
+          <context context-type="linenumber">145,146</context>
+        </context-group>
+        <target>New session</target>
+      </trans-unit>
+      <trans-unit id="trial.hit" datatype="html">
+        <source>Treffer!</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/trial/trial.component.html</context>
+          <context context-type="linenumber">155,156</context>
+        </context-group>
+        <target>Hit!</target>
+      </trans-unit>
+      <trans-unit id="trial.miss" datatype="html">
+        <source>Daneben</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/trial/trial.component.html</context>
+          <context context-type="linenumber">157,158</context>
+        </context-group>
+        <target>Miss</target>
+      </trans-unit>
+      <trans-unit id="trial.chanceRate" datatype="html">
+        <source>Zufallsrate <x id="INTERPOLATION" equiv-text="{{ chanceRate }}"/> %</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/trial/trial.component.html</context>
+          <context context-type="linenumber">160,161</context>
+        </context-group>
+        <target>Chance rate <x id="INTERPOLATION" equiv-text="{{ chanceRate }}"/> %</target>
+      </trans-unit>
+      <trans-unit id="trial.logEntry" datatype="html">
+        <source>Protokoll-Eintrag #<x id="INTERPOLATION" equiv-text="{{ a.seq }}"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/trial/trial.component.html</context>
+          <context context-type="linenumber">162,163</context>
+        </context-group>
+        <target>Record entry #<x id="INTERPOLATION" equiv-text="{{ a.seq }}"/></target>
+      </trans-unit>
+      <trans-unit id="trial.nextSession" datatype="html">
+        <source> Nächste Sitzung </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/trial/trial.component.html</context>
+          <context context-type="linenumber">168,169</context>
+        </context-group>
+        <target>Next session</target>
+      </trans-unit>
+      <trans-unit id="proof.close" datatype="html">
+        <source>Nachweis schließen</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/trial/trial.component.html</context>
+          <context context-type="linenumber">172,173</context>
+        </context-group>
+        <target>Close the proof</target>
+      </trans-unit>
+      <trans-unit id="proof.open" datatype="html">
+        <source>Nachweis prüfen</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/trial/trial.component.html</context>
+          <context context-type="linenumber">174,175</context>
+        </context-group>
+        <target>Check the proof</target>
+      </trans-unit>
+      <trans-unit id="proof.stamp.ok" datatype="html">
+        <source>✓ nachgerechnet</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/trial/trial.component.html</context>
+          <context context-type="linenumber">183,184</context>
+        </context-group>
+        <target>✓ recomputed</target>
+      </trans-unit>
+      <trans-unit id="proof.stamp.bad" datatype="html">
+        <source>✗ weicht ab</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/trial/trial.component.html</context>
+          <context context-type="linenumber">185,186</context>
+        </context-group>
+        <target>✗ does not match</target>
+      </trans-unit>
+      <trans-unit id="proof.stamp.failed" datatype="html">
+        <source>Nachweis nicht geladen</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/trial/trial.component.html</context>
+          <context context-type="linenumber">189,191</context>
+        </context-group>
+        <target>Proof not loaded</target>
+      </trans-unit>
+      <trans-unit id="proof.stamp.wait" datatype="html">
+        <source>wird nachgerechnet …</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/trial/trial.component.html</context>
+          <context context-type="linenumber">191,193</context>
+        </context-group>
+        <target>recomputing …</target>
+      </trans-unit>
+      <trans-unit id="proof.eyebrow" datatype="html">
+        <source> Vollständige Herleitung, gerechnet in deinem Browser </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/trial/trial.component.html</context>
+          <context context-type="linenumber">201,202</context>
+        </context-group>
+        <target>The full derivation, computed in your browser</target>
+      </trans-unit>
+      <trans-unit id="proof.h.checked" datatype="html">
+        <source>Was nachgerechnet wurde</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/trial/trial.component.html</context>
+          <context context-type="linenumber">204,205</context>
+        </context-group>
+        <target>What was recomputed</target>
+      </trans-unit>
+      <trans-unit id="proof.h.inputs" datatype="html">
+        <source>Was der Server vorher festgelegt hat</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/trial/trial.component.html</context>
+          <context context-type="linenumber">219,220</context>
+        </context-group>
+        <target>What the server fixed beforehand</target>
+      </trans-unit>
+      <trans-unit id="proof.h.pool" datatype="html">
+        <source>Gegen welchen Pool gerechnet wird</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/trial/trial.component.html</context>
+          <context context-type="linenumber">234,235</context>
+        </context-group>
+        <target>Which pool it is computed against</target>
+      </trans-unit>
+      <trans-unit id="proof.pool.lead" datatype="html">
+        <source> Die Herleitung zieht gegen <x id="START_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;em&gt;"/>Indizes<x id="CLOSE_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;/em&gt;"/> im Manifest. Ein anderes Manifest ergibt aus demselben Seed andere Bilder — deshalb wird es hier neu gehasht und mit dem Hash verglichen, der schon mit der Koordinate kam. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/trial/trial.component.html</context>
+          <context context-type="linenumber">236,238</context>
+        </context-group>
+        <target>The derivation draws against <x id="START_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;em&gt;"/>indices<x id="CLOSE_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;/em&gt;"/> in the manifest. A different manifest yields different images from the same seed — which is why it is rehashed here and compared with the hash that already came with the coordinate.</target>
+      </trans-unit>
+      <trans-unit id="proof.h.hashed" datatype="html">
+        <source>Was gehasht wird</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/trial/trial.component.html</context>
+          <context context-type="linenumber">254,255</context>
+        </context-group>
+        <target>What is hashed</target>
+      </trans-unit>
+      <trans-unit id="proof.hashed.lead" datatype="html">
+        <source> Jedes Feld wird längenpräfigiert, damit die Grenzen eindeutig sind: <x id="START_TAG_CODE" ctype="x-code" equiv-text="&lt;code class=&quot;inline&quot;&gt;"/>framed(p₀, p₁, …) = SHA-256( LE64(|p₀|) ‖ p₀ ‖ LE64(|p₁|) ‖ p₁ ‖ … )<x id="CLOSE_TAG_CODE" ctype="x-code" equiv-text="&lt;/code&gt;"/> Ohne das hashen <x id="START_TAG_CODE" ctype="x-code" equiv-text="&lt;code class=&quot;inline&quot;&gt;"/>(&quot;ab&quot;,&quot;c&quot;)<x id="CLOSE_TAG_CODE" ctype="x-code" equiv-text="&lt;/code&gt;"/> und <x id="START_TAG_CODE" ctype="x-code" equiv-text="&lt;code class=&quot;inline&quot;&gt;"/>(&quot;a&quot;,&quot;bc&quot;)<x id="CLOSE_TAG_CODE" ctype="x-code" equiv-text="&lt;/code&gt;"/> gleich. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/trial/trial.component.html</context>
+          <context context-type="linenumber">256,262</context>
+        </context-group>
+        <target>Every field is length-prefixed so the boundaries are unambiguous: <x id="START_TAG_CODE" ctype="x-code" equiv-text="&lt;code class=&quot;inline&quot;&gt;"/>framed(p₀, p₁, …) = SHA-256( LE64(|p₀|) ‖ p₀ ‖ LE64(|p₁|) ‖ p₁ ‖ … )<x id="CLOSE_TAG_CODE" ctype="x-code" equiv-text="&lt;/code&gt;"/> Without it, <x id="START_TAG_CODE" ctype="x-code" equiv-text="&lt;code class=&quot;inline&quot;&gt;"/>("ab","c")<x id="CLOSE_TAG_CODE" ctype="x-code" equiv-text="&lt;/code&gt;"/> and <x id="START_TAG_CODE" ctype="x-code" equiv-text="&lt;code class=&quot;inline&quot;&gt;"/>("a","bc")<x id="CLOSE_TAG_CODE" ctype="x-code" equiv-text="&lt;/code&gt;"/> hash alike.</target>
+      </trans-unit>
+      <trans-unit id="proof.preimage.commitment" datatype="html">
+        <source> Der vollständige Präimage-String, <x id="INTERPOLATION" equiv-text="{{ p.commitmentPreimage.length / 2 }}"/> Bytes — genau diese Bytes gehen in SHA-256: </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/trial/trial.component.html</context>
+          <context context-type="linenumber">279,280</context>
+        </context-group>
+        <target>The full preimage string, <x id="INTERPOLATION" equiv-text="{{ p.commitmentPreimage.length / 2 }}"/> bytes — exactly these bytes go into SHA-256:</target>
+      </trans-unit>
+      <trans-unit id="proof.sha256of" datatype="html">
+        <source>SHA-256 davon</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/trial/trial.component.html</context>
+          <context context-type="linenumber">286,287</context>
+        </context-group>
+        <target>SHA-256 of that</target>
+      </trans-unit>
+      <trans-unit id="proof.commitmentBefore" datatype="html">
+        <source>Commitment von vorher</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/trial/trial.component.html</context>
+          <context context-type="linenumber">290,291</context>
+        </context-group>
+        <target>Commitment from before</target>
+      </trans-unit>
+      <trans-unit id="proof.matches" datatype="html">
+        <source>Identisch. Das Ziel stand fest, bevor du gewählt hast.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/trial/trial.component.html</context>
+          <context context-type="linenumber">299,300</context>
+        </context-group>
+        <target>Identical. The target was fixed before you chose.</target>
+      </trans-unit>
+      <trans-unit id="proof.mismatch" datatype="html">
+        <source>Weicht ab. Das wäre ein Grund, dieser Seite nicht zu glauben.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/trial/trial.component.html</context>
+          <context context-type="linenumber">306,307</context>
+        </context-group>
+        <target>Does not match. That would be a reason not to believe this site.</target>
+      </trans-unit>
+      <trans-unit id="proof.h.seed" datatype="html">
+        <source>Wie aus dem Seed die acht Bilder wurden</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/trial/trial.component.html</context>
+          <context context-type="linenumber">311,312</context>
+        </context-group>
+        <target>How the seed became the eight images</target>
+      </trans-unit>
+      <trans-unit id="proof.preimage.seed" datatype="html">
+        <source> Präimage des Seeds, <x id="INTERPOLATION" equiv-text="{{ p.seedPreimage.length / 2 }}"/> Bytes: </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/trial/trial.component.html</context>
+          <context context-type="linenumber">322,323</context>
+        </context-group>
+        <target>Preimage of the seed, <x id="INTERPOLATION" equiv-text="{{ p.seedPreimage.length / 2 }}"/> bytes:</target>
+      </trans-unit>
+      <trans-unit id="proof.keystream" datatype="html">
+        <source> Aus dem Seed entsteht der Schlüsselstrom <x id="START_TAG_CODE" ctype="x-code" equiv-text="&lt;code class=&quot;inline&quot;&gt;"/>block(i) = SHA-256( seed ‖ LE64(i) )<x id="CLOSE_TAG_CODE" ctype="x-code" equiv-text="&lt;/code&gt;"/>, gelesen als 64-Bit-Wörter little-endian. Daraus, in dieser Reihenfolge: </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/trial/trial.component.html</context>
+          <context context-type="linenumber">334,337</context>
+        </context-group>
+        <target>The seed produces the keystream <x id="START_TAG_CODE" ctype="x-code" equiv-text="&lt;code class=&quot;inline&quot;&gt;"/>block(i) = SHA-256( seed ‖ LE64(i) )<x id="CLOSE_TAG_CODE" ctype="x-code" equiv-text="&lt;/code&gt;"/>, read as 64-bit words little-endian. From it, in this order:</target>
+      </trans-unit>
+      <trans-unit id="proof.independence" datatype="html">
+        <source> Gerechnet mit einer Implementierung, die unabhängig von der des Servers geschrieben wurde. Beide werden gegen dieselben Testvektoren geprüft — das ist der Punkt: eine Prüfung mit dem Code des Servers prüft nichts. Gerechnet wird im Browser; einen eigenständigen Prüfer von dritter Seite gibt es in dieser Version noch nicht. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/trial/trial.component.html</context>
+          <context context-type="linenumber">354,357</context>
+        </context-group>
+        <target>Computed with an implementation written independently of the server's. Both are checked against the same test vectors — that is the point: a check using the server's own code checks nothing. The computation runs in the browser; an independent third-party verifier does not exist in this version yet.</target>
+      </trans-unit>
+      <trans-unit id="proof.title" datatype="html">
+        <source>Nachweis</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/trial/trial.component.html</context>
+          <context context-type="linenumber">363,364</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/trial/trial.component.html</context>
+          <context context-type="linenumber">375,376</context>
+        </context-group>
+        <target>Proof</target>
+      </trans-unit>
+      <trans-unit id="proof.manifestFailed" datatype="html">
+        <source> Das Pool-Manifest zu dieser Sitzung konnte nicht geladen werden. Ohne die Liste der Bilder in genau der veröffentlichten Reihenfolge gibt es nichts nachzurechnen — und ein leeres Nachweis-Panel sähe aus wie ein bestandener Test. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/trial/trial.component.html</context>
+          <context context-type="linenumber">365,367</context>
+        </context-group>
+        <target>The pool manifest for this session could not be loaded. Without the list of images in exactly the published order there is nothing to recompute — and an empty proof panel would look like a test that passed.</target>
+      </trans-unit>
+      <trans-unit id="proof.recomputing" datatype="html">
+        <source>Wird nachgerechnet …</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/trial/trial.component.html</context>
+          <context context-type="linenumber">376,378</context>
+        </context-group>
+        <target>Recomputing …</target>
+      </trans-unit>
+      <trans-unit id="trial.candidateAlt" datatype="html">
+        <source>Kandidat <x id="number" equiv-text="n"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/trial/trial.component.ts</context>
+          <context context-type="linenumber">68</context>
+        </context-group>
+        <target>Candidate <x id="number" equiv-text="n"/></target>
+      </trans-unit>
+      <trans-unit id="notice.expired" datatype="html">
+        <source>Die Gültigkeit dieser Sitzung ist abgelaufen. Sie zählt als abgebrochen — fang eine neue an.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/trial/trial.component.ts</context>
+          <context context-type="linenumber">147</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/trial/trial.component.ts</context>
+          <context context-type="linenumber">207</context>
+        </context-group>
+        <target>This session's validity has run out. It counts as abandoned — start a new one.</target>
+      </trans-unit>
+      <trans-unit id="notice.alreadyAnswered.short" datatype="html">
+        <source>Diese Sitzung ist bereits beantwortet.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/trial/trial.component.ts</context>
+          <context context-type="linenumber">148</context>
+        </context-group>
+        <target>This session has already been answered.</target>
+      </trans-unit>
+      <trans-unit id="notice.answerLost" datatype="html">
+        <source>Die Antwort ist nicht angekommen. Ob sie gewertet wurde, weiß dieser Browser nicht — dein Stand unten steht so, wie der Server ihn zählt.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/trial/trial.component.ts</context>
+          <context context-type="linenumber">199</context>
+        </context-group>
+        <target>The answer did not arrive. Whether it was scored, this browser does not know — your standing below is as the server counts it.</target>
+      </trans-unit>
+      <trans-unit id="notice.alreadyAnswered" datatype="html">
+        <source>Diese Sitzung ist bereits beantwortet. Eine Antwort pro Sitzung, und sie steht schon im Protokoll.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/trial/trial.component.ts</context>
+          <context context-type="linenumber">206</context>
+        </context-group>
+        <target>This session has already been answered. One answer per session, and it is already in the record.</target>
+      </trans-unit>
+      <trans-unit id="notice.unknownLogin" datatype="html">
+        <source>Der Server kennt dieses Login nicht. Sichere den Link über „Login“ oben rechts, bevor du etwas anderes tust — es gibt keine Wiederherstellung.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/trial/trial.component.ts</context>
+          <context context-type="linenumber">301</context>
+        </context-group>
+        <target>The server does not know this login. Save the link via “Login” at the top right before you do anything else — there is no recovery.</target>
+      </trans-unit>
+      <trans-unit id="notice.network" datatype="html">
+        <source>Keine Verbindung zum Server. Versuch es gleich noch einmal.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/trial/trial.component.ts</context>
+          <context context-type="linenumber">329</context>
+        </context-group>
+        <target>No connection to the server. Try again in a moment.</target>
+      </trans-unit>
+      <trans-unit id="notice.serverDown" datatype="html">
+        <source>Der Dienst ist gerade nicht erreichbar (Fehler <x id="status" equiv-text="e.status"/>). Versuch es in ein paar Minuten noch einmal.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/trial/trial.component.ts</context>
+          <context context-type="linenumber">332</context>
+        </context-group>
+        <target>The service is not reachable right now (error <x id="status" equiv-text="e.status"/>). Try again in a few minutes.</target>
+      </trans-unit>
+      <trans-unit id="notice.rejected" datatype="html">
+        <source>Der Server hat die Anfrage abgelehnt. Versuch es noch einmal.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/trial/trial.component.ts</context>
+          <context context-type="linenumber">334</context>
+        </context-group>
+        <target>The server refused the request. Try again.</target>
+      </trans-unit>
+      <trans-unit id="proof.label.manifest" datatype="html">
+        <source>Pool-Manifest</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/verify/proof.ts</context>
+          <context context-type="linenumber">99</context>
+        </context-group>
+        <target>Pool manifest</target>
+      </trans-unit>
+      <trans-unit id="proof.manifest.rehash" datatype="html">
+        <source>Der neu berechnete Hash des Manifests weicht von dem ab, den es selbst nennt.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/verify/proof.ts</context>
+          <context context-type="linenumber">104</context>
+        </context-group>
+        <target>The recomputed hash of the manifest differs from the one it names itself.</target>
+      </trans-unit>
+      <trans-unit id="proof.manifest.mismatch" datatype="html">
+        <source>Das gelieferte Manifest ist nicht das, auf das diese Sitzung festgelegt wurde.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/verify/proof.ts</context>
+          <context context-type="linenumber">106</context>
+        </context-group>
+        <target>The manifest delivered is not the one this session was fixed against.</target>
+      </trans-unit>
+      <trans-unit id="proof.check.seal" datatype="html">
+        <source>Versiegelung</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/verify/proof.ts</context>
+          <context context-type="linenumber">125</context>
+        </context-group>
+        <target>The seal</target>
+      </trans-unit>
+      <trans-unit id="proof.check.seal.ok" datatype="html">
+        <source>Aus den jetzt offengelegten Werten entsteht genau die Zahl, die vor deiner Wahl auf dem Schirm stand.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/verify/proof.ts</context>
+          <context context-type="linenumber">127</context>
+        </context-group>
+        <target>The values now disclosed produce exactly the number that stood on screen before your choice.</target>
+      </trans-unit>
+      <trans-unit id="proof.check.seal.bad" datatype="html">
+        <source>Die Zahl von vorher lässt sich aus den offengelegten Werten nicht reproduzieren.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/verify/proof.ts</context>
+          <context context-type="linenumber">128</context>
+        </context-group>
+        <target>The number from before cannot be reproduced from the disclosed values.</target>
+      </trans-unit>
+      <trans-unit id="proof.check.echo" datatype="html">
+        <source>Dein Zufallsanteil</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/verify/proof.ts</context>
+          <context context-type="linenumber">140</context>
+        </context-group>
+        <target>Your share of the randomness</target>
+      </trans-unit>
+      <trans-unit id="proof.check.echo.ok" datatype="html">
+        <source>Die 32 Bytes aus deinem Browser kommen unverändert zurück — der Seed ist zweiseitig.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/verify/proof.ts</context>
+          <context context-type="linenumber">142</context>
+        </context-group>
+        <target>The 32 bytes from your browser come back unchanged — the seed has two sides.</target>
+      </trans-unit>
+      <trans-unit id="proof.check.echo.bad" datatype="html">
+        <source>Der Server gibt andere 32 Bytes zurück, als dein Browser geschickt hat.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/verify/proof.ts</context>
+          <context context-type="linenumber">143</context>
+        </context-group>
+        <target>The server returns different 32 bytes than your browser sent.</target>
+      </trans-unit>
+      <trans-unit id="proof.check.draw" datatype="html">
+        <source>Die acht Bilder</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/verify/proof.ts</context>
+          <context context-type="linenumber">169</context>
+        </context-group>
+        <target>The eight images</target>
+      </trans-unit>
+      <trans-unit id="proof.check.draw.ok" datatype="html">
+        <source>Der Seed erzeugt genau diese acht Bilder, in genau dieser Reihenfolge.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/verify/proof.ts</context>
+          <context context-type="linenumber">174</context>
+        </context-group>
+        <target>The seed produces exactly these eight images, in exactly this order.</target>
+      </trans-unit>
+      <trans-unit id="proof.check.draw.bad" datatype="html">
+        <source>Der Seed erzeugt eine andere Auswahl oder eine andere Reihenfolge als die gezeigte.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/verify/proof.ts</context>
+          <context context-type="linenumber">175</context>
+        </context-group>
+        <target>The seed produces a different selection or a different order than the one shown.</target>
+      </trans-unit>
+      <trans-unit id="proof.check.target" datatype="html">
+        <source>Das Ziel</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/verify/proof.ts</context>
+          <context context-type="linenumber">180</context>
+        </context-group>
+        <target>The target</target>
+      </trans-unit>
+      <trans-unit id="proof.check.target.none" datatype="html">
+        <source>Ohne Herleitung gibt es kein nachgerechnetes Ziel.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/verify/proof.ts</context>
+          <context context-type="linenumber">183</context>
+        </context-group>
+        <target>Without a derivation there is no recomputed target.</target>
+      </trans-unit>
+      <trans-unit id="proof.check.target.ok" datatype="html">
+        <source>Das nachgerechnete Ziel ist dasselbe, gegen das deine Wahl gewertet wurde.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/verify/proof.ts</context>
+          <context context-type="linenumber">185</context>
+        </context-group>
+        <target>The recomputed target is the same one your choice was scored against.</target>
+      </trans-unit>
+      <trans-unit id="proof.check.target.bad" datatype="html">
+        <source>Das nachgerechnete Ziel ist ein anderes als das gewertete.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/verify/proof.ts</context>
+          <context context-type="linenumber">186</context>
+        </context-group>
+        <target>The recomputed target is a different one from the one scored.</target>
+      </trans-unit>
+      <trans-unit id="proof.note.fromServer" datatype="html">
+        <source>32 Bytes, vom Server</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/verify/proof.ts</context>
+          <context context-type="linenumber">192</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/verify/proof.ts</context>
+          <context context-type="linenumber">193</context>
+        </context-group>
+        <target>32 bytes, from the server</target>
+      </trans-unit>
+      <trans-unit id="proof.note.echoed" datatype="html">
+        <source>32 Bytes aus deinem Browser, vom Server unverändert zurückgegeben</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/verify/proof.ts</context>
+          <context context-type="linenumber">198</context>
+        </context-group>
+        <target>32 bytes from your browser, returned unchanged by the server</target>
+      </trans-unit>
+      <trans-unit id="proof.label.coordinate" datatype="html">
+        <source>Koordinate</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/verify/proof.ts</context>
+          <context context-type="linenumber">202</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/verify/proof.ts</context>
+          <context context-type="linenumber">237</context>
+        </context-group>
+        <target>Coordinate</target>
+      </trans-unit>
+      <trans-unit id="proof.label.poolVersion" datatype="html">
+        <source>Pool-Version</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/verify/proof.ts</context>
+          <context context-type="linenumber">209</context>
+        </context-group>
+        <target>Pool version</target>
+      </trans-unit>
+      <trans-unit id="proof.label.hashClaimed" datatype="html">
+        <source>Hash laut Manifest</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/verify/proof.ts</context>
+          <context context-type="linenumber">211</context>
+        </context-group>
+        <target>Hash per manifest</target>
+      </trans-unit>
+      <trans-unit id="proof.note.overSorted" datatype="html">
+        <source>Über die sortierten (id, category)-Paare, Kategorien zuerst</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/verify/proof.ts</context>
+          <context context-type="linenumber">213</context>
+        </context-group>
+        <target>Over the sorted (id, category) pairs, categories first</target>
+      </trans-unit>
+      <trans-unit id="proof.label.hashRecomputed" datatype="html">
+        <source>Hier neu berechnet</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/verify/proof.ts</context>
+          <context context-type="linenumber">216</context>
+        </context-group>
+        <target>Recomputed here</target>
+      </trans-unit>
+      <trans-unit id="proof.note.withCoordinate" datatype="html">
+        <source>Zur Koordinate mitgeliefert</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/verify/proof.ts</context>
+          <context context-type="linenumber">220</context>
+        </context-group>
+        <target>Delivered with the coordinate</target>
+      </trans-unit>
+      <trans-unit id="proof.note.fixedBefore" datatype="html">
+        <source>Stand fest, bevor irgendetwas aufgedeckt wurde</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/verify/proof.ts</context>
+          <context context-type="linenumber">222</context>
+        </context-group>
+        <target>Fixed before anything was revealed</target>
+      </trans-unit>
+      <trans-unit id="proof.note.lenSServer" datatype="html">
+        <source>Länge von s_server</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/verify/proof.ts</context>
+          <context context-type="linenumber">227</context>
+        </context-group>
+        <target>Length of s_server</target>
+      </trans-unit>
+      <trans-unit id="proof.note.lenNonce" datatype="html">
+        <source>Länge des nonce</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/verify/proof.ts</context>
+          <context context-type="linenumber">229</context>
+        </context-group>
+        <target>Length of the nonce</target>
+      </trans-unit>
+      <trans-unit id="proof.note.lenCoordinate" datatype="html">
+        <source>Länge der Koordinate</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/verify/proof.ts</context>
+          <context context-type="linenumber">234</context>
+        </context-group>
+        <target>Length of the coordinate</target>
+      </trans-unit>
+      <trans-unit id="proof.step.categories" datatype="html">
+        <source>1 · Acht Kategorien</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/verify/proof.ts</context>
+          <context context-type="linenumber">275</context>
+        </context-group>
+        <target>1 · Eight categories</target>
+      </trans-unit>
+      <trans-unit id="proof.note.fisherYates" datatype="html">
+        <source>in Auswahlreihenfolge, partielles Fisher-Yates</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/verify/proof.ts</context>
+          <context context-type="linenumber">279</context>
+        </context-group>
+        <target>in selection order, partial Fisher-Yates</target>
+      </trans-unit>
+      <trans-unit id="proof.step.oneEach" datatype="html">
+        <source>2 · Ein Bild je Kategorie</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/verify/proof.ts</context>
+          <context context-type="linenumber">282</context>
+        </context-group>
+        <target>2 · One image per category</target>
+      </trans-unit>
+      <trans-unit id="proof.step.targetSlot" datatype="html">
+        <source>3 · Zielplatz</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/verify/proof.ts</context>
+          <context context-type="linenumber">291</context>
+        </context-group>
+        <target>3 · Target slot</target>
+      </trans-unit>
+      <trans-unit id="proof.note.uniform" datatype="html">
+        <source>Gleichverteilt über die acht, unabhängig von der Kategoriegröße</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/verify/proof.ts</context>
+          <context context-type="linenumber">293</context>
+        </context-group>
+        <target>Uniform over the eight, independent of category size</target>
+      </trans-unit>
+      <trans-unit id="proof.step.displayOrder" datatype="html">
+        <source>4 · Anzeigereihenfolge</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/verify/proof.ts</context>
+          <context context-type="linenumber">296</context>
+        </context-group>
+        <target>4 · Display order</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

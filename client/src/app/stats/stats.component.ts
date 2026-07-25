@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, LOCALE_ID, computed, inject, signal } from '@angular/core';
 import { VrilMeterComponent } from '../core/vril-meter.component';
 import { AggregateStats, ApiService } from '../core/api.service';
 import { Rung, ladder, rankIcon } from '../core/ranks';
@@ -29,6 +29,8 @@ import { SessionService } from '../core/session.service';
 })
 export class StatsComponent {
   private readonly api = inject(ApiService);
+  /** Set by the localized build, so decimals follow the domain rather than being German. */
+  private readonly locale = inject(LOCALE_ID);
 
   /** Your own figures come from the one place that counts them, so the panel under every page and
    *  this section can never disagree about how many trials you have played. */
@@ -72,14 +74,14 @@ export class StatsComponent {
   }
 
   private de(n: number, digits = 2): string {
-    return n.toLocaleString('de-DE', {
+    return n.toLocaleString(this.locale, {
       minimumFractionDigits: digits,
       maximumFractionDigits: digits,
     });
   }
 
   count(n: number): string {
-    return n.toLocaleString('de-DE');
+    return n.toLocaleString(this.locale);
   }
 
   pct(fraction: number, digits = 2): string {
@@ -93,6 +95,18 @@ export class StatsComponent {
   share(fraction: number): string {
     return this.de(fraction * 100, fraction < 0.01 ? 1 : 0);
   }
+
+  /** Chance is 1 in 8 by construction (D3), written as a figure so it follows the locale. */
+  readonly chanceRate = this.pct(0.125, 1);
+
+  /**
+   * Strings the template can only reach through a binding, which the extractor cannot see. Both
+   * were built by concatenating German fragments in the template before.
+   */
+  readonly tailsAriaLabel = () =>
+    $localize`:@@stats.tails.aria:${this.tailHigh()}:high: Konten über +${this.tailSigma()}:sigma:σ, ${this.tailLow()}:low: darunter`;
+  readonly mineReading = () =>
+    $localize`:@@stats.mine.reading:${this.mineZ()}:deviation: σ · gesicherte Mindestquote ${this.mineWilson()}:wilson: %`;
 
   minePct = () => this.pct(this.player.rate(), 1);
   mineZ = () => this.signed(this.player.deviation());

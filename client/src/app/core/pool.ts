@@ -27,38 +27,40 @@ export function imageSrc(id: string): string {
  * English list. The identifier is what goes into the derivation and into the manifest hash; this
  * is only what a visitor reads.
  *
+ * One entry per category, translated at build time like everything else the visitor reads.
+ *
  * An unknown identifier falls back to itself rather than to a placeholder. A pool that gained a
  * category before this list caught up must still label its images, and the raw identifier is the
  * truthful thing to show — a "Sonstiges" would quietly merge two categories on screen that the
  * draw treats as separate.
  */
-const CATEGORY_DE: Record<string, string> = {
-  landscape: 'Landschaft',
-  building: 'Bauwerk',
-  animal: 'Tier',
-  plant: 'Pflanze',
-  vehicle: 'Fahrzeug',
-  tool: 'Werkzeug',
-  food: 'Essen',
-  clothing: 'Kleidung',
-  instrument: 'Instrument',
-  furniture: 'Möbel',
-  water: 'Wasser',
-  sky: 'Himmel',
-  machine: 'Maschine',
-  textile: 'Textil',
-  container: 'Behälter',
-  sign: 'Schild',
-  stairs: 'Treppe',
-  bridge: 'Brücke',
-  door: 'Tür',
-  light: 'Licht',
-  stone: 'Stein',
-  ornament: 'Ornament',
-  person: 'Mensch',
-  street: 'Straße',
+const CATEGORY_LABELS: Record<string, string> = {
+  landscape: $localize`:@@category.landscape:Landschaft`,
+  building: $localize`:@@category.building:Bauwerk`,
+  animal: $localize`:@@category.animal:Tier`,
+  plant: $localize`:@@category.plant:Pflanze`,
+  vehicle: $localize`:@@category.vehicle:Fahrzeug`,
+  tool: $localize`:@@category.tool:Werkzeug`,
+  food: $localize`:@@category.food:Essen`,
+  clothing: $localize`:@@category.clothing:Kleidung`,
+  instrument: $localize`:@@category.instrument:Instrument`,
+  furniture: $localize`:@@category.furniture:Möbel`,
+  water: $localize`:@@category.water:Wasser`,
+  sky: $localize`:@@category.sky:Himmel`,
+  machine: $localize`:@@category.machine:Maschine`,
+  textile: $localize`:@@category.textile:Textil`,
+  container: $localize`:@@category.container:Behälter`,
+  sign: $localize`:@@category.sign:Schild`,
+  stairs: $localize`:@@category.stairs:Treppe`,
+  bridge: $localize`:@@category.bridge:Brücke`,
+  door: $localize`:@@category.door:Tür`,
+  light: $localize`:@@category.light:Licht`,
+  stone: $localize`:@@category.stone:Stein`,
+  ornament: $localize`:@@category.ornament:Ornament`,
+  person: $localize`:@@category.person:Mensch`,
+  street: $localize`:@@category.street:Straße`,
 };
 
 export function categoryLabel(id: string): string {
-  return CATEGORY_DE[id] ?? id;
+  return CATEGORY_LABELS[id] ?? id;
 }

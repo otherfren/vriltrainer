@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, LOCALE_ID, computed, inject, signal } from '@angular/core';
 import {
   ApiError,
   ApiService,
@@ -51,6 +51,22 @@ export class TrialComponent {
   private readonly api = inject(ApiService);
   readonly player = inject(PlayerService);
   readonly session = inject(SessionService);
+  private readonly locale = inject(LOCALE_ID);
+
+  /** Chance is 1 in 8 by construction (D3), written as a figure so it follows the locale. */
+  readonly chanceRate = (0.125 * 100).toLocaleString(this.locale, {
+    minimumFractionDigits: 1,
+    maximumFractionDigits: 1,
+  });
+
+  /**
+   * The alt text for a candidate. A method rather than a string built in the template: a quoted
+   * string inside a binding is code, and the extractor never sees it — which is how the eight
+   * images kept their German alt text on the English domain.
+   */
+  candidateAlt(n: number): string {
+    return $localize`:@@trial.candidateAlt:Kandidat ${n}:number:`;
+  }
 
   readonly stage = signal<Stage>('starting');
   readonly trial = signal<TrialStart | null>(null);
@@ -105,11 +121,9 @@ export class TrialComponent {
       void this.loadManifest(started.poolVersion).catch(() => undefined);
     } catch (e) {
       this.trial.set(null);
-      this.fail(e, {
-        // D17: an account may hold only so many uncompleted trials at once. "Too many requests"
-        // would be true and useless; this says what to do about it.
-        429: 'Du hast zu viele offene Sitzungen. Beende oder warte eine ab, dann geht es weiter.',
-      });
+      // No 429 case any more: the open-trial cap is gone, so starting a trial has no refusal of
+      // its own left to explain. Whatever else went wrong is handled by `fail`.
+      this.fail(e, {});
     }
   }
 
@@ -130,8 +144,8 @@ export class TrialComponent {
       this.fail(
         e,
         {
-          410: 'Die Gültigkeit dieser Sitzung ist abgelaufen. Sie zählt als abgebrochen — fang eine neue an.',
-          409: 'Diese Sitzung ist bereits beantwortet.',
+          410: $localize`:@@notice.expired:Die Gültigkeit dieser Sitzung ist abgelaufen. Sie zählt als abgebrochen — fang eine neue an.`,
+          409: $localize`:@@notice.alreadyAnswered.short:Diese Sitzung ist bereits beantwortet.`,
         },
         false,
       );
@@ -182,16 +196,15 @@ export class TrialComponent {
         // the server, which is the only party that knows what happened.
         this.notice.set({
           text:
-            'Die Antwort ist nicht angekommen. Ob sie gewertet wurde, weiß dieser Browser nicht — ' +
-            'dein Stand unten steht so, wie der Server ihn zählt.',
+            $localize`:@@notice.answerLost:Die Antwort ist nicht angekommen. Ob sie gewertet wurde, weiß dieser Browser nicht — dein Stand unten steht so, wie der Server ihn zählt.`,
           fatal: false,
         });
         void this.player.refresh();
         return;
       }
       this.fail(e, {
-        409: 'Diese Sitzung ist bereits beantwortet. Eine Antwort pro Sitzung, und sie steht schon im Protokoll.',
-        410: 'Die Gültigkeit dieser Sitzung ist abgelaufen. Sie zählt als abgebrochen — fang eine neue an.',
+        409: $localize`:@@notice.alreadyAnswered:Diese Sitzung ist bereits beantwortet. Eine Antwort pro Sitzung, und sie steht schon im Protokoll.`,
+        410: $localize`:@@notice.expired:Die Gültigkeit dieser Sitzung ist abgelaufen. Sie zählt als abgebrochen — fang eine neue an.`,
       });
       return;
     }
@@ -285,19 +298,13 @@ export class TrialComponent {
       // happened, and point at the one action that still helps.
       this.notice.set({
         text:
-          'Der Server kennt dieses Login nicht. Sichere den Link über „Login“ oben rechts, bevor ' +
-          'du etwas anderes tust — es gibt keine Wiederherstellung.',
+          $localize`:@@notice.unknownLogin:Der Server kennt dieses Login nicht. Sichere den Link über „Login“ oben rechts, bevor du etwas anderes tust — es gibt keine Wiederherstellung.`,
         fatal: false,
       });
       return;
     }
     const spelt = e instanceof ApiError ? spelled[e.status] : undefined;
-    const text =
-      spelt ??
-      (e instanceof NetworkError
-        ? 'Keine Verbindung zum Server. Versuch es gleich noch einmal.'
-        : 'Der Server hat die Anfrage abgelehnt. Versuch es noch einmal.');
-    this.notice.set({ text, fatal });
+    this.notice.set({ text: spelt ?? unspelt(e), fatal });
   }
 
   /** How a slot is drawn once the verdict is in. */
@@ -307,4 +314,22 @@ export class TrialComponent {
     if (id === this.chosen()) return 'wrong';
     return 'dim';
   }
+}
+
+/**
+ * A failure nothing above had a sentence for.
+ *
+ * The old wording said the server "rejected the request", which is a claim about the request. It
+ * is wrong for the case that actually happens: the service is down behind a proxy that is up, so
+ * `fetch` succeeds with a 502 and nobody rejected anything. A visitor reading "rejected" goes
+ * looking for what they did wrong.
+ */
+function unspelt(e: unknown): string {
+  if (e instanceof NetworkError) {
+    return $localize`:@@notice.network:Keine Verbindung zum Server. Versuch es gleich noch einmal.`;
+  }
+  if (e instanceof ApiError && e.status >= 500) {
+    return $localize`:@@notice.serverDown:Der Dienst ist gerade nicht erreichbar (Fehler ${e.status}:status:). Versuch es in ein paar Minuten noch einmal.`;
+  }
+  return $localize`:@@notice.rejected:Der Server hat die Anfrage abgelehnt. Versuch es noch einmal.`;
 }

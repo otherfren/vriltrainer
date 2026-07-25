@@ -30,20 +30,20 @@ export interface RankDef {
   icon: string;
 }
 
-export const NORMIE: RankDef = { slug: 'normie', title: 'Normie', icon: 'normie' };
+export const NORMIE: RankDef = { slug: 'normie', title: $localize`:@@rank.normie:Normie`, icon: 'normie' };
 
 const DEFS: RankDef[] = [
-  { slug: 'annunaki', title: 'Annunaki', icon: 'annunaki' },
-  { slug: 'loosh', title: 'Insektoider Loosh-Farmer', icon: 'loosh' },
-  { slug: 'reptilian', title: 'Reptiloidenarchont', icon: 'reptilian' },
-  { slug: 'grey', title: 'Grey Alien', icon: 'grey' },
-  { slug: 'asset', title: 'Psionisches Asset', icon: 'asset' },
+  { slug: 'annunaki', title: $localize`:@@rank.annunaki:Annunaki`, icon: 'annunaki' },
+  { slug: 'loosh', title: $localize`:@@rank.loosh:Insektoider Loosh-Farmer`, icon: 'loosh' },
+  { slug: 'reptilian', title: $localize`:@@rank.reptilian:Reptiloidenarchont`, icon: 'reptilian' },
+  { slug: 'grey', title: $localize`:@@rank.grey:Grey Alien`, icon: 'grey' },
+  { slug: 'asset', title: $localize`:@@rank.asset:Psionisches Asset`, icon: 'asset' },
   NORMIE,
-  { slug: 'pineal', title: 'Zirbeldrüse verkalkt', icon: 'pineal' },
-  { slug: 'erdstrahlen', title: 'Erdstrahlen-Opfer', icon: 'erdstrahlen' },
-  { slug: 'orgonit', title: 'Orgonit-Enjoyer', icon: 'orgonit' },
-  { slug: 'nullleiter', title: 'Psi-Nullleiter', icon: 'nullleiter' },
-  { slug: 'kartoffel', title: 'Kartoffel', icon: 'potato' },
+  { slug: 'pineal', title: $localize`:@@rank.pineal:Zirbeldrüse verkalkt`, icon: 'pineal' },
+  { slug: 'erdstrahlen', title: $localize`:@@rank.erdstrahlen:Erdstrahlen-Opfer`, icon: 'erdstrahlen' },
+  { slug: 'orgonit', title: $localize`:@@rank.orgonit:Orgonit-Enjoyer`, icon: 'orgonit' },
+  { slug: 'nullleiter', title: $localize`:@@rank.nullleiter:Psi-Nullleiter`, icon: 'nullleiter' },
+  { slug: 'kartoffel', title: $localize`:@@rank.kartoffel:Kartoffel`, icon: 'potato' },
 ];
 
 const BY_SLUG = new Map(DEFS.map((r) => [r.slug, r]));

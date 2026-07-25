@@ -157,6 +157,29 @@ main {
   image-rendering: pixelated;
 }
 
+/* ---- logout ---- */
+/* Deliberately quieter than the login panel beside it: this is the exit, not the thing the bar
+   is for. Same height and border so the two sit as one unit, no fill so it does not compete. */
+
+.logout {
+  flex: none;
+  background: transparent;
+  color: var(--ink);
+  border: 3px solid var(--ink);
+  padding: var(--s1) var(--s2);
+  font-family: var(--label);
+  font-weight: 800;
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.logout:hover {
+  background: var(--pop);
+  color: var(--card);
+}
+
 /* ---- language ---- */
 /* The domain is the switch: vriltrainer.de is German, .com is English (D10). Two labels rather
    than one toggle, so which one you are on is visible without clicking. No flags and no

@@ -2,14 +2,26 @@
 <html lang="de">
   <head>
     <meta charset="utf-8" />
+    <!-- Titel und Beschreibung setzt AppComponent beim Start neu, uebersetzt.
+         Angulars i18n ersetzt in dieser Datei nur das lang-Attribut; alles andere
+         hier ist fuer beide Locales derselbe Text. Was hier steht, ist deshalb die
+         deutsche Fassung als Quelle — auf .com ist sie fuer den Bruchteil bis zum
+         Bootstrap sichtbar und wird dann ersetzt. -->
     <title>vriltrainer — öffentlicher Remote-Viewing-Test</title>
     <base href="/" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#34208c" />
-    <meta name="description" content="Ein öffentliches Forced-Choice-Experiment zum Remote Viewing. Jede Sitzung ist vorab versiegelt und im Nachhinein von jedem nachrechenbar." />
+    <meta
+      name="description"
+      content="Ein öffentliches Forced-Choice-Experiment zum Remote Viewing. Jede Sitzung ist vorab versiegelt und im Nachhinein von jedem nachrechenbar."
+    />
+    <!-- FR-032: die Domains verweisen aufeinander und leiten niemanden automatisch
+         um. Eine Weiterleitung nach Browsersprache waere genau das, was jemanden,
+         der die andere Fassung sehen will, daran hindert. -->
     <link rel="alternate" hreflang="de" href="https://vriltrainer.de/" />
     <link rel="alternate" hreflang="en" href="https://vriltrainer.com/" />
-    <link rel="icon" href="favicon.ico" />
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48" />
   </head>
   <body>
     <app-root></app-root>

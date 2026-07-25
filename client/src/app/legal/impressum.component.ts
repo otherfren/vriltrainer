@@ -10,12 +10,12 @@ import { Component } from '@angular/core';
   standalone: true,
   template: `
     <section class="shell legal">
-      <p class="eyebrow">Angaben gemäß § 5 DDG</p>
-      <h1>Impressum</h1>
+      <p class="eyebrow" i18n="@@legal.eyebrow">Angaben gemäß § 5 DDG</p>
+      <h1 i18n="@@legal.heading">Impressum</h1>
 
       <div class="legal__card panel">
-        <h2>Verantwortlich</h2>
-        <p>
+        <h2 i18n="@@legal.responsible">Verantwortlich</h2>
+        <p i18n="@@legal.address">
           Peter Geschel<br />
           Privatperson, nicht gewerblich<br />
           c/o IP-Management #8514<br />
@@ -24,17 +24,17 @@ import { Component } from '@angular/core';
           Deutschland
         </p>
 
-        <h2>Kontakt</h2>
-        <p>
+        <h2 i18n="@@legal.contact">Kontakt</h2>
+        <p i18n="@@legal.contactBlock">
           E-Mail: <a href="mailto:kontakt&#64;konkin.io">kontakt&#64;konkin.io</a><br />
           Telefon: +49 (0) 172 66 84 586<br />
           X.com: <a href="https://x.com/otherfren">&#64;otherfren</a>
         </p>
 
-        <h2>Haftungsausschluss</h2>
+        <h2 i18n="@@legal.disclaimer">Haftungsausschluss</h2>
 
-        <h3>Haftung für Inhalte</h3>
-        <p>
+        <h3 i18n="@@legal.content.h">Haftung für Inhalte</h3>
+        <p i18n="@@legal.content.p">
           Die Inhalte dieser Seiten wurden mit größter Sorgfalt erstellt. Für die Richtigkeit,
           Vollständigkeit und Aktualität der Inhalte können wir jedoch keine Gewähr übernehmen. Als
           Diensteanbieter sind wir gemäß § 7 Abs. 1 DDG für eigene Inhalte auf diesen Seiten nach
@@ -44,23 +44,23 @@ import { Component } from '@angular/core';
           Tätigkeit hinweisen.
         </p>
 
-        <h3>Haftung für Links</h3>
-        <p>
+        <h3 i18n="@@legal.links.h">Haftung für Links</h3>
+        <p i18n="@@legal.links.p">
           Unser Angebot enthält Links zu externen Webseiten Dritter, auf deren Inhalte wir keinen
           Einfluss haben. Deshalb können wir für diese fremden Inhalte auch keine Gewähr
           übernehmen. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder
           Betreiber der Seiten verantwortlich.
         </p>
 
-        <h3>Zum Inhalt dieser Seite</h3>
-        <p>
+        <h3 i18n="@@legal.about.h">Zum Inhalt dieser Seite</h3>
+        <p i18n="@@legal.about.p">
           vriltrainer ist ein öffentliches Forced-Choice-Experiment zum Remote Viewing. Die
           erwartete Trefferquote ist 12,5 % — reines Raten. Ränge, Titel und Abbildungen sind
           Satire auf die einschlägige Mythologie und keine Behauptung über die Wirklichkeit.
         </p>
 
-        <h3>Urheberrecht und Lizenz</h3>
-        <p>
+        <h3 i18n="@@legal.licence.h">Urheberrecht und Lizenz</h3>
+        <p i18n="@@legal.licence.p">
           Der Quellcode steht unter der
           <a href="https://github.com/otherfren/vriltrainer/blob/master/LICENSE">
             AGPL-3.0-or-later </a

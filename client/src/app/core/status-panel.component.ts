@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, LOCALE_ID, computed, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { VrilMeterComponent } from './vril-meter.component';
 import { PlayerService } from './player.service';
@@ -25,10 +25,10 @@ import { SessionService } from './session.service';
       <div class="status panel">
         @if (!player.loaded()) {
           <div class="status__head">
-            <p class="eyebrow">Dein Stand</p>
+            <p class="eyebrow" i18n="@@status.heading">Dein Stand</p>
           </div>
           @if (player.failed()) {
-            <p class="status__why">
+            <p class="status__why" i18n="@@status.unavailable">
               Die Zahlen sind gerade nicht abrufbar. Gespielt ist gespielt — sie stehen im
               Protokoll, nicht in diesem Browser.
               <button class="btn btn--quiet" type="button" (click)="player.refresh()">
@@ -36,11 +36,11 @@ import { SessionService } from './session.service';
               </button>
             </p>
           } @else {
-            <p class="status__why">Wird geladen …</p>
+            <p class="status__why" i18n="@@status.loading">Wird geladen …</p>
           }
         } @else if (!player.unlocked()) {
           <div class="status__head">
-            <p class="eyebrow">Dein Stand</p>
+            <p class="eyebrow" i18n="@@status.heading">Dein Stand</p>
             <span class="status__count">{{ player.completed() }} / {{ player.unlocksAt() }}</span>
           </div>
 
@@ -56,83 +56,91 @@ import { SessionService } from './session.service';
             }
           </div>
 
-          <p class="status__why">
+          <!-- The count decides the noun, so it is an ICU plural rather than a ternary: English
+               and German agree here, but a language with a dual or a paucal does not, and a
+               ternary hard-codes the assumption that two forms are enough. -->
+          <p class="status__why" i18n="@@status.locked.why">
             Noch <strong>{{ player.remaining() }}</strong>
-            {{ player.remaining() === 1 ? 'Sitzung' : 'Sitzungen' }}, dann schaltet die Statistik
-            frei. Vorher ist eine Trefferquote keine Aussage: bei so wenigen Versuchen sieht reines
-            Raten regelmäßig nach einer Begabung aus.
-            @if (player.abandoned() > 0) {
-              <br />
-              <strong>{{ player.abandoned() }}</strong>
-              {{ player.abandoned() === 1 ? 'Sitzung' : 'Sitzungen' }} abgebrochen — auch das steht
-              im Protokoll, von der ersten an.
-            }
+            {player.remaining(), plural, =1 {Sitzung} other {Sitzungen}}, dann schaltet die
+            Statistik frei. Vorher ist eine Trefferquote keine Aussage: bei so wenigen Versuchen
+            sieht reines Raten regelmäßig nach einer Begabung aus.
           </p>
+          @if (player.abandoned() > 0) {
+            <p class="status__why" i18n="@@status.locked.abandoned">
+              <strong>{{ player.abandoned() }}</strong>
+              {player.abandoned(), plural, =1 {Sitzung} other {Sitzungen}} abgebrochen — auch das
+              steht im Protokoll, von der ersten an.
+            </p>
+          }
         } @else {
           <div class="status__head">
-            <p class="eyebrow">Dein Stand</p>
-            <a class="status__more" routerLink="/statistik">Alle Statistiken</a>
+            <p class="eyebrow" i18n="@@status.heading">Dein Stand</p>
+            <a class="status__more" routerLink="/statistik" i18n="@@status.allStats">Alle Statistiken</a>
           </div>
 
           <div class="status__row">
             <div class="fig">
-              <span class="fig__label">Sitzungen</span>
+              <span class="fig__label" i18n="@@fig.trials">Sitzungen</span>
               <span class="fig__val measured">{{ player.completed() }}</span>
             </div>
             <div class="fig">
-              <span class="fig__label">Treffer</span>
+              <span class="fig__label" i18n="@@fig.hits">Treffer</span>
               <span class="fig__val measured">{{ player.hits() }}</span>
             </div>
             <div class="fig">
-              <span class="fig__label">Quote</span>
+              <span class="fig__label" i18n="@@fig.rate">Quote</span>
               <span class="fig__val measured">{{ pct(player.rate()) }} %</span>
             </div>
 
             <div class="rank">
               <img class="rank__pic" [src]="'rank/rank-' + player.rank().icon + '.svg'" alt="" />
               <span class="rank__box">
-                <span class="fig__label">Psi-Rang</span>
+                <span class="fig__label" i18n="@@fig.rank">Psi-Rang</span>
                 <span class="rank__title">{{ player.rank().title }}</span>
               </span>
             </div>
           </div>
 
           <button class="btn btn--quiet status__toggle" type="button" (click)="open.set(!open())">
-            {{ open() ? 'Details schließen' : 'Details anzeigen' }}
+            @if (open()) {
+              <ng-container i18n="@@status.details.hide">Details schließen</ng-container>
+            } @else {
+              <ng-container i18n="@@status.details.show">Details anzeigen</ng-container>
+            }
           </button>
 
           @if (open()) {
             <div class="detail">
               <div class="detail__grid">
                 <div class="fig">
-                  <span class="fig__label">Abweichung</span>
+                  <span class="fig__label" i18n="@@fig.deviation">Abweichung</span>
                   <span class="fig__val measured">{{ signed(player.deviation()) }} σ</span>
                 </div>
                 <div class="fig">
-                  <span class="fig__label">Gesicherte Mindestquote</span>
+                  <span class="fig__label" i18n="@@fig.wilson">Gesicherte Mindestquote</span>
                   <span class="fig__val measured">{{ pct(player.wilson()) }} %</span>
                 </div>
                 <div class="fig">
-                  <span class="fig__label">Abgebrochen</span>
+                  <span class="fig__label" i18n="@@fig.abandoned">Abgebrochen</span>
                   <span class="fig__val measured">{{ player.abandoned() }}</span>
                 </div>
                 <div class="fig">
-                  <span class="fig__label">Zufallsrate</span>
-                  <span class="fig__val measured">12,5 %</span>
+                  <span class="fig__label" i18n="@@fig.chance">Zufallsrate</span>
+                  <span class="fig__val measured">{{ chanceRate }} %</span>
                 </div>
               </div>
 
               <app-vril-meter
                 [deviation]="player.deviation()"
                 [mine]="true"
+                i18n-label="@@meter.you.label"
                 label="Du"
+                i18n-needleLabel="@@meter.you.needle"
                 needleLabel="du"
-                [reading]="
-                  signed(player.deviation()) + ' σ · Mindestquote ' + pct(player.wilson()) + ' %'
-                "
+                [reading]="reading()"
               />
 
-              <p class="detail__note">
+              <p class="detail__note" i18n="@@status.detail.note">
                 Die Abweichung ist die auffälligere Zahl, die Mindestquote die belastbarere: sie
                 wiegt mit, wie oft du gespielt hast. Beide stehen über
                 <strong>{{ player.reportedTrials() }}</strong> gewerteten Sitzungen mit
@@ -152,15 +160,35 @@ export class StatusPanelComponent {
   readonly session = inject(SessionService);
   readonly open = signal(false);
 
+  /**
+   * The locale the bundle was compiled for. Angular sets it from the build, so the German bundle
+   * writes `12,5` and the English one `12.5` — which was previously hard-coded to `de-DE` and so
+   * printed German decimals on the English domain no matter what.
+   */
+  private readonly locale = inject(LOCALE_ID);
+
   /** One cell per trial to the unlock, and the unlock is the server's number (D26, FR-050). */
   readonly cells = computed(() => Array.from({ length: this.player.unlocksAt() }, (_, i) => i));
 
+  /** Chance is 1 in 8 by construction (D3); written as a figure so it follows the locale. */
+  readonly chanceRate = this.pct(0.125);
+
+  readonly reading = computed(() =>
+    $localize`:@@meter.you.reading:${this.signed(this.player.deviation())}:deviation: σ · Mindestquote ${this.pct(this.player.wilson())}:wilson: %`,
+  );
+
   pct(v: number): string {
-    return (v * 100).toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+    return (v * 100).toLocaleString(this.locale, {
+      minimumFractionDigits: 1,
+      maximumFractionDigits: 1,
+    });
   }
 
   signed(v: number): string {
-    const s = v.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    const s = v.toLocaleString(this.locale, {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
     return v >= 0 ? `+${s}` : s;
   }
 }

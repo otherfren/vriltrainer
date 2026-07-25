@@ -96,14 +96,14 @@ export async function verifyTrial(
   const recomputedPoolHash = await manifestHash(manifest.categories, manifest.images);
 
   checks.push({
-    label: 'Pool-Manifest',
+    label: $localize`:@@proof.label.manifest:Pool-Manifest`,
     detail:
       structural !== null
         ? `Das Manifest ist formal ungültig: ${structural}`
         : recomputedPoolHash !== manifest.manifest_hash
-          ? 'Der neu berechnete Hash des Manifests weicht von dem ab, den es selbst nennt.'
+          ? $localize`:@@proof.manifest.rehash:Der neu berechnete Hash des Manifests weicht von dem ab, den es selbst nennt.`
           : recomputedPoolHash !== sealed.poolManifestHash
-            ? 'Das gelieferte Manifest ist nicht das, auf das diese Sitzung festgelegt wurde.'
+            ? $localize`:@@proof.manifest.mismatch:Das gelieferte Manifest ist nicht das, auf das diese Sitzung festgelegt wurde.`
             : `${manifest.images.length} Bilder in ${manifest.categories.length} Kategorien, Hash neu berechnet und identisch mit dem, der schon zur Koordinate mitgeliefert wurde.`,
     ok:
       structural === null &&
@@ -122,10 +122,10 @@ export async function verifyTrial(
   const matches = commitmentDigest === sealed.commitment;
 
   checks.push({
-    label: 'Versiegelung',
+    label: $localize`:@@proof.check.seal:Versiegelung`,
     detail: matches
-      ? 'Aus den jetzt offengelegten Werten entsteht genau die Zahl, die vor deiner Wahl auf dem Schirm stand.'
-      : 'Die Zahl von vorher lässt sich aus den offengelegten Werten nicht reproduzieren.',
+      ? $localize`:@@proof.check.seal.ok:Aus den jetzt offengelegten Werten entsteht genau die Zahl, die vor deiner Wahl auf dem Schirm stand.`
+      : $localize`:@@proof.check.seal.bad:Die Zahl von vorher lässt sich aus den offengelegten Werten nicht reproduzieren.`,
     ok: matches,
   });
 
@@ -137,10 +137,10 @@ export async function verifyTrial(
   // check on this page would still pass.
   const echoed = sameBytes(revealed.sent, answered.sClient);
   checks.push({
-    label: 'Dein Zufallsanteil',
+    label: $localize`:@@proof.check.echo:Dein Zufallsanteil`,
     detail: echoed
-      ? 'Die 32 Bytes aus deinem Browser kommen unverändert zurück — der Seed ist zweiseitig.'
-      : 'Der Server gibt andere 32 Bytes zurück, als dein Browser geschickt hat.',
+      ? $localize`:@@proof.check.echo.ok:Die 32 Bytes aus deinem Browser kommen unverändert zurück — der Seed ist zweiseitig.`
+      : $localize`:@@proof.check.echo.bad:Der Server gibt andere 32 Bytes zurück, als dein Browser geschickt hat.`,
     ok: echoed,
   });
 
@@ -166,75 +166,75 @@ export async function verifyTrial(
   }
 
   checks.push({
-    label: 'Die acht Bilder',
+    label: $localize`:@@proof.check.draw:Die acht Bilder`,
     detail:
       drawError !== null
         ? `Die Herleitung lief nicht durch: ${drawError}`
         : sameOrder(derivedImages, revealed.images)
-          ? 'Der Seed erzeugt genau diese acht Bilder, in genau dieser Reihenfolge.'
-          : 'Der Seed erzeugt eine andere Auswahl oder eine andere Reihenfolge als die gezeigte.',
+          ? $localize`:@@proof.check.draw.ok:Der Seed erzeugt genau diese acht Bilder, in genau dieser Reihenfolge.`
+          : $localize`:@@proof.check.draw.bad:Der Seed erzeugt eine andere Auswahl oder eine andere Reihenfolge als die gezeigte.`,
     ok: drawError === null && sameOrder(derivedImages, revealed.images),
   });
 
   checks.push({
-    label: 'Das Ziel',
+    label: $localize`:@@proof.check.target:Das Ziel`,
     detail:
       derivedTarget === null
-        ? 'Ohne Herleitung gibt es kein nachgerechnetes Ziel.'
+        ? $localize`:@@proof.check.target.none:Ohne Herleitung gibt es kein nachgerechnetes Ziel.`
         : derivedTarget === answered.target
-          ? 'Das nachgerechnete Ziel ist dasselbe, gegen das deine Wahl gewertet wurde.'
-          : 'Das nachgerechnete Ziel ist ein anderes als das gewertete.',
+          ? $localize`:@@proof.check.target.ok:Das nachgerechnete Ziel ist dasselbe, gegen das deine Wahl gewertet wurde.`
+          : $localize`:@@proof.check.target.bad:Das nachgerechnete Ziel ist ein anderes als das gewertete.`,
     ok: derivedTarget !== null && derivedTarget === answered.target,
   });
 
   return {
     inputs: [
-      { label: 's_server', value: toHex(answered.sServer), note: '32 Bytes, vom Server' },
-      { label: 'nonce', value: toHex(answered.nonce), note: '32 Bytes, vom Server' },
+      { label: 's_server', value: toHex(answered.sServer), note: $localize`:@@proof.note.fromServer:32 Bytes, vom Server` },
+      { label: 'nonce', value: toHex(answered.nonce), note: $localize`:@@proof.note.fromServer:32 Bytes, vom Server` },
       {
         label: 's_client',
         value: toHex(answered.sClient),
         note: echoed
-          ? '32 Bytes aus deinem Browser, vom Server unverändert zurückgegeben'
+          ? $localize`:@@proof.note.echoed:32 Bytes aus deinem Browser, vom Server unverändert zurückgegeben`
           : `32 Bytes vom Server — dein Browser hatte ${toHex(revealed.sent)} geschickt`,
       },
       {
-        label: 'Koordinate',
+        label: $localize`:@@proof.label.coordinate:Koordinate`,
         value: sealed.coordinate,
         note: `${coordBytes.length} Bytes UTF-8 · ${toHex(coordBytes)}`,
       },
     ],
 
     poolParts: [
-      { label: 'Pool-Version', value: `v${manifest.version}`, note: poolNote(manifest) },
+      { label: $localize`:@@proof.label.poolVersion:Pool-Version`, value: `v${manifest.version}`, note: poolNote(manifest) },
       {
-        label: 'Hash laut Manifest',
+        label: $localize`:@@proof.label.hashClaimed:Hash laut Manifest`,
         value: manifest.manifest_hash,
-        note: 'Über die sortierten (id, category)-Paare, Kategorien zuerst',
+        note: $localize`:@@proof.note.overSorted:Über die sortierten (id, category)-Paare, Kategorien zuerst`,
       },
       {
-        label: 'Hier neu berechnet',
+        label: $localize`:@@proof.label.hashRecomputed:Hier neu berechnet`,
         value: recomputedPoolHash,
       },
       {
-        label: 'Zur Koordinate mitgeliefert',
+        label: $localize`:@@proof.note.withCoordinate:Zur Koordinate mitgeliefert`,
         value: sealed.poolManifestHash,
-        note: 'Stand fest, bevor irgendetwas aufgedeckt wurde',
+        note: $localize`:@@proof.note.fixedBefore:Stand fest, bevor irgendetwas aufgedeckt wurde`,
       },
     ],
 
     commitmentParts: [
-      { label: 'LE64(32)', value: toHex(le64(32n)), note: 'Länge von s_server' },
+      { label: 'LE64(32)', value: toHex(le64(32n)), note: $localize`:@@proof.note.lenSServer:Länge von s_server` },
       { label: 's_server', value: toHex(answered.sServer) },
-      { label: 'LE64(32)', value: toHex(le64(32n)), note: 'Länge des nonce' },
+      { label: 'LE64(32)', value: toHex(le64(32n)), note: $localize`:@@proof.note.lenNonce:Länge des nonce` },
       { label: 'nonce', value: toHex(answered.nonce) },
       {
         label: `LE64(${coordBytes.length})`,
         value: toHex(le64(BigInt(coordBytes.length))),
-        note: 'Länge der Koordinate',
+        note: $localize`:@@proof.note.lenCoordinate:Länge der Koordinate`,
       },
       {
-        label: 'Koordinate',
+        label: $localize`:@@proof.label.coordinate:Koordinate`,
         value: toHex(coordBytes),
         note: `"${sealed.coordinate}" als UTF-8`,
       },
@@ -272,14 +272,14 @@ function steps(
 
   return [
     {
-      label: '1 · Acht Kategorien',
+      label: $localize`:@@proof.step.categories:1 · Acht Kategorien`,
       value: draw.chosenCategories.map(category).join(', '),
       note:
         `Indizes ${draw.chosenCategories.join(', ')} aus ${manifest.categories.length} Kategorien, ` +
-        'in Auswahlreihenfolge, partielles Fisher-Yates',
+        $localize`:@@proof.note.fisherYates:in Auswahlreihenfolge, partielles Fisher-Yates`,
     },
     {
-      label: '2 · Ein Bild je Kategorie',
+      label: $localize`:@@proof.step.oneEach:2 · Ein Bild je Kategorie`,
       value: draw.selectedImages.map((i) => manifest.images[i].id).join(', '),
       note:
         'Manifest-Indizes ' +
@@ -288,12 +288,12 @@ function steps(
         draw.chosenCategories.map((c) => `${category(c)}: ${members[c].length}`).join(', '),
     },
     {
-      label: '3 · Zielplatz',
+      label: $localize`:@@proof.step.targetSlot:3 · Zielplatz`,
       value: `${draw.targetSlot}`,
-      note: 'Gleichverteilt über die acht, unabhängig von der Kategoriegröße',
+      note: $localize`:@@proof.note.uniform:Gleichverteilt über die acht, unabhängig von der Kategoriegröße`,
     },
     {
-      label: '4 · Anzeigereihenfolge',
+      label: $localize`:@@proof.step.displayOrder:4 · Anzeigereihenfolge`,
       value: draw.displayOrder.join(', '),
       note:
         `Absteigendes Fisher-Yates; Position ${shownAt} zeigt das Ziel. ` +

@@ -82,36 +82,36 @@ const NUMERIC_CODE = /^[\d\s_-]+$/;
 export function checkDisplayName(raw: string): NameCheck {
   const name = normaliseDisplayName(raw);
 
-  if (name.length === 0) return { ok: false, message: 'Bitte gib einen Namen ein.' };
+  if (name.length === 0) return { ok: false, message: $localize`:@@check.empty:Bitte gib einen Namen ein.` };
   if (name.length < NAME_MIN)
-    return { ok: false, message: `Mindestens ${NAME_MIN} Zeichen.` };
-  if (name.length > NAME_MAX) return { ok: false, message: `Höchstens ${NAME_MAX} Zeichen.` };
+    return { ok: false, message: $localize`:@@check.tooShort:Mindestens ${NAME_MIN}:min: Zeichen.` };
+  if (name.length > NAME_MAX) return { ok: false, message: $localize`:@@check.tooLong:Höchstens ${NAME_MAX}:max: Zeichen.` };
 
   if (!/^[\p{L}\p{N} _-]+$/u.test(name))
-    return { ok: false, message: 'Nur Buchstaben, Ziffern, Leerzeichen, Bindestrich, Unterstrich.' };
+    return { ok: false, message: $localize`:@@check.charset:Nur Buchstaben, Ziffern, Leerzeichen, Bindestrich, Unterstrich.` };
 
   if (/^[ _-]|[ _-]$/.test(name))
-    return { ok: false, message: 'Nicht mit Leerzeichen, - oder _ anfangen oder aufhören.' };
+    return { ok: false, message: $localize`:@@check.edges:Nicht mit Leerzeichen, - oder _ anfangen oder aufhören.` };
 
-  if (NUMERIC_CODE.test(name)) return { ok: false, message: 'Nicht nur Ziffern.' };
+  if (NUMERIC_CODE.test(name)) return { ok: false, message: $localize`:@@check.digitsOnly:Nicht nur Ziffern.` };
 
   if (!/\p{L}[\s\S]*\p{L}/u.test(name))
-    return { ok: false, message: 'Mindestens zwei Buchstaben.' };
+    return { ok: false, message: $localize`:@@check.twoLetters:Mindestens zwei Buchstaben.` };
 
   if (/(.)\1\1\1/u.test(name))
-    return { ok: false, message: 'Nicht viermal dasselbe Zeichen hintereinander.' };
+    return { ok: false, message: $localize`:@@check.repeats:Nicht viermal dasselbe Zeichen hintereinander.` };
 
   if (RESERVED.test(name))
-    return { ok: false, message: 'Der Name ist für die Seite selbst reserviert.' };
+    return { ok: false, message: $localize`:@@check.reserved:Der Name ist für die Seite selbst reserviert.` };
 
   if (/(https?:|www\.|\.(de|com|net|org|io)\b)/i.test(name))
-    return { ok: false, message: 'Keine Adressen im Namen.' };
+    return { ok: false, message: $localize`:@@check.address:Keine Adressen im Namen.` };
 
   const folded = fold(name);
   if (HATE.some((r) => r.test(folded)))
-    return { ok: false, message: 'Such dir etwas anderes aus.' };
+    return { ok: false, message: $localize`:@@check.hate:Such dir etwas anderes aus.` };
   if (VULGAR.some((r) => r.test(folded)))
-    return { ok: false, message: 'Der Name steht auf einer öffentlichen Rangliste. Nicht dieser.' };
+    return { ok: false, message: $localize`:@@check.vulgar:Der Name steht auf einer öffentlichen Rangliste. Nicht dieser.` };
 
   return { ok: true };
 }

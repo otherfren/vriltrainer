@@ -256,6 +256,14 @@ a {
   color: var(--ink);
 }
 
+/* The one action on this site that cannot be undone. It is not the default button in its row —
+   Abbrechen sits to its left and looks ordinary — but it must not look ordinary itself, or the
+   two read as a pair of equal choices. */
+.btn--danger {
+  background: var(--ink);
+  color: var(--zap);
+}
+
 /* The ring is yellow banded in ink, because it has to stay obvious on the
    violet cabinet and on cream stickers alike, and no single colour does both. */
 :focus-visible {
