@@ -543,23 +543,12 @@ category = "food"
   de = "Doppelter Cheeseburger"
   en = "Double cheeseburger"
 
-# The same folder, split three ways. Eleven more arrived at once and `food` would have become a
-# fifteen-image bucket that still contributes exactly one image per trial — every one of those
-# fifteen drawn a fifteenth as often as the lone `landscape` picture. The folder stays as it is,
-# because the folder is yours and the category is the pool's: raw produce, prepared dish and sweet
-# are three things nobody would confuse for each other at 512 pixels, and each split keeps its own
-# near-duplicates inside it.
-[[group]]
-dir = "food"
-category = "produce"
 
   [[group.image]]
   file = "red_apples.jpg"
   de = "Rote Äpfel"
   en = "Red apples"
 
-  # Lemon beside lemon, berry beside tomato — four red-and-yellow close-ups of small round fruit,
-  # which is the pair problem in its purest form.
   [[group.image]]
   file = "rotten_lemon.jpg"
   de = "Verfaulte Zitrone"
@@ -622,9 +611,6 @@ category = "produce"
   de = "Halbierte Kirschtomate"
   en = "Halved cherry tomato"
 
-[[group]]
-dir = "food"
-category = "sweet"
 
   [[group.image]]
   file = "raspberry_cake.jpg"

@@ -50,15 +50,7 @@ id = "food"
 de = "Essen"
 en = "Food"
 
-[[category]]
-id = "produce"
-de = "Obst & Gemüse"
-en = "Fruit & vegetables"
 
-[[category]]
-id = "sweet"
-de = "Süßes"
-en = "Sweets"
 
 [[category]]
 id = "clothing"
