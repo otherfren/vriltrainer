@@ -60,6 +60,7 @@ because the rest of this plan assumes them.
 | 12-13 | Admin API is **public**, one key, hash in the database, `--rotate` with no restart, **reversible operations only**. | D25, T098-T099 |
 | 14 | **No age restriction** of any kind. Deliberate, not an oversight. | this document |
 | 15 | **No flags** on the language switch — DE and EN as text. | T110 |
+| 17 | **Logging** is operational lines with no visitor identifier, daily aggregate counters, and a unique-visitor count behind a daily-rotating salt that is never persisted. | D28, FR-051/052 |
 | 16 | **Bus factor accepted.** Registrar login to a trusted person; mirroring pushed onto users. | this document, T108 |
 
 ---
@@ -101,7 +102,10 @@ only item that cannot be accelerated later by concentrating effort.
 - [ ] Locale fixed at startup, not from `Host`. (T023, T064)
 - [ ] Forwarded client address, trusted **only** from the proxy address. Without this the
       per-address limit is inert or global; done naively, any client forges its own. (T024)
-- [ ] Structured logs with a request id, and an assertion that no URL fragment reaches them. (T025)
+- [ ] Structured logs with a request id, and an assertion that no URL fragment reaches them. (T025,
+      T111) The matched route pattern, never the raw path — a path can carry an account id.
+- [ ] Daily aggregate counters, unique visitors behind a daily-rotating in-memory salt, and
+      `server metrics --since` to read them. No per-visitor row anywhere. (T112-T114, D28)
 - [ ] Graceful shutdown, so a deploy does not truncate a write to the audit log.
 - [ ] Health endpoint for the monitor in § J.
 
@@ -265,7 +269,9 @@ Both languages ship at launch (decision 5), so none of this is deferrable.
 - [ ] Storage notice: the access token is stored client-side. If it is strictly necessary for a
       service the user requested, no consent banner is needed — but that reasoning belongs written
       in the privacy notice, not assumed.
-- [ ] Server log retention policy, stated in the privacy notice. nginx logs IP addresses.
+- [ ] Server log retention policy, stated in the privacy notice. nginx logs IP addresses; the
+      application logs none, and its traffic figures are daily aggregates with no per-visitor row
+      (D28).
 - [ ] Erasure: explain what survives it and why — the opaque id and the trial history, because
       deleting those would delete everyone else's verifiability too.
 - [ ] **No age restriction and no age statement.** Deliberate (decision 14). Recorded here so it
@@ -300,7 +306,9 @@ Both languages ship at launch (decision 5), so none of this is deferrable.
 - [ ] Error reporting. `tracing` to a file will not tell you about a 500 loop at 3 a.m.
 - [ ] Deploy procedure written down and rehearsed once. The README has the scp lines; nobody has
       run them.
-- [ ] Log rotation for nginx.
+- [ ] Log rotation for nginx, with a SHORT retention. The access log is the only place a visitor's
+      address is written down — the application itself keeps none — so it is the one file with a
+      GDPR question attached. State the retention in the privacy notice. (T115, D28)
 - [ ] **Auto-renew on the domains and the VPS card, multi-year where possible.** The likeliest way
       this project ends is not a bus, it is a lapsed domain. Five minutes, largest expected payoff
       in this section.

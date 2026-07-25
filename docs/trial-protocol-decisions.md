@@ -877,6 +877,51 @@ T082's simulated-population run should include an adversarial farmer, so this is
 than argued; the figures above are a normal approximation to E[max of K], not a simulation.
 
 
+## D28 — Logging: operational lines, aggregate counters, and nothing per person
+
+The operator needs to know how many people are hitting the site. The product's promise is that it
+does not know who they are. Both are satisfiable, but only by being deliberate about it, because
+the default answer — an analytics script, or just keeping the access logs — quietly trades the
+second for the first.
+
+**Most of the question is already answered, publicly.** Every trial is recorded permanently in the
+audit log with its timestamp, so accounts created per day, trials started, completed and abandoned,
+hit rates and retention are all derivable from a file anybody can download. Nothing needs building
+for that, and nothing about it is private that was not already public by design. What the log
+cannot see is the visitor who never started a trial.
+
+Three layers, and the boundary between them is what matters:
+
+**1 — Request logs, structured, to stdout and therefore to journald.** One line per request with a
+correlation id, method, the *matched route pattern* rather than the raw path, status, duration and
+locale. The route pattern rather than the path because a path can carry an account identifier and a
+log is the wrong place for one. Never the URL fragment — browsers do not send it, and the code
+asserts that rather than assuming it (FR-006). Never a full referrer. These lines are for debugging
+a 500 at three in the morning, not for counting anybody.
+
+**2 — Daily aggregate counters in SQLite**: `daily_metric(day, locale, metric, count)`. Page views,
+accounts created, trials started, completed and abandoned, names submitted and approved, proofs
+opened, log downloads. Incremented in process. There is no per-visitor row to leak, subpoena or
+regret, and the table is small enough to keep forever.
+
+**3 — Unique visitors, counted without an identifier being retained.** The only honest way to count
+people without tracking them: hash the client address with a salt that is generated at startup of
+each day, held in memory and never written down, and keep the day's hashes in an in-memory set.
+At midnight the size of the set is written to `daily_metric` and the set and the salt are discarded.
+The count is real; the salt rotating daily makes it impossible to link a visitor across days; and
+because nothing is persisted, there is nothing to hand over. An exact set rather than a
+HyperLogLog sketch because at this scale exactness is free and a sketch is one more thing to
+explain.
+
+**Reading it is a CLI subcommand, not an endpoint.** `server metrics --since` over SSH. The public
+admin API stays what D25 made it: name approval and nothing else. Publishing the traffic figures
+alongside everything else this site publishes would be perfectly in character and can be added
+later; it is not worth a new public surface on day one.
+
+**nginx access logs are the exception and must be dealt with separately.** They record IP addresses
+and the application does not. Set a short retention — days, not months — and say so in the privacy
+notice, because that file is the only place a visitor's address is written down.
+
 ## Remaining actions
 
 - ~~Create the seven rank artefacts.~~ **Done, and there are eleven** (D23). Original pixel work,

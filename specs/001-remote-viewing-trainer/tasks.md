@@ -222,6 +222,11 @@ over and no second account appears.
 - [ ] T108 [P] Make the log export prominent and invite readers to keep their own copy — this is what makes the record survive the service (D12 bus factor)
 - [ ] T109 [P] Remove the demo data from the client — `demoMode`, the demo pool, the hardcoded access key, the fabricated player and leaderboard figures
 - [ ] T110 [P] Delete `client/public/ui/flag-de.svg` and `globe-en.svg`; the language switch is DE and EN as text
+- [ ] T111 Emit structured request logs in `server/src/http/trace.rs` — correlation id, matched route pattern (not the raw path, which can carry an account id), status, duration, locale; assert no fragment and no full referrer reaches them (FR-051, D28)
+- [ ] T112 Add `daily_metric(day, locale, metric, count)` and increment it in process — page views, accounts created, trials started/completed/abandoned, names submitted/approved, proofs opened, log downloads (FR-052, D28)
+- [ ] T113 Count unique visitors with a daily-rotating in-memory salt and an in-memory set, persisting only the day's count and discarding salt and set at rollover (FR-052, D28)
+- [ ] T114 Add `server metrics --since` as a CLI subcommand. The public admin API stays name approval only (D25, D28)
+- [ ] T115 [P] Set a short retention on the nginx access log and state it in the privacy notice — it is the only place a visitor's address is written down (D28)
 
 ---
 
