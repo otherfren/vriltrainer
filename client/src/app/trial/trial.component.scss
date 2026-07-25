@@ -1,0 +1,278 @@
+.trial {
+  padding: var(--s16) 0 var(--s8);
+}
+
+/* The sealed screen is deliberately sparse — you are meant to sit with the coordinate — but
+   sparse is not the same as empty. Centring turns the space into framing. */
+.trial--sealed {
+  min-height: calc(100vh - 12rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* Without this the column stretches its children and the button spans the full width,
+     which turns a quiet control into the loudest thing on a deliberately quiet screen. */
+  align-items: flex-start;
+}
+
+.trial--sealed .coord,
+.trial--sealed .seal {
+  align-self: stretch;
+}
+
+/* The coordinate is the most characteristic artifact in the product, so it is the hero —
+   set as a machine designator rather than a headline. */
+.coord {
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: clamp(2.75rem, 11vw, 7rem);
+  letter-spacing: 0.06em;
+  line-height: 1;
+  color: var(--bone);
+  margin: 0 0 var(--s8);
+  font-variant-numeric: tabular-nums;
+}
+
+.seal {
+  padding: var(--s4) var(--s6);
+  margin-bottom: var(--s8);
+}
+
+.seal__row {
+  display: flex;
+  gap: var(--s4);
+  align-items: baseline;
+  padding: var(--s1) 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.seal__row:last-of-type {
+  border-bottom: none;
+}
+
+.seal__key {
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--bone-faint);
+  min-width: 7rem;
+}
+
+.seal__val {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--bone-dim);
+  overflow-wrap: anywhere;
+}
+
+.seal__note {
+  font-size: 0.8125rem;
+  color: var(--bone-dim);
+  margin: var(--s3) 0 0;
+}
+
+.instruction {
+  color: var(--bone-dim);
+  margin-bottom: var(--s6);
+}
+
+/* ---- the candidate grid ---- */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--s3);
+  margin: var(--s6) 0 var(--s8);
+}
+
+.slot {
+  position: relative;
+  aspect-ratio: 1;
+  padding: 0;
+  border: 1px solid var(--rule);
+  background: var(--panel);
+  cursor: pointer;
+  overflow: hidden;
+
+  /* The develop sequence: frames come up in display order, the way a print does in a tray. */
+  opacity: 0;
+  transform: scale(0.985);
+  transition:
+    opacity 320ms ease,
+    transform 320ms ease,
+    border-color 120ms ease;
+}
+
+.slot--developed {
+  opacity: 1;
+  transform: none;
+}
+
+.slot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: saturate(0.75) contrast(1.05);
+}
+
+.slot:hover:not(:disabled) {
+  border-color: var(--amber-dim);
+}
+
+.slot__no {
+  position: absolute;
+  left: var(--s2);
+  top: var(--s2);
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  color: var(--bone);
+  background: rgba(14, 16, 19, 0.72);
+  padding: 0 var(--s1);
+}
+
+.slot[data-state='picked'] {
+  border-color: var(--amber);
+  border-width: 2px;
+}
+
+.slot[data-state='target'] {
+  border-color: var(--amber);
+  border-width: 2px;
+}
+
+.slot[data-state='wrong'] {
+  border-color: var(--danger);
+  border-width: 2px;
+}
+
+.slot[data-state='wrong'] img {
+  filter: saturate(0.2) contrast(0.9) brightness(0.7);
+}
+
+.slot[data-state='dim'] img {
+  filter: saturate(0.1) brightness(0.42);
+}
+
+.slot__tag {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: var(--s1) var(--s2);
+}
+
+.slot__tag--target {
+  background: var(--amber);
+  color: var(--ink);
+}
+
+.slot__tag--wrong {
+  background: var(--danger);
+  color: var(--ink);
+}
+
+/* ---- verdict ---- */
+
+.verdict {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s4);
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  padding: var(--s4) 0;
+  margin-bottom: var(--s6);
+}
+
+.verdict__word {
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: clamp(1.5rem, 4vw, 2.25rem);
+  letter-spacing: 0.02em;
+  color: var(--danger);
+}
+
+.verdict--hit .verdict__word {
+  color: var(--phosphor);
+}
+
+.verdict__rate {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--bone-faint);
+}
+
+.toofast {
+  border-left: 2px solid var(--amber);
+  padding-left: var(--s4);
+  color: var(--bone-dim);
+  font-size: 0.875rem;
+}
+
+/* ---- proof ---- */
+
+.proof__toggle {
+  margin-bottom: var(--s4);
+}
+
+.proof {
+  padding: var(--s4) var(--s6);
+  margin-bottom: var(--s6);
+}
+
+.proof__row {
+  display: flex;
+  gap: var(--s4);
+  justify-content: space-between;
+  padding: var(--s2) 0;
+  border-bottom: 1px solid var(--rule);
+  font-size: 0.75rem;
+}
+
+.proof__row span {
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--bone-faint);
+}
+
+.proof__row code {
+  font-family: var(--mono);
+  color: var(--bone-dim);
+  overflow-wrap: anywhere;
+}
+
+.proof__row--result {
+  border-bottom: none;
+}
+
+.proof__ok {
+  font-size: 0.8125rem;
+  margin: var(--s3) 0 0;
+}
+
+.proof__note {
+  font-size: 0.75rem;
+  margin: var(--s2) 0 0;
+}
+
+.progress {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  margin-top: var(--s6);
+}
+
+@media (max-width: 44rem) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .trial {
+    padding-top: var(--s8);
+  }
+}

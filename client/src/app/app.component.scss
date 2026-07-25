@@ -1,0 +1,168 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1;
+}
+
+/* ---- masthead: an instrument's top bezel ---- */
+
+.masthead {
+  border-bottom: 1px solid var(--rule);
+  background: rgba(14, 16, 19, 0.88);
+  backdrop-filter: blur(6px);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.masthead__inner {
+  display: flex;
+  align-items: center;
+  gap: var(--s6);
+  height: 3.5rem;
+}
+
+.wordmark {
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: 0.9375rem;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--bone);
+  text-decoration: none;
+}
+
+.nav {
+  display: flex;
+  gap: var(--s4);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.nav a {
+  color: var(--bone-dim);
+  text-decoration: none;
+  padding: var(--s1) 0;
+  border-bottom: 1px solid transparent;
+}
+
+.nav a:hover {
+  color: var(--bone);
+}
+
+.nav a.is-active {
+  color: var(--amber);
+  border-bottom-color: var(--amber);
+}
+
+.masthead__right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: var(--s4);
+}
+
+/* ---- the access key: masked, copyable without revealing ---- */
+
+.keybox {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  border: 1px solid var(--rule);
+  padding: var(--s1) var(--s2);
+}
+
+.keybox--open {
+  border-color: var(--amber-dim);
+}
+
+.keybox__label {
+  font-family: var(--mono);
+  font-size: 0.5625rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--bone-faint);
+}
+
+.keybox__value {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  color: var(--bone-dim);
+  max-width: 17rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.keybox__btn {
+  background: none;
+  border: none;
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--amber);
+  cursor: pointer;
+  padding: var(--s1) var(--s2);
+}
+
+.keybox__btn:hover {
+  color: var(--bone);
+}
+
+.lang {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.16em;
+  color: var(--bone-dim);
+  text-decoration: none;
+  border: 1px solid var(--rule);
+  padding: var(--s1) var(--s2);
+}
+
+.lang:hover {
+  color: var(--bone);
+  border-color: var(--rule-hi);
+}
+
+/* ---- footer ---- */
+
+.footer {
+  border-top: 1px solid var(--rule);
+  padding: var(--s8) 0 var(--s12);
+  margin-top: var(--s16);
+}
+
+.footer__note {
+  font-size: 0.8125rem;
+  margin-top: var(--s4);
+  max-width: 58ch;
+}
+
+@media (max-width: 60rem) {
+  .keybox__value {
+    display: none;
+  }
+  .nav {
+    gap: var(--s3);
+  }
+}
+
+@media (max-width: 44rem) {
+  .masthead__inner {
+    height: auto;
+    flex-wrap: wrap;
+    padding-top: var(--s3);
+    padding-bottom: var(--s3);
+    gap: var(--s3);
+  }
+  .keybox__label {
+    display: none;
+  }
+}

@@ -1,0 +1,30 @@
+.board { padding: var(--s16) 0 var(--s8); }
+.lede { margin-bottom: var(--s8); }
+
+.gate { display: flex; align-items: baseline; gap: var(--s4); padding: var(--s4) var(--s6); margin-bottom: var(--s6); }
+.gate__n { font-size: 2rem; font-weight: 600; }
+.gate__txt { font-size: 0.875rem; color: var(--bone-dim); }
+
+.tbl { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
+.tbl th { font-family: var(--mono); font-size: 0.5625rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--bone-faint); text-align: left; padding: var(--s2) var(--s3); border-bottom: 1px solid var(--rule-hi); }
+.tbl td { padding: var(--s3); border-bottom: 1px solid var(--rule); }
+.tbl tr:hover td { background: var(--panel); }
+.tbl__rk { font-family: var(--mono); color: var(--bone-faint); width: 2.5rem; }
+.tbl__num { text-align: right; font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.tbl__title { font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.06em; color: var(--amber); }
+.tbl__name { font-weight: 500; }
+.tbl__id { font-family: var(--mono); font-size: 0.625rem; color: var(--bone-faint); margin-left: var(--s2); letter-spacing: 0.1em; }
+
+.ladder { margin-top: var(--s12); }
+.ladder__list { list-style: none; margin: 0 0 var(--s4); padding: 0; border-top: 1px solid var(--rule); }
+.ladder__list li { display: flex; justify-content: space-between; gap: var(--s4); padding: var(--s2) 0; border-bottom: 1px solid var(--rule); }
+.ladder__title { font-family: var(--mono); font-size: 0.8125rem; color: var(--bone); }
+.ladder__span { font-family: var(--mono); font-size: 0.75rem; color: var(--bone-faint); }
+.ladder__note { font-size: 0.8125rem; }
+
+@media (max-width: 52rem) {
+  .tbl thead { display: none; }
+  .tbl tr { display: grid; grid-template-columns: 2rem 1fr auto; gap: var(--s2); padding: var(--s3) 0; border-bottom: 1px solid var(--rule); }
+  .tbl td { border: none; padding: 0; }
+  .tbl__title { grid-column: 2 / 4; }
+}

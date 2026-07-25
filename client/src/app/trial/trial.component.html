@@ -1,0 +1,103 @@
+<section class="shell trial" [class.trial--sealed]="phase() === 'sealed'">
+  @if (phase() === 'sealed') {
+    <p class="eyebrow">Koordinate · Sitzung {{ completed() + 1 }}</p>
+
+    <div class="coord" aria-label="Koordinate">{{ trial().coordinate }}</div>
+
+    <div class="seal panel">
+      <div class="seal__row">
+        <span class="seal__key">Commitment</span>
+        <code class="seal__val">{{ trial().commitment }}</code>
+      </div>
+      <div class="seal__row">
+        <span class="seal__key">Pool</span>
+        <code class="seal__val">v{{ trial().poolVersion }} · {{ trial().poolManifestHash }}</code>
+      </div>
+      <p class="seal__note">
+        Das Ziel steht bereits fest und ist mit dieser Zahl versiegelt — <em>bevor</em> du wählst.
+        Nach der Auflösung kannst du das hier selbst nachrechnen.
+      </p>
+    </div>
+
+    <p class="instruction">
+      Nimm dir Zeit mit der Koordinate. Erst danach aufdecken.
+    </p>
+
+    <button class="btn" type="button" (click)="reveal()">Ziele aufdecken</button>
+  }
+
+  @if (phase() !== 'sealed') {
+    <p class="eyebrow">
+      Koordinate {{ trial().coordinate }} · acht Kandidaten, acht verschiedene Kategorien
+    </p>
+
+    <div class="grid" [class.grid--resolved]="phase() === 'answered'">
+      @for (s of slots(); track s.index) {
+        <button
+          class="slot"
+          type="button"
+          [class.slot--developed]="s.developed"
+          [attr.data-state]="slotState(s.index)"
+          [disabled]="phase() === 'answered'"
+          (click)="choose(s.index)"
+        >
+          <img [src]="s.src" [alt]="'Kandidat ' + (s.index + 1)" />
+          <span class="slot__no">{{ s.index + 1 }}</span>
+          @if (phase() === 'answered' && s.index === target()) {
+            <span class="slot__tag slot__tag--target">Ziel</span>
+          }
+          @if (phase() === 'answered' && s.index === chosen() && !isHit) {
+            <span class="slot__tag slot__tag--wrong">Deine Wahl</span>
+          }
+        </button>
+      }
+    </div>
+
+    @if (tooFast()) {
+      <p class="toofast">
+        Zu schnell. Mindestens drei Sekunden zwischen Aufdecken und Wahl — die Antwort wurde nicht
+        angesehen, der Trial läuft weiter.
+      </p>
+    }
+
+    @if (phase() === 'answered') {
+      <div class="verdict" [class.verdict--hit]="isHit">
+        <span class="verdict__word">{{ isHit ? 'Treffer' : 'Daneben' }}</span>
+        <span class="verdict__rate">Zufallsrate 12,5 %</span>
+      </div>
+
+      <button class="btn btn--quiet proof__toggle" type="button" (click)="proofOpen.set(!proofOpen())">
+        {{ proofOpen() ? 'Nachweis schließen' : 'Nachweis prüfen' }}
+      </button>
+
+      @if (proofOpen()) {
+        <div class="proof panel">
+          <div class="proof__row"><span>s_server</span><code>8f2c41a0…b7d15e93</code></div>
+          <div class="proof__row"><span>s_client</span><code>04ba7712…3c9f0a48</code></div>
+          <div class="proof__row"><span>nonce</span><code>c1d4e6b8…0a2f7e51</code></div>
+          <div class="proof__row"><span>Koordinate</span><code>{{ trial().coordinate }}</code></div>
+          <div class="proof__row proof__row--result">
+            <span>framed(s_server, nonce, Koordinate)</span>
+            <code class="measured">{{ trial().commitment }}</code>
+          </div>
+          <p class="proof__ok measured">✓ stimmt mit dem Commitment von vor deiner Wahl überein</p>
+          <p class="proof__note faint">
+            Nachgerechnet im Browser, mit einer Implementierung, die unabhängig von der des Servers
+            geschrieben wurde. Beide werden gegen dieselben Testvektoren geprüft.
+          </p>
+        </div>
+      }
+
+      <button class="btn" type="button" (click)="next()">Nächste Sitzung</button>
+
+      <p class="progress faint">
+        {{ completed() }} Sitzungen abgeschlossen ·
+        @if (completed() < statsUnlockAt) {
+          Statistik ab {{ statsUnlockAt }} — noch {{ statsUnlockAt - completed() }}
+        } @else {
+          Statistik freigeschaltet
+        }
+      </p>
+    }
+  }
+</section>

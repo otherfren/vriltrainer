@@ -7,13 +7,9 @@
    values that were actually measured. The one structural device is the null
    line — the 12.5% chance rate, drawn as a real line, with every statistic
    shown as displacement from it. The joke lands visually: everyone sits on it.
+   Font faces are loaded via angular.json's styles array, not from here.
    ============================================================================ */
 
-@use '@fontsource/ibm-plex-mono/400.css';
-@use '@fontsource/ibm-plex-mono/600.css';
-@use '@fontsource/ibm-plex-mono/700.css';
-@use '@fontsource/ibm-plex-sans/400.css';
-@use '@fontsource/ibm-plex-sans/500.css';
 
 :root {
   /* Graphite is cold and slightly blue; amber is the darkroom safelight.
