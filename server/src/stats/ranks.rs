@@ -26,10 +26,21 @@ pub const RECOMPUTE_AFTER_SECONDS: i64 = 15 * 60;
 /// listed in another would put the account holding place 1 somewhere in the middle of page one, and
 /// nothing about that failure looks like a bug until somebody counts.
 ///
-/// The Wilson bound is the sort key D20 settled on. The tie-breaks exist only to make the order
-/// total — with a shared bound the longer record goes first, and the public identifier settles the
-/// rest so that two identical records do not swap places between passes.
-pub const BOARD_ORDER: &str = "s.wilson_lower DESC, s.completed DESC, a.public_id ASC";
+/// The Wilson bound is the sort key D20 settled on, and the upper bound is the second one rather
+/// than a tie-break of convenience. Read as a pair the order is "best guaranteed floor first, then
+/// best ceiling" — which at the top of the board is a refinement almost nothing reaches, and at the
+/// bottom is the entire ordering. Below chance the lower bound is exactly zero at every `n`
+/// (`measures::wilson_upper` says why), so the low tail ties on the first column and the second one
+/// decides it: descending, the smallest ceiling sorts last, and the smallest ceiling is the most
+/// evidence of an anti-talent. Ordering that tie by `completed` instead inverted the tail — three
+/// hundred trials without a hit placed *above* a hundred without one, and the weaker result took
+/// the Kartoffel.
+///
+/// The remaining tie-breaks exist only to make the order total: the longer record goes first, and
+/// the public identifier settles the rest so two identical records do not swap places between
+/// passes.
+pub const BOARD_ORDER: &str =
+    "s.wilson_lower DESC, s.wilson_upper DESC, s.completed DESC, a.public_id ASC";
 
 /// A place's band, and which end of the ladder it fell on.
 ///

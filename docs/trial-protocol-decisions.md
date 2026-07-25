@@ -745,6 +745,25 @@ up: rounding would hand out the rarest title at any population, which is the opp
 share is. The top rung is unreachable until a thousand people have taken this seriously, and that
 is the correct joke.
 
+**The two ends are ordered on different bounds, and this is not a symmetry the titles supply for
+free.** D20 sorts the board on the Wilson lower bound, and that bound carries no information below
+chance: for an account with no hits it is not merely clamped to zero, it *is* zero exactly, at
+every `n` — the interval's centre and margin are both `z^2/2n` and cancel. So every below-chance
+account ties on the sort key, and the bottom of the ladder is decided by whatever tie-break
+follows. Ordering that tie by trial count, as the first implementation did, inverts the tail: on a
+board of seven, three hundred trials without a hit (-6,55 sigma) placed *above* a hundred without
+one (-3,78 sigma), and the weakest of the three took the Kartoffel. More evidence of an anti-talent
+moved an account away from the title for it, which makes "as many Kartoffeln as Annunaki" — the
+sanity check this whole ladder is built to be — measure nothing.
+
+The board's second sort key is therefore the Wilson **upper** bound, descending. Read as a pair the
+order is *best guaranteed floor first, then best ceiling*; at the top that is a refinement almost
+nothing reaches, and at the bottom it is the entire ordering, because with no hits the ceiling
+falls as the record grows (0/100 still admits 3,7 %, 0/300 only 1,3 %). The upper bound is published
+beside the lower one on both the board and the account's own page, for the same reason D20 gives
+for publishing the first: a board sorted on a column it does not show produces endless argument
+about who is above whom.
+
 **Ranks are recomputed server-side every ~15 minutes**, not per request and not frozen per block.
 A materialised table keeps the board cheap and stable between recomputations, and the board states
 when ranks were last updated — otherwise a rank that has not moved reads as a bug.

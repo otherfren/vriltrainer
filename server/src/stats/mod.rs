@@ -23,6 +23,9 @@ pub struct AccountStats {
     pub abandoned: u64,
     pub distinct_utc_days: u32,
     pub wilson_lower: f64,
+    /// The highest rate the record still admits. The interpretable figure for a low-tail account,
+    /// whose lower bound is zero however many trials it has behind it.
+    pub wilson_upper: f64,
     /// Standard deviations from chance.
     pub deviation: f64,
     pub eligible: bool,

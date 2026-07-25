@@ -38,8 +38,8 @@ pub fn on_resolve(
     let (completed, hits): (u64, u64) = tx.query_row(
         "INSERT INTO account_stats
              (account_id, completed, hits, abandoned, distinct_utc_days, last_utc_day,
-              wilson_lower, deviation, eligible, updated_at)
-         VALUES (?1, 1, ?2, 0, 1, ?3, 0, 0, 0, ?4)
+              wilson_lower, wilson_upper, deviation, eligible, updated_at)
+         VALUES (?1, 1, ?2, 0, 1, ?3, 0, 1, 0, 0, ?4)
          ON CONFLICT (account_id) DO UPDATE SET
              completed         = completed + 1,
              hits              = hits + ?2,
@@ -106,7 +106,7 @@ pub fn rebuild(
     let mut hits = 0u64;
     let mut days = 0u32;
     let mut last_day: Option<String> = None;
-    let mut measures = (0.0, 0.0);
+    let mut measures = Measures::NOTHING_KNOWN;
 
     while let Some(row) = rows.next()? {
         let at: String = row.get(0)?;
@@ -132,8 +132,8 @@ pub fn rebuild(
     tx.execute(
         "INSERT INTO account_stats
              (account_id, completed, hits, abandoned, distinct_utc_days, last_utc_day,
-              wilson_lower, deviation, eligible, updated_at)
-         VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, 0, ?9)
+              wilson_lower, wilson_upper, deviation, eligible, updated_at)
+         VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, 0, ?10)
          ON CONFLICT (account_id) DO UPDATE SET
              completed         = excluded.completed,
              hits              = excluded.hits,
@@ -141,10 +141,20 @@ pub fn rebuild(
              distinct_utc_days = excluded.distinct_utc_days,
              last_utc_day      = excluded.last_utc_day,
              wilson_lower      = excluded.wilson_lower,
+             wilson_upper      = excluded.wilson_upper,
              deviation         = excluded.deviation,
              updated_at        = excluded.updated_at",
         params![
-            account_id, completed, hits, abandoned, days, last_day, measures.0, measures.1, now
+            account_id,
+            completed,
+            hits,
+            abandoned,
+            days,
+            last_day,
+            measures.lower,
+            measures.upper,
+            measures.deviation,
+            now
         ],
     )?;
     Ok(())
@@ -207,8 +217,8 @@ pub fn refresh_stale(db: &Db, cfg: &Config, now: &str) -> Result<u32, DbError> {
 pub fn load(conn: &Connection, account_id: &str) -> Result<AccountStats, DbError> {
     let found = conn
         .query_row(
-            "SELECT completed, hits, abandoned, distinct_utc_days, wilson_lower, deviation,
-                    eligible, rank_slug
+            "SELECT completed, hits, abandoned, distinct_utc_days, wilson_lower, wilson_upper,
+                    deviation, eligible, rank_slug
                FROM account_stats WHERE account_id = ?1",
             params![account_id],
             |r| {
@@ -218,9 +228,10 @@ pub fn load(conn: &Connection, account_id: &str) -> Result<AccountStats, DbError
                     abandoned: r.get(2)?,
                     distinct_utc_days: r.get(3)?,
                     wilson_lower: r.get(4)?,
-                    deviation: r.get(5)?,
-                    eligible: r.get::<_, i64>(6)? != 0,
-                    rank: r.get(7)?,
+                    wilson_upper: r.get(5)?,
+                    deviation: r.get(6)?,
+                    eligible: r.get::<_, i64>(7)? != 0,
+                    rank: r.get(8)?,
                 })
             },
         )
@@ -230,8 +241,9 @@ pub fn load(conn: &Connection, account_id: &str) -> Result<AccountStats, DbError
         hits: 0,
         abandoned: 0,
         distinct_utc_days: 0,
-        wilson_lower: 0.0,
-        deviation: 0.0,
+        wilson_lower: Measures::NOTHING_KNOWN.lower,
+        wilson_upper: Measures::NOTHING_KNOWN.upper,
+        deviation: Measures::NOTHING_KNOWN.deviation,
         eligible: false,
         rank: None,
     }))
@@ -267,19 +279,37 @@ pub fn still_open_from(now: &str, cfg: &Config) -> String {
         .expect("an RFC 3339 timestamp formats")
 }
 
+/// The three figures that advance together, kept in one value so a caller cannot write two of
+/// them and forget the third — which is what a bare tuple invited when the upper bound was added.
+#[derive(Debug, Clone, Copy, PartialEq)]
+struct Measures {
+    lower: f64,
+    upper: f64,
+    deviation: f64,
+}
+
+impl Measures {
+    /// What an account with nothing behind it is worth: no guaranteed floor, no ruled-out ceiling,
+    /// no distance from chance.
+    const NOTHING_KNOWN: Self = Self {
+        lower: 0.0,
+        upper: 1.0,
+        deviation: 0.0,
+    };
+}
+
 /// The measures, but only at a block boundary — `None` anywhere else, which is what holds the
 /// figure still between boundaries (FR-019, D17).
-fn at_boundary(completed: u64, hits: u64, cfg: &Config) -> Option<(f64, f64)> {
+fn at_boundary(completed: u64, hits: u64, cfg: &Config) -> Option<Measures> {
     blocks::is_boundary(
         completed,
         cfg.block_size as u64,
         cfg.thresholds.stats_unlock_at as u64,
     )
-    .then(|| {
-        (
-            measures::wilson_lower(hits, completed, measures::WILSON_Z),
-            measures::deviation(hits, completed),
-        )
+    .then(|| Measures {
+        lower: measures::wilson_lower(hits, completed, measures::WILSON_Z),
+        upper: measures::wilson_upper(hits, completed, measures::WILSON_Z),
+        deviation: measures::deviation(hits, completed),
     })
 }
 
@@ -288,19 +318,21 @@ fn store_measures(
     tx: &Transaction<'_>,
     account_id: &str,
     abandoned: u64,
-    advanced: Option<(f64, f64)>,
+    advanced: Option<Measures>,
 ) -> Result<(), DbError> {
     tx.execute(
         "UPDATE account_stats
             SET abandoned    = ?2,
                 wilson_lower = COALESCE(?3, wilson_lower),
-                deviation    = COALESCE(?4, deviation)
+                wilson_upper = COALESCE(?4, wilson_upper),
+                deviation    = COALESCE(?5, deviation)
           WHERE account_id = ?1",
         params![
             account_id,
             abandoned,
-            advanced.map(|m| m.0),
-            advanced.map(|m| m.1)
+            advanced.map(|m| m.lower),
+            advanced.map(|m| m.upper),
+            advanced.map(|m| m.deviation)
         ],
     )?;
     Ok(())

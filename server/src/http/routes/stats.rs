@@ -87,6 +87,11 @@ struct Mine<'a> {
     /// interpretable, and an uninterpretable number on a page about psi is read generously.
     by_chance_per_10k: u32,
     wilson_lower: f64,
+    /// The other end of the interval. Published alongside its counterpart because the counterpart
+    /// is uninformative below chance — an account with no hits in three hundred trials has a
+    /// guaranteed minimum rate of 0.0 %, which is also what an account with no hits in ten has.
+    /// The ceiling is what separates them, and it is the figure the low tail is ranked on.
+    wilson_upper: f64,
     distinct_days: u32,
     eligible: bool,
     /// A band **slug**, not a position — bands are shares of the eligible population, so there is
@@ -147,6 +152,7 @@ async fn me(State(state): State<AppState>, Holder(account): Holder) -> Result<Re
         deviation: stats.deviation,
         by_chance_per_10k: by_chance::per_10_000(reported_hits, reported_trials),
         wilson_lower: stats.wilson_lower,
+        wilson_upper: stats.wilson_upper,
         distinct_days: stats.distinct_utc_days,
         // Against the thresholds in force rather than the flag the last rank pass wrote, so a floor
         // an operator moved this morning takes effect now (D26).

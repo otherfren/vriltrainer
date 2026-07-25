@@ -941,9 +941,17 @@ mod tests {
         };
 
         for (p, &hits) in by_position.iter().enumerate() {
-            within_chance(hits, ROUNDS as u32, &format!("always taking display position {p}"));
+            within_chance(
+                hits,
+                ROUNDS as u32,
+                &format!("always taking display position {p}"),
+            );
         }
-        within_chance(lowest_index, ROUNDS as u32, "always taking the lowest identifier");
+        within_chance(
+            lowest_index,
+            ROUNDS as u32,
+            "always taking the lowest identifier",
+        );
         within_chance(
             big_was_target,
             big_shown,

@@ -157,6 +157,11 @@ CREATE TABLE account_stats (
     -- either the one already counted or a new one (FR-040, R4).
     last_utc_day      TEXT,
     wilson_lower      REAL    NOT NULL DEFAULT 0,
+    -- The other end of the same interval, and the board's second sort key. Below chance the lower
+    -- bound is not just clamped to zero, it is exactly zero at every n, so the whole low tail ties
+    -- on that column and whatever breaks the tie decides who is last. One at an empty record,
+    -- because with no evidence nothing is ruled out.
+    wilson_upper      REAL    NOT NULL DEFAULT 1,
     deviation         REAL    NOT NULL DEFAULT 0,
     eligible          INTEGER NOT NULL DEFAULT 0 CHECK (eligible IN (0, 1)),
     -- Materialised by the ~15-minute rank pass (D23), so the board is a read of one table. The
@@ -166,7 +171,7 @@ CREATE TABLE account_stats (
     updated_at        TEXT    NOT NULL
 );
 
-CREATE INDEX account_stats_board ON account_stats (eligible, wilson_lower DESC);
+CREATE INDEX account_stats_board ON account_stats (eligible, wilson_lower DESC, wilson_upper DESC);
 
 -- Keys for the public admin API of D25. One privilege level, because the API performs only
 -- reversible operations — approve and reject a name, nothing else. Everything destructive stays a

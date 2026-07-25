@@ -68,6 +68,10 @@ struct Entry {
     /// The sort key, and the primary figure — a board sorted on something it does not show
     /// produces endless "why is that person above me" (D20, FR-041).
     wilson_lower: f64,
+    /// The second sort key, shown for the reason the first one is: below chance `wilson_lower` is
+    /// zero at every `n`, so the low tail is ordered entirely on this column and a board that hid
+    /// it would be sorted on something it does not show — which is the complaint D20 settled.
+    wilson_upper: f64,
     /// The supporting figures FR-041 requires beside it. These describe the account's record and
     /// are reported live; `wilson_lower` and `deviation` are inferences and advance per block
     /// (FR-019), which is why the two can disagree about `n` and both be right.
@@ -121,8 +125,8 @@ fn eligible_accounts(reader: &Connection) -> Result<u64, DbError> {
 /// second sort is a second chance for the board and the ranks to disagree about who is first.
 fn read_page(reader: &Connection, offset: u64, limit: u64) -> Result<Vec<Entry>, DbError> {
     let mut stmt = reader.prepare(&format!(
-        "SELECT a.public_id, a.public_name, s.completed, s.hits, s.wilson_lower, s.deviation,
-                s.rank_slug
+        "SELECT a.public_id, a.public_name, s.completed, s.hits, s.wilson_lower, s.wilson_upper,
+                s.deviation, s.rank_slug
            FROM account_stats s JOIN account a ON a.id = s.account_id
           WHERE s.eligible = 1
           ORDER BY {order}
@@ -136,13 +140,14 @@ fn read_page(reader: &Connection, offset: u64, limit: u64) -> Result<Vec<Entry>,
         let hits: u64 = r.get(3)?;
         Ok(Entry {
             place: 0,
-            band: r.get(6)?,
+            band: r.get(7)?,
             name: public_display(public_name.as_deref()),
             public_id: r.get(0)?,
             wilson_lower: r.get(4)?,
+            wilson_upper: r.get(5)?,
             completed,
             hit_rate: measures::hit_rate(hits, completed),
-            deviation: r.get(5)?,
+            deviation: r.get(6)?,
         })
     })?;
 
@@ -323,5 +328,72 @@ mod tests {
         assert_eq!(body["eligible_accounts"], 0);
         assert!(body["entries"].as_array().unwrap().is_empty());
         assert!(body["bands_active"].as_array().unwrap().is_empty());
+    }
+
+    /// The low tail is ordered on the *upper* bound, and this is the board that proved it has to be.
+    ///
+    /// Three accounts with no hits at all, over records of very different lengths. Their
+    /// `wilson_lower` is not merely clamped to zero, it is zero exactly at every `n`, so all three
+    /// tie on the primary key and whatever follows decides the bottom of the ladder. Ordered by
+    /// `completed` — which is what it used to be — the tail came out backwards: the account with
+    /// the most evidence of an anti-talent placed *above* the one with the least, and the weakest
+    /// result took the low band. Nothing about that looks wrong until somebody reads the sigmas.
+    #[tokio::test]
+    async fn more_evidence_of_an_anti_talent_places_you_lower_not_higher() {
+        let mut f = Fixture::with_config(quick());
+        // Four above chance, so a population exists for the bands to be shares of.
+        for hits in [8, 7, 6, 5] {
+            let p = f.player();
+            f.play_across_days(&p, 4, hits, 3);
+        }
+        // Three at nothing, over 12, 36 and 63 trials. The reported figures stand at the block
+        // boundaries below those (10, 35, 60), which is what gives the three distinct bounds.
+        let short = f.player();
+        f.play_across_days(&short, 4, 0, 3);
+        let mid = f.player();
+        f.play_across_days(&mid, 12, 0, 3);
+        let long = f.player();
+        f.play_across_days(&long, 21, 0, 3);
+
+        let body = json(call(&f.state, "/api/leaderboard?limit=100").await).await;
+        let entries = body["entries"].as_array().unwrap();
+        assert_eq!(entries.len(), 7);
+
+        let tail: Vec<&str> = entries[4..]
+            .iter()
+            .map(|e| e["public_id"].as_str().unwrap())
+            .collect();
+        assert_eq!(
+            tail,
+            [&short.public_id, &mid.public_id, &long.public_id],
+            "the low tail is not ordered by the bound that carries information down there"
+        );
+
+        for e in &entries[4..] {
+            assert_eq!(
+                e["wilson_lower"], 0.0,
+                "the premise of this test has changed"
+            );
+        }
+        let ceilings: Vec<f64> = entries
+            .iter()
+            .map(|e| e["wilson_upper"].as_f64().unwrap())
+            .collect();
+        assert!(
+            ceilings.windows(2).all(|w| w[0] >= w[1]),
+            "the second sort key is not monotone across the board: {ceilings:?}"
+        );
+
+        // Only the widest band exists at seven eligible, so the ladder has exactly two titles and
+        // the low one belongs to the longest record without a hit.
+        assert!(entries[0]["band"].is_string());
+        assert!(
+            entries[6]["band"].is_string(),
+            "the low band went missing from the bottom place"
+        );
+        assert_eq!(entries[6]["public_id"], long.public_id);
+        for e in &entries[1..6] {
+            assert!(e["band"].is_null(), "a middle place was handed a title");
+        }
     }
 }

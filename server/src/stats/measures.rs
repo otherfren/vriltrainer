@@ -42,6 +42,37 @@ pub fn wilson_lower(hits: u64, n: u64, z: f64) -> f64 {
     ((centre - margin) / denominator).max(0.0)
 }
 
+/// The upper bound of the same interval: the highest rate the record is still consistent with.
+///
+/// This exists because [`wilson_lower`] carries **no information below chance**. For an account
+/// with no hits at all the lower bound is not merely clamped to zero, it *is* zero exactly, at
+/// every `n` — `centre` and `margin` are both `z²/2n` and cancel. So the entire low tail ties on
+/// that column, and a board ordered on it alone hands the low end to whichever tie-break follows.
+/// Ordering by `completed` there inverts the tail outright: three hundred trials without a hit is
+/// stronger evidence of an anti-talent than a hundred, and it would have placed higher.
+///
+/// The upper bound is informative exactly where the lower one is not. With no hits it falls as `n`
+/// grows — 0/100 admits 3.7 %, 0/300 only 1.3 % — so it orders the low tail the way the lower bound
+/// orders the high one. That is what makes D23's ladder actually symmetric rather than symmetric in
+/// its titles only.
+///
+/// One at an empty record, for the same reason its counterpart is zero: with no evidence, nothing
+/// is ruled out.
+pub fn wilson_upper(hits: u64, n: u64, z: f64) -> f64 {
+    if n == 0 {
+        return 1.0;
+    }
+    let n = n as f64;
+    let p = hits as f64 / n;
+    let z2 = z * z;
+
+    let denominator = 1.0 + z2 / n;
+    let centre = p + z2 / (2.0 * n);
+    let margin = z * (p * (1.0 - p) / n + z2 / (4.0 * n * n)).sqrt();
+
+    ((centre + margin) / denominator).min(1.0)
+}
+
 /// `hits / n`, and zero for an empty record.
 ///
 /// Zero rather than the NaN the division produces: the value is serialised into JSON, and
