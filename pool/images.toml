@@ -345,6 +345,26 @@ category = "animal"
   en = "Deer with a red ear tag"
 
   [[group.image]]
+  file = "deer_antlers_woods.jpg"
+  de = "Hirsch mit Geweih im Wald"
+  en = "Stag with antlers in the woods"
+
+  [[group.image]]
+  file = "golden_retriever_puppy.jpg"
+  de = "Golden-Retriever-Welpe"
+  en = "Golden retriever puppy"
+
+  [[group.image]]
+  file = "white_dog_shaking.jpg"
+  de = "Weißer Hund, der sich schüttelt"
+  en = "White dog shaking itself"
+
+  [[group.image]]
+  file = "wild_osprey.jpg"
+  de = "Fischadler im Flug"
+  en = "Osprey in flight"
+
+  [[group.image]]
   file = "highland_cow_with_horns.jpg"
   de = "Hochlandrind mit Hörnern"
   en = "Highland cow with horns"
@@ -410,6 +430,11 @@ category = "machine"
   de = "Digitalkamera auf Holz"
   en = "Digital camera on wood"
 
+  [[group.image]]
+  file = "modern_diy_drone.jpg"
+  de = "Selbstgebaute Drohne"
+  en = "Home-built drone"
+
 [[group]]
 dir = "water"
 category = "water"
@@ -418,3 +443,45 @@ category = "water"
   file = "sunset_tranquil_ocean.jpg"
   de = "Ruhiges Meer bei Sonnenuntergang"
   en = "Calm sea at sunset"
+
+# Six instruments, and almost every one of them has a twin in here: two strings, two horns, and a
+# drum kit that is nothing like either. That is the category working as intended — a viewer asked
+# to tell a violin from a double bass at a glance is being tested on eyesight, not on anything else.
+[[group]]
+dir = "instrument"
+category = "instrument"
+
+  [[group.image]]
+  file = "brown_violin.jpg"
+  de = "Braune Violine"
+  en = "Brown violin"
+
+  [[group.image]]
+  file = "double_bass.jpg"
+  de = "Kontrabass"
+  en = "Double bass"
+
+  [[group.image]]
+  file = "golden_trumpet.jpg"
+  de = "Goldene Trompete"
+  en = "Golden trumpet"
+
+  [[group.image]]
+  file = "tröte.jpg"
+  de = "Tröte"
+  en = "Toy horn"
+
+  [[group.image]]
+  file = "drum_set.jpg"
+  de = "Schlagzeug"
+  en = "Drum kit"
+
+  [[group.image]]
+  file = "brown_sitar.jpg"
+  de = "Sitar"
+  en = "Sitar"
+
+  [[group.image]]
+  file = "flöte.jpg"
+  de = "Querflöte"
+  en = "Flute"
