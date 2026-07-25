@@ -19,13 +19,14 @@
         </span>
       }
 
-      <!-- The access key is the save file, so it is labelled as one. -->
-      <div class="save">
-        <span class="save__label">Spielstand</span>
-        <button class="save__btn" type="button" (click)="copyKey()" title="Kopieren, ohne anzuzeigen">
+      <!-- "Spielstand" needed the metaphor explained before it meant anything. This link is
+           what gets you back into the account, so it carries the word for that. -->
+      <div class="login">
+        <span class="login__label">Login</span>
+        <button class="login__btn" type="button" (click)="copyKey()" title="Kopieren, ohne anzuzeigen">
           {{ copied ? 'Kopiert' : 'Kopieren' }}
         </button>
-        <button class="save__btn save__btn--eye" type="button" (click)="openKey()" title="Ganzen Link anzeigen">
+        <button class="login__btn login__btn--eye" type="button" (click)="openKey()" title="Ganzen Link anzeigen">
           <img src="ui/eye.svg" alt="" />
           Zeigen
         </button>
@@ -47,7 +48,7 @@
 
 <dialog class="keydlg" #keyDialog (click)="onDialogClick($event)">
   <div class="keydlg__box">
-    <p class="eyebrow">Dein Spielstand</p>
+    <p class="eyebrow">Dein Login</p>
     <p class="keydlg__lead">
       Dieser Link <em>ist</em> dein Konto. Wer ihn hat, ist du. Es gibt keine Wiederherstellung —
       speichere ihn als Lesezeichen oder im Passwortmanager.

@@ -1,6 +1,6 @@
 import { Component, computed, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { RankDef, rankForPlace, rankIcon } from '../core/ranks';
+import { RankDef, rankForPercentile, rankIcon } from '../core/ranks';
 
 interface Row {
   rank: number;
@@ -85,9 +85,12 @@ export class LeaderboardComponent {
     const next = () => ((seed = (seed * 1664525 + 1013904223) >>> 0) / 4294967296);
 
     let wilson = 18.6;
+    // Demo board: 74 rows standing in for a population of 720, so the shares land where the
+    // ladder says they should instead of where a 74-row list would put them.
+    const population = 720;
     return NAMES.map((name, i) => {
       const place = i + 1;
-      const rank: RankDef = rankForPlace(place);
+      const rank: RankDef = rankForPercentile(place / population);
       wilson -= 0.04 + next() * 0.07;
       const completed = 120 + Math.floor(next() * 1400);
       const rate = wilson + 1.4 + next() * 3.4;

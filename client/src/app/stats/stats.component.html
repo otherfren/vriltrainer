@@ -14,30 +14,18 @@
   <div class="tails panel">
     <p class="eyebrow">Verteilung der Spieler · n = {{ playersLabel }}</p>
 
-    <div class="hist" role="img" aria-label="Symmetrische Verteilung der Abweichungen">
-      @for (b of bins; track b.z) {
-        <div class="hist__col">
+    <div class="hist" role="img" aria-label="Verteilung der Spieler über die elf Rang-Bänder">
+      @for (b of bins; track b.rank.title) {
+        <div class="hist__col" [attr.title]="b.rank.title + ' — ' + b.rank.span">
           <span class="hist__count">{{ b.count }}</span>
           <span
             class="hist__bar"
-            [class.hist__bar--tail]="b.z <= -2 || b.z >= 2"
+            [class.hist__bar--tail]="b.rank.z <= -2 || b.rank.z >= 2"
+            [class.hist__bar--mid]="b.rank.z === 0"
             [style.height.%]="height(b.count)"
           ></span>
-          <span class="hist__z">{{ b.z > 0 ? '+' : '' }}{{ b.z }}σ</span>
+          <img class="hist__pic" [src]="icon(b.rank.icon)" [attr.alt]="b.rank.title" />
         </div>
-      }
-    </div>
-
-    <div class="ranks">
-      @for (r of ranks; track r.title) {
-        <img
-          class="ranks__pic"
-          [class.ranks__pic--mid]="r.z === 0"
-          [style.left.%]="rankLeft(r.z)"
-          [src]="icon(r.icon)"
-          [attr.title]="r.title"
-          [attr.alt]="r.title"
-        />
       }
     </div>
 
@@ -146,11 +134,14 @@
       </div>
 
       <div>
-        <dt>Ränge sind Plätze, keine Schwellen</dt>
+        <dt>Ränge sind Anteile, keine Bestenplätze</dt>
         <dd>
-          Es gibt immer genau drei Annunaki und immer genau drei Kartoffeln, egal wie viel Glück
-          im Umlauf ist. Die Leiter ist symmetrisch, weil der Zufall es ist. Ranglistenfähig ab
-          100 Sitzungen an mindestens drei verschiedenen Tagen.
+          Annunaki sind die besten 0,1 %, Loosh-Farmer die besten 0,5 %, und so weiter — nach
+          unten spiegelbildlich. Ein Anteil bedeutet dasselbe, egal ob neun Leute spielen oder
+          neunhunderttausend; ein dritter Platz bedeutet das nicht. Die Grenzen liegen dort, wo
+          eine faire Münze sie hinlegt — deshalb ist die Grafik oben eine Aussage und keine
+          Definition: gäbe es einen Effekt, wären die rechten Balken überbesetzt.
+          Ranglistenfähig ab 100 Sitzungen an mindestens drei verschiedenen Tagen.
         </dd>
       </div>
 

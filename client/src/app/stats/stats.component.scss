@@ -43,8 +43,8 @@
 .hist {
   display: flex;
   align-items: flex-end;
-  gap: var(--s3);
-  height: 12rem;
+  gap: var(--s2);
+  height: 13rem;
   margin-bottom: var(--s4);
 }
 
@@ -67,6 +67,19 @@
 
 .hist__bar--tail {
   background: var(--pop);
+}
+
+/* Where everybody is. */
+.hist__bar--mid {
+  background: var(--zap);
+}
+
+/* The axis label is the rank itself, so there is no legend to cross-reference. */
+.hist__pic {
+  width: 34px;
+  height: 34px;
+  image-rendering: pixelated;
+  margin-top: 3px;
 }
 
 .hist__count,
@@ -102,30 +115,6 @@
 
 .tails__end--exp {
   opacity: 0.65;
-}
-
-/* ---- the ranks, on the same axis as the bars ---- */
-
-.ranks {
-  position: relative;
-  height: 40px;
-  margin: var(--s3) 0 var(--s4);
-}
-
-.ranks__pic {
-  position: absolute;
-  top: 0;
-  width: 34px;
-  height: 34px;
-  transform: translateX(-50%);
-  image-rendering: pixelated;
-}
-
-/* Everyone is here, so it is drawn bigger than the ranks nobody holds. */
-.ranks__pic--mid {
-  width: 46px;
-  height: 46px;
-  top: -6px;
 }
 
 /* ---- the ladder ---- */
@@ -270,6 +259,10 @@
     gap: var(--s4);
   }
   .hist {
-    gap: var(--s1);
+    gap: 2px;
+  }
+  .hist__pic {
+    width: 22px;
+    height: 22px;
   }
 }

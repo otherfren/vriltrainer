@@ -111,9 +111,9 @@ main {
   cursor: help;
 }
 
-/* ---- the save file ---- */
+/* ---- the login ---- */
 
-.save {
+.login {
   display: flex;
   align-items: center;
   gap: var(--s2);
@@ -123,7 +123,7 @@ main {
   padding: var(--s1) var(--s2);
 }
 
-.save__label {
+.login__label {
   font-family: var(--label);
   font-weight: 800;
   font-size: 0.6875rem;
@@ -132,7 +132,7 @@ main {
   color: var(--pop-ink);
 }
 
-.save__btn {
+.login__btn {
   background: none;
   border: none;
   white-space: nowrap;
@@ -146,17 +146,17 @@ main {
   padding: var(--s1);
 }
 
-.save__btn:hover {
+.login__btn:hover {
   color: var(--ink);
 }
 
-.save__btn--eye {
+.login__btn--eye {
   display: inline-flex;
   align-items: center;
   gap: 4px;
 }
 
-.save__btn--eye img {
+.login__btn--eye img {
   width: 20px;
   height: 14px;
   image-rendering: pixelated;
@@ -210,7 +210,7 @@ main {
   background: var(--sky);
 }
 
-/* ---- the save file, shown whole ---- */
+/* ---- the login, shown whole ---- */
 /* A key rendered as `…` is not rendered, so revealing happens here rather than in a 13rem
    slot in the bar. */
 

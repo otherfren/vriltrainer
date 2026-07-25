@@ -32,12 +32,12 @@ import { Component } from '@angular/core';
 
         <img class="scene__moon scene__moon--big" src="scene/moon-big.svg" alt="" />
         <img class="scene__moon scene__moon--small" src="scene/moon-small.svg" alt="" />
-        <img class="scene__saucer" src="rank/rank-pilot.svg" alt="" />
+        <img class="scene__saucer" src="scene/saucer.svg" alt="" />
       </div>
 
       <div class="scene__ridge scene__ridge--far"></div>
 
-      <img class="scene__peek scene__peek--archon" src="rank/rank-archon.svg" alt="" />
+      <img class="scene__peek scene__peek--archon" src="rank/rank-loosh.svg" alt="" />
       <img class="scene__peek scene__peek--grey" src="rank/rank-grey.svg" alt="" />
       <img class="scene__peek scene__peek--reptilian" src="rank/rank-reptilian.svg" alt="" />
 
