@@ -129,3 +129,8 @@ en = "Ornament"
 id = "person"
 de = "Mensch"
 en = "Person"
+
+[[category]]
+id = "street"
+de = "Straße"
+en = "Street"

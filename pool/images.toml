@@ -104,6 +104,16 @@ category = "plant"
   de = "Gruppe von Fasskakteen"
   en = "Cluster of barrel cacti"
 
+  [[group.image]]
+  file = "cluster_of_small_yellow_flowers.jpg"
+  de = "Büschel kleiner gelber Blüten"
+  en = "Cluster of small yellow flowers"
+
+  [[group.image]]
+  file = "wilted_dried_rose_green_stem.jpg"
+  de = "Verwelkte Rose an grünem Stiel"
+  en = "Wilted rose on a green stem"
+
 [[group]]
 dir = "person"
 category = "person"
@@ -135,6 +145,18 @@ category = "person"
   file = "frau_mit_rosa_mütze_und_baby.jpg"
   de = "Frau mit rosa Mütze und Baby"
   en = "Woman in a pink hat with a baby"
+
+  [[group.image]]
+  file = "woman_gold_silver_emergency_blanket.jpg"
+  de = "Frau in einer goldenen Rettungsdecke"
+  en = "Woman in a gold emergency blanket"
+
+  # On a bicycle and therefore arguably `vehicle`, and filed here because what a viewer sees first
+  # is a woman. Four portraits of women in one category cannot meet each other, which is the point.
+  [[group.image]]
+  file = "woman_on_bike.jpg"
+  de = "Frau auf einem Fahrrad"
+  en = "Woman on a bicycle"
 
 [[group]]
 dir = "ornament"
@@ -223,6 +245,11 @@ category = "animal"
   de = "Schwan in Schwarzweiß"
   en = "Swan in black and white"
 
+  [[group.image]]
+  file = "orange_cat_peaceful_sleep_black_blanket.jpg"
+  de = "Schlafende rote Katze auf schwarzer Decke"
+  en = "Ginger cat asleep on a black blanket"
+
 # `stone` comes back with something that actually looks like stone. The pastel pebbles left for
 # `ornament` because of what they resemble, not what they are.
 [[group]]
@@ -233,3 +260,24 @@ category = "stone"
   file = "balanced_rock_desert.jpg"
   de = "Balancierender Fels in der Wüste"
   en = "Balanced rock in the desert"
+
+[[group]]
+dir = "food"
+category = "food"
+
+  [[group.image]]
+  file = "red_apples.jpg"
+  de = "Rote Äpfel"
+  en = "Red apples"
+
+# An alley is architecture, and it goes here rather than into `building` because it is not
+# confusable with a tower or a cabin — and the pool needs categories as much as it needs images.
+# Filing everything urban under `building` would be safe and would leave a bucket that never fills.
+[[group]]
+dir = "street"
+category = "street"
+
+  [[group.image]]
+  file = "narrow_alley_sun_split.jpg"
+  de = "Enge Gasse, halb im Sonnenlicht"
+  en = "Narrow alley split by sunlight"
