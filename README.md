@@ -13,7 +13,9 @@ missing](#what-is-missing).
 ## Requirements
 
 - **Rust 1.95+** (`cargo`)
-- **Node 22+** — on this machine under `~/.local/node`, with the PATH line in `~/.bashrc`
+- **Node 22+** — on this machine under `~/.local/node`, linked into `~/.local/bin` so it is on
+  the PATH in login and interactive shells alike. Check with `node --version`; if that fails,
+  open a new terminal.
 
 ## Running locally
 
@@ -24,7 +26,7 @@ cargo test
 # 2 — check that Rust and TypeScript compute the same derivation.
 #     This is the most important check in the project. If it diverges, verification
 #     fails in production on honest trials.
-npx tsx client/conformance.mts
+cd client && npm run conformance && cd ..
 
 # 3 — the interface in development mode, http://localhost:4200
 cd client && npm start

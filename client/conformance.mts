@@ -1,8 +1,13 @@
 import { readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import { dirname, join } from 'node:path';
 import { derive, membersOf } from './src/app/verify/derive.ts';
 import { commitment, fromHex } from './src/app/verify/framing.ts';
 
-const cases = JSON.parse(readFileSync('shared/vectors/derivation.json', 'utf8'));
+const here = dirname(fileURLToPath(import.meta.url));
+const cases = JSON.parse(
+  readFileSync(join(here, '..', 'shared', 'vectors', 'derivation.json'), 'utf8'),
+);
 let failed = 0;
 for (const c of cases) {
   const members = membersOf(c.categories, c.images);

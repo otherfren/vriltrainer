@@ -9,7 +9,8 @@
     "test": "ng test",
     "sync:vectors": "node -e \"require('fs').copyFileSync('../shared/vectors/derivation.json','src/app/verify/derivation.vectors.json')\"",
     "pretest": "npm run sync:vectors",
-    "prebuild": "npm run sync:vectors"
+    "prebuild": "npm run sync:vectors",
+    "conformance": "tsx conformance.mts"
   },
   "private": true,
   "dependencies": {
@@ -37,6 +38,7 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
-    "typescript": "~5.7.2"
+    "typescript": "~5.7.2",
+    "tsx": "^4.19.2"
   }
 }
