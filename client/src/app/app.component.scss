@@ -91,6 +91,7 @@ main {
 .hud__right {
   margin-left: auto;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: var(--s2);
   min-width: 0;

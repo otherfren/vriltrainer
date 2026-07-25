@@ -155,8 +155,7 @@
   margin-top: -7px;
   width: 0;
   height: 0;
-  border-top: 7px solid transparent;
-  border-bottom: 7px solid transparent;
+  border-block: 7px solid transparent;
   border-right: 14px solid var(--ink);
 }
 
@@ -451,8 +450,7 @@ code.inline {
     top: -14px;
     margin-top: 0;
     border-top: 0;
-    border-right: 14px solid transparent;
-    border-left: 14px solid transparent;
+    border-inline: 14px solid transparent;
     border-bottom: 14px solid var(--ink);
   }
   .trial {
