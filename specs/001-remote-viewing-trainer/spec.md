@@ -155,6 +155,14 @@ account and full history carry over.
 - **A user loses their access link** — the account and its history become unreachable,
   permanently, with no recovery path.
 - **A user reaches ten trials with zero hits** — statistics are shown regardless.
+- **Fewer than 200 accounts are eligible** — no ranks are awarded to anyone, and the current
+  eligible count is shown in place of the ladder. A ladder whose tiers run to position 200
+  cannot be filled by a dozen people without making the top of it meaningless.
+- **An account is ranked, then overtaken while inactive** — positional ranks move when others
+  play, so a rank already shared elsewhere can go stale. The artefact carries the figures it was
+  earned with, so it stays truthful about the moment it describes.
+- **A trial is answered faster than the minimum viewing time** — refused without evaluation, the
+  trial stays open, and the user may answer again.
 - **The image collection is extended between trials** — earlier trials remain verifiable against
   the collection version they were run under.
 - **A user opens the same account in two browsers at once** — trials from both must land in one
@@ -198,8 +206,12 @@ account and full history carry over.
   known.
 - **FR-014**: System MUST treat any trial that has not been completed as abandoned — no elapsed
   time is involved — and MUST retain it rather than deleting it.
-- **FR-037**: System MUST accept at most one answer per trial and MUST refuse any later answer
-  for a trial already answered.
+- **FR-037**: System MUST accept at most one *evaluated* answer per trial and MUST refuse any
+  later answer for a trial already answered. An answer rejected without being evaluated does not
+  consume the trial.
+- **FR-039**: System MUST reject an answer submitted less than three seconds after the images
+  were revealed, and MUST reject it **without evaluating the chosen image**, so that the rule
+  cannot be used to probe for the target.
 - **FR-038**: A trial MUST become permanently uncompletable once its validity period has passed,
   and a user answering after that point MUST be told the trial expired and offered a new one,
   never silently scored as a miss.
@@ -234,6 +246,21 @@ account and full history carry over.
 - **FR-028**: Leaderboard ranking MUST NOT favour accounts with very few trials.
 - **FR-029**: Each leaderboard entry MUST show the chosen name alongside a distinct public
   identifier.
+- **FR-040**: An account MUST become leaderboard-eligible only after completing 100 trials
+  spread across at least three distinct days.
+- **FR-041**: The leaderboard MUST display, for every entry, the statistic it is sorted by as
+  the primary figure, together with the account's completed-trial count, hit rate and deviation
+  from chance.
+- **FR-042**: System MUST assign ranks by leaderboard position rather than by absolute
+  thresholds, and MUST withhold ranks entirely until at least 200 accounts are
+  leaderboard-eligible, stating how many are currently eligible while it withholds them.
+- **FR-043**: System MUST assign a distinct rank to accounts performing markedly below chance,
+  and MUST display the count of markedly-below and markedly-above accounts together, so the
+  symmetry of the two tails is visible.
+- **FR-044**: Any shareable artefact depicting an account's rank MUST carry, within the artefact
+  itself, that account's completed-trial count and how often such a result occurs by chance.
+- **FR-045**: System MUST present the aggregate result as a headline finding, including — and
+  without qualification or de-emphasis — when it is indistinguishable from chance.
 
 **Languages and legal**
 
@@ -293,6 +320,14 @@ account and full history carry over.
   not reveal the target in any trial.
 - **SC-012**: The abandonment rate, overall and per account, is computable by a third party from
   the public record alone, so selective abandonment is detectable rather than hidden.
+- **SC-013**: No account holds a rank without having met the eligibility rule, and no rank is
+  awarded at all while fewer than 200 accounts are eligible.
+- **SC-014**: The counts of markedly-above-chance and markedly-below-chance accounts are both
+  displayed, so a reader can see whether the two tails are balanced without computing anything.
+- **SC-015**: A rank image shared outside the site states the trial count and the by-chance
+  frequency it was earned with, so it cannot be read as a claim the site does not make.
+- **SC-016**: Answers submitted faster than the minimum viewing time are refused without any
+  information about the target being returned.
 
 ## Assumptions
 
@@ -311,8 +346,22 @@ account and full history carry over.
 - Accounts may run unlimited trials; no per-user rate limit is imposed at launch. Abuse of the
   leaderboard through many throwaway accounts is addressed by the ranking rule in FR-028 and by
   the aggregate figure in FR-020 carrying the main claim, rather than by restricting play.
-- The leaderboard's effective minimum is assumed to be around 100 completed trials, subject to
-  adjustment once real distributions are observed.
+- The leaderboard's effective minimum is 100 completed trials, spread over at least three days,
+  subject to adjustment once real distributions are observed.
+- The leaderboard is sorted by the lower bound of a confidence interval on the hit rate, which
+  weighs trial count rather than surprise alone. A lucky 100-trial run at 25% produces a larger
+  deviation from chance than a steady 1000 trials at 15%, and the latter is treated as the
+  stronger result.
+- The rank ladder is assumed to be: top 3 *Insektoider Archont*, ranks 4–10 *Reptiloidenarchont*,
+  11–30 *Grey Alien*, 31–80 *Flugscheibenpilot*, 81–200 *Psionic Asset*, everything below
+  *Normie*, and markedly below chance *Kartoffel*. Positions, not thresholds — the supply of each
+  rank is fixed regardless of how lucky the population gets.
+- The product's stated position is that it is a public experiment whose most likely outcome is no
+  detectable effect, delivered in an irreverent register. This is a premise, not a prediction the
+  system enforces: the statistics are computed the same way whatever they show.
+- The minimum viewing time is three seconds. Its purpose is data quality rather than automation
+  defence — a trial answered in a fraction of a second is click noise. Parallel automation is not
+  meaningfully slowed by it; the three-day spread requirement is what raises that cost.
 - The interface describes the record as *published*, not as tamper-proof. External anchoring was
   deliberately deferred (D4), so the record's integrity rests on publication and on copies held
   by third parties.
