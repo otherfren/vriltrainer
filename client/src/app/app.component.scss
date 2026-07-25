@@ -93,6 +93,7 @@ main {
   display: flex;
   align-items: center;
   gap: var(--s2);
+  min-width: 0;
 }
 
 /* Says out loud that no server is answering yet, because a demo trial that
@@ -116,13 +117,10 @@ main {
   display: flex;
   align-items: center;
   gap: var(--s2);
+  min-width: 0;
   background: var(--card);
   border: 3px solid var(--ink);
   padding: var(--s1) var(--s2);
-}
-
-.save--open {
-  background: var(--zap);
 }
 
 .save__label {
@@ -134,19 +132,10 @@ main {
   color: var(--pop-ink);
 }
 
-.save__value {
-  font-family: var(--data);
-  font-size: 0.75rem;
-  color: var(--ink);
-  max-width: 15rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
 .save__btn {
   background: none;
   border: none;
+  white-space: nowrap;
   font-family: var(--label);
   font-weight: 800;
   font-size: 0.6875rem;
@@ -161,14 +150,111 @@ main {
   color: var(--ink);
 }
 
+.save__btn--eye {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.save__btn--eye img {
+  width: 20px;
+  height: 14px;
+  image-rendering: pixelated;
+}
+
+/* ---- language ---- */
+/* The domain is the switch: vriltrainer.de is German, .com is English (D10). Two marks rather
+   than one toggle, so which one you are on is visible without reading anything. */
+
 .lang {
-  font-family: var(--pixel);
+  display: flex;
+  gap: var(--s1);
+  flex: none;
+}
+
+.lang__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+  font-family: var(--label);
+  font-weight: 800;
   font-size: 0.6875rem;
+  letter-spacing: 0.08em;
   color: var(--ink);
   text-decoration: none;
-  background: var(--sky);
+  background: var(--card);
   border: 3px solid var(--ink);
-  padding: var(--s1) var(--s2);
+  padding: 3px var(--s2);
+}
+
+.lang__item img {
+  width: 18px;
+  height: 12px;
+  image-rendering: pixelated;
+  display: block;
+  flex: none;
+}
+
+/* The globe is square; the flag is not. */
+.lang__item:last-child img {
+  width: 14px;
+  height: 14px;
+}
+
+.lang__item.is-active {
+  background: var(--zap);
+}
+
+.lang__item:not(.is-active):hover {
+  background: var(--sky);
+}
+
+/* ---- the save file, shown whole ---- */
+/* A key rendered as `…` is not rendered, so revealing happens here rather than in a 13rem
+   slot in the bar. */
+
+.keydlg {
+  border: none;
+  background: none;
+  padding: 0;
+  max-width: min(46rem, 92vw);
+}
+
+.keydlg::backdrop {
+  background: rgba(11, 6, 28, 0.72);
+}
+
+.keydlg__box {
+  background: var(--card);
+  color: var(--ink);
+  border: 4px solid var(--ink);
+  box-shadow: var(--drop-lg);
+  padding: var(--s6);
+}
+
+.keydlg__lead {
+  font-size: 0.9375rem;
+  margin-bottom: var(--s4);
+}
+
+.keydlg__key {
+  display: block;
+  font-family: var(--data);
+  font-size: clamp(0.75rem, 2.4vw, 1rem);
+  line-height: 1.7;
+  background: var(--card-sunk);
+  border: 3px solid var(--ink);
+  padding: var(--s3);
+  margin-bottom: var(--s6);
+  overflow-wrap: anywhere;
+  user-select: all;
+}
+
+.keydlg__row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s3);
 }
 
 /* ---- footer ---- */
@@ -180,16 +266,38 @@ main {
   margin-top: var(--s16);
 }
 
-.foot__note {
-  font-size: 0.9375rem;
-  margin: var(--s6) 0 0;
-  max-width: 56ch;
+.foot__bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s4);
+  margin-top: var(--s6);
 }
 
-@media (max-width: 64rem) {
-  .save__value {
-    display: none;
-  }
+.foot__note {
+  font-size: 0.9375rem;
+  margin: 0;
+  max-width: 46ch;
+}
+
+.foot__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s4);
+  font-size: 0.875rem;
+}
+
+/* Named but not linked, because it does not exist yet and a dead link would be the one
+   thing this page cannot afford to be. */
+.foot__soon {
+  opacity: 0.6;
+}
+
+.foot__legal {
+  margin: var(--s8) 0 0;
+  font-size: 0.875rem;
+  opacity: 0.75;
 }
 
 @media (max-width: 52rem) {

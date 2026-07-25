@@ -34,8 +34,13 @@ export function fromHex(s: string): Uint8Array {
   return out;
 }
 
-/** `SHA-256( LE64(|p0|) ‖ p0 ‖ LE64(|p1|) ‖ p1 ‖ … )` */
-export async function framed(parts: Uint8Array[]): Promise<Uint8Array> {
+/**
+ * `LE64(|p0|) ‖ p0 ‖ LE64(|p1|) ‖ p1 ‖ …` — the bytes that actually go into SHA-256.
+ *
+ * Split out from `framed` so the interface can show a reader the exact preimage rather than
+ * asking them to take the digest on faith. There is still one definition of the layout.
+ */
+export function frame(parts: Uint8Array[]): Uint8Array {
   let total = 0;
   for (const p of parts) total += 8 + p.length;
   const buf = new Uint8Array(total);
@@ -46,7 +51,12 @@ export async function framed(parts: Uint8Array[]): Promise<Uint8Array> {
     buf.set(p, o);
     o += p.length;
   }
-  return new Uint8Array(await crypto.subtle.digest('SHA-256', buf));
+  return buf;
+}
+
+/** `SHA-256( LE64(|p0|) ‖ p0 ‖ LE64(|p1|) ‖ p1 ‖ … )` */
+export async function framed(parts: Uint8Array[]): Promise<Uint8Array> {
+  return new Uint8Array(await crypto.subtle.digest('SHA-256', frame(parts)));
 }
 
 /** The `sha256:`-prefixed form used in the API and the public log. */

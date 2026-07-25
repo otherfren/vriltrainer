@@ -43,10 +43,15 @@
   margin-bottom: var(--s2);
 }
 
+/* The bitmap face made a hero-sized identifier hard to read, which is the opposite of what
+   this element is for — it is the one string you are asked to hold in your head. The mono is
+   built for exactly that: unambiguous digits, tabular, and it stays crisp at display size. */
 .label__coord {
   display: block;
-  font-family: var(--pixel);
-  font-size: clamp(2rem, 9vw, 5.5rem);
+  font-family: var(--data);
+  font-weight: 700;
+  font-size: clamp(2.25rem, 9.5vw, 5.75rem);
+  letter-spacing: -0.02em;
   line-height: 1;
   color: var(--ink);
   font-variant-numeric: tabular-nums;
@@ -290,26 +295,98 @@
 }
 
 /* ---- the proof ---- */
+/* Nothing here is abbreviated. A hash shown as 8f2c…5e93 cannot be checked against anything,
+   which makes a "verify" button theatre; the whole preimage is printed, wrapped, selectable. */
 
 .proof {
   padding: var(--s4) var(--s6) var(--s6);
   margin-bottom: var(--s8);
 }
 
-.proof__row {
+.proof__h {
+  font-family: var(--shout);
+  font-size: 1.125rem;
+  margin: var(--s6) 0 var(--s3);
+}
+
+.proof__lead,
+.proof__cap {
+  font-size: 0.9375rem;
+  margin: 0 0 var(--s3);
+  max-width: 70ch;
+}
+
+.rows {
+  margin: 0 0 var(--s4);
+}
+
+.row {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--s3);
-  justify-content: space-between;
+  gap: var(--s2) var(--s4);
   padding: var(--s2) 0;
   border-bottom: 2px dotted #c9b89b;
 }
 
-.proof__row--result {
+.row dt {
+  font-family: var(--label);
+  font-weight: 800;
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--pop-ink);
+  min-width: 13rem;
+}
+
+.row dd {
+  margin: 0;
+  flex: 1;
+  min-width: 0;
+}
+
+.row code {
+  font-family: var(--data);
+  font-size: 0.75rem;
+  overflow-wrap: anywhere;
+  display: block;
+}
+
+.row__note {
+  display: block;
+  font-size: 0.8125rem;
+  opacity: 0.72;
+  margin-top: 2px;
+}
+
+.rows--result .row:last-child {
   border-bottom: none;
 }
 
-.proof__ok {
+code.inline {
+  font-family: var(--data);
+  font-size: 0.8125rem;
+  background: var(--card-sunk);
+  padding: 0 4px;
+  overflow-wrap: anywhere;
+}
+
+/* The preimage itself. Sunk, boxed and monospaced so it reads as a byte string you can copy
+   into your own sha256sum rather than as prose. */
+.blob {
+  display: block;
+  font-family: var(--data);
+  font-size: 0.75rem;
+  line-height: 1.7;
+  background: var(--card-sunk);
+  border: 3px solid var(--ink);
+  padding: var(--s3);
+  margin-bottom: var(--s4);
+  overflow-wrap: anywhere;
+  user-select: all;
+}
+
+.proof__ok,
+.proof__bad {
   display: flex;
   align-items: center;
   gap: var(--s2);
@@ -325,10 +402,32 @@
   padding: 0 var(--s2);
 }
 
+.proof__tick--bad {
+  background: var(--pop);
+  color: var(--card);
+}
+
 .proof__note {
   font-size: 0.875rem;
-  margin: var(--s2) 0 0;
+  margin: var(--s6) 0 0;
   opacity: 0.8;
+  max-width: 70ch;
+}
+
+/* The category is what makes eight images a forced choice rather than a lucky dip, so it is
+   named once the answer is in. */
+.slot__cat {
+  position: absolute;
+  right: 0;
+  top: 0;
+  font-family: var(--label);
+  font-weight: 800;
+  font-size: 0.625rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--card);
+  background: var(--ink);
+  padding: 2px var(--s2);
 }
 
 @media (max-width: 52rem) {
@@ -337,5 +436,8 @@
   }
   .trial {
     padding-top: var(--s8);
+  }
+  .row dt {
+    min-width: 0;
   }
 }

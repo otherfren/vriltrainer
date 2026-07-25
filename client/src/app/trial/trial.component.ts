@@ -1,11 +1,13 @@
 import { Component, inject, signal } from '@angular/core';
-import { ApiService, TrialStart } from '../core/api.service';
+import { ApiService, Resolution, TrialStart } from '../core/api.service';
+import { PlayerService, STATS_UNLOCK_AT } from '../core/player.service';
 
 type Phase = 'sealed' | 'revealed' | 'answered';
 
 interface Slot {
   index: number;
   src: string;
+  category: string;
   dealt: boolean;
 }
 
@@ -17,26 +19,39 @@ interface Slot {
 })
 export class TrialComponent {
   private api = inject(ApiService);
+  readonly player = inject(PlayerService);
 
   phase = signal<Phase>('sealed');
-  trial = signal<TrialStart>(this.api.newTrial());
+  trial = signal<TrialStart | null>(null);
   slots = signal<Slot[]>([]);
   chosen = signal<number | null>(null);
-  target = signal<number | null>(null);
+  resolution = signal<Resolution | null>(null);
   proofOpen = signal(false);
   tooFast = signal(false);
 
-  /** Trials completed in this session, purely so the interface can show progress. */
-  completed = signal(7);
-  readonly statsUnlockAt = 10;
+  readonly statsUnlockAt = STATS_UNLOCK_AT;
+  readonly poolNote = this.api.poolNote;
 
   private revealedAt = 0;
   private readonly minimumViewingSeconds = 3;
 
-  reveal(): void {
-    const slots: Slot[] = Array.from({ length: 8 }, (_, i) => ({
+  constructor() {
+    void this.next();
+  }
+
+  async reveal(): Promise<void> {
+    const t = this.trial();
+    if (!t) return;
+
+    // The client's half of the seed is contributed here, so the eight and the target below are
+    // a real run of the real derivation rather than a picture of one.
+    const resolved = await this.api.reveal(t.trialId);
+    this.resolution.set(resolved);
+
+    const slots: Slot[] = resolved.candidates.map((c, i) => ({
       index: i,
-      src: `demo/target-${i + 1}.svg`,
+      src: c.src,
+      category: c.category,
       dealt: false,
     }));
     this.slots.set(slots);
@@ -67,27 +82,30 @@ export class TrialComponent {
     }
 
     this.chosen.set(i);
-    this.target.set(Math.floor(Math.random() * 8));
     this.phase.set('answered');
-    this.completed.update((n) => n + 1);
+    this.player.record(this.isHit);
+  }
+
+  get target(): number | null {
+    return this.resolution()?.targetSlot ?? null;
   }
 
   get isHit(): boolean {
-    return this.chosen() !== null && this.chosen() === this.target();
+    return this.chosen() !== null && this.chosen() === this.target;
   }
 
-  next(): void {
-    this.trial.set(this.api.newTrial());
+  async next(): Promise<void> {
     this.slots.set([]);
     this.chosen.set(null);
-    this.target.set(null);
+    this.resolution.set(null);
     this.proofOpen.set(false);
     this.phase.set('sealed');
+    this.trial.set(await this.api.newTrial());
   }
 
   slotState(i: number): string {
-    if (this.phase() !== 'answered') return this.chosen() === i ? 'picked' : '';
-    if (i === this.target()) return 'target';
+    if (this.phase() !== 'answered') return '';
+    if (i === this.target) return 'target';
     if (i === this.chosen()) return 'wrong';
     return 'dim';
   }

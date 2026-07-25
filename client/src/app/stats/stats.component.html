@@ -7,20 +7,12 @@
   </h1>
 
   <p class="lede">
-    Über {{ trialsLabel }} Sitzungen, Abweichung {{ aggregateZLabel }} σ.
-    <strong>Bisher nichts.</strong> Das ist das erwartete Ergebnis, und es steht hier, solange es
-    so bleibt.
+    {{ trialsLabel }} Sitzungen · Abweichung {{ aggregateZLabel }} σ ·
+    <strong>bisher nichts.</strong>
   </p>
 
-  <app-vril-meter
-    [deviation]="aggregateZ"
-    label="Alle Spieler"
-    [reading]="rateLabel + ' % · n = ' + trialsLabel"
-    needleLabel="alle"
-  />
-
   <div class="tails panel">
-    <p class="eyebrow">Verteilung der Spieler</p>
+    <p class="eyebrow">Verteilung der Spieler · n = {{ playersLabel }}</p>
 
     <div class="hist" role="img" aria-label="Symmetrische Verteilung der Abweichungen">
       @for (b of bins; track b.z) {
@@ -36,58 +28,151 @@
       }
     </div>
 
+    <div class="ranks">
+      @for (r of ranks; track r.title) {
+        <img
+          class="ranks__pic"
+          [class.ranks__pic--mid]="r.z === 0"
+          [style.left.%]="rankLeft(r.z)"
+          [src]="icon(r.icon)"
+          [attr.title]="r.title"
+          [attr.alt]="r.title"
+        />
+      }
+    </div>
+
     <div class="tails__read">
       <div class="tails__end">
         <span class="tails__n measured">{{ tailHigh }}</span>
-        deutlich über dem Zufall
+        über +2σ
       </div>
       <div class="tails__end">
         <span class="tails__n measured">{{ tailLow }}</span>
-        deutlich darunter
+        unter −2σ
+      </div>
+      <div class="tails__end tails__end--exp">
+        <span class="tails__n">{{ expectedTail }}</span>
+        je Ende durch reinen Zufall erwartet
       </div>
     </div>
+  </div>
 
-    <p class="tails__note">
-      Unter reinem Zufall sind beide Enden gleich stark besetzt. Solange sich diese zwei Zahlen
-      ähneln, ist genau das zu sehen — dafür braucht es keine Statistik, nur einen Blick. Gäbe es
-      einen Effekt, müsste das obere Ende schwerer werden.
-    </p>
+  <div class="ladder">
+    <p class="eyebrow">Die Leiter</p>
+    <ul class="ladder__list">
+      @for (l of ranks; track l.title) {
+        <li [class.is-mid]="l.z === 0">
+          <img class="ladder__pic" [src]="icon(l.icon)" alt="" />
+          <span class="ladder__title">{{ l.title }}</span>
+          <span class="ladder__span">{{ l.span }}</span>
+        </li>
+      }
+    </ul>
   </div>
 
   <div class="mine">
     <p class="eyebrow">Deine Werte</p>
 
+    @if (!player.unlocked()) {
+      <p class="mine__locked panel">
+        Freigeschaltet nach {{ unlockAt }} Sitzungen — noch
+        <strong>{{ player.remaining() }}</strong>. Eine Trefferquote aus
+        {{ player.completed() }} Versuchen wäre keine Aussage, sondern eine Anekdote.
+      </p>
+    } @else {
     <div class="mine__grid">
       <div class="mine__cell">
         <span class="mine__label">Sitzungen</span>
-        <span class="mine__val measured">{{ mine.completed }}</span>
+        <span class="mine__val measured">{{ player.completed() }}</span>
       </div>
       <div class="mine__cell">
         <span class="mine__label">Treffer</span>
-        <span class="mine__val measured">{{ mine.hits }}</span>
+        <span class="mine__val measured">{{ player.hits() }}</span>
       </div>
       <div class="mine__cell">
         <span class="mine__label">Trefferquote</span>
-        <span class="mine__val measured">{{ mineRateLabel }} %</span>
+        <span class="mine__val measured">{{ mineRateLabel() }} %</span>
       </div>
       <div class="mine__cell">
         <span class="mine__label">Abweichung</span>
-        <span class="mine__val measured">+{{ mineZLabel }} σ</span>
+        <span class="mine__val measured">{{ mineZLabel() }} σ</span>
       </div>
     </div>
 
     <app-vril-meter
-      [deviation]="mine.z"
+      [deviation]="player.z()"
       [mine]="true"
       label="Du"
       needleLabel="du"
-      [reading]="'+' + mineZLabel + ' σ · gesicherte Mindestquote ' + mineWilsonLabel + ' %'"
+      [reading]="mineZLabel() + ' σ · gesicherte Mindestquote ' + mineWilsonLabel() + ' %'"
     />
+    }
+  </div>
 
-    <p class="mine__context panel">
-      Von 10 000 Leuten ohne jede Fähigkeit erreichen
-      <span class="measured">{{ perTenKLabel }}</span> diesen Wert allein durch Glück. Ohne diese
-      Zeile ist die Zahl darüber nicht interpretierbar.
-    </p>
+  <!-- Everything that would otherwise crowd the charts. The figures above are meant to be
+       readable at a glance; the reasoning lives here, once, at the bottom. -->
+  <div class="reading panel">
+    <p class="eyebrow">Wie man das liest</p>
+
+    <dl class="reading__list">
+      <div>
+        <dt>Die Nulllinie liegt bei 12,5 %</dt>
+        <dd>
+          Ein Ziel von acht. Wer rät, trifft im Schnitt jedes achte Mal. Jede Zahl auf dieser
+          Seite ist ein Ausschlag von dieser Linie, nicht von null.
+        </dd>
+      </div>
+
+      <div>
+        <dt>Falsch-positive sind hier die Regel, nicht die Ausnahme</dt>
+        <dd>
+          Bei {{ playersLabel }} Spielern landen allein durch Glück rund
+          <span class="measured">{{ expectedTail }}</span> an jedem Ende jenseits von 2σ.
+          Tatsächlich sind es <span class="measured">{{ tailHigh }}</span> oben und
+          <span class="measured">{{ tailLow }}</span> unten. Die Spitze der Bestenliste ist also
+          genau so besetzt, wie sie ohne jeden Effekt besetzt wäre. Wer genug Leute würfeln lässt,
+          bekommt immer jemanden mit einer erstaunlichen Serie — das ist eine Aussage über die
+          Anzahl der Leute, nicht über die Person.
+        </dd>
+      </div>
+
+      <div>
+        <dt>Beide Enden gleich schwer heißt: kein Effekt</dt>
+        <dd>
+          Eine echte Fähigkeit könnte nur das obere Ende schwerer machen. Solange sich die zwei
+          Zahlen ähneln, ist zu sehen, was zu erwarten war. Dafür braucht es keine Statistik, nur
+          einen Blick auf die Symmetrie.
+        </dd>
+      </div>
+
+      <div>
+        <dt>Ränge sind Plätze, keine Schwellen</dt>
+        <dd>
+          Es gibt immer genau drei Annunaki und immer genau drei Kartoffeln, egal wie viel Glück
+          im Umlauf ist. Die Leiter ist symmetrisch, weil der Zufall es ist. Ranglistenfähig ab
+          100 Sitzungen an mindestens drei verschiedenen Tagen.
+        </dd>
+      </div>
+
+      <div>
+        <dt>Mindestquote schlägt Abweichung</dt>
+        <dd>
+          Die Abweichung in σ ist die auffälligere Zahl, die gesicherte Mindestquote die
+          belastbarere: sie wiegt mit, wie oft jemand gespielt hat. Drei Treffer aus acht sind
+          keine Begabung, sie sind ein Dienstagnachmittag.
+        </dd>
+      </div>
+
+      @if (player.unlocked()) {
+      <div>
+        <dt>Deine {{ mineRateLabel() }} % im Kontext</dt>
+        <dd>
+          Von 10 000 Leuten ohne jede Fähigkeit erreichen
+          <span class="measured">{{ perTenKLabel() }}</span> diesen Wert allein durch Glück. Ohne
+          diese Zeile ist die Zahl nicht interpretierbar.
+        </dd>
+      </div>
+      }
+    </dl>
   </div>
 </section>

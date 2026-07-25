@@ -15,5 +15,9 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./leaderboard/leaderboard.component').then((m) => m.LeaderboardComponent),
   },
+  {
+    path: 'impressum',
+    loadComponent: () => import('./legal/impressum.component').then((m) => m.ImpressumComponent),
+  },
   { path: '**', redirectTo: 'trial' },
 ];

@@ -1,8 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { RankDef, rankForPlace, rankIcon } from '../core/ranks';
 
 interface Row {
   rank: number;
   title: string;
+  icon: string;
   name: string;
   publicId: string;
   wilson: number;
@@ -11,9 +14,26 @@ interface Row {
   z: number;
 }
 
+const NAMES = [
+  'otherfren', 'ganzfeld_enjoyer', 'monroe_institut', 'stargate_9901', 'kein_name', 'vril_ya',
+  'coordinate_hound', 'zenerkarte', 'ingo_swann_fan', 'sitzt_im_dunkeln', 'psi_oder_nicht',
+  'aetherpost', 'nachtschicht', 'remote_viewer_42', 'hellsichtig_de', 'doppelblind',
+  'nullhypothese', 'kein_effekt', 'wuenschelrute', 'dritte_auge_ag', 'ferngucker',
+  'signal_im_rauschen', 'pendel_pilot', 'karten_leger', 'traumtagebuch', 'silberschnur',
+  'astral_abwesend', 'orgon_ok', 'radiaesthet', 'zwischenraum', 'stille_post', 'katzenaugen',
+  'nebelmaschine', 'tiefschlaf', 'wachtraum', 'kein_signal', 'suchbild', 'weitblick_ev',
+  'fernfuehler', 'grauzone', 'schwingung9', 'aetherwelle', 'bildersucher', 'stichprobe',
+  'konfidenz', 'binomial_bert', 'wilson_grenze', 'sigma_jaeger', 'ausreisser', 'langzeitreihe',
+  'geduldsprobe', 'trefferzaehler', 'muenzwurf', 'wuerfelbecher', 'lostrommel', 'zufallszahl',
+  'streuung', 'mittelwert', 'restrauschen', 'grundlinie', 'kalibriert', 'blindprobe',
+  'kontrollgruppe', 'placebo_p', 'vorregistriert', 'praeregistrierung', 'datensatz', 'rohdaten',
+  'nachrechner', 'pruefsumme', 'hashwert', 'seedgeber', 'wuerfelgott', 'letzter_platz',
+];
+
 @Component({
   selector: 'app-leaderboard',
   standalone: true,
+  imports: [RouterLink],
   templateUrl: './leaderboard.component.html',
   styleUrl: './leaderboard.component.scss',
 })
@@ -24,34 +44,64 @@ export class LeaderboardComponent {
     return this.eligible >= this.required;
   }
 
-  /** Positions, not thresholds. The supply of each rank is fixed however lucky anyone gets. */
-  readonly ladder = [
-    { title: 'Insektoider Archont', span: '1\u20133', icon: 'archon' },
-    { title: 'Reptiloidenarchont', span: '4\u201310', icon: 'reptilian' },
-    { title: 'Grey Alien', span: '11\u201330', icon: 'grey' },
-    { title: 'Flugscheibenpilot', span: '31\u201380', icon: 'pilot' },
-    { title: 'Psionic Asset', span: '81\u2013200', icon: 'psionic' },
-    { title: 'Normie', span: 'darunter', icon: 'normie' },
-    { title: 'Kartoffel', span: 'deutlich unter dem Zufall', icon: 'potato' },
-  ];
+  readonly pageSize = 20;
+  readonly page = signal(0);
 
-  private readonly iconByTitle = new Map(this.ladder.map((l) => [l.title, l.icon]));
+  readonly rows: Row[] = LeaderboardComponent.demoRows();
 
-  /** The ladder is the funniest writing in the product; it deserves faces, not a text list. */
-  iconFor(title: string): string {
-    return `rank/rank-${this.iconByTitle.get(title) ?? 'normie'}.svg`;
+  readonly pageCount = computed(() => Math.ceil(this.rows.length / this.pageSize));
+  readonly pageRows = computed(() =>
+    this.rows.slice(this.page() * this.pageSize, (this.page() + 1) * this.pageSize),
+  );
+  readonly pages = computed(() => Array.from({ length: this.pageCount() }, (_, i) => i));
+  readonly firstShown = computed(() => this.page() * this.pageSize + 1);
+  readonly lastShown = computed(() =>
+    Math.min((this.page() + 1) * this.pageSize, this.rows.length),
+  );
+
+  go(p: number): void {
+    this.page.set(Math.max(0, Math.min(this.pageCount() - 1, p)));
+    scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  icon(r: Row): string {
+    return rankIcon(r.icon);
   }
 
   de(n: number, digits = 1): string {
-    return n.toLocaleString('de-DE', { minimumFractionDigits: digits, maximumFractionDigits: digits });
+    return n.toLocaleString('de-DE', {
+      minimumFractionDigits: digits,
+      maximumFractionDigits: digits,
+    });
   }
 
-  readonly rows: Row[] = [
-    { rank: 1, title: 'Insektoider Archont', name: 'otherfren', publicId: 'K7QF', wilson: 18.1, completed: 430, rate: 21.2, z: 3.9 },
-    { rank: 2, title: 'Insektoider Archont', name: 'ganzfeld_enjoyer', publicId: '2XM9', wilson: 17.4, completed: 612, rate: 19.8, z: 3.6 },
-    { rank: 3, title: 'Insektoider Archont', name: 'monroe_institut', publicId: 'B4TT', wilson: 16.9, completed: 388, rate: 20.1, z: 3.2 },
-    { rank: 4, title: 'Reptiloidenarchont', name: 'stargate_9901', publicId: 'QQ1W', wilson: 15.8, completed: 1204, rate: 17.2, z: 4.1 },
-    { rank: 5, title: 'Reptiloidenarchont', name: 'kein_name', publicId: 'ZR03', wilson: 15.2, completed: 297, rate: 19.5, z: 2.8 },
-    { rank: 6, title: 'Reptiloidenarchont', name: 'vril_ya', publicId: '7HND', wilson: 14.9, completed: 845, rate: 16.8, z: 3.3 },
-  ];
+  /**
+   * Demo board. Deterministic, so a screenshot of page 3 is the same page 3 tomorrow, and
+   * monotone in the sort key, because a board that is not sorted by what it claims to sort by
+   * is the sort of detail people notice.
+   */
+  private static demoRows(): Row[] {
+    let seed = 0x7f4a21;
+    const next = () => ((seed = (seed * 1664525 + 1013904223) >>> 0) / 4294967296);
+
+    let wilson = 18.6;
+    return NAMES.map((name, i) => {
+      const place = i + 1;
+      const rank: RankDef = rankForPlace(place);
+      wilson -= 0.04 + next() * 0.07;
+      const completed = 120 + Math.floor(next() * 1400);
+      const rate = wilson + 1.4 + next() * 3.4;
+      return {
+        rank: place,
+        title: rank.title,
+        icon: rank.icon,
+        name,
+        publicId: (0x1000 + Math.floor(next() * 0xefff)).toString(16).toUpperCase(),
+        wilson,
+        completed,
+        rate,
+        z: 1.8 + next() * 2.6,
+      };
+    });
+  }
 }

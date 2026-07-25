@@ -3,9 +3,11 @@
   <h1>Wer über der Nulllinie steht</h1>
 
   <p class="lede">
-    Ränge sind Plätze, keine Schwellen — es gibt immer genau drei Archonten, egal wie viel Glück
-    im Umlauf ist. Sortiert wird nach der gesicherten Mindestquote, weil sie die Anzahl der
-    Sitzungen mitwiegt. Die Abweichung steht daneben: die auffälligere, aber schwächere Zahl.
+    Ränge sind Plätze, keine Schwellen — es gibt immer genau drei Annunaki, egal wie viel Glück im
+    Umlauf ist. Sortiert wird nach der gesicherten Mindestquote, weil sie die Anzahl der Sitzungen
+    mitwiegt. Die Abweichung steht daneben: die auffälligere, aber schwächere Zahl.
+    <a routerLink="/statistik">Die ganze Leiter</a> steht bei der Statistik, neben der Verteilung,
+    aus der sie kommt.
   </p>
 
   @if (!ranksActive) {
@@ -32,12 +34,12 @@
         </tr>
       </thead>
       <tbody>
-        @for (r of rows; track r.publicId) {
+        @for (r of pageRows(); track r.publicId) {
           <tr>
             <td class="tbl__rk">{{ r.rank }}</td>
             <td>
               <span class="badge">
-                <img class="badge__pic" [src]="iconFor(r.title)" alt="" />
+                <img class="badge__pic" [src]="icon(r)" alt="" />
                 {{ r.title }}
               </span>
             </td>
@@ -52,21 +54,42 @@
     </table>
   </div>
 
-  <div class="ladder">
-    <p class="eyebrow">Die Leiter</p>
-    <ul class="ladder__list">
-      @for (l of ladder; track l.title) {
-        <li>
-          <img class="ladder__pic" [src]="'rank/rank-' + l.icon + '.svg'" alt="" />
-          <span class="ladder__title">{{ l.title }}</span>
-          <span class="ladder__span">{{ l.span }}</span>
-        </li>
+  <nav class="pager" aria-label="Seiten der Bestenliste">
+    <button class="pager__step" type="button" [disabled]="page() === 0" (click)="go(page() - 1)">
+      ← Zurück
+    </button>
+
+    <span class="pager__nums">
+      @for (p of pages(); track p) {
+        <button
+          class="pager__num"
+          type="button"
+          [class.is-current]="p === page()"
+          [attr.aria-current]="p === page() ? 'page' : null"
+          (click)="go(p)"
+        >
+          {{ p + 1 }}
+        </button>
       }
-    </ul>
-    <p class="ladder__note">
-      Ranglistenfähig ab 100 Sitzungen an mindestens drei verschiedenen Tagen. Über mehrere Tage,
-      weil Parallelität keinen Kalender zusammenschiebt — und weil verteilte Sitzungen ohnehin die
-      besseren Daten sind.
-    </p>
-  </div>
+    </span>
+
+    <button
+      class="pager__step"
+      type="button"
+      [disabled]="page() === pageCount() - 1"
+      (click)="go(page() + 1)"
+    >
+      Weiter →
+    </button>
+  </nav>
+
+  <p class="pager__count">
+    Plätze {{ firstShown() }}–{{ lastShown() }} von {{ rows.length }}
+  </p>
+
+  <p class="board__note">
+    Ranglistenfähig ab 100 Sitzungen an mindestens drei verschiedenen Tagen. Über mehrere Tage,
+    weil Parallelität keinen Kalender zusammenschiebt — und weil verteilte Sitzungen ohnehin die
+    besseren Daten sind.
+  </p>
 </section>

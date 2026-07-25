@@ -100,10 +100,111 @@
   font-size: 1.75rem;
 }
 
-.tails__note {
+.tails__end--exp {
+  opacity: 0.65;
+}
+
+/* ---- the ranks, on the same axis as the bars ---- */
+
+.ranks {
+  position: relative;
+  height: 40px;
+  margin: var(--s3) 0 var(--s4);
+}
+
+.ranks__pic {
+  position: absolute;
+  top: 0;
+  width: 34px;
+  height: 34px;
+  transform: translateX(-50%);
+  image-rendering: pixelated;
+}
+
+/* Everyone is here, so it is drawn bigger than the ranks nobody holds. */
+.ranks__pic--mid {
+  width: 46px;
+  height: 46px;
+  top: -6px;
+}
+
+/* ---- the ladder ---- */
+
+.ladder {
+  margin-top: var(--s12);
+}
+
+.ladder__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--s2);
+}
+
+.ladder__list li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s3);
+  background: var(--card);
+  color: var(--ink);
+  border: 3px solid var(--ink);
+  box-shadow: var(--drop-sm);
+  padding: var(--s2) var(--s4);
+}
+
+.ladder__list li.is-mid {
+  background: var(--zap);
+}
+
+.ladder__pic {
+  width: 40px;
+  height: 40px;
+  image-rendering: pixelated;
+  flex: none;
+}
+
+.ladder__title {
+  font-family: var(--shout);
+  font-size: 1.125rem;
+  flex: 1;
+}
+
+.ladder__span {
+  font-family: var(--label);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.75rem;
+  color: var(--pop-ink);
+}
+
+/* ---- the reading panel ---- */
+/* All the reasoning, in one place at the bottom, so the charts above can be looked at
+   instead of read. */
+
+.reading {
+  margin-top: var(--s12);
+  padding: var(--s4) var(--s6) var(--s6);
+}
+
+.reading__list {
+  margin: 0;
+  display: grid;
+  gap: var(--s4);
+}
+
+.reading__list dt {
+  font-family: var(--shout);
+  font-size: 1.0625rem;
+  margin-bottom: var(--s1);
+}
+
+.reading__list dd {
+  margin: 0;
   font-size: 0.9375rem;
-  margin: var(--s4) 0 0;
-  max-width: 66ch;
+  max-width: 74ch;
 }
 
 /* ---- your own numbers ---- */
@@ -128,6 +229,17 @@
   display: flex;
   flex-direction: column;
   gap: var(--s1);
+}
+
+.mine__locked {
+  padding: var(--s4);
+  max-width: none;
+  font-weight: 700;
+}
+
+.mine__locked strong {
+  font-weight: 800;
+  color: var(--pop-ink);
 }
 
 .mine__label {

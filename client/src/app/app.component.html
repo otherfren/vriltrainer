@@ -20,21 +20,47 @@
       }
 
       <!-- The access key is the save file, so it is labelled as one. -->
-      <div class="save" [class.save--open]="keyRevealed">
+      <div class="save">
         <span class="save__label">Spielstand</span>
-        <code class="save__value">{{ maskedKey }}</code>
         <button class="save__btn" type="button" (click)="copyKey()" title="Kopieren, ohne anzuzeigen">
-          Kopieren
+          {{ copied ? 'Kopiert' : 'Kopieren' }}
         </button>
-        <button class="save__btn" type="button" (click)="toggleKey()">
-          {{ keyRevealed ? 'Verbergen' : 'Zeigen' }}
+        <button class="save__btn save__btn--eye" type="button" (click)="openKey()" title="Ganzen Link anzeigen">
+          <img src="ui/eye.svg" alt="" />
+          Zeigen
         </button>
       </div>
 
-      <a class="lang" href="https://vriltrainer.com" hreflang="en">EN</a>
+      <div class="lang">
+        <span class="lang__item is-active" title="Deutsch · vriltrainer.de">
+          <img src="ui/flag-de.svg" alt="" />
+          DE
+        </span>
+        <a class="lang__item" href="https://vriltrainer.com" hreflang="en" title="English · vriltrainer.com">
+          <img src="ui/globe-en.svg" alt="" />
+          EN
+        </a>
+      </div>
     </div>
   </div>
 </header>
+
+<dialog class="keydlg" #keyDialog (click)="onDialogClick($event)">
+  <div class="keydlg__box">
+    <p class="eyebrow">Dein Spielstand</p>
+    <p class="keydlg__lead">
+      Dieser Link <em>ist</em> dein Konto. Wer ihn hat, ist du. Es gibt keine Wiederherstellung —
+      speichere ihn als Lesezeichen oder im Passwortmanager.
+    </p>
+    <code class="keydlg__key">{{ accessKey }}</code>
+    <div class="keydlg__row">
+      <button class="btn" type="button" (click)="copyKey()">
+        {{ copied ? 'Kopiert' : 'Kopieren' }}
+      </button>
+      <button class="btn btn--quiet" type="button" (click)="closeKey()">Schließen</button>
+    </div>
+  </div>
+</dialog>
 
 <main>
   <router-outlet />
@@ -42,16 +68,24 @@
 
 <footer class="foot">
   <div class="shell">
-    <app-vril-meter
-      [deviation]="0.31"
-      label="Alle Spieler, alle Sitzungen"
-      reading="12,53 % · n = 148.213"
-      needleLabel="alle"
-    />
-    <p class="foot__note">
-      Die Nulllinie liegt bei 12,5 % — reines Raten. Jede Zahl hier ist ein Ausschlag davon, und
-      bisher schlägt nichts aus. Der komplette Datensatz ist herunterladbar; nachrechnen ist
-      ausdrücklich vorgesehen.
+    <app-status-panel />
+
+    <div class="foot__bar">
+      <p class="foot__note">
+        Die Nulllinie liegt bei 12,5 % — reines Raten. Jede Zahl hier ist ein Ausschlag davon.
+      </p>
+
+      <nav class="foot__links" aria-label="Fußzeile">
+        <a href="https://github.com/otherfren/vriltrainer">Quellcode · AGPL-3.0</a>
+        <a href="https://github.com/otherfren/vriltrainer/blob/master/docs/trial-protocol-decisions.md">
+          Protokoll · D1–D22
+        </a>
+        <span class="foot__soon">Datensatz — sobald der Server läuft</span>
+      </nav>
+    </div>
+
+    <p class="foot__legal">
+      <a routerLink="/impressum">Impressum</a>
     </p>
   </div>
 </footer>
