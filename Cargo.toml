@@ -27,3 +27,6 @@ clap = { version = "4", features = ["derive"] }
 hex = "0.4"
 thiserror = "2"
 time = { version = "0.3", features = ["formatting", "parsing", "macros"] }
+# poolctl only. Decoders for what curation actually finds, plus PNG to write: every published image
+# is re-encoded losslessly with the same settings, so no source's compression signature survives.
+image = { version = "0.25", default-features = false, features = ["jpeg", "png", "webp"] }

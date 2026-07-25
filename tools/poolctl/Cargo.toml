@@ -5,6 +5,13 @@ edition.workspace = true
 license.workspace = true
 
 [dependencies]
+image.workspace = true
 sha2.workspace = true
 serde.workspace = true
 serde_json.workspace = true
+clap.workspace = true
+time.workspace = true
+# The manifest type, its hash rule and the derivation's requirements live in the server crate. A
+# second copy here would be a second thing to keep in step with `shared/vectors`, and on the day
+# the two disagreed the tool would publish manifests the server draws against differently.
+server = { path = "../../server" }
