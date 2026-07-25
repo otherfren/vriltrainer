@@ -189,15 +189,17 @@ main {
   padding: 3px var(--s2);
 }
 
+/* The eagle is drawn on a 16px grid and shown at 16px, so it lands 1:1 with no resampling —
+   the two heads are 3px wide each and do not survive being scaled down. */
 .lang__item img {
-  width: 18px;
-  height: 12px;
+  width: 16px;
+  height: 16px;
   image-rendering: pixelated;
   display: block;
   flex: none;
 }
 
-/* The globe is square; the flag is not. */
+/* The globe is the smaller mark, on a 13px grid. */
 .lang__item:last-child img {
   width: 14px;
   height: 14px;
