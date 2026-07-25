@@ -14,10 +14,13 @@ cd client && npm ci && npm run build     # one bundle per locale
 ```
 
 A pool is required before any trial can run. This is the gating dependency for the whole MVP —
-several hundred curated images, and the only part that cannot be automated:
+several hundred curated images, and the only part that cannot be automated. Follow
+`docs/curation-guide.md`; the pool is curated for diversity across the whole collection, because
+decoys are drawn at random and eight near-identical images would make a trial meaningless:
 
 ```bash
 poolctl add <file> --source <url> --licence CC0
+poolctl check                            # refuses missing provenance, duplicates; reports subject spread
 poolctl build --version 1                # normalises, hashes, writes shared/pool/v1.json
 ```
 

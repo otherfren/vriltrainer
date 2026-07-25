@@ -118,6 +118,9 @@ client/                      # Angular SPA, built once per locale
 shared/
 ├── vectors/                 # derivation test vectors — the contract between the two
 └── pool/                    # published manifest per version
+
+docs/
+└── curation-guide.md        # how the pool is built, written to be followed by anyone
 ```
 
 **Structure Decision**: Three deliverables in one repository — the Rust service, the Rust
@@ -126,6 +129,39 @@ exists because the derivation vectors and the pool manifest are contracts *betwe
 implementations rather than assets of either, and burying them inside `server/` would imply the
 Rust side is authoritative. It is not: agreement between two independent implementations is the
 evidence, and the vectors are what they agree on.
+
+## The curation workflow is a deliverable, not a side activity
+
+The pool is the largest piece of manual work in the project and the only one that cannot be
+automated away. It therefore needs a **documented workflow with a guide plain enough that someone
+other than the author can follow it** — kept in `docs/curation-guide.md`. Two reasons: the pool
+must keep growing after launch, and a rule that lives only in the operator's head is applied
+inconsistently the moment there is a second pair of hands or a six-month gap.
+
+`tools/poolctl` mechanises the parts a machine can check. The guide covers the parts it cannot.
+
+**A constraint that falls out of D3 and is easy to miss.** Decoys are drawn at random from the
+whole pool, never curated per trial. Nothing at trial time prevents eight near-identical images
+from appearing together. Set quality is therefore a property of the **pool**, not of any
+selection step: a pool of five hundred beach photographs would produce ambiguous sets forever,
+and no code could repair it. The guide has to state that the pool is curated for **diversity
+across the whole collection**, which is a different instruction from "pick good images".
+
+What the guide must settle, because each of these is a judgement a tool cannot make:
+
+- **Where to look** — the accepted CC0 and public-domain sources, and how to confirm a licence
+  rather than assume one.
+- **What makes a usable target** — visually distinct, unambiguous subject, strong composition.
+  Remote viewing practice favours vivid and salient imagery, and a set of eight is only meaningful
+  if a viewer's impression can discriminate between them.
+- **What is excluded.** Images containing legible text are out: text is a semantic marker that
+  distinguishes one image from seven others, and it would also break the neutrality of a
+  bilingual site. Recognisable faces are out. Anything with a licence that needs an argument is
+  out.
+- **Recording provenance at capture time**, never afterwards — a lost source URL is not
+  recoverable, and it is what makes the licence defensible later.
+- **When to cut a pool version**, given that versions are immutable and every trial references
+  the one it ran under.
 
 ## Complexity Tracking
 

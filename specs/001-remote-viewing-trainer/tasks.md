@@ -63,7 +63,9 @@ the derivation vectors. Neither can be worked around later.
 - [ ] T014 [P] Implement the annotate command in `tools/poolctl/src/annotate.rs` recording source URL, licence and attribution per image — this is the operator's curation interface, not only a build step (D17)
 - [ ] T015 Implement manifest emission in `tools/poolctl/src/manifest.rs` — sorted identifier list plus a plain hash over it, per contracts/pool-manifest.md; the ordering is normative because the derivation indexes into it
 - [ ] T084 [P] Add the manifest format test in `tools/poolctl/tests/manifest_format.rs` — asserts ascending order, the hash over the sorted list, and that a reordered manifest is rejected; the ordering silently determines every future derivation (constitution III, contracts/pool-manifest.md)
-- [ ] T016 Curate and normalise at least 500 freely licensed images into `shared/pool/v1.json` — the largest piece of manual work in the project, and it blocks every playable scenario (FR-012, SC-010, D5)
+- [ ] T092 Write the curation guide in `docs/curation-guide.md` — accepted sources and how to confirm a licence, what makes a usable target, exclusions (legible text, recognisable faces, arguable licences), recording provenance at capture time, and when to cut a pool version. Written to be followed by someone other than the author, because the pool keeps growing after launch
+- [ ] T093 [P] Add `poolctl check` in `tools/poolctl/src/check.rs` — refuse an image with no source or licence recorded, refuse a duplicate of an existing hash, and report the pool's current subject spread so drift toward one kind of image is visible
+- [ ] T016 Curate and normalise at least 500 freely licensed images into `shared/pool/v1.json` following `docs/curation-guide.md` — curated for **diversity across the whole pool**, since decoys are drawn at random and no per-trial step can rescue a monotonous collection; the largest piece of manual work in the project, and it blocks every playable scenario (FR-012, SC-010, D5)
 
 ### Storage, chain and crypto
 

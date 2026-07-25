@@ -382,4 +382,7 @@ account and full history carry over.
 
 - A curated collection of at least 500 freely licensed images, normalised so that no image is
   distinguishable from another by anything but its content, must exist before User Story 1 is
-  playable. This is the largest piece of manual work in the project and it gates the MVP.
+  playable. This is the largest piece of manual work in the project and it gates the MVP. It also
+requires a documented curation workflow that someone other than the author can follow, since the
+collection has to keep growing after launch and since diversity across the whole pool — not
+per-trial selection — is what keeps a set of eight discriminable.
