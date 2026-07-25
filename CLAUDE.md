@@ -17,10 +17,15 @@ into a file.
 
 ## Git workflow
 
+**Everything happens on `master`. No branches, no worktrees, no pull requests.** The operator does
+not want merges to review, and a one-person repository does not earn the ceremony. If a background
+session's isolation guard blocks an edit, that is what `.claude/settings.json` sets
+`worktree.bgIsolation` to `none` for — do not work around it by creating a worktree.
+
 **Commit and push often** — small, frequent commits rather than one large one at the end of a task.
 Commit each coherent step as soon as it works instead of batching up unrelated changes, and push to
-`origin` (`git@github.com:otherfren/vriltrainer.git`) right after. Work happens directly on `master`.
-No need to ask for permission per commit; this is the standing instruction for this repo.
+`origin` (`git@github.com:otherfren/vriltrainer.git`) right after. No need to ask for permission per
+commit; this is the standing instruction for this repo.
 
 ## Current state
 
