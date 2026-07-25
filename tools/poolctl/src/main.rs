@@ -87,7 +87,9 @@ enum Command {
 fn main() -> ExitCode {
     let cli = Cli::parse();
     let catalogue_path = cli.pool.join("catalogue.json");
-    let images_dir = cli.pool.join("images");
+    // `images/` belongs to the operator — that is where the sources live, in whatever
+    // folders they chose. The normalised output is a build artefact and keeps out of the way.
+    let images_dir = cli.pool.join("normalised");
 
     match run(&cli.command, &catalogue_path, &images_dir) {
         Ok(code) => code,

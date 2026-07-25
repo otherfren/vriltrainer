@@ -13,9 +13,14 @@ Two files describe the pool, and you edit both by hand:
 
 - `pool/categories.toml` — every category an image may use, `id` plus its German and English name.
   A category not listed there is refused as a typo.
-- `pool/images.toml` — the images. Paths are relative to that file, under `base`, and **the folder
-  layout beneath it is yours**: identity is the hash of the normalised bytes and the category is
-  what the entry says, so reorganising folders is never a silent re-categorisation.
+- `pool/images.toml` — the images. Paths are relative to that file, under `base` (which is
+  `pool/images/`), and **the folder layout beneath it is yours**. Organising by category is the
+  obvious arrangement and what the seeded file does, but nothing enforces it: identity is the hash
+  of the normalised bytes and the category is what the entry says, so renaming a folder changes
+  nothing and changing a `category` changes every future draw.
+
+`poolctl` writes its own output to `pool/normalised/` and `pool/catalogue.json`. Both are build
+artefacts, both are gitignored, and `import` recreates them from the sources.
 
 ```bash
 poolctl import                # takes everything images.toml names into the catalogue
