@@ -5,6 +5,7 @@
 //! a recovery path is an authentication surface to maintain for a case the user was warned about
 //! twice, and email recovery would pull real GDPR obligations onto a solo operator.
 
+pub mod admin_key;
 pub mod handoff;
 pub mod name;
 pub mod name_filter;

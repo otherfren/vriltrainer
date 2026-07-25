@@ -173,8 +173,8 @@ over and no second account appears.
 - [ ] T062 [P] [US4] Extract translatable strings and configure locale builds in `client/angular.json` — one bundle per locale, no runtime i18n library, both offering identical functionality (FR-030, D10)
 - [ ] T063 [P] [US4] Provide German and English message catalogues in `client/src/locale/`
 - [ ] T064 [US4] Serve the locale bundle fixed at startup in `server/src/http/static.rs` — one binary, two processes, two systemd units, two nginx upstreams (D24)
-- [ ] T065 [US4] Implement handoff code minting and redemption in `server/src/account/handoff.rs` — single use, roughly 30 seconds
-- [ ] T066 [US4] Implement `POST /api/handoff` and `POST /api/handoff/redeem` in `server/src/http/routes/handoff.rs`
+- [X] T065 [US4] Implement handoff code minting and redemption in `server/src/account/handoff.rs` — single use, roughly 30 seconds
+- [X] T066 [US4] Implement `POST /api/handoff` and `POST /api/handoff/redeem` in `server/src/http/routes/handoff.rs`
 - [ ] T067 [US4] Build the language switch in `client/src/app/account/language-switch.component.ts` — carries the session via a handoff code, never the long-lived token, so the switch stays safe to stream (FR-031, D11)
 - [ ] T068 [P] [US4] Add `hreflang` cross-references and suppress any automatic language redirect in `client/src/index.html` (FR-032)
 - [ ] T069 [US4] Implement `DELETE /api/account/name` in `server/src/http/routes/account.rs` — self-service, authenticated by the access link, which is the only proof of ownership that exists (FR-035)
@@ -184,7 +184,7 @@ over and no second account appears.
 - [ ] T073 [US4] Add the Impressum for the `.de` domain in `client/src/app/legal/` — a separate obligation from the GDPR notice
 - [ ] T074 [US4] Test that erasure leaves the record verifiable in `server/tests/erasure.rs` — remove a name, re-verify every one of that account's entries, which stay under the opaque identifier (FR-036, SC-008)
 - [ ] T087 [US4] Add the contract test for the account and handoff endpoints in `server/tests/contract_account.rs` (constitution III)
-- [ ] T090 [US4] Test that a language switch preserves the account and creates no duplicate, in `server/tests/handoff_identity.rs` (SC-007)
+- [X] T090 [US4] Test that a language switch preserves the account and creates no duplicate, in `server/tests/handoff_identity.rs` (SC-007)
 
 **Checkpoint**: Launch-ready.
 
@@ -209,8 +209,8 @@ over and no second account appears.
 - [ ] T095 Make `/` a combined landing-and-name screen in `client/src/app/` — the premise and the 12.5% above the name field, one button into the trial. Today `/` redirects to `/trial` and a cold visitor's first screen is a form demanding a public name with nothing explaining the site (SC-001, FR-001)
 - [ ] T096 Implement the name state machine in `server/src/account/name.rs` — `pending` -> `approved` | `rejected`, the opaque identifier shown in place of an unapproved name, the last approved name retained across a rename (FR-047, FR-048, SC-018, D25)
 - [ ] T097 Port `checkDisplayName` to `server/src/account/name_filter.rs` and enforce it on name submission — the client copy is UX only, and a rule checked only in the client is not checked (D25)
-- [ ] T098 Implement the public admin API in `server/src/http/routes/admin.rs` — list pending, approve, reject. **Reversible operations only**; anything destructive stays a CLI subcommand behind SSH (D25)
-- [ ] T099 Implement one admin key with its hash in the database, and `server admin-key --rotate` printing the key once — in the database rather than the environment file so rotation needs no restart (D25)
+- [X] T098 Implement the public admin API in `server/src/http/routes/admin.rs` — list pending, approve, reject. **Reversible operations only**; anything destructive stays a CLI subcommand behind SSH (D25)
+- [X] T099 Implement one admin key with its hash in the database, and `server admin-key --rotate` printing the key once — in the database rather than the environment file so rotation needs no restart (D25)
 - [ ] T100 Implement the rename endpoint with its rate limit in `server/src/http/routes/account.rs`, and confirm a rejected name does not consume it (FR-048)
 - [ ] T101 Make the thresholds configuration in `server/src/config.rs` and report them in the responses that depend on them — statistics unlock, eligibility floor, band edges (FR-050, D26)
 - [ ] T102 Recompute ranks on a ~15-minute background task and materialise them, exposing when they were last computed (D23)

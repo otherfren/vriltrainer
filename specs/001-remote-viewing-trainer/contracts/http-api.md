@@ -198,6 +198,60 @@ Required for anyone recomputing a trial.
 
 ### `POST /api/handoff/redeem`
 
-`200 { "access_token": "…" }`, burning the code. This is how a session crosses the origin
-boundary between the two domains without the long-lived token ever entering an address bar
-(FR-031, D11). `410` if already used or expired.
+```jsonc
+// request
+{ "code": "…" }
+// 200
+{ "access_token": "…" }
+```
+
+Burning the code. This is how a session crosses the origin boundary between the two domains
+without the long-lived token ever entering an address bar (FR-031, D11). `410` if already used,
+expired, or never issued — the three are deliberately indistinguishable.
+
+The token returned is a **new** one and the previous token stops working. That is forced rather
+than chosen: only a hash of an access token is ever stored (D9), so the one the browser already
+holds cannot be handed back, and storing it in a form that could be would put a usable credential
+into every backup. One account holds one live token.
+
+## Name review
+
+The public admin API of D25, mounted under `/admin` rather than `/api`. Public because the
+reviewers are not only the operator. Authenticated by a bearer **admin key**, which is a different
+credential from a player's access token and is checked against a different table; its hash lives
+in the database so `admin-key --rotate` takes effect without a restart.
+
+**Reversible operations only.** Approve and reject a name, and nothing else — no deletion, no
+access to the log, no pool changes. That, and not the authentication, is what bounds a leaked key.
+Rate-limited per client address.
+
+### `GET /admin/names?status=pending`
+
+```jsonc
+{ "status": "pending", "names": [ { "account_id": "…", "name": "otherfren" } ] }
+```
+
+Oldest submission first. `status` may only be `pending`; anything else is a `400`.
+
+### `POST /admin/names/{account_id}/approve` · `POST /admin/names/{account_id}/reject`
+
+```jsonc
+// approve
+{ "name": "otherfren" }
+// reject
+{ "name": "otherfren", "reason": "hate" }
+// 200
+{ "outcome": "applied" }
+// 409
+{ "error": "stale" }
+```
+
+`name` is **the name the reviewer read**, and it is not optional. The decision applies only if that
+string is still the account's pending name; a holder who resubmits between the queue being read and
+the button being pressed gets `409` and nothing is published (D25). A `409` means re-read the
+queue, which is why it is not a quiet `200`.
+
+`reason` is one of the pre-filter's codes — `too_short`, `too_long`, `shapeless`, `reserved`,
+`hate`, `vulgar`, `address` — or `refused` for what a human turns down and the filter has no word
+for. A closed list, because the code is rendered by the client's message catalogue and free text
+here would be untranslated product copy stored in the database and shown to the holder verbatim.
