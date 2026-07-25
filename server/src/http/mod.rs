@@ -6,7 +6,6 @@
 //! wrong.
 
 pub mod client_addr;
-pub mod limits;
 pub mod locale;
 pub mod routes;
 pub mod static_files;

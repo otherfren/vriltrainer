@@ -15,9 +15,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::account::{self, name::NameError, name_filter::Refusal};
 use crate::db::now_rfc3339;
-use crate::http::client_addr::ClientAddr;
-use crate::http::{ApiError, AppState, limits};
-use crate::trial::timing::now_unix;
+use crate::http::{ApiError, AppState};
 
 pub fn routes() -> Router<AppState> {
     // T069 and T100 — erasure and rename — mount here too, and stay 501 until they do.
@@ -84,20 +82,9 @@ struct CreateResponse {
 /// always sees their own name whatever state it is in.
 async fn create(
     State(state): State<AppState>,
-    ClientAddr(addr): ClientAddr,
     Json(request): Json<CreateRequest>,
 ) -> Result<Response, ApiError> {
-    let allowance = state.config.accounts_per_address_per_hour;
-    if !limits::creation().admits(addr, now_unix(), allowance) {
-        // No address in the message and none in the log line: the limiter is the only thing in
-        // this process that knows one, and D28 keeps it that way.
-        return Err(ApiError::RateLimited);
-    }
-
     let account = account::create(&state.db, &request.name, &now_rfc3339()).map_err(refusal)?;
-
-    // Counted after the account exists, so a name the pre-filter turned away costs nothing.
-    limits::creation().record(addr, now_unix());
 
     Ok((
         StatusCode::CREATED,
@@ -219,51 +206,18 @@ mod tests {
         assert_eq!(body(response).await["error"], "hate");
     }
 
-    /// T075. The address comes from the proxy header, which is the only reason this counts
-    /// anything at all — see `http::client_addr`.
+    /// The per-address creation limit of D17 was removed by the operator. This is the test that
+    /// keeps it removed: it fails the moment something starts counting accounts per address again.
     #[tokio::test]
-    async fn the_per_address_limit_stops_account_farming() {
+    async fn one_address_may_create_as_many_accounts_as_it_likes() {
         let state = test_support::state();
-        let allowance = state.config.accounts_per_address_per_hour;
 
-        for _ in 0..allowance {
+        for _ in 0..12 {
             let response = router(state.clone())
                 .oneshot(create_request("203.0.113.13", "otherfren"))
                 .await
                 .unwrap();
             assert_eq!(response.status(), StatusCode::CREATED);
         }
-
-        let response = router(state.clone())
-            .oneshot(create_request("203.0.113.13", "otherfren"))
-            .await
-            .unwrap();
-        assert_eq!(response.status(), StatusCode::TOO_MANY_REQUESTS);
-
-        // Another address is unaffected: the limit is per client, not global.
-        let response = router(state)
-            .oneshot(create_request("203.0.113.14", "otherfren"))
-            .await
-            .unwrap();
-        assert_eq!(response.status(), StatusCode::CREATED);
-    }
-
-    /// A refusal must not spend the allowance, or the pre-filter would lock a user out of the
-    /// account whose name they were still typing.
-    #[tokio::test]
-    async fn refused_names_do_not_consume_the_allowance() {
-        let state = test_support::state();
-        for _ in 0..(state.config.accounts_per_address_per_hour + 3) {
-            let response = router(state.clone())
-                .oneshot(create_request("203.0.113.15", "ab"))
-                .await
-                .unwrap();
-            assert_eq!(response.status(), StatusCode::BAD_REQUEST);
-        }
-        let response = router(state)
-            .oneshot(create_request("203.0.113.15", "otherfren"))
-            .await
-            .unwrap();
-        assert_eq!(response.status(), StatusCode::CREATED);
     }
 }

@@ -192,8 +192,8 @@ over and no second account appears.
 
 ## Phase 7: Polish & Cross-Cutting Concerns
 
-- [X] T075 [P] Implement the per-address limit on account creation in `server/src/http/limits.rs`, depending on T024 for a real client address
-- [X] T076 [P] Implement the cap on concurrent uncompleted trials per account in `server/src/http/limits.rs`, beside the per-address limit D17 names in the same breath — this is what bounds log growth, since every trial is permanent (D16, D17)
+- [X] ~~T075 [P] Implement the per-address limit on account creation in `server/src/http/limits.rs`, depending on T024 for a real client address~~ **Reverted 2026-07-26 (D30): the limit and `server/src/http/limits.rs` are removed. A test now asserts its absence.**
+- [X] ~~T076 [P] Implement the cap on concurrent uncompleted trials per account in `server/src/http/limits.rs`, beside the per-address limit D17 names in the same breath — this is what bounds log growth, since every trial is permanent (D16, D17)~~ **Reverted 2026-07-26 (D30): the cap is removed. A test now asserts its absence.**
 - [X] T077 Write the nginx configuration in `deploy/nginx.conf` — TLS for both domains, `Host` forwarded unchanged, real client address set; either omission silently breaks a decision (research.md R8)
 - [X] T078 [P] Write the systemd unit in `deploy/vriltrainer@.service` — a template, one instance per locale (D24)
 - [ ] T079 Verify the backup path end to end — dump, push, and **restore into a scratch database**; an untested backup of the audit log is an untested product promise (D12)

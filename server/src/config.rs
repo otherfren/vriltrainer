@@ -139,11 +139,6 @@ pub struct Config {
     pub min_view_seconds: i64,
     /// How long a revealed trial may still be answered (D16).
     pub trial_lifetime_hours: i64,
-    /// Concurrent uncompleted trials per account. Every trial is permanent, so this — not a rate
-    /// limit over time — is what bounds the growth of the log (D17).
-    pub open_trials_per_account: u32,
-    /// Accounts one client address may create per hour (D17).
-    pub accounts_per_address_per_hour: u32,
     /// Hours a holder must wait between name submissions (FR-048, D25).
     ///
     /// The scarce resource being rationed is the reviewer, not the database, so this is a cooldown
@@ -176,8 +171,6 @@ impl Default for Config {
             block_size: 25,
             min_view_seconds: 3,
             trial_lifetime_hours: 24,
-            open_trials_per_account: 3,
-            accounts_per_address_per_hour: 5,
             rename_cooldown_hours: 24,
         }
     }

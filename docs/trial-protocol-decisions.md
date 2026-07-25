@@ -500,7 +500,7 @@ Settled 2026-07-25 while preparing the implementation plan.
 
 | Item | Decision |
 |---|---|
-| Abuse limits | Account creation limited per client IP; concurrent uncompleted trials capped per account |
+| Abuse limits | ~~Account creation limited per client IP; concurrent uncompleted trials capped per account~~ **Superseded by D30: both removed** |
 | Commitment and derivation hash | SHA-256 — present in WebCrypto and in `sha2`, no extra browser dependency |
 | Token encryption | XChaCha20-Poly1305; the 192-bit nonce removes any nonce-reuse concern without a counter |
 | Derivation stream | `SHA-256(seed ‖ counter)`, consumed in 64-bit words, **rejection sampling** rather than modulo, decoys by partial Fisher-Yates |
@@ -510,9 +510,9 @@ Settled 2026-07-25 while preparing the implementation plan.
 | Image pipeline | A Rust tool using the `image` crate, doubling as the operator's annotate-and-scale script |
 | Deployment | Behind the existing nginx on the Hetzner host, alongside other sites |
 
-Capping concurrent trials attacks the growth problem at its cause rather than rate-limiting
+~~Capping concurrent trials attacks the growth problem at its cause rather than rate-limiting
 creation over time: a new trial requires an earlier one to be completed or expired, so the log
-grows at most by the cap per account per token lifetime.
+grows at most by the cap per account per token lifetime.~~ **Superseded by D30.**
 
 The derivation stream needs this much precision because D7 puts one implementation in Rust and
 one in TypeScript. `pool[seed mod P]` alone is not a specification — decoy selection and display
@@ -526,10 +526,10 @@ manifest entry.
 **Two consequences of sitting behind a shared nginx, both of which silently break a decision if
 missed:**
 
-- The backend sees `127.0.0.1` as the client address unless nginx forwards the real one.
-  IP-based limits on account creation would then be either inert or global, throttling every
-  user together. nginx must set `X-Forwarded-For`, and the service must trust that header **only**
-  from the proxy, otherwise any client can forge it.
+- The backend sees `127.0.0.1` as the client address unless nginx forwards the real one. With
+  D30 nothing is counted per address any more, so this no longer breaks a limit — but the header
+  is still forwarded and still trusted only from the proxy, because the admin login limiter reads
+  it and because a service that cannot tell its callers apart cannot be debugged.
 - The `Host` header must be passed through, because D10 selects the locale bundle from it.
   Without it the language split fails.
 
@@ -999,3 +999,38 @@ Two consequences worth naming:
   ETag. Eight images load at the top of every trial, and a visitor who plays fifty should pay for
   the pool once.
 
+
+## D30 — No abuse limits on account creation or open trials
+
+Decided 2026-07-26 by the operator. Amends D17, which capped account creation per client address
+and concurrent uncompleted trials per account. Both are gone; nothing counts either now.
+
+What D17 was protecting is real and has not changed. Every trial is a permanent entry in an
+append-only log, and an account is free to create, so the two limits were what bounded the growth
+of the record and what made casual account farming tedious. Removing them means one machine can
+mint as many accounts as it likes, and one account can hold open as many trials as it likes.
+
+Three things make that affordable, and it is worth writing down which — because if any of them
+stops being true, this decision is the one to revisit:
+
+- **Sybil accounts were never answered here.** D9 says plainly that they are handled on the
+  display side: the leaderboard has a minimum trial count, and the aggregate figure is what it is
+  regardless of how many identities produced it. The creation limit made farming tedious; it never
+  made it ineffective.
+- **An open trial is not free-floating.** It still expires on the D16 clock and is still published
+  as abandoned (FR-021). Holding a thousand of them open produces a thousand abandonments in the
+  public record under one account, which is visible rather than hidden — the cap prevented the
+  rows, not the behaviour.
+- **The limits were the most-hit wall in ordinary use.** The concurrency cap in particular refused
+  people who had done nothing wrong, with a message about a rule they had no reason to know.
+
+Consequences:
+
+- The log grows without a per-account bound. Nothing here is a defence against a determined flood;
+  if one arrives, the answer is at the proxy, not in the handler.
+- `accounts_per_address_per_hour` and `open_trials_per_account` are gone from the configuration —
+  not set to zero, removed, so nothing reads a knob that no longer does anything.
+- The per-address counter that D28 tolerated in memory is gone with them. The admin login limiter
+  is unaffected and still exists; it protects a password, not a quota.
+- Two tests now assert the *absence* of each limit, so re-introducing one fails the suite rather
+  than passing silently.

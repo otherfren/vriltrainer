@@ -25,11 +25,11 @@ use rand::{Rng, RngCore};
 use rusqlite::{ErrorCode, OptionalExtension, params};
 use serde::{Deserialize, Serialize};
 use time::format_description::well_known::Rfc3339;
-use time::{Duration, OffsetDateTime};
+use time::OffsetDateTime;
 
 use crate::db::{Db, DbError, now_rfc3339};
 use crate::http::routes::account::Holder;
-use crate::http::{ApiError, AppState, limits};
+use crate::http::{ApiError, AppState};
 use crate::log::chain::Body;
 use crate::pool::Manifest;
 use crate::stats::accumulate;
@@ -80,14 +80,11 @@ async fn start(
     let commitment = commitment(&s_server, &nonce, &coordinate);
 
     let at = now_rfc3339();
-    let cap = state.config.open_trials_per_account;
-    // The oldest commit still counting against the cap. Same clock the answer path expires a
-    // trial by, so a trial leaves the cap exactly when it becomes unanswerable — see
-    // `limits::open_trials`.
-    let not_before = shifted(&at, -state.config.trial_lifetime_hours)
-        .expect("a timestamp this process just formatted parses");
 
-    let entry = state.db.append_with(
+    // No cap on how many trials an account may hold open at once. The operator removed it
+    // deliberately; a trial left unanswered still expires on the D16 clock and is still published
+    // as abandoned (FR-021), so the record stays honest without a gate in front of it.
+    let entry = state.db.append(
         &at,
         Body::Commit {
             trial: trial_id.clone(),
@@ -96,22 +93,10 @@ async fn start(
             commitment: commitment.clone(),
             pool_version: state.pool.version,
         },
-        |tx, _| {
-            // Inside the append's own transaction (D17, T076). Counted before the transaction
-            // this is read-then-write, and two requests arriving together would both pass a full
-            // cap — on a log where every entry is permanent, that is the whole failure.
-            if limits::open_trials(tx, &account, &not_before, &trial_id)? >= cap {
-                return Err(DbError::Vetoed(
-                    "the account already holds its maximum open trials",
-                ));
-            }
-            Ok(())
-        },
     );
 
-    let (entry, ()) = match entry {
+    let entry = match entry {
         Ok(committed) => committed,
-        Err(DbError::Vetoed(_)) => return Err(ApiError::RateLimited),
         Err(e) => return Err(e.into()),
     };
 
@@ -471,13 +456,6 @@ fn expiry(at: &str, lifetime_hours: i64) -> Option<i64> {
     Some(OffsetDateTime::parse(at, &Rfc3339).ok()?.unix_timestamp() + lifetime_hours * 3600)
 }
 
-/// A log timestamp shifted by whole hours, in the same format the column holds — so the comparison
-/// stays a string comparison, which RFC 3339 in UTC makes correct.
-fn shifted(at: &str, hours: i64) -> Option<String> {
-    (OffsetDateTime::parse(at, &Rfc3339).ok()? + Duration::hours(hours))
-        .format(&Rfc3339)
-        .ok()
-}
 
 /// The coordinate: `NNNN-NNNN`, uniform, encoding nothing (R6).
 ///
@@ -991,60 +969,23 @@ mod tests {
         assert_eq!(resolves(&state), 1);
     }
 
-    /// T076 and D17. Every trial is a permanent entry, so this cap — not a rate limit over time —
-    /// is what bounds how fast the log can grow.
+    /// The open-trial cap of D17 was removed by the operator. This is the test that keeps it
+    /// removed: it fails the moment a request starts counting what the account already holds.
     #[tokio::test]
-    async fn the_open_trial_cap_holds_and_is_about_concurrency() {
+    async fn an_account_may_hold_as_many_open_trials_as_it_likes() {
         let state = with_min_view(&state_with_pool(), 0);
-        let cap = state.config.open_trials_per_account;
         let token = holder(&state);
 
-        let mut open = Vec::new();
-        for _ in 0..cap {
+        for _ in 0..12 {
             let response = call(&state, post("/api/trial", &token, serde_json::json!({}))).await;
             assert_eq!(response.status(), StatusCode::CREATED);
-            open.push(json(response).await["token"].as_str().unwrap().to_string());
         }
 
-        let refused = call(&state, post("/api/trial", &token, serde_json::json!({}))).await;
-        assert_eq!(refused.status(), StatusCode::TOO_MANY_REQUESTS);
         assert_eq!(
             state.db.head().unwrap().0,
-            cap as u64,
-            "a refused trial must leave nothing in the permanent record"
+            12,
+            "every start is a commit in the permanent record"
         );
-
-        // A second account is unaffected: the cap is per account, not per service.
-        let other = holder(&state);
-        let response = call(&state, post("/api/trial", &other, serde_json::json!({}))).await;
-        assert_eq!(response.status(), StatusCode::CREATED);
-
-        // Completing one frees a slot — the cap counts open trials, not trials ever started.
-        let s_client = base64(&[3u8; SEED_BYTES]);
-        let reveal = call(
-            &state,
-            post(
-                "/api/trial/reveal",
-                &token,
-                serde_json::json!({ "token": open[0], "s_client": s_client }),
-            ),
-        )
-        .await;
-        let reveal = json(reveal).await;
-        let chosen = reveal["images"][0].clone();
-        let answered = call(
-            &state,
-            post(
-                "/api/trial/answer",
-                &token,
-                serde_json::json!({ "token": reveal["token"], "chosen": chosen }),
-            ),
-        )
-        .await;
-        assert_eq!(answered.status(), StatusCode::OK);
-
-        let response = call(&state, post("/api/trial", &token, serde_json::json!({}))).await;
-        assert_eq!(response.status(), StatusCode::CREATED);
     }
 
     /// The reveal payload is what a third party recomputes the trial from, so it has to be the
