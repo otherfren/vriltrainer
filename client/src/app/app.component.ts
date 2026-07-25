@@ -1,4 +1,4 @@
-import { Component, ElementRef, computed, inject, viewChild } from '@angular/core';
+import { Component, ElementRef, LOCALE_ID, computed, inject, viewChild } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { StatusPanelComponent } from './core/status-panel.component';
@@ -28,6 +28,14 @@ function maskToken(url: string): string {
 export class AppComponent {
   readonly player = inject(PlayerService);
   readonly session = inject(SessionService);
+
+  /**
+   * Which side of the language switch is the one you are on.
+   *
+   * From `LOCALE_ID`, which the localized build sets, and not from the host: the two are meant to
+   * agree (D10/D24), and if they ever do not, the bundle is what the visitor is actually reading.
+   */
+  readonly german = inject(LOCALE_ID).startsWith('de');
 
   constructor() {
     // Angular's localized build replaces the `lang` attribute in `index.html` and nothing else, so

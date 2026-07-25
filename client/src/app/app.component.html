@@ -53,17 +53,32 @@
       }
 
       <!-- The two codes are the names of the languages in themselves; translating "DE" would
-           produce a switch that labels both sides in the language you are already reading. -->
+           produce a switch that labels both sides in the language you are already reading.
+           Which one is active follows the bundle, not the source: this used to be hard-coded to
+           German, so vriltrainer.com highlighted DE and offered a link to the page you were
+           already on. -->
       <div class="lang">
-        <span class="lang__item is-active" i18n-title="@@lang.de.title" title="Deutsch · vriltrainer.de">DE</span>
-        <a
-          class="lang__item"
-          href="https://vriltrainer.com"
-          hreflang="en"
-          i18n-title="@@lang.en.title"
-          title="English · vriltrainer.com"
-          >EN</a
-        >
+        @if (german) {
+          <span class="lang__item is-active" i18n-title="@@lang.de.title" title="Deutsch · vriltrainer.de">DE</span>
+          <a
+            class="lang__item"
+            href="https://vriltrainer.com"
+            hreflang="en"
+            i18n-title="@@lang.en.title"
+            title="English · vriltrainer.com"
+            >EN</a
+          >
+        } @else {
+          <a
+            class="lang__item"
+            href="https://vriltrainer.de"
+            hreflang="de"
+            i18n-title="@@lang.de.title"
+            title="Deutsch · vriltrainer.de"
+            >DE</a
+          >
+          <span class="lang__item is-active" i18n-title="@@lang.en.title" title="English · vriltrainer.com">EN</span>
+        }
       </div>
     </div>
   </div>
