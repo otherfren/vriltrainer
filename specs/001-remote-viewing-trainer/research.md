@@ -127,36 +127,31 @@ trial-status update happen in one transaction.
 than a locking exercise. Read traffic — leaderboard, statistics, log export — dominates and is
 unaffected.
 
-## R10 — Rank artwork and meme licensing — **open**
+## R10 — Rank artwork and meme licensing
 
-**Status: unresolved.** Raised twice during the concept interview and not answered.
+**Decision.** The operator creates the rank artwork and meme images himself. They are owned
+outright, so there is nothing to license.
 
-D18 puts memes into the interface. Memes are, with rare exceptions, unlicensed derivative works.
-D5 restricted the trial image pool to CC0 specifically because a `.de` domain makes casual reuse
-of found images a liability — and that exposure does not stop at the pool. The rank artefacts are
-also the most *shared* images on the site (FR-044), which maximises both reach and visibility to
-a rights holder.
+**Rationale.** D18 puts memes into the interface and D5 had restricted the trial pool to CC0
+precisely because a `.de` domain makes casual reuse of found images a liability — the rank
+artefacts are also the most *shared* images on the site (FR-044), which maximises both reach and
+visibility to any rights holder. Producing them removes that exposure entirely, and the ranks are
+the site's identity, which is worth owning rather than borrowing.
 
-Options, in the order they seem worth considering:
+**Caveat worth stating once.** Original in the meme sense often means "I made this version" —
+text laid over an existing template — in which case the underlying image still belongs to someone.
+The decision recorded here is artwork original in the stricter sense. If a well-known template is
+used as a base, this returns to being an open question.
 
-1. **Original artwork** for the seven ranks. Seven images, drawn or commissioned once, owned
-   outright. The ranks are the site's identity, and identity is worth owning.
-2. **Generated artwork**, same ownership question but cheaper, with the usual caveats about
-   provenance of the generator's training data.
-3. **Public-domain source material** treated the same way as the trial pool — consistent, and
-   the constraint often produces better jokes than freedom does.
-4. **Accept the risk** knowingly, which is a defensible choice for a small site but should be a
-   decision rather than an oversight.
-
-Recommendation: option 1 for the seven rank artefacts, because there are only seven of them and
-they are permanent; anything more disposable can follow option 3. **This blocks nothing before
-P3**, since ranks do not appear until 200 accounts are eligible.
+**Alternatives considered.** Generated artwork: cheaper, with the usual provenance questions about
+the generator. Public-domain source material, consistent with the trial pool. Accepting the risk
+knowingly. All three are moot once the images are the operator's own.
 
 ## Open risks carried into planning
 
 | Risk | Where it bites | Current answer |
 |---|---|---|
-| Meme licensing (R10) | P3, when ranks first render | Undecided — see above |
+| Meme licensing (R10) | P3, when ranks first render | Closed — artwork is the operator's own |
 | Parallel account farming | Leaderboard credibility | Three-day spread (FR-040) raises cost; the aggregate is unaffected either way |
 | Log growth from never-completed trials | Storage over years | Capped concurrent trials per account (D17); ~100 MB per million rows is not a real constraint |
 | A genuine positive result | Reputation, and scrutiny | The architecture exists precisely so such a result could be defended; no further action |

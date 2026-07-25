@@ -5,8 +5,8 @@ Running record of two `/grill-me` sessions held 2026-07-25 — the first on the 
 `specs/001-remote-viewing-trainer/`; it is not itself a Spec Kit artifact and carries no
 authority over the spec or the plan.
 
-Status: **both sessions complete** — 21 decisions settled. One open question and a short list
-of actions at the bottom.
+Status: **both sessions complete** — 21 decisions settled, no open questions. Remaining items
+are actions only, listed at the bottom.
 
 ## What vriltrainer is
 
@@ -620,16 +620,10 @@ leaderboard is corruptible.
 - Node is required regardless, as the Angular build toolchain. It is not currently installed
   on the development machine; Rust 1.95, Python 3.13, uv and sqlite3 are.
 
-## Open
-
-- **Meme licensing.** D18 puts memes in the interface, and memes are almost never freely
-  licensed. D5 restricted the image pool to CC0 precisely because a `.de` domain makes casual
-  reuse of found images a liability — the same exposure applies to the rest of the page. Raised
-  twice during the concept session and not yet answered. Options range from commissioning or
-  generating the rank artwork, to accepting the risk, to using only public-domain source
-  material for the joke images as well.
-
 ## Remaining actions
+
+- Create the seven rank artefacts. Original work by the operator, owned outright, which is
+  what closed the meme licensing question (research.md R10).
 
 - Flip the repository to public (D6)
 - Source and curate the image pool. The operator curates, using the annotate-and-scale tool
