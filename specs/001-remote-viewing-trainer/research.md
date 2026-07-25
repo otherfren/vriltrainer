@@ -6,7 +6,9 @@ records the reasoning for choices that would otherwise look arbitrary in the cod
 
 ## R1 — Exact derivation stream
 
-**Decision.** `seed = SHA-256(s_server ‖ s_client)`. From it, a keystream
+**Decision.** `seed = framed(s_server, s_client)`, where `framed` length-prefixes every field:
+`SHA-256(LE64(|p₀|) ‖ p₀ ‖ …)`. The same framing is used for the commitment and the pool manifest
+hash. From the seed, a keystream
 `block(i) = SHA-256(seed ‖ LE64(i))` for `i = 0, 1, 2, …`, consumed as little-endian 64-bit
 words. Uniform integers below `m` are drawn by **rejection sampling**: take the next word `w`,
 reject it if `w >= floor(2^64 / m) * m`, otherwise return `w mod m`.
@@ -29,6 +31,11 @@ Step 3 exists to make bias impossible rather than merely avoided. Drawing the ta
 pool and then filling the other categories would make the target's likelihood proportional to its
 category's size, so the image from the largest category would be the likeliest answer — a
 strategy worth far more than 12.5% to anyone who noticed (D22).
+
+Field framing was added during implementation. Plain concatenation is ambiguous across
+variable-length fields, and the fixed sizes that made it safe — 32-byte seeds, an `NNNN-NNNN`
+coordinate — are a guarantee that expires the moment a format changes. It costs eight bytes per
+field and removes the class of defect entirely.
 
 **Alternatives considered.** HKDF-SHA256 as the stream: more standard, but adds a dependency on
 both sides for no gain over counter-mode hashing. Modulo without rejection: the bias at

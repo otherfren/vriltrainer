@@ -7,13 +7,23 @@ verification. `derivation.json` in this directory holds the fixtures both must r
 Nothing here may be changed without regenerating the fixtures, and regenerating the fixtures
 invalidates every published trial's verifiability. Treat it as frozen.
 
+## Field framing
+
+Wherever several fields are hashed together, each is **length-prefixed**:
+
+```
+framed(p₀, p₁, …) = SHA-256( LE64(|p₀|) ‖ p₀ ‖ LE64(|p₁|) ‖ p₁ ‖ … )
+```
+
+Plain concatenation is ambiguous across variable-length fields — `("ab","c")` and `("a","bc")`
+hash identically. Fixed formats would hide that today and stop hiding it the day a format changes.
+The pool manifest hash uses the same scheme, so there is one rule rather than a case analysis.
+
 ## Seed
 
 ```
-seed = SHA-256( s_server ‖ s_client )
+seed = framed( s_server, s_client )
 ```
-
-Raw bytes, concatenated in that order, no separator and no length prefix.
 
 ## Keystream
 
@@ -21,7 +31,8 @@ Raw bytes, concatenated in that order, no separator and no length prefix.
 block(i) = SHA-256( seed ‖ LE64(i) )     for i = 0, 1, 2, …
 ```
 
-`LE64(i)` is the 64-bit counter in **little-endian** byte order. Each block yields four 64-bit
+`LE64(i)` is the 64-bit counter in **little-endian** byte order. This one is not framed: both
+operands are structurally fixed-width — a SHA-256 digest and a `u64` — so no boundary can move. Each block yields four 64-bit
 words, read **little-endian** from offsets 0, 8, 16, 24. Words are consumed in that order, blocks
 in counter order. A draw takes as many words as it needs; nothing is ever pushed back.
 

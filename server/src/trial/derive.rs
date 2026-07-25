@@ -18,12 +18,11 @@ pub struct Stream {
 }
 
 impl Stream {
+    /// `seed = framed(s_server, s_client)` — length-prefixed for the same reason the commitment
+    /// is. Both contributions are 32 bytes today; the framing means that stops mattering.
     pub fn new(s_server: &[u8], s_client: &[u8]) -> Self {
-        let mut h = Sha256::new();
-        h.update(s_server);
-        h.update(s_client);
         Stream {
-            seed: h.finalize().into(),
+            seed: crate::framing::framed(&[s_server, s_client]),
             block: [0u8; 32],
             counter: 0,
             // Forces a block to be produced on the first word.

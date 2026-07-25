@@ -49,17 +49,17 @@ Neither side controls the outcome alone:
 
 ```
 1. Trial start    server: s_server ← random, nonce ← random
-                  → client: coordinate, C = H(s_server ‖ nonce ‖ coordinate),
+                  → client: coordinate, C = framed(s_server, nonce, coordinate),
                             pool_manifest_hash
 2. Reveal click   client: s_client ← crypto.getRandomValues()
                   → server
-                  seed   = H(s_server ‖ s_client)
+                  seed   = framed(s_server, s_client)
                   8 categories, one image each, target index, order — all
                   drawn from the same stream (see D22 for the four steps)
                   → client: the N images
 3. Pick           → server
 4. Reveal         → client: s_server, nonce
-                  client verifies H(s_server ‖ nonce ‖ coordinate) == C
+                  client verifies framed(s_server, nonce, coordinate) == C
                   client recomputes seed, target, decoys, order — must match
 ```
 
@@ -72,6 +72,11 @@ The coordinate is **inside** the hash. This was recorded incorrectly at first �
 not: with the coordinate outside the hash, the same commitment could be paired with any
 coordinate after the fact, and the intended statement — *this* coordinate pointed at *this*
 image — was unprovable. Corrected on 2026-07-25, before any implementation existed.
+
+`framed(…)` length-prefixes each field: `SHA-256(LE64(|p₀|) ‖ p₀ ‖ LE64(|p₁|) ‖ p₁ ‖ …)`. Plain
+concatenation is ambiguous across variable-length fields, and the fixed sizes that made it safe
+here — 32-byte seeds, an `NNNN-NNNN` coordinate — are an argument that expires silently the day a
+format changes. Found while implementing, fixed before anything was published.
 
 `s_client` travels with the reveal click, so the target is determined before the user picks
 — D1 is preserved.

@@ -29,7 +29,8 @@ lets a name be erased without invalidating a single entry (FR-023, FR-036, D13).
 1. **The chain.** `hash` over the entry's canonical serialisation with `prev` included; `prev` of
    entry *n* equals `hash` of entry *n−1*. A published head that matches the last line proves the
    file is the record the operator is standing behind.
-2. **Each commitment.** `SHA-256(s_server ‖ nonce ‖ coordinate)` must equal the `commitment` from
+2. **Each commitment.** `framed(s_server, nonce, coordinate)` — each field length-prefixed, see
+   `shared/vectors/README.md` — must equal the `commitment` from
    the paired commit entry — proving the target was fixed before the choice, and that *this*
    coordinate belongs to *this* trial.
 3. **Each derivation.** With `s_server` and `s_client` from the resolve entry and the pool
