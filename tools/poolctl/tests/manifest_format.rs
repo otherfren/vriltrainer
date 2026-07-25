@@ -28,7 +28,10 @@ fn records() -> Vec<Record> {
     let mut out = Vec::new();
     for (c, n) in sizes.iter().enumerate() {
         for i in 0..*n {
-            out.push(record(&format!("img_{:04x}", (c * 97 + i * 13) as u32), &format!("cat{c:02}")));
+            out.push(record(
+                &format!("img_{:04x}", (c * 97 + i * 13) as u32),
+                &format!("cat{c:02}"),
+            ));
         }
     }
     out.reverse();
@@ -54,7 +57,10 @@ fn images_are_sorted_ascending_by_id() {
 #[test]
 fn the_hash_covers_the_sorted_list() {
     let p = built();
-    assert_eq!(p.manifest_hash, Manifest::compute_hash(&p.categories, &p.images));
+    assert_eq!(
+        p.manifest_hash,
+        Manifest::compute_hash(&p.categories, &p.images)
+    );
     assert!(p.manifest_hash.starts_with("sha256:"));
     assert!(p.manifest().hash_matches());
 }
@@ -73,7 +79,9 @@ fn a_reordered_manifest_is_rejected() {
     // rebuilds produces a self-consistent manifest that draws different targets.
     swapped.manifest_hash = Manifest::compute_hash(&swapped.categories, &swapped.images);
     assert!(swapped.hash_matches());
-    let err = swapped.validate().expect_err("a self-consistent but unsorted manifest is still wrong");
+    let err = swapped
+        .validate()
+        .expect_err("a self-consistent but unsorted manifest is still wrong");
     assert!(err.contains("sorted"), "{err}");
 }
 

@@ -83,15 +83,25 @@ mod tests {
     #[tokio::test]
     async fn health_reports_the_head_and_the_locale() {
         let response = router(test_support::state())
-            .oneshot(Request::builder().uri("/api/health").body(Body::empty()).unwrap())
+            .oneshot(
+                Request::builder()
+                    .uri("/api/health")
+                    .body(Body::empty())
+                    .unwrap(),
+            )
             .await
             .unwrap();
 
         assert_eq!(response.status(), StatusCode::OK);
         // D24: the language is the startup flag, so it is the same answer whatever was asked for.
-        assert_eq!(response.headers().get(header::CONTENT_LANGUAGE).unwrap(), "de");
+        assert_eq!(
+            response.headers().get(header::CONTENT_LANGUAGE).unwrap(),
+            "de"
+        );
 
-        let body = axum::body::to_bytes(response.into_body(), 4096).await.unwrap();
+        let body = axum::body::to_bytes(response.into_body(), 4096)
+            .await
+            .unwrap();
         let json: serde_json::Value = serde_json::from_slice(&body).unwrap();
         assert_eq!(json["status"], "ok");
         assert_eq!(json["seq"], 0);
@@ -100,8 +110,11 @@ mod tests {
 
     #[tokio::test]
     async fn a_contracted_path_that_is_not_built_yet_says_so() {
-        let req =
-            Request::builder().method("POST").uri("/api/trial").body(Body::empty()).unwrap();
+        let req = Request::builder()
+            .method("POST")
+            .uri("/api/trial")
+            .body(Body::empty())
+            .unwrap();
         let response = router(test_support::state()).oneshot(req).await.unwrap();
         assert_eq!(response.status(), StatusCode::NOT_IMPLEMENTED);
     }
@@ -109,7 +122,12 @@ mod tests {
     #[tokio::test]
     async fn anything_else_is_not_found() {
         let response = router(test_support::state())
-            .oneshot(Request::builder().uri("/api/nonsense").body(Body::empty()).unwrap())
+            .oneshot(
+                Request::builder()
+                    .uri("/api/nonsense")
+                    .body(Body::empty())
+                    .unwrap(),
+            )
             .await
             .unwrap();
         assert_eq!(response.status(), StatusCode::NOT_FOUND);

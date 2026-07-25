@@ -50,8 +50,9 @@ impl Catalogue {
     /// A missing file is an empty catalogue, so a first `add` needs no separate `init`.
     pub fn load(path: &Path) -> Result<Self, String> {
         match std::fs::read(path) {
-            Ok(bytes) => serde_json::from_slice(&bytes)
-                .map_err(|e| format!("{}: {e}", path.display())),
+            Ok(bytes) => {
+                serde_json::from_slice(&bytes).map_err(|e| format!("{}: {e}", path.display()))
+            }
             Err(e) if e.kind() == std::io::ErrorKind::NotFound => Ok(Catalogue::default()),
             Err(e) => Err(format!("{}: {e}", path.display())),
         }
@@ -111,9 +112,12 @@ pub fn is_free_licence(licence: &str) -> bool {
         .filter(|c| c.is_ascii_alphanumeric())
         .flat_map(|c| c.to_uppercase())
         .collect();
-    FREE_LICENCES
-        .iter()
-        .any(|l| folded == l.chars().filter(|c| c.is_ascii_alphanumeric()).collect::<String>())
+    FREE_LICENCES.iter().any(|l| {
+        folded
+            == l.chars()
+                .filter(|c| c.is_ascii_alphanumeric())
+                .collect::<String>()
+    })
 }
 
 /// Categories are drawing buckets and are compared by string equality throughout the manifest and
@@ -142,7 +146,11 @@ mod tests {
     fn a_second_copy_of_an_image_is_refused() {
         let mut c = Catalogue::default();
         c.add(record("img_a", "tool")).unwrap();
-        assert!(c.add(record("img_a", "landscape")).unwrap_err().contains("already in the pool"));
+        assert!(
+            c.add(record("img_a", "landscape"))
+                .unwrap_err()
+                .contains("already in the pool")
+        );
     }
 
     /// The rule that keeps a credit line off the page.
@@ -169,8 +177,17 @@ mod tests {
         c.save(&path).unwrap();
 
         let back = Catalogue::load(&path).unwrap();
-        assert_eq!(back.images.iter().map(|r| r.id.as_str()).collect::<Vec<_>>(), ["img_a", "img_b"]);
-        assert_eq!(back.per_category(), vec![("landscape".into(), 1), ("tool".into(), 1)]);
+        assert_eq!(
+            back.images
+                .iter()
+                .map(|r| r.id.as_str())
+                .collect::<Vec<_>>(),
+            ["img_a", "img_b"]
+        );
+        assert_eq!(
+            back.per_category(),
+            vec![("landscape".into(), 1), ("tool".into(), 1)]
+        );
         std::fs::remove_file(&path).unwrap();
     }
 }

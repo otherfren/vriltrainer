@@ -103,7 +103,7 @@ pub fn router(state: AppState) -> Router {
     trace::instrument(locale::announce(routes::all().with_state(state), locale))
 }
 
-/// What [`axum::serve`] should be handed.
+/// What [`axum::serve()`] should be handed.
 ///
 /// The make-service rather than the [`Router`], because `ConnectInfo` is the only way a handler
 /// learns which peer it is talking to, and without the peer the forwarded client address is either
@@ -129,8 +129,14 @@ pub(crate) mod test_support {
     pub(crate) fn state() -> AppState {
         let categories = vec!["a".to_string(), "b".to_string()];
         let images = vec![
-            ImageEntry { id: "img_1".into(), category: "a".into() },
-            ImageEntry { id: "img_2".into(), category: "b".into() },
+            ImageEntry {
+                id: "img_1".into(),
+                category: "a".into(),
+            },
+            ImageEntry {
+                id: "img_2".into(),
+                category: "b".into(),
+            },
         ];
         let manifest = Manifest {
             version: 1,

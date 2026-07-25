@@ -36,18 +36,6 @@ pub enum NameState {
 /// the page. Same idiom as the masked access link in D9.
 pub const MASK: &str = "••••••••";
 
-/// How long a holder must wait between submissions (FR-048).
-///
-/// The scarce resource being rationed is the reviewer, not the database, so this is a cooldown per
-/// account rather than a quota: one name in the queue per account per day is a queue a person can
-/// still clear. A rejection clears the clock, because the user has not yet had a turn.
-///
-/// It runs from **submission** and not from the decision, which is what holds a name still while
-/// it is being looked at. Were a pending name editable, a user could swap it between the moment
-/// the reviewer read the queue and the moment they clicked approve, and a human would have
-/// published a name nobody ever saw — the exact outcome pre-approval exists to prevent.
-pub const RENAME_COOLDOWN_HOURS: i64 = 24;
-
 /// The reason code left behind by erasure (FR-035). Written to `name_reason` so the client can say
 /// why no name field is offered; the *state* is `display_name` being null, which is what
 /// [`submit`] checks.
@@ -61,7 +49,7 @@ pub enum NameError {
     /// The pre-filter refused it ([`super::name_filter`]).
     #[error("the name was refused: {0:?}")]
     Refused(Refusal),
-    /// A rename inside the cooldown of [`RENAME_COOLDOWN_HOURS`].
+    /// A rename inside [`crate::config::Config::rename_cooldown_hours`].
     #[error("renamed too recently, {retry_after_seconds}s remain")]
     TooSoon { retry_after_seconds: i64 },
     /// The account erased its name, and erasure is permanent (FR-035).
@@ -92,15 +80,29 @@ pub fn public_display(public_name: Option<&str>) -> String {
     }
 }
 
+/// The one door into the review queue: normalise, then apply the pre-filter.
+///
+/// Both writers of `display_name` go through this — [`submit`] and [`super::create`] — so there is
+/// no route that reaches the queue without the filter, and no second place where the stored form
+/// of a name is decided.
+pub fn accept(raw: &str) -> Result<String, NameError> {
+    let name = name_filter::normalise(raw);
+    name_filter::check(&name).map_err(NameError::Refused)?;
+    Ok(name)
+}
+
 /// Records a chosen name and puts it in the review queue.
 ///
-/// The pre-filter runs here rather than at the caller, so there is no route to the queue that
-/// skips it. On a rename the previously **approved** name stays public until the new one clears,
-/// so a rename is not punished with anonymity: this writes `display_name` and never touches
-/// `public_name`.
-pub fn submit(db: &Db, account_id: &str, name: &str, now: &str) -> Result<NameState, NameError> {
-    let name = name_filter::normalise(name);
-    name_filter::check(&name).map_err(NameError::Refused)?;
+/// On a rename the previously **approved** name stays public until the new one clears, so a rename
+/// is not punished with anonymity: this writes `display_name` and never touches `public_name`.
+pub fn submit(
+    db: &Db,
+    account_id: &str,
+    name: &str,
+    now: &str,
+    cooldown_hours: i64,
+) -> Result<NameState, NameError> {
+    let name = accept(name)?;
 
     // The refusals are decided inside the transaction: the cooldown is read-then-write, and two
     // requests racing it would each see an expired clock and both spend the turn.
@@ -114,8 +116,12 @@ pub fn submit(db: &Db, account_id: &str, name: &str, now: &str) -> Result<NameSt
         if current.is_none() {
             return Ok(Err(NameError::Erased));
         }
-        if let Some(retry_after_seconds) = cooldown_remaining(changed_at.as_deref(), now) {
-            return Ok(Err(NameError::TooSoon { retry_after_seconds }));
+        if let Some(retry_after_seconds) =
+            cooldown_remaining(changed_at.as_deref(), now, cooldown_hours)
+        {
+            return Ok(Err(NameError::TooSoon {
+                retry_after_seconds,
+            }));
         }
 
         tx.execute(
@@ -196,7 +202,11 @@ pub fn holder(db: &Db, account_id: &str) -> Result<HolderView, DbError> {
         params![account_id],
         |x| Ok((x.get(0)?, x.get(1)?, x.get(2)?)),
     )?;
-    Ok(HolderView { name, state: state_from_column(&state), reason })
+    Ok(HolderView {
+        name,
+        state: state_from_column(&state),
+        reason,
+    })
 }
 
 /// The column is constrained to these three values, so anything else is a row this binary did not
@@ -215,10 +225,10 @@ fn state_from_column(raw: &str) -> NameState {
 /// An unparsable stored timestamp counts as expired. This process writes the column with
 /// `now_rfc3339`, so a value that will not parse means the row was edited by hand, and a hand edit
 /// must not lock somebody out of their own name for ever.
-fn cooldown_remaining(changed_at: Option<&str>, now: &str) -> Option<i64> {
+fn cooldown_remaining(changed_at: Option<&str>, now: &str, hours: i64) -> Option<i64> {
     let last = OffsetDateTime::parse(changed_at?, &Rfc3339).ok()?;
     let now = OffsetDateTime::parse(now, &Rfc3339).ok()?;
-    let allowed = last + Duration::hours(RENAME_COOLDOWN_HOURS);
+    let allowed = last + Duration::hours(hours);
     (allowed > now).then(|| (allowed - now).whole_seconds().max(1))
 }
 
@@ -226,22 +236,33 @@ fn cooldown_remaining(changed_at: Option<&str>, now: &str) -> Option<i64> {
 mod tests {
     use super::*;
     use crate::account;
+    use crate::config::Config;
 
     const CREATED: &str = "2026-07-25T10:00:00Z";
     const NEXT_DAY: &str = "2026-07-26T10:00:01Z";
     const DAY_AFTER: &str = "2026-07-27T10:00:02Z";
 
     fn account_with_name(db: &Db, name: &str) -> String {
-        account::create(db, name, CREATED).expect("the name passes the filter").id
+        account::create(db, name, CREATED)
+            .expect("the name passes the filter")
+            .id
+    }
+
+    /// [`submit`] at the cooldown the service ships with, read from [`Config`] rather than
+    /// restated, so lowering the default is a change these tests run against.
+    fn rename(db: &Db, id: &str, name: &str, now: &str) -> Result<NameState, NameError> {
+        submit(db, id, name, now, Config::default().rename_cooldown_hours)
     }
 
     /// Reads `public_name`, the only column a public surface is allowed to look at.
     fn on_the_board(db: &Db, account_id: &str) -> String {
         let r = db.reader().unwrap();
         let public: Option<String> = r
-            .query_row("SELECT public_name FROM account WHERE id = ?1", params![account_id], |x| {
-                x.get(0)
-            })
+            .query_row(
+                "SELECT public_name FROM account WHERE id = ?1",
+                params![account_id],
+                |x| x.get(0),
+            )
             .unwrap();
         public_display(public.as_deref())
     }
@@ -278,7 +299,11 @@ mod tests {
 
         reject(&db, &id, "hate").unwrap();
         let view = holder(&db, &id).unwrap();
-        assert_eq!(view.name.as_deref(), Some("otherfren"), "a refused name is still its owner's");
+        assert_eq!(
+            view.name.as_deref(),
+            Some("otherfren"),
+            "a refused name is still its owner's"
+        );
         assert_eq!(view.state, NameState::Rejected);
         assert_eq!(view.reason.as_deref(), Some("hate"));
     }
@@ -291,9 +316,12 @@ mod tests {
         let id = account_with_name(&db, "otherfren");
         approve(&db, &id).unwrap();
 
-        submit(&db, &id, "ganzfeld_enjoyer", NEXT_DAY).unwrap();
+        rename(&db, &id, "ganzfeld_enjoyer", NEXT_DAY).unwrap();
         assert_eq!(on_the_board(&db, &id), "otherfren");
-        assert_eq!(holder(&db, &id).unwrap().name.as_deref(), Some("ganzfeld_enjoyer"));
+        assert_eq!(
+            holder(&db, &id).unwrap().name.as_deref(),
+            Some("ganzfeld_enjoyer")
+        );
 
         approve(&db, &id).unwrap();
         assert_eq!(on_the_board(&db, &id), "ganzfeld_enjoyer");
@@ -304,9 +332,9 @@ mod tests {
         let db = Db::open_in_memory().unwrap();
         let id = account_with_name(&db, "otherfren");
 
-        let too_soon = submit(&db, &id, "Monroe Institut", CREATED);
+        let too_soon = rename(&db, &id, "Monroe Institut", CREATED);
         assert!(matches!(too_soon, Err(NameError::TooSoon { .. })));
-        assert!(submit(&db, &id, "Monroe Institut", NEXT_DAY).is_ok());
+        assert!(rename(&db, &id, "Monroe Institut", NEXT_DAY).is_ok());
     }
 
     /// D25 in one test: a refusal costs the user nothing but the name, or the rate limit would
@@ -318,7 +346,7 @@ mod tests {
 
         reject(&db, &id, "hate").unwrap();
         // The very instant that was refused on the cooldown a moment ago.
-        assert!(submit(&db, &id, "Monroe Institut", CREATED).is_ok());
+        assert!(rename(&db, &id, "Monroe Institut", CREATED).is_ok());
     }
 
     /// Reversible in both directions, which is what bounds the blast radius of the public admin
@@ -350,8 +378,12 @@ mod tests {
         );
 
         // The older account renames, and joins the queue behind the name already waiting.
-        submit(&db, &first, "ganzfeld_enjoyer", NEXT_DAY).unwrap();
-        let queue: Vec<String> = pending(&db, 10).unwrap().into_iter().map(|(id, _)| id).collect();
+        rename(&db, &first, "ganzfeld_enjoyer", NEXT_DAY).unwrap();
+        let queue: Vec<String> = pending(&db, 10)
+            .unwrap()
+            .into_iter()
+            .map(|(id, _)| id)
+            .collect();
         assert_eq!(queue, vec![second, first]);
     }
 
@@ -370,9 +402,15 @@ mod tests {
         assert_eq!(view.reason.as_deref(), Some(ERASED));
 
         // Not merely rate-limited: a day later, and after a rejection, it is still refused.
-        assert!(matches!(submit(&db, &id, "Monroe Institut", DAY_AFTER), Err(NameError::Erased)));
+        assert!(matches!(
+            rename(&db, &id, "Monroe Institut", DAY_AFTER),
+            Err(NameError::Erased)
+        ));
         reject(&db, &id, "hate").unwrap();
-        assert!(matches!(submit(&db, &id, "Monroe Institut", DAY_AFTER), Err(NameError::Erased)));
+        assert!(matches!(
+            rename(&db, &id, "Monroe Institut", DAY_AFTER),
+            Err(NameError::Erased)
+        ));
         assert!(pending(&db, 10).unwrap().is_empty());
     }
 
@@ -383,7 +421,7 @@ mod tests {
         let db = Db::open_in_memory().unwrap();
         let id = account_with_name(&db, "otherfren");
 
-        let refused = submit(&db, &id, "h1tl3r", NEXT_DAY);
+        let refused = rename(&db, &id, "h1tl3r", NEXT_DAY);
         assert!(matches!(refused, Err(NameError::Refused(Refusal::Hate))));
         assert_eq!(holder(&db, &id).unwrap().name.as_deref(), Some("otherfren"));
     }
@@ -393,16 +431,28 @@ mod tests {
         let db = Db::open_in_memory().unwrap();
         let id = account_with_name(&db, "otherfren");
 
-        submit(&db, &id, "  Monroe   Institut ", NEXT_DAY).unwrap();
-        assert_eq!(holder(&db, &id).unwrap().name.as_deref(), Some("Monroe Institut"));
+        rename(&db, &id, "  Monroe   Institut ", NEXT_DAY).unwrap();
+        assert_eq!(
+            holder(&db, &id).unwrap().name.as_deref(),
+            Some("Monroe Institut")
+        );
     }
 
     #[test]
     fn the_cooldown_counts_down_and_expires() {
-        assert_eq!(cooldown_remaining(None, CREATED), None);
-        assert_eq!(cooldown_remaining(Some(CREATED), CREATED), Some(24 * 3600));
-        assert_eq!(cooldown_remaining(Some(CREATED), "2026-07-25T22:00:00Z"), Some(12 * 3600));
-        assert_eq!(cooldown_remaining(Some(CREATED), NEXT_DAY), None);
-        assert_eq!(cooldown_remaining(Some("not a timestamp"), CREATED), None);
+        assert_eq!(cooldown_remaining(None, CREATED, 24), None);
+        assert_eq!(
+            cooldown_remaining(Some(CREATED), CREATED, 24),
+            Some(24 * 3600)
+        );
+        assert_eq!(
+            cooldown_remaining(Some(CREATED), "2026-07-25T22:00:00Z", 24),
+            Some(12 * 3600)
+        );
+        assert_eq!(cooldown_remaining(Some(CREATED), NEXT_DAY, 24), None);
+        assert_eq!(
+            cooldown_remaining(Some("not a timestamp"), CREATED, 24),
+            None
+        );
     }
 }

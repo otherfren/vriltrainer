@@ -6,7 +6,7 @@
 
 use std::path::Path;
 
-use server::trial::derive::SET_SIZE;
+use server::trial::derive::{DeriveError, SET_SIZE};
 
 use crate::annotate::{Catalogue, is_free_licence};
 
@@ -46,7 +46,10 @@ impl Report {
 /// `images_dir` is where [`crate::normalise`] wrote the published bytes; a record whose file is
 /// gone would build a manifest entry nobody can display.
 pub fn check(catalogue: &Catalogue, images_dir: &Path) -> Report {
-    let mut r = Report { total: catalogue.images.len(), ..Report::default() };
+    let mut r = Report {
+        total: catalogue.images.len(),
+        ..Report::default()
+    };
 
     let mut seen: Vec<&str> = Vec::new();
     for rec in &catalogue.images {
@@ -70,14 +73,21 @@ pub fn check(catalogue: &Catalogue, images_dir: &Path) -> Report {
         // Identity is the hash of the normalised bytes, so a duplicate id is the same image found
         // twice — under a different filename, from a different source page, or simply forgotten.
         if seen.contains(&rec.id.as_str()) {
-            r.errors.push(format!("{}: duplicate of an image already in the pool", rec.id));
+            r.errors.push(format!(
+                "{}: duplicate of an image already in the pool",
+                rec.id
+            ));
         } else {
             seen.push(&rec.id);
         }
 
         let file = images_dir.join(format!("{}.png", rec.id));
         if !file.exists() {
-            r.errors.push(format!("{}: normalised file {} is missing", rec.id, file.display()));
+            r.errors.push(format!(
+                "{}: normalised file {} is missing",
+                rec.id,
+                file.display()
+            ));
         }
     }
 
@@ -85,11 +95,13 @@ pub fn check(catalogue: &Catalogue, images_dir: &Path) -> Report {
     let k = r.per_category.len();
 
     if k < SET_SIZE {
-        r.errors.push(format!(
-            "{k} categories, at least {SET_SIZE} are required — a trial shows eight different kinds"
-        ));
+        // The derivation's own refusal. Reporting it in its own words is what keeps `check` from
+        // drifting into a rule the server does not actually have.
+        r.errors.push(DeriveError::TooFewCategories(k).to_string());
     } else if k < CATEGORIES_MIN {
-        r.warnings.push(format!("{k} categories, {CATEGORIES_MIN} to {CATEGORIES_MAX} intended"));
+        r.warnings.push(format!(
+            "{k} categories, {CATEGORIES_MIN} to {CATEGORIES_MAX} intended"
+        ));
     } else if k > CATEGORIES_MAX {
         r.warnings.push(format!(
             "{k} categories, more than the {CATEGORIES_MAX} intended — cut finer only while each \
@@ -106,7 +118,10 @@ pub fn check(catalogue: &Catalogue, images_dir: &Path) -> Report {
     }
 
     if r.total < LAUNCH_FLOOR {
-        r.warnings.push(format!("{} images, {LAUNCH_FLOOR} intended at launch", r.total));
+        r.warnings.push(format!(
+            "{} images, {LAUNCH_FLOOR} intended at launch",
+            r.total
+        ));
     }
 
     r
@@ -184,7 +199,12 @@ mod tests {
         again.category = "cat05".into();
         records.push(again);
         let (dir, c) = staged(&records);
-        assert!(check(&c, &dir).errors.iter().any(|e| e.contains("duplicate")));
+        assert!(
+            check(&c, &dir)
+                .errors
+                .iter()
+                .any(|e| e.contains("duplicate"))
+        );
     }
 
     /// The reason this check exists: a thin category has to be visible before players meet it.
@@ -194,9 +214,19 @@ mod tests {
         records.retain(|r| r.category != "cat03" || r.id.ends_with("00"));
         let (dir, c) = staged(&records);
         let r = check(&c, &dir);
-        assert!(r.ok(), "a thin category is poor curation, not a broken pool");
-        assert!(r.warnings.iter().any(|w| w.contains("category cat03 holds 1 images")));
-        assert_eq!(r.per_category.iter().find(|(n, _)| n == "cat03").unwrap().1, 1);
+        assert!(
+            r.ok(),
+            "a thin category is poor curation, not a broken pool"
+        );
+        assert!(
+            r.warnings
+                .iter()
+                .any(|w| w.contains("category cat03 holds 1 images"))
+        );
+        assert_eq!(
+            r.per_category.iter().find(|(n, _)| n == "cat03").unwrap().1,
+            1
+        );
     }
 
     #[test]
@@ -209,7 +239,11 @@ mod tests {
         let (dir, c) = staged(&records);
         let r = check(&c, &dir);
         assert!(!r.ok());
-        assert!(r.errors.iter().any(|e| e.contains("at least 8 are required")));
+        assert!(
+            r.errors
+                .iter()
+                .any(|e| e.contains("at least 8 are required"))
+        );
         assert!(r.warnings.iter().any(|w| w.contains("intended at launch")));
     }
 
@@ -217,6 +251,11 @@ mod tests {
     fn a_record_without_its_file_is_an_error() {
         let (dir, mut c) = staged(&full_pool());
         c.images.push(record("img_ghost", "cat00"));
-        assert!(check(&c, &dir).errors.iter().any(|e| e.contains("is missing")));
+        assert!(
+            check(&c, &dir)
+                .errors
+                .iter()
+                .any(|e| e.contains("is missing"))
+        );
     }
 }

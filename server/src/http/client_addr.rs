@@ -28,7 +28,9 @@ pub fn client_addr(peer: IpAddr, forwarded_for: Option<&str>, trusted: &[IpAddr]
         // the one address that is not hearsay.
         return peer;
     }
-    let Some(list) = forwarded_for else { return peer };
+    let Some(list) = forwarded_for else {
+        return peer;
+    };
 
     for entry in list.rsplit(',') {
         let Some(addr) = parse_entry(entry) else {
@@ -65,7 +67,10 @@ impl FromRequestParts<AppState> for ClientAddr {
     type Rejection = Infallible;
 
     async fn from_request_parts(parts: &mut Parts, state: &AppState) -> Result<Self, Infallible> {
-        let forwarded = parts.headers.get(FORWARDED_FOR).and_then(|v| v.to_str().ok());
+        let forwarded = parts
+            .headers
+            .get(FORWARDED_FOR)
+            .and_then(|v| v.to_str().ok());
         let Some(ConnectInfo(peer)) = parts.extensions.get::<ConnectInfo<SocketAddr>>() else {
             // Reachable only when the service was built without connect info — see
             // [`super::service`]. Every request then falls into one bucket, so the limit throttles
@@ -74,7 +79,11 @@ impl FromRequestParts<AppState> for ClientAddr {
             warn_unconnected();
             return Ok(ClientAddr(IpAddr::V4(Ipv4Addr::UNSPECIFIED)));
         };
-        Ok(ClientAddr(client_addr(peer.ip(), forwarded, &state.config.trusted_proxies)))
+        Ok(ClientAddr(client_addr(
+            peer.ip(),
+            forwarded,
+            &state.config.trusted_proxies,
+        )))
     }
 }
 
@@ -101,7 +110,10 @@ mod tests {
     #[test]
     fn forwarded_address_is_honoured_from_the_proxy() {
         let trusted = [ip(PROXY)];
-        assert_eq!(client_addr(ip(PROXY), Some("203.0.113.7"), &trusted), ip("203.0.113.7"));
+        assert_eq!(
+            client_addr(ip(PROXY), Some("203.0.113.7"), &trusted),
+            ip("203.0.113.7")
+        );
     }
 
     #[test]
@@ -123,7 +135,10 @@ mod tests {
         // nginx appends what it saw, so anything a client wrote is to the left of it.
         let trusted = [ip(PROXY)];
         let forged = "203.0.113.7, 10.0.0.1, 198.51.100.9";
-        assert_eq!(client_addr(ip(PROXY), Some(forged), &trusted), ip("198.51.100.9"));
+        assert_eq!(
+            client_addr(ip(PROXY), Some(forged), &trusted),
+            ip("198.51.100.9")
+        );
     }
 
     #[test]
@@ -140,14 +155,23 @@ mod tests {
     #[test]
     fn a_junk_last_entry_falls_back_to_the_peer() {
         let trusted = [ip(PROXY)];
-        assert_eq!(client_addr(ip(PROXY), Some("203.0.113.7, unknown"), &trusted), ip(PROXY));
+        assert_eq!(
+            client_addr(ip(PROXY), Some("203.0.113.7, unknown"), &trusted),
+            ip(PROXY)
+        );
     }
 
     #[test]
     fn entries_may_carry_a_port() {
         let trusted = [ip(PROXY)];
-        assert_eq!(client_addr(ip(PROXY), Some("203.0.113.7:44321"), &trusted), ip("203.0.113.7"));
-        assert_eq!(client_addr(ip(PROXY), Some("[2001:db8::5]:443"), &trusted), ip("2001:db8::5"));
+        assert_eq!(
+            client_addr(ip(PROXY), Some("203.0.113.7:44321"), &trusted),
+            ip("203.0.113.7")
+        );
+        assert_eq!(
+            client_addr(ip(PROXY), Some("[2001:db8::5]:443"), &trusted),
+            ip("2001:db8::5")
+        );
     }
 
     #[test]
@@ -166,17 +190,25 @@ mod tests {
         use crate::http::test_support;
 
         let app = Router::new()
-            .route("/whoami", get(|ClientAddr(ip): ClientAddr| async move { ip.to_string() }))
+            .route(
+                "/whoami",
+                get(|ClientAddr(ip): ClientAddr| async move { ip.to_string() }),
+            )
             .with_state(test_support::state())
             .into_make_service_with_connect_info::<SocketAddr>();
-        let listener = tokio::net::TcpListener::bind("127.0.0.1:0").await.expect("a free port");
+        let listener = tokio::net::TcpListener::bind("127.0.0.1:0")
+            .await
+            .expect("a free port");
         let addr = listener.local_addr().expect("the port is known");
         tokio::spawn(async move { axum::serve(listener, app).await.expect("the server runs") });
 
         // The default trust list holds the loopback addresses, and the test connects from one, so
         // this stands in for the request arriving from nginx on the same host.
         let seen = get_whoami(addr, "X-Forwarded-For: 203.0.113.7\r\n").await;
-        assert!(seen.ends_with("203.0.113.7"), "the proxy was not believed: {seen}");
+        assert!(
+            seen.ends_with("203.0.113.7"),
+            "the proxy was not believed: {seen}"
+        );
 
         let seen = get_whoami(addr, "").await;
         assert!(seen.ends_with("127.0.0.1"), "the peer was lost: {seen}");
@@ -190,9 +222,11 @@ mod tests {
         let mut sock = std::net::TcpStream::connect(addr).expect("the server accepts");
         let req =
             format!("GET /whoami HTTP/1.1\r\nHost: t\r\nConnection: close\r\n{extra_header}\r\n");
-        sock.write_all(req.as_bytes()).expect("the request is written");
+        sock.write_all(req.as_bytes())
+            .expect("the request is written");
         let mut response = String::new();
-        sock.read_to_string(&mut response).expect("the response is read");
+        sock.read_to_string(&mut response)
+            .expect("the response is read");
         response
     }
 }

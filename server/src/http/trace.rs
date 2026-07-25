@@ -49,7 +49,6 @@ pub fn instrument(router: Router) -> Router {
         .layer(axum::middleware::from_fn(correlate))
 }
 
-/// Gives the request an identifier and returns it in the response.
 async fn correlate(mut req: Request, next: Next) -> Response {
     let id = inbound_id(&req).unwrap_or_else(mint_id);
     req.extensions_mut().insert(RequestId(id.clone()));
@@ -67,7 +66,9 @@ async fn correlate(mut req: Request, next: Next) -> Response {
 fn inbound_id(req: &Request) -> Option<String> {
     let raw = req.headers().get(REQUEST_ID)?.to_str().ok()?;
     let ok = (1..=64).contains(&raw.len())
-        && raw.bytes().all(|b| b.is_ascii_alphanumeric() || b == b'-' || b == b'_');
+        && raw
+            .bytes()
+            .all(|b| b.is_ascii_alphanumeric() || b == b'-' || b == b'_');
     ok.then(|| raw.to_owned())
 }
 
@@ -76,7 +77,10 @@ fn mint_id() -> String {
 }
 
 fn request_span<B>(req: &axum::http::Request<B>) -> Span {
-    let id = req.extensions().get::<RequestId>().map_or("-", |r| r.0.as_str());
+    let id = req
+        .extensions()
+        .get::<RequestId>()
+        .map_or("-", |r| r.0.as_str());
     tracing::info_span!(
         "request",
         id,
@@ -120,7 +124,10 @@ mod tests {
 
     impl io::Write for Captured {
         fn write(&mut self, buf: &[u8]) -> io::Result<usize> {
-            self.0.lock().expect("log buffer is not poisoned").extend_from_slice(buf);
+            self.0
+                .lock()
+                .expect("log buffer is not poisoned")
+                .extend_from_slice(buf);
             Ok(buf.len())
         }
         fn flush(&mut self) -> io::Result<()> {
@@ -173,13 +180,22 @@ mod tests {
     #[test]
     fn no_fragment_or_query_reaches_the_log() {
         let uri = format!("/api/health?token={SECRET}#t={SECRET}");
-        let req = Request::builder().uri(&uri).body(Body::empty()).expect("a valid request");
+        let req = Request::builder()
+            .uri(&uri)
+            .body(Body::empty())
+            .expect("a valid request");
         let (response, logged) = serve(req);
 
         assert_eq!(response.status(), StatusCode::OK);
         // The positive control: without it, a subscriber that logged nothing would pass.
-        assert!(logged.contains("/api/health"), "the path is missing from: {logged}");
-        assert!(!logged.contains(SECRET), "the token reached the log: {logged}");
+        assert!(
+            logged.contains("/api/health"),
+            "the path is missing from: {logged}"
+        );
+        assert!(
+            !logged.contains(SECRET),
+            "the token reached the log: {logged}"
+        );
     }
 
     #[test]
@@ -194,13 +210,22 @@ mod tests {
             .expect("a valid request");
         let (_, logged) = serve(req);
 
-        assert!(!logged.contains(SECRET), "a header reached the log: {logged}");
-        assert!(!logged.to_lowercase().contains("referer"), "referrers are logged: {logged}");
+        assert!(
+            !logged.contains(SECRET),
+            "a header reached the log: {logged}"
+        );
+        assert!(
+            !logged.to_lowercase().contains("referer"),
+            "referrers are logged: {logged}"
+        );
     }
 
     #[test]
     fn every_response_carries_an_identifier_that_was_logged() {
-        let req = Request::builder().uri("/api/health").body(Body::empty()).unwrap();
+        let req = Request::builder()
+            .uri("/api/health")
+            .body(Body::empty())
+            .unwrap();
         let (response, logged) = serve(req);
 
         let id = response
@@ -211,7 +236,10 @@ mod tests {
             .expect("the identifier is ascii")
             .to_owned();
         assert_eq!(id.len(), 16);
-        assert!(logged.contains(&id), "the identifier {id} is not in: {logged}");
+        assert!(
+            logged.contains(&id),
+            "the identifier {id} is not in: {logged}"
+        );
     }
 
     #[test]
@@ -222,7 +250,10 @@ mod tests {
             .body(Body::empty())
             .unwrap();
         let (response, _) = serve(req);
-        assert_eq!(response.headers().get(REQUEST_ID).unwrap(), "nginx-0123456789abcdef");
+        assert_eq!(
+            response.headers().get(REQUEST_ID).unwrap(),
+            "nginx-0123456789abcdef"
+        );
     }
 
     #[test]
@@ -235,7 +266,13 @@ mod tests {
             .unwrap();
         let (response, logged) = serve(req);
 
-        assert_ne!(response.headers().get(REQUEST_ID).unwrap(), "abc account=victim");
-        assert!(!logged.contains("account=victim"), "the log was written by the caller: {logged}");
+        assert_ne!(
+            response.headers().get(REQUEST_ID).unwrap(),
+            "abc account=victim"
+        );
+        assert!(
+            !logged.contains("account=victim"),
+            "the log was written by the caller: {logged}"
+        );
     }
 }

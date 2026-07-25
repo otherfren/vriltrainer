@@ -5,7 +5,7 @@
 
 use server::pool::ImageEntry;
 use server::trial::derive::derive;
-use server::vectors::{from_hex, members_of, to_hex, Case, Expect};
+use server::vectors::{Case, Expect, from_hex, members_of, to_hex};
 
 /// `k` categories with the given sizes; identifiers are zero-padded so manifest order is also
 /// ascending lexical order, matching what a real manifest guarantees.
@@ -64,11 +64,21 @@ fn main() {
         // One category holding 400 of 455 images. An implementation that drew the target from the
         // pool rather than from the eight slots would disagree here, not merely differ.
         case("lopsided-400-vs-5", "de", "ad", &lopsided),
-        case("lopsided-alt-seed", "beefcafe", "0102030405060708", &lopsided),
+        case(
+            "lopsided-alt-seed",
+            "beefcafe",
+            "0102030405060708",
+            &lopsided,
+        ),
         // A category with a single member: `below(1)` must return 0 without consuming forever.
         case("singleton-category", "7f", "80", &singleton),
         // Sizes straddling powers of two, where the rejection bound actually bites.
-        case("mixed-sizes-rejection", "0000000000000001", "ffffffffffffffff", &mixed),
+        case(
+            "mixed-sizes-rejection",
+            "0000000000000001",
+            "ffffffffffffffff",
+            &mixed,
+        ),
     ];
 
     let json = serde_json::to_string_pretty(&cases).expect("serialise");

@@ -7,7 +7,7 @@
 
 use serde::{Deserialize, Serialize};
 use server::pool::{ImageEntry, Manifest};
-use server::trial::derive::SET_SIZE;
+use server::trial::derive::{DeriveError, SET_SIZE};
 
 use crate::annotate::Record;
 
@@ -46,22 +46,30 @@ pub fn build(records: &[Record], version: u32, created: &str) -> Result<Publishe
 
     let mut images: Vec<ImageEntry> = records
         .iter()
-        .map(|r| ImageEntry { id: r.id.clone(), category: r.category.clone() })
+        .map(|r| ImageEntry {
+            id: r.id.clone(),
+            category: r.category.clone(),
+        })
         .collect();
     images.sort_by(|a, b| a.id.cmp(&b.id));
 
+    // The derivation's own refusal, not a restatement of it: the tool must not be able to publish
+    // a pool the server would then decline to draw from, and it must not invent a stricter rule
+    // either.
     if categories.len() < SET_SIZE {
-        return Err(format!(
-            "{} categories, at least {SET_SIZE} are required — a trial shows eight different kinds",
-            categories.len()
-        ));
+        return Err(DeriveError::TooFewCategories(categories.len()).to_string());
     }
 
     // The category is inside the hash. Hashing identifiers alone would let a category be
     // reassigned without the manifest appearing to change, which alters every future derivation
     // while every published hash still matches (D22).
     let manifest_hash = Manifest::compute_hash(&categories, &images);
-    let manifest = Manifest { version, categories, images, manifest_hash };
+    let manifest = Manifest {
+        version,
+        categories,
+        images,
+        manifest_hash,
+    };
 
     // The server's own acceptance rules, run before publication rather than after: sorted, no
     // duplicate ids, no undeclared category, hash agreeing with the pairs.

@@ -62,7 +62,11 @@ pub struct RankBand {
 
 impl RankBand {
     fn new(high: &str, low: &str, share: f64) -> Self {
-        RankBand { high: high.into(), low: low.into(), share }
+        RankBand {
+            high: high.into(),
+            low: low.into(),
+            share,
+        }
     }
 }
 
@@ -137,6 +141,17 @@ pub struct Config {
     pub open_trials_per_account: u32,
     /// Accounts one client address may create per hour (D17).
     pub accounts_per_address_per_hour: u32,
+    /// Hours a holder must wait between name submissions (FR-048, D25).
+    ///
+    /// The scarce resource being rationed is the reviewer, not the database, so this is a cooldown
+    /// per account rather than a quota: one name in the queue per account per day is a queue a
+    /// person can still clear. A rejection clears the clock, because the user has not had a turn.
+    ///
+    /// It runs from **submission** and not from the decision, which is what holds a name still
+    /// while it is being looked at. Were a pending name editable, a user could swap it between the
+    /// moment the reviewer read the queue and the moment they clicked approve, and a human would
+    /// have published a name nobody ever saw — the outcome pre-approval exists to prevent.
+    pub rename_cooldown_hours: i64,
 }
 
 impl Default for Config {
@@ -148,7 +163,10 @@ impl Default for Config {
             db_path: PathBuf::from("vriltrainer.db"),
             pool_path: PathBuf::from("pool/manifest.json"),
             listen: SocketAddr::from((Ipv4Addr::LOCALHOST, 8080)),
-            trusted_proxies: vec![IpAddr::V4(Ipv4Addr::LOCALHOST), IpAddr::V6(Ipv6Addr::LOCALHOST)],
+            trusted_proxies: vec![
+                IpAddr::V4(Ipv4Addr::LOCALHOST),
+                IpAddr::V6(Ipv6Addr::LOCALHOST),
+            ],
             token_key_path: None,
             thresholds: Thresholds::default(),
             block_size: 25,
@@ -156,6 +174,7 @@ impl Default for Config {
             trial_lifetime_hours: 24,
             open_trials_per_account: 3,
             accounts_per_address_per_hour: 5,
+            rename_cooldown_hours: 24,
         }
     }
 }
@@ -180,7 +199,11 @@ impl Config {
 }
 
 #[derive(Debug, Parser)]
-#[command(name = "vriltrainer", version, about = "The vriltrainer service — one process per domain")]
+#[command(
+    name = "vriltrainer",
+    version,
+    about = "The vriltrainer service — one process per domain"
+)]
 pub struct Cli {
     #[arg(long, value_name = "PATH", default_value = "vriltrainer.db")]
     pub db: PathBuf,
@@ -239,7 +262,11 @@ mod tests {
     #[test]
     fn every_band_has_a_mirror() {
         let t = Thresholds::default();
-        assert_eq!(t.bands.len(), 5, "five bands each side of Normie makes eleven rungs");
+        assert_eq!(
+            t.bands.len(),
+            5,
+            "five bands each side of Normie makes eleven rungs"
+        );
         for b in &t.bands {
             assert_ne!(b.high, b.low);
         }

@@ -4,13 +4,19 @@ use std::path::{Path, PathBuf};
 use std::process::ExitCode;
 
 use clap::{Parser, Subcommand};
-use time::{OffsetDateTime, format_description::well_known::Rfc3339};
 
 use poolctl::annotate::{Catalogue, Record, is_free_licence, normalise_category};
 use poolctl::{check, manifest, normalise};
+// One spelling of "now" across the project. The catalogue and the manifest are read next to log
+// entries when a trial is being checked by hand, and two timestamp formats would be one more thing
+// to reconcile while doing it.
+use server::db::now_rfc3339 as now;
 
 #[derive(Parser)]
-#[command(name = "poolctl", about = "Curate, normalise and publish the vriltrainer image pool")]
+#[command(
+    name = "poolctl",
+    about = "Curate, normalise and publish the vriltrainer image pool"
+)]
 struct Cli {
     /// Working directory: `catalogue.json` plus the normalised images. Not itself published.
     #[arg(long, default_value = "pool", global = true)]
@@ -77,7 +83,13 @@ fn run(command: &Command, catalogue_path: &Path, images_dir: &Path) -> Result<Ex
     let mut catalogue = Catalogue::load(catalogue_path)?;
 
     match command {
-        Command::Add { file, category, source, licence, attribution } => {
+        Command::Add {
+            file,
+            category,
+            source,
+            licence,
+            attribution,
+        } => {
             if !is_free_licence(licence) {
                 return Err(format!(
                     "licence {licence} is not CC0 or public domain. Its attribution would have to \
@@ -99,7 +111,7 @@ fn run(command: &Command, catalogue_path: &Path, images_dir: &Path) -> Result<Ex
                 source: source.clone(),
                 licence: licence.clone(),
                 attribution: attribution.clone(),
-                added: now()?,
+                added: now(),
                 original: file.file_name().map(|n| n.to_string_lossy().into_owned()),
             })?;
 
@@ -115,7 +127,13 @@ fn run(command: &Command, catalogue_path: &Path, images_dir: &Path) -> Result<Ex
             Ok(ExitCode::SUCCESS)
         }
 
-        Command::Annotate { id, category, source, licence, attribution } => {
+        Command::Annotate {
+            id,
+            category,
+            source,
+            licence,
+            attribution,
+        } => {
             if let Some(l) = licence
                 && !is_free_licence(l)
             {
@@ -136,8 +154,10 @@ fn run(command: &Command, catalogue_path: &Path, images_dir: &Path) -> Result<Ex
             if let Some(a) = attribution {
                 record.attribution = Some(a.clone());
             }
-            let echo =
-                format!("{}  {}  {}  {}", record.id, record.category, record.licence, record.source);
+            let echo = format!(
+                "{}  {}  {}  {}",
+                record.id, record.category, record.licence, record.source
+            );
             catalogue.save(catalogue_path)?;
             println!("{echo}");
             Ok(ExitCode::SUCCESS)
@@ -148,14 +168,22 @@ fn run(command: &Command, catalogue_path: &Path, images_dir: &Path) -> Result<Ex
             for (name, n) in &report.per_category {
                 println!("{n:5}  {name}");
             }
-            println!("{:5}  images in {} categories", report.total, report.per_category.len());
+            println!(
+                "{:5}  images in {} categories",
+                report.total,
+                report.per_category.len()
+            );
             for w in &report.warnings {
                 println!("warning: {w}");
             }
             for e in &report.errors {
                 eprintln!("error: {e}");
             }
-            Ok(if report.ok() { ExitCode::SUCCESS } else { ExitCode::FAILURE })
+            Ok(if report.ok() {
+                ExitCode::SUCCESS
+            } else {
+                ExitCode::FAILURE
+            })
         }
 
         Command::Build { version, out } => {
@@ -169,7 +197,7 @@ fn run(command: &Command, catalogue_path: &Path, images_dir: &Path) -> Result<Ex
                 return Err("pool does not pass check; nothing was written".into());
             }
 
-            let published = manifest::build(&catalogue.images, *version, &now()?)?;
+            let published = manifest::build(&catalogue.images, *version, &now())?;
             let path = out
                 .clone()
                 .unwrap_or_else(|| PathBuf::from(format!("shared/pool/v{version}.json")));
@@ -196,12 +224,4 @@ fn run(command: &Command, catalogue_path: &Path, images_dir: &Path) -> Result<Ex
             Ok(ExitCode::SUCCESS)
         }
     }
-}
-
-fn now() -> Result<String, String> {
-    OffsetDateTime::now_utc()
-        .replace_nanosecond(0)
-        .map_err(|e| e.to_string())?
-        .format(&Rfc3339)
-        .map_err(|e| e.to_string())
 }

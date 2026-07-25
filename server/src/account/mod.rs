@@ -66,8 +66,7 @@ pub fn token_hash(token: &str) -> String {
 ///
 /// The pre-filter runs here, not at the caller, so no route into the review queue can skip it.
 pub fn create(db: &Db, name: &str, now: &str) -> Result<NewAccount, NameError> {
-    let name = name_filter::normalise(name);
-    name_filter::check(&name).map_err(NameError::Refused)?;
+    let name = name::accept(name)?;
 
     let account = db.write(|tx| {
         let mut left = PUBLIC_ID_ATTEMPTS;
@@ -200,12 +199,19 @@ mod tests {
             for i in 0..columns {
                 let value: rusqlite::types::Value = row.get(i).unwrap();
                 if let rusqlite::types::Value::Text(text) = value {
-                    assert_ne!(text, account.access_token, "column {i} holds the token in clear");
+                    assert_ne!(
+                        text, account.access_token,
+                        "column {i} holds the token in clear"
+                    );
                 }
             }
         }
         assert_eq!(
-            column(&db, &account.id, "SELECT token_hash FROM account WHERE id = ?1"),
+            column(
+                &db,
+                &account.id,
+                "SELECT token_hash FROM account WHERE id = ?1"
+            ),
             Some(token_hash(&account.access_token))
         );
     }
@@ -216,8 +222,14 @@ mod tests {
         let first = create(&db, "otherfren", NOW).unwrap();
         let second = create(&db, "Monroe Institut", NOW).unwrap();
 
-        assert_eq!(authenticate(&db, &first.access_token).unwrap(), Some(first.id.clone()));
-        assert_eq!(authenticate(&db, &second.access_token).unwrap(), Some(second.id));
+        assert_eq!(
+            authenticate(&db, &first.access_token).unwrap(),
+            Some(first.id.clone())
+        );
+        assert_eq!(
+            authenticate(&db, &second.access_token).unwrap(),
+            Some(second.id)
+        );
         // No recovery path to hint at, so an unknown token is simply nobody (D9).
         assert_eq!(authenticate(&db, "not a token").unwrap(), None);
         assert_eq!(authenticate(&db, "").unwrap(), None);
@@ -233,11 +245,17 @@ mod tests {
             let account = create(&db, "otherfren", NOW).unwrap();
             assert_eq!(account.public_id.len(), 6);
             assert!(
-                account.public_id.chars().all(|c| c.is_ascii_digit() || c.is_ascii_uppercase()),
+                account
+                    .public_id
+                    .chars()
+                    .all(|c| c.is_ascii_digit() || c.is_ascii_uppercase()),
                 "{} is not uppercase hex",
                 account.public_id
             );
-            assert!(seen.insert(account.public_id), "a public identifier was reused");
+            assert!(
+                seen.insert(account.public_id),
+                "a public identifier was reused"
+            );
         }
     }
 
@@ -254,10 +272,15 @@ mod tests {
     #[test]
     fn a_refused_name_creates_no_account() {
         let db = Db::open_in_memory().unwrap();
-        assert!(matches!(create(&db, "h1tl3r", NOW), Err(NameError::Refused(_))));
+        assert!(matches!(
+            create(&db, "h1tl3r", NOW),
+            Err(NameError::Refused(_))
+        ));
 
         let r = db.reader().unwrap();
-        let accounts: u32 = r.query_row("SELECT COUNT(*) FROM account", [], |x| x.get(0)).unwrap();
+        let accounts: u32 = r
+            .query_row("SELECT COUNT(*) FROM account", [], |x| x.get(0))
+            .unwrap();
         assert_eq!(accounts, 0);
     }
 
@@ -280,9 +303,19 @@ mod tests {
 
         assert_eq!(db.verify_chain().unwrap(), 1);
         assert_eq!(db.entries_from(1, 10).unwrap(), vec![entry]);
-        assert_eq!(column(&db, &account.id, "SELECT display_name FROM account WHERE id = ?1"), None);
+        assert_eq!(
+            column(
+                &db,
+                &account.id,
+                "SELECT display_name FROM account WHERE id = ?1"
+            ),
+            None
+        );
         // Still playable, under the identifier the log already names.
-        assert_eq!(authenticate(&db, &account.access_token).unwrap(), Some(account.id));
+        assert_eq!(
+            authenticate(&db, &account.access_token).unwrap(),
+            Some(account.id)
+        );
     }
 
     #[test]

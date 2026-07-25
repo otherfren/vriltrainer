@@ -45,7 +45,9 @@ pub enum NormaliseError {
     Encode(String),
     /// Upscaling invents detail, and invented detail is exactly the kind of texture difference
     /// this module exists to remove.
-    TooSmall { edge: u32 },
+    TooSmall {
+        edge: u32,
+    },
 }
 
 impl std::fmt::Display for NormaliseError {
@@ -84,7 +86,9 @@ pub fn normalise(bytes: &[u8]) -> Result<Normalised, NormaliseError> {
     }
 
     let square = img.crop_imm((w - side) / 2, (h - side) / 2, side, side);
-    let scaled = square.resize_exact(EDGE, EDGE, FilterType::Lanczos3).to_rgba8();
+    let scaled = square
+        .resize_exact(EDGE, EDGE, FilterType::Lanczos3)
+        .to_rgba8();
 
     let step = 8 - CHANNEL_BITS;
     let levels = (1u16 << CHANNEL_BITS) - 1;
@@ -164,10 +168,16 @@ mod tests {
     fn every_channel_lands_on_the_quantisation_grid() {
         let n = normalise(&source(900, 900, 17)).unwrap();
         let levels = (1u16 << CHANNEL_BITS) - 1;
-        let allowed: Vec<u8> = (0..=levels).map(|q| ((q * 255 + levels / 2) / levels) as u8).collect();
+        let allowed: Vec<u8> = (0..=levels)
+            .map(|q| ((q * 255 + levels / 2) / levels) as u8)
+            .collect();
         for px in decode(&n.png).pixels() {
             for c in 0..3 {
-                assert!(allowed.contains(&px.0[c]), "value {} is off the grid", px.0[c]);
+                assert!(
+                    allowed.contains(&px.0[c]),
+                    "value {} is off the grid",
+                    px.0[c]
+                );
             }
         }
     }
@@ -221,11 +231,17 @@ mod tests {
             .write_to(&mut Cursor::new(&mut jpeg), image::ImageFormat::Jpeg)
             .unwrap();
         let tagged = with_exif(&jpeg);
-        assert!(tagged.windows(4).any(|w| w == b"Exif"), "the fixture must actually carry EXIF");
+        assert!(
+            tagged.windows(4).any(|w| w == b"Exif"),
+            "the fixture must actually carry EXIF"
+        );
 
         let plain = normalise(&jpeg).unwrap();
         let annotated = normalise(&tagged).unwrap();
-        assert_eq!(plain.id, annotated.id, "metadata must not be able to mint a second identity");
+        assert_eq!(
+            plain.id, annotated.id,
+            "metadata must not be able to mint a second identity"
+        );
 
         for n in [&plain, &annotated] {
             assert!(!n.png.windows(4).any(|w| w == b"Exif"));

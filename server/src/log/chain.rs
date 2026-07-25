@@ -51,7 +51,13 @@ impl Body {
     /// bytes, and JSON leaves key order, whitespace and number formatting open to interpretation.
     fn parts(&self) -> Vec<Vec<u8>> {
         match self {
-            Body::Commit { trial, account, coordinate, commitment, pool_version } => vec![
+            Body::Commit {
+                trial,
+                account,
+                coordinate,
+                commitment,
+                pool_version,
+            } => vec![
                 b"commit".to_vec(),
                 trial.as_bytes().to_vec(),
                 account.as_bytes().to_vec(),
@@ -59,7 +65,15 @@ impl Body {
                 commitment.as_bytes().to_vec(),
                 pool_version.to_le_bytes().to_vec(),
             ],
-            Body::Resolve { trial, chosen, target, hit, s_server, s_client, nonce } => vec![
+            Body::Resolve {
+                trial,
+                chosen,
+                target,
+                hit,
+                s_server,
+                s_client,
+                nonce,
+            } => vec![
                 b"resolve".to_vec(),
                 trial.as_bytes().to_vec(),
                 chosen.as_bytes().to_vec(),
@@ -99,11 +113,16 @@ pub struct Chain {
 
 impl Chain {
     pub fn new() -> Self {
-        Chain { entries: Vec::new() }
+        Chain {
+            entries: Vec::new(),
+        }
     }
 
     pub fn head(&self) -> &str {
-        self.entries.last().map(|e| e.hash.as_str()).unwrap_or(GENESIS)
+        self.entries
+            .last()
+            .map(|e| e.hash.as_str())
+            .unwrap_or(GENESIS)
     }
 
     pub fn len(&self) -> usize {
@@ -122,7 +141,13 @@ impl Chain {
         let seq = self.entries.len() as u64 + 1;
         let prev = self.head().to_string();
         let hash = entry_hash(&prev, seq, at, &body);
-        self.entries.push(Entry { seq, at: at.to_string(), body, prev, hash });
+        self.entries.push(Entry {
+            seq,
+            at: at.to_string(),
+            body,
+            prev,
+            hash,
+        });
         self.entries.last().expect("just pushed")
     }
 
@@ -155,9 +180,14 @@ impl std::fmt::Display for ChainError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
             ChainError::SequenceBroken { at, expected } => {
-                write!(f, "sequence jumps to {at}, expected {expected} — entries are missing")
+                write!(
+                    f,
+                    "sequence jumps to {at}, expected {expected} — entries are missing"
+                )
             }
-            ChainError::PrevMismatch { seq } => write!(f, "entry {seq} does not link to its predecessor"),
+            ChainError::PrevMismatch { seq } => {
+                write!(f, "entry {seq} does not link to its predecessor")
+            }
             ChainError::HashMismatch { seq } => write!(f, "entry {seq} has been altered"),
         }
     }
@@ -172,7 +202,10 @@ pub fn verify(entries: &[Entry]) -> Result<(), ChainError> {
     for (i, e) in entries.iter().enumerate() {
         let expected_seq = i as u64 + 1;
         if e.seq != expected_seq {
-            return Err(ChainError::SequenceBroken { at: e.seq, expected: expected_seq });
+            return Err(ChainError::SequenceBroken {
+                at: e.seq,
+                expected: expected_seq,
+            });
         }
         if e.prev != prev {
             return Err(ChainError::PrevMismatch { seq: e.seq });
@@ -250,7 +283,10 @@ mod tests {
         let mut e = c.entries().to_vec();
         e.remove(1);
         // The gap shows up as a sequence break before any hash is even checked.
-        assert_eq!(verify(&e), Err(ChainError::SequenceBroken { at: 3, expected: 2 }));
+        assert_eq!(
+            verify(&e),
+            Err(ChainError::SequenceBroken { at: 3, expected: 2 })
+        );
     }
 
     #[test]

@@ -40,7 +40,11 @@ pub enum DbError {
     #[error("migration {version} failed: {message}")]
     Migration { version: u32, message: String },
     #[error("PRAGMA {name} is {got}, expected {want}")]
-    Pragma { name: &'static str, got: String, want: &'static str },
+    Pragma {
+        name: &'static str,
+        got: String,
+        want: &'static str,
+    },
     #[error("log entry {seq} has kind {kind}, which no reader knows how to read")]
     UnknownEntryKind { seq: u64, kind: String },
     /// A resolve entry whose trial was never committed. The pair is the whole record of a trial,
@@ -130,7 +134,11 @@ impl Db {
         if mode != "wal" {
             // Reached if the file sits on a network filesystem, where SQLite's locking is
             // unreliable anyway — the situation D24 forbids. Better to refuse to start.
-            return Err(DbError::Pragma { name: "journal_mode", got: mode, want: "wal" });
+            return Err(DbError::Pragma {
+                name: "journal_mode",
+                got: mode,
+                want: "wal",
+            });
         }
         conn.busy_timeout(BUSY_TIMEOUT)?;
         conn.pragma_update(None, "foreign_keys", "ON")?;
@@ -164,8 +172,11 @@ impl Db {
                  applied_at TEXT    NOT NULL
              )",
         )?;
-        let current: u32 =
-            w.query_row("SELECT COALESCE(MAX(version), 0) FROM schema_version", [], |r| r.get(0))?;
+        let current: u32 = w.query_row(
+            "SELECT COALESCE(MAX(version), 0) FROM schema_version",
+            [],
+            |r| r.get(0),
+        )?;
 
         for (version, sql) in MIGRATIONS {
             if *version <= current {
@@ -175,8 +186,10 @@ impl Db {
             // the same moment, and two processes applying the same migration is not a race worth
             // having.
             let tx = w.transaction_with_behavior(TransactionBehavior::Immediate)?;
-            tx.execute_batch(sql)
-                .map_err(|e| DbError::Migration { version: *version, message: e.to_string() })?;
+            tx.execute_batch(sql).map_err(|e| DbError::Migration {
+                version: *version,
+                message: e.to_string(),
+            })?;
             tx.execute(
                 "INSERT INTO schema_version (version, applied_at) VALUES (?1, ?2)",
                 params![version, now_rfc3339()],
@@ -193,13 +206,20 @@ impl Db {
         // reader — fine for a test, which is the only place this variant is reachable, and the
         // reason `open_in_memory` says so.
         if self.in_memory {
-            return Ok(Reader { held: Held::Writer(lock(&self.writer)) });
+            return Ok(Reader {
+                held: Held::Writer(lock(&self.writer)),
+            });
         }
         let conn = match lock(&self.readers).pop() {
             Some(c) => c,
             None => Self::connect_reader(&self.path)?,
         };
-        Ok(Reader { held: Held::Pooled { conn: Some(conn), db: self } })
+        Ok(Reader {
+            held: Held::Pooled {
+                conn: Some(conn),
+                db: self,
+            },
+        })
     }
 
     /// Appends one entry to the chain and runs `also` inside the same transaction, so the record
@@ -233,7 +253,13 @@ impl Db {
         let (last_seq, prev) = chain_head(&tx)?;
         let seq = last_seq + 1;
         let hash = entry_hash(&prev, seq, at, &body);
-        let entry = Entry { seq, at: at.to_string(), body, prev, hash };
+        let entry = Entry {
+            seq,
+            at: at.to_string(),
+            body,
+            prev,
+            hash,
+        };
 
         insert_entry(&tx, &entry)?;
         let extra = also(&tx, &entry)?;
@@ -243,7 +269,8 @@ impl Db {
 
     /// [`Db::append_with`] with nothing else to commit alongside.
     pub fn append(&self, at: &str, body: Body) -> Result<Entry, DbError> {
-        self.append_with(at, body, |_, _| Ok(())).map(|(entry, ())| entry)
+        self.append_with(at, body, |_, _| Ok(()))
+            .map(|(entry, ())| entry)
     }
 
     /// A write transaction with no log entry to ride along with.
@@ -300,7 +327,9 @@ impl Db {
     /// without bound and a startup check that needs it all in memory stops being run.
     pub fn verify_chain(&self) -> Result<u64, DbError> {
         let r = self.reader()?;
-        let mut stmt = r.prepare(&format!("SELECT {ENTRY_COLUMNS} FROM log_entry ORDER BY seq"))?;
+        let mut stmt = r.prepare(&format!(
+            "SELECT {ENTRY_COLUMNS} FROM log_entry ORDER BY seq"
+        ))?;
         let mut rows = stmt.query([])?;
 
         let mut prev = GENESIS.to_string();
@@ -308,7 +337,11 @@ impl Db {
         while let Some(row) = rows.next()? {
             let e = entry_from_row(row)??;
             if e.seq != expected {
-                return Err(ChainError::SequenceBroken { at: e.seq, expected }.into());
+                return Err(ChainError::SequenceBroken {
+                    at: e.seq,
+                    expected,
+                }
+                .into());
             }
             if e.prev != prev {
                 return Err(ChainError::PrevMismatch { seq: e.seq }.into());
@@ -329,7 +362,10 @@ pub struct Reader<'db> {
 }
 
 enum Held<'db> {
-    Pooled { conn: Option<Connection>, db: &'db Db },
+    Pooled {
+        conn: Option<Connection>,
+        db: &'db Db,
+    },
     /// The writer, for an in-memory database. See [`Db::reader`].
     Writer(std::sync::MutexGuard<'db, Connection>),
 }
@@ -383,7 +419,13 @@ fn chain_head(conn: &Connection) -> Result<(u64, String), DbError> {
 
 fn insert_entry(tx: &Transaction<'_>, entry: &Entry) -> Result<(), DbError> {
     match &entry.body {
-        Body::Commit { trial, account, coordinate, commitment, pool_version } => {
+        Body::Commit {
+            trial,
+            account,
+            coordinate,
+            commitment,
+            pool_version,
+        } => {
             tx.execute(
                 "INSERT INTO log_entry
                    (seq, kind, trial_id, account_id, at, prev_hash, entry_hash,
@@ -402,7 +444,15 @@ fn insert_entry(tx: &Transaction<'_>, entry: &Entry) -> Result<(), DbError> {
                 ],
             )?;
         }
-        Body::Resolve { trial, chosen, target, hit, s_server, s_client, nonce } => {
+        Body::Resolve {
+            trial,
+            chosen,
+            target,
+            hit,
+            s_server,
+            s_client,
+            nonce,
+        } => {
             // The resolve body carries no account, so it is taken from the trial's commit row.
             // The `SELECT` is also the check that the commit exists: it inserts nothing when it
             // does not, which is why the row count is inspected rather than trusted.
@@ -427,7 +477,9 @@ fn insert_entry(tx: &Transaction<'_>, entry: &Entry) -> Result<(), DbError> {
                 ],
             )?;
             if written != 1 {
-                return Err(DbError::OrphanResolve { trial: trial.clone() });
+                return Err(DbError::OrphanResolve {
+                    trial: trial.clone(),
+                });
             }
         }
     }
@@ -464,10 +516,21 @@ fn entry_from_row(row: &Row<'_>) -> rusqlite::Result<Result<Entry, DbError>> {
             s_client: row.get(14)?,
             nonce: row.get(15)?,
         },
-        other => return Ok(Err(DbError::UnknownEntryKind { seq, kind: other.to_string() })),
+        other => {
+            return Ok(Err(DbError::UnknownEntryKind {
+                seq,
+                kind: other.to_string(),
+            }));
+        }
     };
 
-    Ok(Ok(Entry { seq, at, body, prev, hash }))
+    Ok(Ok(Entry {
+        seq,
+        at,
+        body,
+        prev,
+        hash,
+    }))
 }
 
 #[cfg(test)]
@@ -544,7 +607,9 @@ mod tests {
         Db::open(&tmp.0).unwrap();
         let db = Db::open(&tmp.0).unwrap();
         let r = db.reader().unwrap();
-        let applied: u32 = r.query_row("SELECT COUNT(*) FROM schema_version", [], |x| x.get(0)).unwrap();
+        let applied: u32 = r
+            .query_row("SELECT COUNT(*) FROM schema_version", [], |x| x.get(0))
+            .unwrap();
         assert_eq!(applied, MIGRATIONS.len() as u32);
     }
 
@@ -561,7 +626,10 @@ mod tests {
         assert_eq!(first.seq, 1);
         assert_eq!(first.prev, GENESIS);
         assert_eq!(second.seq, 2);
-        assert_eq!(second.prev, first.hash, "the second entry must name the first");
+        assert_eq!(
+            second.prev, first.hash,
+            "the second entry must name the first"
+        );
         assert_eq!(db.head().unwrap(), (2, second.hash.clone()));
         assert_eq!(db.verify_chain().unwrap(), 2);
     }
@@ -602,7 +670,10 @@ mod tests {
         let db = Db::open_in_memory().unwrap();
         account(&db, "acct");
         let outcome = db.append_with(&now_rfc3339(), commit("t1"), |_, _| {
-            Err::<(), _>(DbError::Migration { version: 0, message: "deliberate".into() })
+            Err::<(), _>(DbError::Migration {
+                version: 0,
+                message: "deliberate".into(),
+            })
         });
         assert!(outcome.is_err());
         assert_eq!(db.head().unwrap().0, 0, "nothing may survive the rollback");
@@ -615,7 +686,12 @@ mod tests {
         for i in 0..5 {
             db.append(&now_rfc3339(), commit(&format!("t{i}"))).unwrap();
         }
-        let seqs: Vec<u64> = db.entries_from(2, 10).unwrap().iter().map(|e| e.seq).collect();
+        let seqs: Vec<u64> = db
+            .entries_from(2, 10)
+            .unwrap()
+            .iter()
+            .map(|e| e.seq)
+            .collect();
         assert_eq!(seqs, vec![2, 3, 4, 5]);
     }
 
@@ -632,8 +708,11 @@ mod tests {
         // Neither UNIQUE constraint notices — only the walk does.
         {
             let w = lock(&db.writer);
-            w.execute("UPDATE log_entry SET coordinate = '0000-0000' WHERE seq = 2", [])
-                .unwrap();
+            w.execute(
+                "UPDATE log_entry SET coordinate = '0000-0000' WHERE seq = 2",
+                [],
+            )
+            .unwrap();
         }
         assert!(matches!(
             db.verify_chain(),
@@ -651,11 +730,15 @@ mod tests {
         }
         {
             let w = lock(&db.writer);
-            w.execute("DELETE FROM log_entry WHERE seq = 2", []).unwrap();
+            w.execute("DELETE FROM log_entry WHERE seq = 2", [])
+                .unwrap();
         }
         assert!(matches!(
             db.verify_chain(),
-            Err(DbError::Chain(ChainError::SequenceBroken { at: 3, expected: 2 }))
+            Err(DbError::Chain(ChainError::SequenceBroken {
+                at: 3,
+                expected: 2
+            }))
         ));
     }
 
@@ -683,7 +766,8 @@ mod tests {
             .map(|(w, db)| {
                 std::thread::spawn(move || {
                     for i in 0..rounds {
-                        db.append(&now_rfc3339(), commit(&format!("w{w}-t{i}"))).unwrap();
+                        db.append(&now_rfc3339(), commit(&format!("w{w}-t{i}")))
+                            .unwrap();
                     }
                 })
             })

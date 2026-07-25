@@ -94,7 +94,15 @@ against it forever. Therefore:
 
 ## The launch pool
 
-Five hundred images across 16 to 24 categories, so roughly twenty per category.
+A hundred and sixty images across 16 to 24 categories, so roughly eight to ten per category. That is
+what `poolctl check` reports against; five hundred is v2, cut while the site is already live.
 
-That is several evenings of work. There is no shortcut: the pipeline can be automated, the
+D5 originally said five hundred at launch on an argument that turned out to be wrong — pool size
+does not appear anywhere in the target's distribution, so a lookup table over past image sets buys
+an attacker nothing. What P actually controls is how often a player meets the same picture twice:
+about `8T/P` times over `T` trials, five times at P = 160 over a hundred trials. That is a boredom
+constraint, and it degrades gracefully instead of falling off a cliff, which is why launching at 160
+is a delay worth not taking.
+
+Even so it is several evenings of work. There is no shortcut: the pipeline can be automated, the
 selection cannot. Start early — until the pool exists, nothing is playable.

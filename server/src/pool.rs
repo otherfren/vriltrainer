@@ -18,23 +18,34 @@ pub struct Manifest {
     pub manifest_hash: String,
 }
 
+/// Manifest indices per category, in manifest order — the input the derivation draws against.
+///
+/// A category's member list is the sorted manifest *filtered* to that category. There is
+/// deliberately no second ordering to keep in sync — see the contract.
+///
+/// Free-standing rather than a method because the test vectors are built from loose category and
+/// image lists that never become a [`Manifest`] ([`crate::vectors::members_of`]). A second copy of
+/// this loop there would let the fixtures and the server disagree about which image sits at which
+/// index, which is precisely the divergence the vectors exist to catch — and they would confirm
+/// each other instead.
+pub fn members_by_category(categories: &[String], images: &[ImageEntry]) -> Vec<Vec<usize>> {
+    categories
+        .iter()
+        .map(|c| {
+            images
+                .iter()
+                .enumerate()
+                .filter(|(_, e)| &e.category == c)
+                .map(|(i, _)| i)
+                .collect()
+        })
+        .collect()
+}
+
 impl Manifest {
-    /// Manifest indices per category, in manifest order.
-    ///
-    /// A category's member list is the sorted manifest *filtered* to that category. There is
-    /// deliberately no second ordering to keep in sync — see the contract.
+    /// See [`members_by_category`].
     pub fn members(&self) -> Vec<Vec<usize>> {
-        self.categories
-            .iter()
-            .map(|c| {
-                self.images
-                    .iter()
-                    .enumerate()
-                    .filter(|(_, e)| &e.category == c)
-                    .map(|(i, _)| i)
-                    .collect()
-            })
-            .collect()
+        members_by_category(&self.categories, &self.images)
     }
 
     /// Hash over the sorted `(id, category)` pairs.
@@ -72,7 +83,10 @@ impl Manifest {
         }
         for e in &self.images {
             if !self.categories.contains(&e.category) {
-                return Err(format!("image {} has undeclared category {}", e.id, e.category));
+                return Err(format!(
+                    "image {} has undeclared category {}",
+                    e.id, e.category
+                ));
             }
         }
         if !self.hash_matches() {
@@ -87,14 +101,26 @@ mod tests {
     use super::*;
 
     fn entry(id: &str, cat: &str) -> ImageEntry {
-        ImageEntry { id: id.into(), category: cat.into() }
+        ImageEntry {
+            id: id.into(),
+            category: cat.into(),
+        }
     }
 
     fn manifest() -> Manifest {
         let categories = vec!["a".to_string(), "b".to_string()];
-        let images = vec![entry("img_1", "a"), entry("img_2", "b"), entry("img_3", "a")];
+        let images = vec![
+            entry("img_1", "a"),
+            entry("img_2", "b"),
+            entry("img_3", "a"),
+        ];
         let manifest_hash = Manifest::compute_hash(&categories, &images);
-        Manifest { version: 1, categories, images, manifest_hash }
+        Manifest {
+            version: 1,
+            categories,
+            images,
+            manifest_hash,
+        }
     }
 
     #[test]

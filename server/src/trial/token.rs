@@ -59,7 +59,9 @@ impl std::fmt::Display for TokenError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
             TokenError::Malformed => write!(f, "token is malformed"),
-            TokenError::NotAuthentic => write!(f, "token is not authentic for this account and trial"),
+            TokenError::NotAuthentic => {
+                write!(f, "token is not authentic for this account and trial")
+            }
             TokenError::Expired => write!(f, "token has expired"),
         }
     }
@@ -73,7 +75,9 @@ pub struct Sealer {
 
 impl Sealer {
     pub fn new(key: &[u8; 32]) -> Self {
-        Sealer { cipher: XChaCha20Poly1305::new(Key::from_slice(key)) }
+        Sealer {
+            cipher: XChaCha20Poly1305::new(Key::from_slice(key)),
+        }
     }
 
     pub fn random_key() -> [u8; 32] {
@@ -98,7 +102,13 @@ impl Sealer {
         let nonce = XChaCha20Poly1305::generate_nonce(&mut OsRng);
         let ct = self
             .cipher
-            .encrypt(&nonce, Payload { msg: &plaintext, aad: &aad })
+            .encrypt(
+                &nonce,
+                Payload {
+                    msg: &plaintext,
+                    aad: &aad,
+                },
+            )
             .expect("encryption does not fail with a valid key");
         let mut out = Vec::with_capacity(nonce.len() + ct.len());
         out.extend_from_slice(&nonce);

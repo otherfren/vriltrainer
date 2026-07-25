@@ -43,7 +43,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     };
 
     let listener = tokio::net::TcpListener::bind(config.listen).await?;
-    axum::serve(listener, http::router(state))
+    // `service`, not `router`: without `ConnectInfo` no handler learns the peer, so the forwarded
+    // client address is unusable and every request counts against one bucket — the per-address
+    // creation limit would throttle all users together (R8).
+    axum::serve(listener, http::service(state))
         .with_graceful_shutdown(shutdown())
         .await?;
     Ok(())
@@ -62,10 +65,16 @@ fn init_tracing() {
 /// records the hash it was drawn under, so serving from a manifest whose hash does not match its
 /// contents publishes trials nobody can recompute — and unlike a crash, that failure is silent.
 fn load_pool(config: &Config) -> Result<Manifest, Box<dyn std::error::Error>> {
-    let raw = std::fs::read_to_string(&config.pool_path)
-        .map_err(|e| format!("cannot read pool manifest {}: {e}", config.pool_path.display()))?;
+    let raw = std::fs::read_to_string(&config.pool_path).map_err(|e| {
+        format!(
+            "cannot read pool manifest {}: {e}",
+            config.pool_path.display()
+        )
+    })?;
     let manifest: Manifest = serde_json::from_str(&raw)?;
-    manifest.validate().map_err(|e| format!("pool manifest is not usable: {e}"))?;
+    manifest
+        .validate()
+        .map_err(|e| format!("pool manifest is not usable: {e}"))?;
     Ok(manifest)
 }
 

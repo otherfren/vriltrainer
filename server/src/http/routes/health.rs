@@ -41,7 +41,12 @@ async fn health(State(state): State<AppState>) -> Response {
             tracing::error!(error = %e, "health check cannot read the chain head");
             // 503 rather than 500: it says "send traffic elsewhere", which is the one thing a
             // monitor and a proxy both know how to act on.
-            (StatusCode::SERVICE_UNAVAILABLE, Json(Unavailable { status: "unavailable" }))
+            (
+                StatusCode::SERVICE_UNAVAILABLE,
+                Json(Unavailable {
+                    status: "unavailable",
+                }),
+            )
                 .into_response()
         }
     }

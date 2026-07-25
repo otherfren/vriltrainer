@@ -19,11 +19,6 @@ use axum::middleware::Next;
 
 use crate::config::Locale;
 
-/// The `Content-Language` this process always sends.
-pub fn content_language(locale: Locale) -> &'static str {
-    locale.code()
-}
-
 /// Whether the request's `Host` is the domain this process is supposed to serve.
 ///
 /// Nothing depends on the answer — the locale is already decided. It exists so a misrouted proxy
@@ -64,7 +59,7 @@ pub fn announce(router: Router, locale: Locale) -> Router {
     // A misrouted proxy is a standing condition, not an event. Warning per request would bury the
     // log line in the log it is meant to be noticed in.
     let warned = Arc::new(AtomicBool::new(false));
-    let value = HeaderValue::from_static(content_language(locale));
+    let value = HeaderValue::from_static(locale.code());
 
     router.layer(axum::middleware::from_fn(move |req: Request, next: Next| {
         let warned = Arc::clone(&warned);
@@ -111,7 +106,10 @@ mod tests {
         assert!(!host_matches(Locale::De, None));
         assert!(!host_matches(Locale::De, Some("")));
         assert!(!host_matches(Locale::De, Some("evil.example")));
-        assert!(!host_matches(Locale::De, Some("vriltrainer.de.evil.example")));
+        assert!(!host_matches(
+            Locale::De,
+            Some("vriltrainer.de.evil.example")
+        ));
         assert!(!host_matches(Locale::De, Some("[2001:db8::1]:8080")));
     }
 }
