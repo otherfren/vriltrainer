@@ -286,9 +286,10 @@ account and full history carry over.
 - **FR-035**: System MUST allow a user holding a valid access link to remove their chosen name
   themselves, without contacting the operator. Removal is permanent for that account: the account
   remains playable under its opaque identifier and no new name may be set (D25).
-- **FR-047**: System MUST NOT display a chosen name on any public surface until it has been
-  approved, showing the opaque identifier in its place until then, and MUST tell the account
-  holder that their name is under review (D25).
+- **FR-047**: System MUST show, on public surfaces, only the most recently approved name in clear
+  text, masking any name that has not been approved with a fixed-length mask that reveals neither
+  its length nor its characters, while still displaying the public identifier (FR-029). The
+  account holder MUST always see the name they chose, with its review state (D25).
 - **FR-048**: System MUST allow a user holding a valid access link to change their name, subject
   to a rate limit. A name refused during review MUST NOT consume that limit, and the previously
   approved name MUST remain displayed until a replacement is approved (D25).

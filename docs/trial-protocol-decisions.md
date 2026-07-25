@@ -796,9 +796,20 @@ the reserved, addresses, hate terms and vulgarity — including through leet fol
 reaches the review queue is only what survived. Everything that survives is then approved by a
 human before it is shown to anyone else.
 
-A name has state: `pending` -> `approved` | `rejected`. Until approved, every public surface shows
-`<anonymous>` beside the public identifier. The account holder sees their own name with a note
-that it is under review. On rename, the last **approved** name stays displayed until the new one
+A name has state: `pending` -> `approved` | `rejected`, and the two audiences see different
+things.
+
+**The account holder always sees the name they chose**, in whatever state it is, with a note when
+it is under review or was refused — they cannot pick a better one without seeing the one that was
+refused.
+
+**The public list shows the most recently approved name in clear text, and masks everything else.**
+Masked, not replaced: a row reads as *a name exists here and has not been cleared yet* rather than
+as an absence. The mask is a **fixed-length** run of dots, matching the masking idiom D9 already
+uses for the access link. Fixed length is the point — a mask that preserved the real length and
+first letter would still communicate the shape of a slur, which is precisely what pre-approval
+exists to keep off the page. The public identifier is shown beside it either way (FR-029), so the
+row is still attributable and still checkable against the log. On rename, the last **approved** name stays displayed until the new one
 clears, so renaming is not punished with anonymity. A rejection is told to the user with a reason,
 lets them choose again, and does **not** consume the rename rate limit. Rejected names are
 discarded rather than retained — holding a name you refused is holding personal data for no
@@ -807,7 +818,7 @@ purpose.
 FR-026 is untouched: the log references the opaque account id and never the name, so none of this
 reaches the record.
 
-The honest cost is that the operator becomes a bottleneck. Every new player is `<anonymous>` until
+The honest cost is that the operator becomes a bottleneck. Every new player is masked until
 somebody logs in, and that is worst exactly on the days the site is growing. The pre-filter keeps
 the queue short; nothing keeps it off the calendar.
 

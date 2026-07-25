@@ -56,7 +56,7 @@ because the rest of this plan assumes them.
 | 8 | **No standalone verifier in v1.** In-browser only, and the interface must not claim third-party independence. | SC-002 |
 | 9 | Manifests permanent **while the service runs**; image bytes replaceable. Backups are private; publicly say only that they run. | D5 |
 | 10 | Statistics empty state is an **empty grey chart and one honest line**. | T105 |
-| 11 | Reporting via the **Impressum contact**. Names are **pre-approved**; `<anonymous>` until then. | D25, T107 |
+| 11 | Reporting via the **Impressum contact**. Names are **pre-approved**; masked in public until then, always visible to their owner. | D25, T107 |
 | 12-13 | Admin API is **public**, one key, hash in the database, `--rotate` with no restart, **reversible operations only**. | D25, T098-T099 |
 | 14 | **No age restriction** of any kind. Deliberate, not an oversight. | this document |
 | 15 | **No flags** on the language switch — DE and EN as text. | T110 |
@@ -186,8 +186,9 @@ only item that cannot be accelerated later by concentrating effort.
 
 ## F. Accounts, names and moderation
 
-- [ ] Name state machine: `pending` -> `approved` | `rejected`. `<anonymous>` plus the public id on
-      every public surface until approved; the holder sees their own name marked under review.
+- [ ] Name state machine: `pending` -> `approved` | `rejected`. Public surfaces show the most
+      recently approved name in clear text and mask anything else with a fixed-length mask, beside
+      the public id; the holder always sees the name they chose, with its state.
       (T096, FR-047, D25)
 - [ ] Port `checkDisplayName` to the server and enforce it on submission. The client copy is UX
       only and says so at the top of the module. (T097)
@@ -222,7 +223,7 @@ only item that cannot be accelerated later by concentrating effort.
       `history.replaceState`. (T034) The key is a hardcoded constant today.
 - [ ] Persist the account locally so a reload does not lose it.
 - [ ] Re-prompt to save the access link at the statistics threshold. (T089)
-- [ ] `<anonymous>` rendering and the "under review" state for your own name.
+- [ ] Masked-name rendering in public lists, and the "under review" / "abgelehnt" state in your own view.
 - [ ] Loading and error states. There are none — the demo is synchronous and cannot fail. Every
       endpoint needs a pending and a failure state, and the failure copy has to be written.
 - [ ] Offline / server-down behaviour. A trial half-committed when the network drops must not look
@@ -349,8 +350,8 @@ Both languages ship at launch (decision 5), so none of this is deferrable.
 - [ ] Forwarded client address arriving correctly — it fails silently.
 - [ ] Both processes up, each serving its own language, sharing one database. Create an account on
       one, switch via handoff, confirm it is the same account.
-- [ ] Approve a name through the admin API; confirm it appears on the board and `<anonymous>`
-      before that.
+- [ ] Approve a name through the admin API; confirm it appears on the board in clear text and was
+      masked before that, while its owner saw it throughout.
 - [ ] Rotate the admin key and confirm the old one stops working without a restart.
 - [ ] Play ten trials, unlock statistics, verify a proof, download the log.
 - [ ] Remove a name; confirm the record still verifies and the account still plays.
@@ -363,7 +364,7 @@ Both languages ship at launch (decision 5), so none of this is deferrable.
 - [ ] Watch the aggregate. If it is not near 12,5 % after a few thousand trials, something is wrong
       with the code, not with the universe.
 - [ ] Watch both tails. Asymmetry is a bug signal before it is a discovery.
-- [ ] Watch the name queue. Every new player is `<anonymous>` until someone reviews them, and that
+- [ ] Watch the name queue. Every new player is masked until someone reviews them, and that
       bites hardest exactly on the days the site is growing.
 - [ ] Watch log growth against disk.
 - [ ] Have an answer ready for the first person claiming a real effect. They will be a false
