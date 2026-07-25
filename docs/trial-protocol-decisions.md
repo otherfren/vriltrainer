@@ -965,3 +965,37 @@ notice, because that file is the only place a visitor's address is written down.
 - Write the derivation test vectors before the second implementation begins (D7, D15)
 
 Rate limiting, reopened after D16, was settled in D17.
+
+## D29 — The image pool is compiled into the binary
+
+`poolctl import` normalises every source image to 512x512, five bits per channel, and names the
+result after the SHA-256 of its own bytes. Those files used to be copied next to the client bundle
+and served by the static-file layer. They are now read by `server/build.rs` and embedded, and the
+binary answers `GET /pool/<image_id>.png` out of memory.
+
+**The reason is not speed.** It is that images and manifest were two artefacts that had to agree and
+nothing made them. A deploy that updated one and not the other produced a service that started
+cleanly, drew trials normally, wrote a correct audit log — and showed eight broken pictures. That
+failure has no log line, looks like a client bug, and is found by a visitor. With the pool inside
+the binary the disagreement is representable in exactly one way, `--pool` pointing at another
+build's manifest, and the process refuses to start:
+
+    this build does not carry 2 of the 189 images in pool v1 (e.g. img_ffff...)
+
+**The costs are real and both are the point.** The artefact is large — 51 MB at 189 images — and a
+pool bump requires a rebuild. But a published pool version is immutable (D5), so "the images
+changed" and "this is a different build" *ought* to be the same statement, and the deploy is now one
+file plus a manifest instead of a directory tree that has to be synchronised in the right order.
+
+Two consequences worth naming:
+
+- **`poolctl import` must run before `cargo build`.** `pool/normalised/` is generated and
+  gitignored, so a fresh clone builds an empty pool with a `cargo::warning` rather than failing —
+  the tests do not need images, and the startup check is where a real deployment finds out.
+  `VRILTRAINER_POOL_IMAGES` overrides the directory.
+- **Responses are `immutable` for a year, and this is a fact rather than a guess.** An identifier is
+  the hash of the bytes served under it, so a cached copy cannot be stale: either the bytes are the
+  ones the id names, or they are a forgery that re-fetching would not detect. The id is also the
+  ETag. Eight images load at the top of every trial, and a visitor who plays fifty should pay for
+  the pool once.
+

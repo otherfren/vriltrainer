@@ -7,7 +7,7 @@ use clap::Parser;
 use server::config::{Cli, Config};
 use server::db::Db;
 use server::http::{self, AppState};
-use server::pool::Manifest;
+use server::pool::{Manifest, embedded};
 use server::trial::token::Sealer;
 
 #[tokio::main]
@@ -24,6 +24,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let entries = db.verify_chain()?;
 
     let pool = load_pool(&config)?;
+    check_images_shipped(&pool)?;
     tracing::info!(
         locale = config.locale.code(),
         domain = config.locale.domain(),
@@ -32,6 +33,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         log_entries = entries,
         pool_version = pool.version,
         pool_images = pool.images.len(),
+        pool_bytes_embedded = embedded::count(),
         "vriltrainer starting"
     );
 
@@ -116,4 +118,33 @@ async fn shutdown() {
         _ = int.recv() => {}
     }
     tracing::info!("shutting down, draining in-flight requests");
+}
+
+/// Refuses to start if the manifest names an image this build does not carry (D29).
+///
+/// The images are compiled in, so ordinarily this cannot fail — the same `poolctl import` that
+/// produced `pool/normalised/` produced the catalogue the manifest was cut from. It can fail in
+/// exactly one way, and it is the way that matters: `--pool` pointing at a manifest from a
+/// different build. Version 2's manifest against version 1's binary starts cleanly, draws trials
+/// normally, and serves eight broken pictures — a failure that looks like a client bug, produces
+/// no log line, and is discovered by a visitor.
+///
+/// Reported by count and by example rather than in full: a mismatched pool is every image, and a
+/// hundred and eighty-nine identifiers scrolling past says nothing the first three do not.
+fn check_images_shipped(pool: &Manifest) -> Result<(), Box<dyn std::error::Error>> {
+    let missing = embedded::missing(pool.images.iter().map(|i| i.id.as_str()));
+    if missing.is_empty() {
+        return Ok(());
+    }
+    let examples: Vec<&str> = missing.iter().take(3).copied().collect();
+    Err(format!(
+        "this build does not carry {} of the {} images in pool v{} (e.g. {}). \
+         The pool is compiled in: rebuild after `poolctl import`, or point --pool at the manifest \
+         this binary was built from.",
+        missing.len(),
+        pool.images.len(),
+        pool.version,
+        examples.join(", ")
+    )
+    .into())
 }

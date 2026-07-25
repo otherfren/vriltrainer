@@ -8,6 +8,7 @@ pub mod account;
 pub mod admin;
 pub mod handoff;
 pub mod health;
+pub mod image;
 pub mod leaderboard;
 pub mod log;
 pub mod pool;
@@ -26,6 +27,7 @@ pub fn all() -> Router<AppState> {
         .merge(admin::routes())
         .merge(handoff::routes())
         .merge(health::routes())
+        .merge(image::routes())
         .merge(leaderboard::routes())
         .merge(log::routes())
         .merge(pool::routes())

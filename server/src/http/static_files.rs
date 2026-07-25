@@ -67,8 +67,12 @@ pub fn mount(router: Router, public: Option<&Path>) -> Router {
 
 /// Paths the router owns. Prefix matching on a segment boundary, so a client route called
 /// `/apiary` is still a page.
+///
+/// `/pool` is here because the images are in the binary (D29) and not on disk beside the bundle.
+/// Without it a missing image would fall through to `index.html` and arrive at an `<img>` tag as a
+/// web page with a 200 on it — a broken picture that no log line anywhere would explain.
 fn is_service_path(path: &str) -> bool {
-    ["/api", "/admin"].iter().any(|p| {
+    ["/api", "/admin", "/pool"].iter().any(|p| {
         path == *p
             || path
                 .strip_prefix(p)
@@ -93,9 +97,11 @@ mod tests {
         assert!(is_service_path("/api"));
         assert!(is_service_path("/api/trial"));
         assert!(is_service_path("/admin/names"));
+        assert!(is_service_path("/pool/img_00.png"));
         // Client routes, which happen to start with the same letters.
         assert!(!is_service_path("/apiary"));
         assert!(!is_service_path("/administrivia"));
+        assert!(!is_service_path("/poolside"));
         assert!(!is_service_path("/"));
         assert!(!is_service_path("/stats"));
     }

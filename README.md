@@ -45,16 +45,17 @@ operator supplies.
 
 ```bash
 # 1 — take the images named by pool/images.toml into the catalogue, then cut a version
-cargo run --bin poolctl -- import
+cargo run --bin poolctl -- import                      # → pool/normalised/, the build's image input
 cargo run --bin poolctl -- check                       # what is thin, what would block a version
 cargo run --bin poolctl -- build --version 1 --out pool/v1.json
+cp pool/v1.json pool/manifest.json                     # what --pool names
 
 # 2 — the one secret. Everything else in the database is public by design
 openssl rand -hex 32 > token.key && chmod 600 token.key
 
 # 3 — run it
 cargo run --bin server -- \
-  --locale de --db dev.db --pool pool/v1.json \
+  --locale de --db dev.db --pool pool/manifest.json \
   --listen 127.0.0.1:8080 --token-key token.key \
   --public client/dist/client/browser
 ```
@@ -63,11 +64,18 @@ cargo run --bin server -- \
 the API alone. `/api` and `/admin` are routed before the bundle, so an unknown `/api/...` is still
 a `404` and not the web page.
 
-The images themselves are **not** served by the manifest — it carries ids and no filenames (D5).
-Copy `pool/normalised/` to `<public>/pool/` and the client finds them at `/pool/<image_id>.png`:
+**Run `poolctl import` before `cargo build`.** The images are compiled into the binary (D29): the
+build reads `pool/normalised/` and the server serves them from memory at `/pool/<image_id>.png`.
+There is nothing to copy and nothing to mount, and a manifest naming an image the binary does not
+carry is refused at startup rather than discovered by a visitor looking at eight broken pictures.
 
-```bash
-mkdir -p client/dist/client/browser/pool && cp pool/normalised/*.png client/dist/client/browser/pool/
+A checkout with no images builds anyway — `pool/normalised/` is generated and not in the repository,
+the tests do not need it, and `cargo` prints a warning saying the pool is empty. Set
+`VRILTRAINER_POOL_IMAGES` to build from somewhere else. The startup line reports both numbers, and
+they have to agree:
+
+```
+pool_version=1 pool_images=189 pool_bytes_embedded=189
 ```
 
 A quick check that it is alive, which is also the shape of the loop:
@@ -118,7 +126,6 @@ cd client && npm run build && cd ..
 ```
 target/release/server        →  /srv/vriltrainer/server
 client/dist/client/browser   →  /srv/vriltrainer/public
-pool/normalised/             →  /srv/vriltrainer/public/pool/
 pool/v1.json                 →  /srv/vriltrainer/pool/manifest.json
 pool/v*.json                 →  /srv/vriltrainer/pool/            (every version, unrenamed)
 deploy/vriltrainer@.service  →  /etc/systemd/system/
@@ -131,8 +138,11 @@ the process serves, named by `--pool` in the unit. The `v<N>.json` files beside 
 verifiable only while v1's manifest still answers (D5), so dropping the old file after a pool bump
 breaks the audit story for every trial before it, silently and retroactively.
 
-`pool/normalised/` is the image bytes. The manifest carries ids and no filenames, so nothing but
-this convention connects the two: the client asks for `/pool/<image_id>.png`.
+The image bytes are **not** copied: they are inside `server`, put there at compile time from
+`pool/normalised/` (D29). So a pool bump is a rebuild, not a file sync — which is the honest shape
+of it, since a published pool version is immutable and a different pool is a different artefact.
+The manifest still carries ids and no filenames; the client asks for `/pool/<image_id>.png` and the
+binary answers.
 
 ### Configure
 
