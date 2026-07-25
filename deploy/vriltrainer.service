@@ -1,0 +1,25 @@
+[Unit]
+Description=vriltrainer
+After=network.target
+
+[Service]
+Type=simple
+User=vriltrainer
+WorkingDirectory=/srv/vriltrainer
+ExecStart=/srv/vriltrainer/server --db /srv/vriltrainer/vriltrainer.sqlite --pool /srv/vriltrainer/pool/v1.json --listen 127.0.0.1:8080
+Restart=on-failure
+RestartSec=3
+
+# The database is the public audit log. Losing it does not cost records that can be rebuilt — it
+# retroactively makes every past trial unverifiable.
+ReadWritePaths=/srv/vriltrainer
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+NoNewPrivileges=true
+
+# The token key is the one secret in the deployment. Everything else is public by design.
+EnvironmentFile=/etc/vriltrainer/env
+
+[Install]
+WantedBy=multi-user.target

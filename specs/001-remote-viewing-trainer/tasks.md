@@ -194,14 +194,14 @@ over and no second account appears.
 
 - [ ] T075 [P] Implement the per-address limit on account creation in `server/src/http/limits.rs`, depending on T024 for a real client address
 - [ ] T076 [P] Implement the cap on concurrent uncompleted trials per account in `server/src/trial/limits.rs` — this is what bounds log growth, since every trial is permanent (D16, D17)
-- [ ] T077 Write the nginx configuration in `deploy/nginx.conf` — TLS for both domains, `Host` forwarded unchanged, real client address set; either omission silently breaks a decision (research.md R8)
-- [ ] T078 [P] Write the systemd unit in `deploy/vriltrainer.service`
+- [X] T077 Write the nginx configuration in `deploy/nginx.conf` — TLS for both domains, `Host` forwarded unchanged, real client address set; either omission silently breaks a decision (research.md R8)
+- [X] T078 [P] Write the systemd unit in `deploy/vriltrainer.service`
 - [ ] T079 Verify the backup path end to end — dump, push, and **restore into a scratch database**; an untested backup of the audit log is an untested product promise (D12)
 - [ ] T080 [P] Confirm the S3 bucket is not public-read — a dump carries `s_server` for trials still in flight, which are live answers (D12, D16)
 - [ ] T081 [P] Produce the seven rank artefacts as original work in `client/src/assets/ranks/` — owned outright, which is what closes the licensing question; blocks nothing before ranks first render (research.md R10)
 - [ ] T082 [P] Run a simulated population of random players and confirm the aggregate lands within sampling bounds of 12.5% and the two tails stay comparable (SC-005, SC-014)
 - [ ] T094 [P] Verify the draw is unbiased across categories in `server/tests/category_bias.rs` — with deliberately uneven category sizes, the target must land on each displayed position equally often, and always choosing the largest category's image must score 12.5% (FR-046, SC-017)
-- [ ] T083 [P] Write `README.md` — what the experiment is, how to verify it yourself, and what the published record does and does not prove
+- [X] T083 [P] Write `README.md` — what the experiment is, how to verify it yourself, and what the published record does and does not prove
 - [ ] T091 [P] Measure time from cold arrival to first completed trial and confirm it stays under 30 seconds (SC-001) — a manual acceptance check, not an automated test
 
 ---
