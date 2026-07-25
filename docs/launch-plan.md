@@ -279,11 +279,13 @@ Both languages ship at launch (decision 5), so none of this is deferrable.
       hosts; SQLite locking is unreliable over network filesystems. (D24)
 - [ ] TLS. `deploy/nginx.conf` has the `ssl_certificate` lines **commented out**. Certbot for both
       names.
-- [ ] Rewrite `deploy/nginx.conf`: two upstreams, two `server` blocks, and delete the claim that
-      `Host` selects the language build — it no longer does. (T104)
-- [ ] Create the `vriltrainer` user and `/srv/vriltrainer`; two systemd units on two ports.
-- [ ] `/etc/vriltrainer/env` with `VRILTRAINER_TOKEN_KEY` — 32 random bytes, hex, mode 0600, owned
-      by root. **If this is lost, every outstanding trial token is void.**
+- [X] Rewrite `deploy/nginx.conf`: two upstreams, two `server` blocks, and delete the claim that
+      `Host` selects the language build — it no longer does. (T104) **Done**, together with
+      `deploy/vriltrainer@.service` as a systemd template and the README deploy section.
+- [ ] Create the `vriltrainer` user and `/srv/vriltrainer`; enable `vriltrainer@de` and `vriltrainer@en`.
+- [ ] `/etc/vriltrainer/token.key` — 64 hex characters, mode 0600, owned by root, passed with
+      `--token-key`. **If this is lost, every outstanding trial token is void.**
+- [ ] `/etc/vriltrainer/de.env` and `en.env`, each holding `LISTEN=` for its instance.
 - [ ] Token key rotation procedure. Not designed. Decide now whether tokens carry a key id.
 - [ ] Backups. The SQLite file *is* the public audit log; losing it retroactively removes the
       verifiability of every past trial.

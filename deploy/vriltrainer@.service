@@ -1,0 +1,46 @@
+# One template, two instances: vriltrainer@de and vriltrainer@en (D24).
+#
+# The same binary serves both domains; %i is the locale and is the only thing that differs
+# between them apart from the port. The locale flag has no default on purpose — a mistyped
+# instance name fails to start rather than quietly serving German on the English domain.
+
+[Unit]
+Description=vriltrainer (%i)
+After=network.target
+
+[Service]
+Type=simple
+User=vriltrainer
+WorkingDirectory=/srv/vriltrainer
+
+# Holds LISTEN=127.0.0.1:8080 for de, 127.0.0.1:8081 for en.
+EnvironmentFile=/etc/vriltrainer/%i.env
+
+# --trusted-proxy is load-bearing and fails silently: without it the service sees 127.0.0.1 for
+# every visitor, so the per-address limit on account creation is either inert or throttles
+# everyone together. It is the proxy's own address, because nginx runs on this machine.
+ExecStart=/srv/vriltrainer/server \
+    --locale %i \
+    --listen ${LISTEN} \
+    --db /srv/vriltrainer/vriltrainer.db \
+    --pool /srv/vriltrainer/pool/manifest.json \
+    --token-key /etc/vriltrainer/token.key \
+    --trusted-proxy 127.0.0.1
+
+Restart=on-failure
+RestartSec=3
+
+# Both instances write to the same SQLite file, so both need it writable — and it must be a local
+# filesystem. SQLite's locking is unreliable over NFS, and the two-writer append discipline the
+# hash chain depends on (R9, D24) is exactly what would break.
+ReadWritePaths=/srv/vriltrainer
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+NoNewPrivileges=true
+
+# The database is the public audit log. Losing it does not cost records that can be rebuilt — it
+# retroactively removes the verifiability of every past trial.
+
+[Install]
+WantedBy=multi-user.target

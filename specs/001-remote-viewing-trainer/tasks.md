@@ -195,7 +195,7 @@ over and no second account appears.
 - [ ] T075 [P] Implement the per-address limit on account creation in `server/src/http/limits.rs`, depending on T024 for a real client address
 - [ ] T076 [P] Implement the cap on concurrent uncompleted trials per account in `server/src/trial/limits.rs` — this is what bounds log growth, since every trial is permanent (D16, D17)
 - [X] T077 Write the nginx configuration in `deploy/nginx.conf` — TLS for both domains, `Host` forwarded unchanged, real client address set; either omission silently breaks a decision (research.md R8)
-- [X] T078 [P] Write the systemd unit in `deploy/vriltrainer.service`
+- [X] T078 [P] Write the systemd unit in `deploy/vriltrainer@.service` — a template, one instance per locale (D24)
 - [ ] T079 Verify the backup path end to end — dump, push, and **restore into a scratch database**; an untested backup of the audit log is an untested product promise (D12)
 - [ ] T080 [P] Confirm the S3 bucket is not public-read — a dump carries `s_server` for trials still in flight, which are live answers (D12, D16)
 - [X] T081 [P] Produce the rank artefacts as original work in `client/public/rank/` — **done, and there are eleven** (D23). Original pixel work, owned outright, which is what closes the licensing question (research.md R10)
@@ -215,7 +215,7 @@ over and no second account appears.
 - [ ] T101 Make the thresholds configuration in `server/src/config.rs` and report them in the responses that depend on them — statistics unlock, eligibility floor, band edges (FR-050, D26)
 - [ ] T102 Recompute ranks on a ~15-minute background task and materialise them, exposing when they were last computed (D23)
 - [ ] T103 Enforce the D24 append discipline in `server/src/db/mod.rs` — `BEGIN IMMEDIATE` before reading the chain head, `busy_timeout`, `UNIQUE` on sequence number and `prev_hash`, chain walk at startup (R9, D24)
-- [ ] T104 Rewrite `deploy/nginx.conf` for two upstreams and two `server` blocks, and delete the claim that `Host` selects the language build — it no longer does (D24)
+- [X] T104 Rewrite `deploy/nginx.conf` for two upstreams and two `server` blocks, and delete the claim that `Host` selects the language build — it no longer does (D24)
 - [ ] T105 [P] Add the empty state to the statistics page — a grey empty chart and one honest line while there are not enough trials. Today the page hardcodes 148,213 trials and 720 players and has no n=0 behaviour
 - [ ] T106 [P] State the multi-accounting position on the statistics page in the site's own voice (D27)
 - [ ] T107 [P] Add the DSA notice-and-action line to the Impressum and footer — what to report and where. The Impressum contact is the mechanism; there is no report button in v1

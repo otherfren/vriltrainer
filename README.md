@@ -59,43 +59,66 @@ unverifiable. See `shared/vectors/README.md`.
 
 ## Deploying
 
-A static binary plus a database file, behind the nginx already running on the host. No container,
-no runtime.
+Two processes, one machine, one database. `vriltrainer.de` and `vriltrainer.com` are the same
+binary started twice with a different `--locale` (D24). No container, no runtime.
+
+### Build
 
 ```bash
-# build
 cargo build --release
 cd client && npm run build && cd ..
-
-# upload
-scp target/release/server         srv:/srv/vriltrainer/server
-scp -r client/dist/client/browser srv:/srv/vriltrainer/public
-scp shared/pool/v1.json           srv:/srv/vriltrainer/pool/v1.json
-
-# one-time setup
-scp deploy/vriltrainer.service    srv:/etc/systemd/system/
-scp deploy/nginx.conf             srv:/etc/nginx/sites-available/vriltrainer
-ssh srv 'ln -sf /etc/nginx/sites-available/vriltrainer /etc/nginx/sites-enabled/ \
-         && systemctl daemon-reload && systemctl enable --now vriltrainer \
-         && nginx -t && systemctl reload nginx'
 ```
 
-**Two headers decide whether this works**, and both break silently when absent. Without a
-forwarded client address the service sees `127.0.0.1` for everyone, so the limit on account
-creation is either inert or throttles all users together. Without an unchanged `Host` it cannot
-select the language build. Both are set in `deploy/nginx.conf`.
-
-**One secret** belongs in `/etc/vriltrainer/env`: the key for the trial tokens. Everything else in
-the database is public by design.
+### Copy
 
 ```
-VRILTRAINER_TOKEN_KEY=<32 random bytes, hex>
+target/release/server        →  /srv/vriltrainer/server
+client/dist/client/browser   →  /srv/vriltrainer/public
+shared/pool/v1.json          →  /srv/vriltrainer/pool/manifest.json
+deploy/vriltrainer@.service  →  /etc/systemd/system/
+deploy/nginx.conf            →  /etc/nginx/sites-available/vriltrainer
 ```
 
-**The backup is not an operational detail.** The SQLite file *is* the public audit log. Losing it
-does not cost user data that can be rebuilt — it retroactively removes the verifiability of every
-past trial. The existing dump-to-S3 script covers this; the bucket must not be publicly readable,
-because a dump contains `s_server` for trials still in flight.
+### Configure
+
+```
+/etc/vriltrainer/token.key   64 hex characters, mode 0600, owned by root
+/etc/vriltrainer/de.env      LISTEN=127.0.0.1:8080
+/etc/vriltrainer/en.env      LISTEN=127.0.0.1:8081
+```
+
+The token key is the one secret in the deployment; everything else in the database is public by
+design. Lose it and every trial in flight becomes uncompletable.
+
+### Start
+
+```bash
+systemctl daemon-reload
+systemctl enable --now vriltrainer@de vriltrainer@en
+ln -sf /etc/nginx/sites-available/vriltrainer /etc/nginx/sites-enabled/
+nginx -t && systemctl reload nginx
+```
+
+Each instance walks the hash chain at startup and refuses to run if it does not link. That is the
+intended behaviour: appending to a record that is already wrong is worse than being down.
+
+### Three things that break silently
+
+**The forwarded client address.** Without it the service sees `127.0.0.1` for everyone, so the
+limit on account creation is either inert or throttles all users together. `--trusted-proxy` in
+the unit must be the address nginx connects from. Since D24 the `Host` header is no longer
+load-bearing — the locale is fixed by the flag the process was started with, and a German
+instance cannot serve English at all.
+
+**One machine.** Both processes write to the same SQLite file, and the two-writer append
+discipline the hash chain depends on (R9) assumes local-filesystem locking. On NFS it will appear
+to work and will fork the log.
+
+**The backup.** The SQLite file *is* the public audit log. Losing it does not cost user data that
+can be rebuilt — it retroactively removes the verifiability of every past trial. Restore into a
+scratch database and walk the chain occasionally; an untested backup of an audit log is an
+untested product promise. The bucket must not be publicly readable, because a dump contains
+`s_server` for trials still in flight.
 
 ## What is missing
 
