@@ -8,7 +8,7 @@
 
 use serde::{Deserialize, Serialize};
 
-use crate::framing::{framed, framed_hex};
+use crate::framing::framed_hex;
 
 /// The hash a chain starts from, so the first entry is framed like every other.
 pub const GENESIS: &str = "sha256:0000000000000000000000000000000000000000000000000000000000000000";

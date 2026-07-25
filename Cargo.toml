@@ -14,3 +14,16 @@ serde_json = "1"
 chacha20poly1305 = "0.10"
 base64 = "0.22"
 rand = "0.9"
+axum = "0.8"
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "signal"] }
+# `bundled` compiles SQLite in, so the deployed artifact stays the D7 static binary plus a
+# database file and cannot drift onto whatever libsqlite3 the host happens to carry.
+rusqlite = { version = "0.37", features = ["bundled"] }
+tower = "0.5"
+tower-http = { version = "0.6", features = ["trace"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+clap = { version = "4", features = ["derive"] }
+hex = "0.4"
+thiserror = "2"
+time = { version = "0.3", features = ["formatting", "parsing", "macros"] }
