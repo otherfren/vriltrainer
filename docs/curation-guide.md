@@ -25,7 +25,7 @@ artefacts, both are gitignored, and `import` recreates them from the sources.
 ```bash
 poolctl import                # takes everything images.toml names into the catalogue
 poolctl check                 # complains while it is still cheap
-poolctl build --version 1     # normalises, hashes, writes shared/pool/v1.json
+poolctl build --version 3     # normalises, hashes, writes pool/v3.json — v2 is the published one
 ```
 
 `import` is idempotent — an image already held is skipped — so the normal way to grow the pool is

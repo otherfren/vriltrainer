@@ -280,18 +280,28 @@ Both languages ship at launch (decision 5), so none of this is deferrable.
 
 ## J. Operations
 
-- [ ] Register / confirm both domains, point DNS at the host.
-- [ ] **One machine.** Two processes sharing a SQLite file rules out splitting the domains across
-      hosts; SQLite locking is unreliable over network filesystems. (D24)
-- [ ] TLS. `deploy/nginx.conf` has the `ssl_certificate` lines **commented out**. Certbot for both
-      names.
+- [X] Register / confirm both domains, point DNS at the host. **Done** — both names resolve to the
+      host through Cloudflare, and the forwarded client address is taken from `CF-Connecting-IP`.
+- [X] **One machine.** Two processes sharing a SQLite file rules out splitting the domains across
+      hosts; SQLite locking is unreliable over network filesystems. (D24) **Done** — both instances
+      run on one host against one file.
+- [X] TLS. **Done** on the deployment: Let's Encrypt per name, webroot renewal, plus a deploy hook
+      that reloads nginx (webroot renewals otherwise leave the old certificate being served until it
+      expires). `deploy/nginx.conf` still ships with the `ssl_certificate` lines commented out,
+      because the paths are per deployment.
 - [X] Rewrite `deploy/nginx.conf`: two upstreams, two `server` blocks, and delete the claim that
       `Host` selects the language build — it no longer does. (T104) **Done**, together with
       `deploy/vriltrainer@.service` as a systemd template and the README deploy section.
-- [ ] Create the `vriltrainer` user and `/srv/vriltrainer`; enable `vriltrainer@de` and `vriltrainer@en`.
-- [ ] `/etc/vriltrainer/token.key` — 64 hex characters, mode 0600, owned by root, passed with
-      `--token-key`. **If this is lost, every outstanding trial token is void.**
-- [ ] `/etc/vriltrainer/de.env` and `en.env`, each holding `LISTEN=` for its instance.
+- [X] Install the template unit and enable both instances. **Done**, though not at the paths in
+      `deploy/`: the deployment runs as an existing user out of a home directory rather than under a
+      dedicated `vriltrainer` user in `/srv`, and its instance names are `de` and `com` after the
+      domains, with the locale coming from the instance's env file instead of from `%i`. The unit in
+      `deploy/` remains the generic form.
+- [X] `token.key` — 64 hex characters, mode 0600, the same file for both instances, passed with
+      `--token-key`. **If this is lost, every outstanding trial token is void.** Rotation is still
+      undesigned; see the next line.
+- [X] One env file per instance, each holding `LOCALE=` and `LISTEN=`. The same file the hand-start
+      script reads, so a hand-start and the service cannot drift apart.
 - [ ] Token key rotation procedure. Not designed. Decide now whether tokens carry a key id.
 - [ ] Backups. The SQLite file *is* the public audit log; losing it retroactively removes the
       verifiability of every past trial.
@@ -304,8 +314,10 @@ Both languages ship at launch (decision 5), so none of this is deferrable.
 - [ ] Uptime monitoring against the health endpoint, alerting somewhere that reaches a phone.
 - [ ] Disk-space alert. The log grows forever and a full disk corrupts SQLite.
 - [ ] Error reporting. `tracing` to a file will not tell you about a 500 loop at 3 a.m.
-- [ ] Deploy procedure written down and rehearsed once. The README has the scp lines; nobody has
-      run them.
+- [X] Deploy procedure written down and rehearsed. **Done** — it has been run end to end more than
+      once: build, copy the binary and both language bundles, copy the manifest and every published
+      `v<N>.json` beside it, restart both instances. What is still missing is a rollback that has
+      been rehearsed, not just a deploy.
 - [ ] Log rotation for nginx, with a SHORT retention. The access log is the only place a visitor's
       address is written down — the application itself keeps none — so it is the one file with a
       GDPR question attached. State the retention in the privacy notice. (T115, D28)

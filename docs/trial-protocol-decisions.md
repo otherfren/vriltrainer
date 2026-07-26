@@ -980,9 +980,9 @@ failure has no log line, looks like a client bug, and is found by a visitor. Wit
 the binary the disagreement is representable in exactly one way, `--pool` pointing at another
 build's manifest, and the process refuses to start:
 
-    this build does not carry 2 of the 189 images in pool v1 (e.g. img_ffff...)
+    this build does not carry 2 of the 200 images in pool v2 (e.g. img_ffff...)
 
-**The costs are real and both are the point.** The artefact is large — 51 MB at 189 images — and a
+**The costs are real and both are the point.** The artefact is large — 61 MB at 200 images — and a
 pool bump requires a rebuild. But a published pool version is immutable (D5), so "the images
 changed" and "this is a different build" *ought* to be the same statement, and the deploy is now one
 file plus a manifest instead of a directory tree that has to be synchronised in the right order.

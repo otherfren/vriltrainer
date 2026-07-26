@@ -6,9 +6,9 @@ Bilingual: `vriltrainer.de` in German, `vriltrainer.com` in English.
 
 The expected result is 12.5%, which is nothing. The site is built to say so.
 
-**Status: under construction.** The server serves the whole API and the client talks to it; the
-image pool is still being curated. What is documented below works; what does not exist is listed
-under [What is missing](#what-is-missing).
+**Status: live and unfinished.** Both domains are served, the API is complete but for one route,
+and the image pool is published at **v2, 200 images in 19 categories**. What is documented below
+works; what does not exist is listed under [What is missing](#what-is-missing).
 
 ## Requirements
 
@@ -47,8 +47,8 @@ operator supplies.
 # 1 — take the images named by pool/images.toml into the catalogue, then cut a version
 cargo run --bin poolctl -- import                      # → pool/normalised/, the build's image input
 cargo run --bin poolctl -- check                       # what is thin, what would block a version
-cargo run --bin poolctl -- build --version 1 --out pool/v1.json
-cp pool/v1.json pool/manifest.json                     # what --pool names
+cargo run --bin poolctl -- build --version 2 --out pool/v2.json   # v2 is the published one
+cp pool/v2.json pool/manifest.json                     # what --pool names
 
 # 2 — the one secret. Everything else in the database is public by design
 openssl rand -hex 32 > token.key && chmod 600 token.key
@@ -75,7 +75,7 @@ the tests do not need it, and `cargo` prints a warning saying the pool is empty.
 they have to agree:
 
 ```
-pool_version=1 pool_images=189 pool_bytes_embedded=189
+pool_version=2 pool_images=200 pool_bytes_embedded=200
 ```
 
 A quick check that it is alive, which is also the shape of the loop:
@@ -124,13 +124,19 @@ cd client && npm run build && cd ..
 ### Copy
 
 ```
-target/release/server        →  /srv/vriltrainer/server
-client/dist/client/browser   →  /srv/vriltrainer/public
-pool/v1.json                 →  /srv/vriltrainer/pool/manifest.json
-pool/v*.json                 →  /srv/vriltrainer/pool/            (every version, unrenamed)
-deploy/vriltrainer@.service  →  /etc/systemd/system/
-deploy/nginx.conf            →  /etc/nginx/sites-available/vriltrainer
+target/release/server           →  /srv/vriltrainer/server
+client/dist/client/browser/de   →  /srv/vriltrainer/public_de
+client/dist/client/browser/en   →  /srv/vriltrainer/public_en
+pool/v2.json                    →  /srv/vriltrainer/pool/manifest.json
+pool/v<N>.json                  →  /srv/vriltrainer/pool/         (every version, unrenamed)
+deploy/vriltrainer@.service     →  /etc/systemd/system/
+deploy/nginx.conf               →  /etc/nginx/sites-available/vriltrainer
 ```
+
+**There are two bundles, not one.** Since the client is translated, `npm run build` writes one per
+language and `--public` names the **language**, not the instance. They carry the same filenames with
+different contents — Angular hashes before translating — so a cache keyed on path alone, or a single
+shared `public/`, serves one domain in the wrong language, silently, while everything else works.
 
 The manifest is copied **twice**, and both copies are load-bearing. `manifest.json` is the version
 the process serves, named by `--pool` in the unit. The `v<N>.json` files beside it are what
@@ -189,19 +195,25 @@ untested product promise. The bucket must not be publicly readable, because a du
 
 | | |
 |---|---|
-| Image pool | 160+ curated images at launch (D5, amended down from 500). The largest piece of manual work, and it blocks every playable trial. Guide: [`docs/curation-guide.md`](docs/curation-guide.md) |
 | `DELETE /api/account/name` | The only contracted route with no module. It answers `501`, not `404`, and says so |
-| Rank recomputation timer | The fifteen-minute pass exists but is triggered from the read side rather than by a scheduler |
-| English message catalogue | The switch and the handoff work; the `en` strings are not written |
+| Rank recomputation timer | The fifteen-minute pass exists but is triggered from the read side rather than by a scheduler (T102, D23) |
+| Thin categories | The pool clears the launch bar (200, over the 160 of D5), but 13 of the 19 categories hold fewer than 12 images and will repeat visibly. `poolctl check` names them. Guide: [`docs/curation-guide.md`](docs/curation-guide.md) |
+| TLS in the shipped nginx config | `deploy/nginx.conf` has the `ssl_certificate` lines commented out; certificates are per deployment |
 
-Full list: [`specs/001-remote-viewing-trainer/tasks.md`](specs/001-remote-viewing-trainer/tasks.md).
+Both message catalogues are written and complete — `node client/tools/build-en-catalogue.mjs --check`
+is what says so, and it fails on a gap rather than shipping an untranslated string.
+
+Full list: [`specs/001-remote-viewing-trainer/tasks.md`](specs/001-remote-viewing-trainer/tasks.md)
+— 37 of 115 ticked, and it carries hand-written unticking notes, so verify against the code before
+trusting a checkbox.
 
 ## Where things live
 
 | | |
 |---|---|
-| `docs/trial-protocol-decisions.md` | D1–D28 — why the protocol looks the way it does |
+| `docs/trial-protocol-decisions.md` | D1–D30 — why the protocol looks the way it does |
 | `docs/curation-guide.md` | Curating the image pool |
+| `docs/launch-plan.md` | What has to be true before this is put in front of people |
 | `specs/001-remote-viewing-trainer/` | Specification, plan, data model, contracts |
 | `shared/vectors/` | Derivation specification and test vectors — the contract between the two implementations |
 | `server/` | Rust service |

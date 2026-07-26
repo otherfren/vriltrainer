@@ -19,11 +19,17 @@ EnvironmentFile=/etc/vriltrainer/%i.env
 # --trusted-proxy is load-bearing and fails silently: without it the service sees 127.0.0.1 for
 # every visitor, so the per-address limit on account creation is either inert or throttles
 # everyone together. It is the proxy's own address, because nginx runs on this machine.
+#
+# --public names the bundle of the LANGUAGE. Since the client is translated there is one bundle per
+# language and they carry identical filenames, so pointing both instances at one directory serves a
+# domain in the wrong language without a single error. Leave the flag off and the process answers
+# under /api only.
 ExecStart=/srv/vriltrainer/server \
     --locale %i \
     --listen ${LISTEN} \
     --db /srv/vriltrainer/vriltrainer.db \
     --pool /srv/vriltrainer/pool/manifest.json \
+    --public /srv/vriltrainer/public_%i \
     --token-key /etc/vriltrainer/token.key \
     --trusted-proxy 127.0.0.1
 

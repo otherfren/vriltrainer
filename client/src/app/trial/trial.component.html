@@ -1,5 +1,10 @@
 @if (!session.signedIn()) {
   <section class="shell trial trial--sealed">
+    <!-- Why the gate is here, when it is here because a session ended rather than because there
+         never was one. Without it a token the server refused looks like the site forgetting. -->
+    @if (notice(); as why) {
+      <p class="toofast panel panel--zap">{{ why.text }}</p>
+    }
     <!-- The gate hands over rather than being watched: the account exists exactly once, at a
          moment this component would otherwise have to poll for. -->
     <app-name-gate (ready)="next()" />

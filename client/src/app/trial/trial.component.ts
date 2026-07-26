@@ -305,13 +305,12 @@ export class TrialComponent {
    */
   private fail(e: unknown, spelled: Record<number, string>, fatal = true): void {
     if (e instanceof ApiError && e.status === 401) {
-      // Deliberately *not* a sign-out. The token in this browser may be the only copy in
-      // existence (D9, FR-005), and discarding it on one refusal would destroy the account over
-      // what could as easily be a server started against the wrong database. So: say what
-      // happened, and point at the one action that still helps.
+      // `ApiService` has already dropped the token, so the screen behind this notice is the name
+      // gate: the sentence explains why it is there and then gets out of the way. It says the old
+      // link is gone rather than offering to save it — there is no recovery for a token the
+      // server does not know (D9, FR-005), and telling somebody to rescue one would be a lie.
       this.notice.set({
-        text:
-          $localize`:@@notice.unknownLogin:Der Server kennt dieses Login nicht. Sichere den Link über „Login“ oben rechts, bevor du etwas anderes tust — es gibt keine Wiederherstellung.`,
+        text: $localize`:@@notice.unknownLogin:Der Zugang in diesem Browser ist beim Server nicht bekannt — der alte Link öffnet nichts mehr. Leg einfach neu los.`,
         fatal: false,
       });
       return;

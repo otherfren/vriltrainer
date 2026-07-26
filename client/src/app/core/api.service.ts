@@ -398,7 +398,17 @@ export class ApiService {
     }
 
     if (!response.ok) {
-      throw new ApiError(response.status, await errorCode(response));
+      const code = await errorCode(response);
+
+      // A token the server refuses is a token the server cannot be talked into accepting: only a
+      // hash is stored (D9) and both domains are one database (D24), so there is no second place
+      // it might still work. Keeping it would leave the browser holding a credential that opens
+      // nothing while every screen behind it fails — the site would sit there stuck, which is a
+      // worse answer than starting over. So it is dropped here, once, for every caller: the name
+      // gate comes back and the next account is a form away.
+      if (authenticated && response.status === 401) this.session.signOut();
+
+      throw new ApiError(response.status, code);
     }
     if (response.status === 204) return undefined as T;
     return (await response.json()) as T;

@@ -1088,11 +1088,11 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.html</context>
-          <context context-type="linenumber">27,28</context>
+          <context context-type="linenumber">32,33</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.html</context>
-          <context context-type="linenumber">384,385</context>
+          <context context-type="linenumber">389,390</context>
         </context-group>
         <target>Try again</target>
       </trans-unit>
@@ -1630,7 +1630,7 @@
         <source>Neue Sitzung</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.html</context>
-          <context context-type="linenumber">15,16</context>
+          <context context-type="linenumber">20,21</context>
         </context-group>
         <target>New session</target>
       </trans-unit>
@@ -1638,7 +1638,7 @@
         <source>Der Server legt das Ziel fest und schreibt es ins Protokoll, bevor er antwortet.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.html</context>
-          <context context-type="linenumber">20,22</context>
+          <context context-type="linenumber">25,27</context>
         </context-group>
         <target>The server fixes the target and writes it into the record before it answers.</target>
       </trans-unit>
@@ -1646,7 +1646,7 @@
         <source>Sitzung <x id="INTERPOLATION" equiv-text="{{ player.completed() + 1 }}"/> · versiegelt</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.html</context>
-          <context context-type="linenumber">40,41</context>
+          <context context-type="linenumber">45,46</context>
         </context-group>
         <target>Session <x id="INTERPOLATION" equiv-text="{{ player.completed() + 1 }}"/> · sealed</target>
       </trans-unit>
@@ -1654,7 +1654,7 @@
         <source>Koordinate</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.html</context>
-          <context context-type="linenumber">48,49</context>
+          <context context-type="linenumber">53,54</context>
         </context-group>
         <target>Coordinate</target>
       </trans-unit>
@@ -1662,7 +1662,7 @@
         <source>Ziel steht fest</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.html</context>
-          <context context-type="linenumber">53,54</context>
+          <context context-type="linenumber">58,59</context>
         </context-group>
         <target>Target is fixed</target>
       </trans-unit>
@@ -1670,7 +1670,7 @@
         <source>Commitment</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.html</context>
-          <context context-type="linenumber">56,57</context>
+          <context context-type="linenumber">61,62</context>
         </context-group>
         <target>Commitment</target>
       </trans-unit>
@@ -1678,7 +1678,7 @@
         <source>Pool</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.html</context>
-          <context context-type="linenumber">60,61</context>
+          <context context-type="linenumber">65,66</context>
         </context-group>
         <target>Pool</target>
       </trans-unit>
@@ -1686,7 +1686,7 @@
         <source> Das Ziel ist mit dieser Zahl versiegelt, <x id="START_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;em&gt;"/>bevor<x id="CLOSE_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;/em&gt;"/> du wählst. Nach der Auflösung rechnest du das hier selbst nach — vollständig, Byte für Byte. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.html</context>
-          <context context-type="linenumber">65,67</context>
+          <context context-type="linenumber">70,72</context>
         </context-group>
         <target>The target is sealed with this number <x id="START_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;em&gt;"/>before<x id="CLOSE_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;/em&gt;"/> you choose. After the reveal you recompute all of this yourself — completely, byte by byte.</target>
       </trans-unit>
@@ -1694,7 +1694,7 @@
         <source>Wird aufgedeckt …</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.html</context>
-          <context context-type="linenumber">82,83</context>
+          <context context-type="linenumber">87,88</context>
         </context-group>
         <target>Revealing …</target>
       </trans-unit>
@@ -1702,7 +1702,7 @@
         <source>Aufdecken</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.html</context>
-          <context context-type="linenumber">84,85</context>
+          <context context-type="linenumber">89,90</context>
         </context-group>
         <target>Reveal</target>
       </trans-unit>
@@ -1710,7 +1710,7 @@
         <source> Nimm dir Zeit mit der Koordinate. Erst danach aufdecken. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.html</context>
-          <context context-type="linenumber">88,90</context>
+          <context context-type="linenumber">93,95</context>
         </context-group>
         <target>Take your time with the coordinate. Only then reveal.</target>
       </trans-unit>
@@ -1718,7 +1718,7 @@
         <source> Koordinate <x id="INTERPOLATION" equiv-text="{{ t.coordinate }}"/> · acht Kandidaten, acht Kategorien </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.html</context>
-          <context context-type="linenumber">95,98</context>
+          <context context-type="linenumber">100,103</context>
         </context-group>
         <target>Coordinate <x id="INTERPOLATION" equiv-text="{{ t.coordinate }}"/> · eight candidates, eight categories</target>
       </trans-unit>
@@ -1726,7 +1726,7 @@
         <source>Ziel</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.html</context>
-          <context context-type="linenumber">114,116</context>
+          <context context-type="linenumber">119,121</context>
         </context-group>
         <target>Target</target>
       </trans-unit>
@@ -1734,7 +1734,7 @@
         <source>Deine Wahl</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.html</context>
-          <context context-type="linenumber">117,119</context>
+          <context context-type="linenumber">122,124</context>
         </context-group>
         <target>Your pick</target>
       </trans-unit>
@@ -1742,7 +1742,7 @@
         <source>Die Wahl ist unterwegs. Gewertet ist sie erst, wenn der Server sie ins Protokoll geschrieben hat.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.html</context>
-          <context context-type="linenumber">127,129</context>
+          <context context-type="linenumber">132,134</context>
         </context-group>
         <target>The choice is on its way. It is scored only once the server has written it into the record.</target>
       </trans-unit>
@@ -1750,7 +1750,7 @@
         <source> Zu schnell! Mindestens drei Sekunden zwischen Aufdecken und Wahl. Die Antwort wurde nicht angesehen, die Sitzung läuft weiter. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.html</context>
-          <context context-type="linenumber">135,137</context>
+          <context context-type="linenumber">140,142</context>
         </context-group>
         <target>Too fast! At least three seconds between reveal and choice. The answer was not looked at, the session is still running.</target>
       </trans-unit>
@@ -1758,7 +1758,7 @@
         <source> Neue Sitzung </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.html</context>
-          <context context-type="linenumber">145,146</context>
+          <context context-type="linenumber">150,151</context>
         </context-group>
         <target>New session</target>
       </trans-unit>
@@ -1766,7 +1766,7 @@
         <source>Treffer!</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.html</context>
-          <context context-type="linenumber">159,160</context>
+          <context context-type="linenumber">164,165</context>
         </context-group>
         <target>Hit!</target>
       </trans-unit>
@@ -1774,7 +1774,7 @@
         <source>Daneben</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.html</context>
-          <context context-type="linenumber">161,162</context>
+          <context context-type="linenumber">166,167</context>
         </context-group>
         <target>Miss</target>
       </trans-unit>
@@ -1782,7 +1782,7 @@
         <source> Nächste Sitzung </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.html</context>
-          <context context-type="linenumber">173,174</context>
+          <context context-type="linenumber">178,179</context>
         </context-group>
         <target>Next session</target>
       </trans-unit>
@@ -1790,7 +1790,7 @@
         <source>Nachweis schließen</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.html</context>
-          <context context-type="linenumber">177,178</context>
+          <context context-type="linenumber">182,183</context>
         </context-group>
         <target>Close the proof</target>
       </trans-unit>
@@ -1798,7 +1798,7 @@
         <source>Nachweis prüfen</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.html</context>
-          <context context-type="linenumber">179,180</context>
+          <context context-type="linenumber">184,185</context>
         </context-group>
         <target>Check the proof</target>
       </trans-unit>
@@ -1806,7 +1806,7 @@
         <source>✓ nachgerechnet</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.html</context>
-          <context context-type="linenumber">188,189</context>
+          <context context-type="linenumber">193,194</context>
         </context-group>
         <target>✓ recomputed</target>
       </trans-unit>
@@ -1814,7 +1814,7 @@
         <source>✗ weicht ab</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.html</context>
-          <context context-type="linenumber">190,191</context>
+          <context context-type="linenumber">195,196</context>
         </context-group>
         <target>✗ does not match</target>
       </trans-unit>
@@ -1822,7 +1822,7 @@
         <source>Nachweis nicht geladen</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.html</context>
-          <context context-type="linenumber">194,196</context>
+          <context context-type="linenumber">199,201</context>
         </context-group>
         <target>Proof not loaded</target>
       </trans-unit>
@@ -1830,7 +1830,7 @@
         <source>wird nachgerechnet …</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.html</context>
-          <context context-type="linenumber">196,198</context>
+          <context context-type="linenumber">201,203</context>
         </context-group>
         <target>recomputing …</target>
       </trans-unit>
@@ -1838,7 +1838,7 @@
         <source>Zufallsrate <x id="INTERPOLATION" equiv-text="{{ chanceRate }}"/> %</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.html</context>
-          <context context-type="linenumber">203,204</context>
+          <context context-type="linenumber">208,209</context>
         </context-group>
         <target>Chance rate <x id="INTERPOLATION" equiv-text="{{ chanceRate }}"/> %</target>
       </trans-unit>
@@ -1846,7 +1846,7 @@
         <source>Protokoll-Eintrag #<x id="INTERPOLATION" equiv-text="{{ a.seq }}"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.html</context>
-          <context context-type="linenumber">205,206</context>
+          <context context-type="linenumber">210,211</context>
         </context-group>
         <target>Record entry #<x id="INTERPOLATION" equiv-text="{{ a.seq }}"/></target>
       </trans-unit>
@@ -1854,7 +1854,7 @@
         <source> Vollständige Herleitung, gerechnet in deinem Browser </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.html</context>
-          <context context-type="linenumber">215,216</context>
+          <context context-type="linenumber">220,221</context>
         </context-group>
         <target>The full derivation, computed in your browser</target>
       </trans-unit>
@@ -1862,7 +1862,7 @@
         <source>Was nachgerechnet wurde</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.html</context>
-          <context context-type="linenumber">218,219</context>
+          <context context-type="linenumber">223,224</context>
         </context-group>
         <target>What was recomputed</target>
       </trans-unit>
@@ -1870,7 +1870,7 @@
         <source>Was der Server vorher festgelegt hat</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.html</context>
-          <context context-type="linenumber">233,234</context>
+          <context context-type="linenumber">238,239</context>
         </context-group>
         <target>What the server fixed beforehand</target>
       </trans-unit>
@@ -1878,7 +1878,7 @@
         <source>Gegen welchen Pool gerechnet wird</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.html</context>
-          <context context-type="linenumber">248,249</context>
+          <context context-type="linenumber">253,254</context>
         </context-group>
         <target>Which pool it is computed against</target>
       </trans-unit>
@@ -1886,7 +1886,7 @@
         <source> Die Herleitung zieht gegen <x id="START_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;em&gt;"/>Indizes<x id="CLOSE_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;/em&gt;"/> im Manifest. Ein anderes Manifest ergibt aus demselben Seed andere Bilder — deshalb wird es hier neu gehasht und mit dem Hash verglichen, der schon mit der Koordinate kam. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.html</context>
-          <context context-type="linenumber">250,252</context>
+          <context context-type="linenumber">255,257</context>
         </context-group>
         <target>The derivation draws against <x id="START_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;em&gt;"/>indices<x id="CLOSE_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;/em&gt;"/> in the manifest. A different manifest yields different images from the same seed — which is why it is rehashed here and compared with the hash that already came with the coordinate.</target>
       </trans-unit>
@@ -1894,7 +1894,7 @@
         <source>Was gehasht wird</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.html</context>
-          <context context-type="linenumber">268,269</context>
+          <context context-type="linenumber">273,274</context>
         </context-group>
         <target>What is hashed</target>
       </trans-unit>
@@ -1902,7 +1902,7 @@
         <source> Jedes Feld wird längenpräfigiert, damit die Grenzen eindeutig sind: <x id="START_TAG_CODE" ctype="x-code" equiv-text="&lt;code class=&quot;inline&quot;&gt;"/>framed(p₀, p₁, …) = SHA-256( LE64(|p₀|) ‖ p₀ ‖ LE64(|p₁|) ‖ p₁ ‖ … )<x id="CLOSE_TAG_CODE" ctype="x-code" equiv-text="&lt;/code&gt;"/> Ohne das hashen <x id="START_TAG_CODE" ctype="x-code" equiv-text="&lt;code class=&quot;inline&quot;&gt;"/>(&quot;ab&quot;,&quot;c&quot;)<x id="CLOSE_TAG_CODE" ctype="x-code" equiv-text="&lt;/code&gt;"/> und <x id="START_TAG_CODE" ctype="x-code" equiv-text="&lt;code class=&quot;inline&quot;&gt;"/>(&quot;a&quot;,&quot;bc&quot;)<x id="CLOSE_TAG_CODE" ctype="x-code" equiv-text="&lt;/code&gt;"/> gleich. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.html</context>
-          <context context-type="linenumber">270,276</context>
+          <context context-type="linenumber">275,281</context>
         </context-group>
         <target>Every field is length-prefixed so the boundaries are unambiguous: <x id="START_TAG_CODE" ctype="x-code" equiv-text="&lt;code class=&quot;inline&quot;&gt;"/>framed(p₀, p₁, …) = SHA-256( LE64(|p₀|) ‖ p₀ ‖ LE64(|p₁|) ‖ p₁ ‖ … )<x id="CLOSE_TAG_CODE" ctype="x-code" equiv-text="&lt;/code&gt;"/> Without it, <x id="START_TAG_CODE" ctype="x-code" equiv-text="&lt;code class=&quot;inline&quot;&gt;"/>("ab","c")<x id="CLOSE_TAG_CODE" ctype="x-code" equiv-text="&lt;/code&gt;"/> and <x id="START_TAG_CODE" ctype="x-code" equiv-text="&lt;code class=&quot;inline&quot;&gt;"/>("a","bc")<x id="CLOSE_TAG_CODE" ctype="x-code" equiv-text="&lt;/code&gt;"/> hash alike.</target>
       </trans-unit>
@@ -1910,7 +1910,7 @@
         <source> Der vollständige Präimage-String, <x id="INTERPOLATION" equiv-text="{{ p.commitmentPreimage.length / 2 }}"/> Bytes — genau diese Bytes gehen in SHA-256: </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.html</context>
-          <context context-type="linenumber">293,294</context>
+          <context context-type="linenumber">298,299</context>
         </context-group>
         <target>The full preimage string, <x id="INTERPOLATION" equiv-text="{{ p.commitmentPreimage.length / 2 }}"/> bytes — exactly these bytes go into SHA-256:</target>
       </trans-unit>
@@ -1918,7 +1918,7 @@
         <source>SHA-256 davon</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.html</context>
-          <context context-type="linenumber">300,301</context>
+          <context context-type="linenumber">305,306</context>
         </context-group>
         <target>SHA-256 of that</target>
       </trans-unit>
@@ -1926,7 +1926,7 @@
         <source>Commitment von vorher</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.html</context>
-          <context context-type="linenumber">304,305</context>
+          <context context-type="linenumber">309,310</context>
         </context-group>
         <target>Commitment from before</target>
       </trans-unit>
@@ -1934,7 +1934,7 @@
         <source>Identisch. Das Ziel stand fest, bevor du gewählt hast.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.html</context>
-          <context context-type="linenumber">313,314</context>
+          <context context-type="linenumber">318,319</context>
         </context-group>
         <target>Identical. The target was fixed before you chose.</target>
       </trans-unit>
@@ -1942,7 +1942,7 @@
         <source>Weicht ab. Das wäre ein Grund, dieser Seite nicht zu glauben.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.html</context>
-          <context context-type="linenumber">320,321</context>
+          <context context-type="linenumber">325,326</context>
         </context-group>
         <target>Does not match. That would be a reason not to believe this site.</target>
       </trans-unit>
@@ -1950,7 +1950,7 @@
         <source>Wie aus dem Seed die acht Bilder wurden</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.html</context>
-          <context context-type="linenumber">325,326</context>
+          <context context-type="linenumber">330,331</context>
         </context-group>
         <target>How the seed became the eight images</target>
       </trans-unit>
@@ -1958,7 +1958,7 @@
         <source> Präimage des Seeds, <x id="INTERPOLATION" equiv-text="{{ p.seedPreimage.length / 2 }}"/> Bytes: </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.html</context>
-          <context context-type="linenumber">336,337</context>
+          <context context-type="linenumber">341,342</context>
         </context-group>
         <target>Preimage of the seed, <x id="INTERPOLATION" equiv-text="{{ p.seedPreimage.length / 2 }}"/> bytes:</target>
       </trans-unit>
@@ -1966,7 +1966,7 @@
         <source> Aus dem Seed entsteht der Schlüsselstrom <x id="START_TAG_CODE" ctype="x-code" equiv-text="&lt;code class=&quot;inline&quot;&gt;"/>block(i) = SHA-256( seed ‖ LE64(i) )<x id="CLOSE_TAG_CODE" ctype="x-code" equiv-text="&lt;/code&gt;"/>, gelesen als 64-Bit-Wörter little-endian. Daraus, in dieser Reihenfolge: </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.html</context>
-          <context context-type="linenumber">348,351</context>
+          <context context-type="linenumber">353,356</context>
         </context-group>
         <target>The seed produces the keystream <x id="START_TAG_CODE" ctype="x-code" equiv-text="&lt;code class=&quot;inline&quot;&gt;"/>block(i) = SHA-256( seed ‖ LE64(i) )<x id="CLOSE_TAG_CODE" ctype="x-code" equiv-text="&lt;/code&gt;"/>, read as 64-bit words little-endian. From it, in this order:</target>
       </trans-unit>
@@ -1974,7 +1974,7 @@
         <source> Gerechnet mit einer Implementierung, die unabhängig von der des Servers geschrieben wurde. Beide werden gegen dieselben Testvektoren geprüft — das ist der Punkt: eine Prüfung mit dem Code des Servers prüft nichts. Gerechnet wird im Browser; einen eigenständigen Prüfer von dritter Seite gibt es in dieser Version noch nicht. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.html</context>
-          <context context-type="linenumber">368,371</context>
+          <context context-type="linenumber">373,376</context>
         </context-group>
         <target>Computed with an implementation written independently of the server's. Both are checked against the same test vectors — that is the point: a check using the server's own code checks nothing. The computation runs in the browser; an independent third-party verifier does not exist in this version yet.</target>
       </trans-unit>
@@ -1982,11 +1982,11 @@
         <source>Nachweis</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.html</context>
-          <context context-type="linenumber">377,378</context>
+          <context context-type="linenumber">382,383</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.html</context>
-          <context context-type="linenumber">389,390</context>
+          <context context-type="linenumber">394,395</context>
         </context-group>
         <target>Proof</target>
       </trans-unit>
@@ -1994,7 +1994,7 @@
         <source> Das Pool-Manifest zu dieser Sitzung konnte nicht geladen werden. Ohne die Liste der Bilder in genau der veröffentlichten Reihenfolge gibt es nichts nachzurechnen — und ein leeres Nachweis-Panel sähe aus wie ein bestandener Test. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.html</context>
-          <context context-type="linenumber">379,381</context>
+          <context context-type="linenumber">384,386</context>
         </context-group>
         <target>The pool manifest for this session could not be loaded. Without the list of images in exactly the published order there is nothing to recompute — and an empty proof panel would look like a test that passed.</target>
       </trans-unit>
@@ -2002,7 +2002,7 @@
         <source>Wird nachgerechnet …</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.html</context>
-          <context context-type="linenumber">390,392</context>
+          <context context-type="linenumber">395,397</context>
         </context-group>
         <target>Recomputing …</target>
       </trans-unit>
@@ -2051,18 +2051,18 @@
         <target>This session has already been answered. One answer per session, and it is already in the record.</target>
       </trans-unit>
       <trans-unit id="notice.unknownLogin" datatype="html">
-        <source>Der Server kennt dieses Login nicht. Sichere den Link über „Login“ oben rechts, bevor du etwas anderes tust — es gibt keine Wiederherstellung.</source>
+        <source>Der Zugang in diesem Browser ist beim Server nicht bekannt — der alte Link öffnet nichts mehr. Leg einfach neu los.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.ts</context>
-          <context context-type="linenumber">314</context>
+          <context context-type="linenumber">313</context>
         </context-group>
-        <target>The server does not know this login. Save the link via “Login” at the top right before you do anything else — there is no recovery.</target>
+        <target>The server does not know the access held in this browser — the old link opens nothing now. Just start again.</target>
       </trans-unit>
       <trans-unit id="notice.network" datatype="html">
         <source>Keine Verbindung zum Server. Versuch es gleich noch einmal.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.ts</context>
-          <context context-type="linenumber">365</context>
+          <context context-type="linenumber">364</context>
         </context-group>
         <target>No connection to the server. Try again in a moment.</target>
       </trans-unit>
@@ -2070,7 +2070,7 @@
         <source>Der Dienst ist gerade nicht erreichbar (Fehler <x id="status" equiv-text="e.status"/>). Versuch es in ein paar Minuten noch einmal.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.ts</context>
-          <context context-type="linenumber">368</context>
+          <context context-type="linenumber">367</context>
         </context-group>
         <target>The service is not reachable right now (error <x id="status" equiv-text="e.status"/>). Try again in a few minutes.</target>
       </trans-unit>
@@ -2078,7 +2078,7 @@
         <source>Der Server hat die Anfrage abgelehnt. Versuch es noch einmal.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.ts</context>
-          <context context-type="linenumber">370</context>
+          <context context-type="linenumber">369</context>
         </context-group>
         <target>The server refused the request. Try again.</target>
       </trans-unit>
