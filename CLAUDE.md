@@ -121,9 +121,11 @@ invalidates every published trial. It is a deliberate act, never a build step. S
   with fewer entries than the last — a truncated chain still verifies, so only the count catches it.
 - **`verify_log` must be pointed at a copy.** `Db::open` applies pending migrations, so running it
   against an archived snapshot rewrites the thing being checked.
-- **`tasks.md` is stale in places.** It carries hand-written unticking notes (e.g. T003 claims axum
-  and rusqlite are absent; both have been present for a while). Verify against the code before
-  trusting a checkbox, and mark tasks `[X]` as you complete them — `/speckit-implement` reads them.
+- **`tasks.md` was reconciled against the code on 2026-07-26** and is usable again: 84 of 115
+  ticked, and every line still open carries an `**Audited 2026-07-26:**` note saying what part of
+  it actually exists and which clause fails. Two lines are stale rather than unimplemented and say
+  so (T056's share-based bands were replaced by D31's sigma bands; T016 names a manifest path that
+  does not exist). Keep marking tasks `[X]` as you finish them — `/speckit-implement` reads them.
 
 `.specify/memory/constitution.md` is ratified at **1.0.0** with five principles (Spec Before Code,
 Simplicity First, Tests Where They Earn Their Keep, Observable by Default, Explicit Contracts). The

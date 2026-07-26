@@ -247,8 +247,8 @@ Both message catalogues are written and complete — `node client/tools/build-en
 is what says so, and it fails on a gap rather than shipping an untranslated string.
 
 Full list: [`specs/001-remote-viewing-trainer/tasks.md`](specs/001-remote-viewing-trainer/tasks.md)
-— 37 of 115 ticked, and it carries hand-written unticking notes, so verify against the code before
-trusting a checkbox.
+— 84 of 115 ticked. Every open line was audited against the code on 2026-07-26; where the code is
+further along than the line, the line now says how far and what is actually missing.
 
 ## Where things live
 
