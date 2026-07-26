@@ -1,0 +1,40 @@
+# Takes, verifies and encrypts one snapshot of the audit log. Driven by
+# vriltrainer-backup.timer; nothing here is enabled on its own.
+#
+# Runs as bob, like the service it backs up, because both ends of this are files
+# under /home/bob/vriltrainer and a root job would only add a way to write them
+# with the wrong owner.
+#
+# It touches the live database read-write on purpose. VACUUM INTO needs a read
+# transaction, and a WAL reader has to write the -shm file to take one; opening
+# read-only would fail rather than protect anything. The snapshot itself changes
+# no page of the source.
+
+[Unit]
+Description=vriltrainer audit log backup
+# Not Requires=: a snapshot taken while the domains are down is still a good
+# snapshot, and is in fact the calmest moment to take one.
+After=vriltrainer@de.service vriltrainer@com.service
+
+[Service]
+Type=oneshot
+User=bob
+Group=bob
+WorkingDirectory=/home/bob/vriltrainer
+ExecStart=/home/bob/vriltrainer/backup.sh
+
+# gpg wants a writable home for its lock and random seed. Kept beside the job
+# rather than in ~/.gnupg so that ProtectHome can stay read-only.
+Environment=GNUPGHOME=/home/bob/vriltrainer/.gnupg
+
+# shared/ for the -shm the read transaction needs, backups/ for the output.
+ReadWritePaths=/home/bob/vriltrainer/shared /home/bob/vriltrainer/backups /home/bob/vriltrainer/.gnupg
+ProtectSystem=strict
+ProtectHome=read-only
+PrivateTmp=true
+NoNewPrivileges=true
+
+# The job refuses rather than warns at every step, so a failure here means the
+# snapshot was not written or did not verify. Let it be visible in
+# `systemctl list-units --failed` instead of retried into silence.
+Restart=no

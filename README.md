@@ -186,10 +186,53 @@ discipline the hash chain depends on (R9) assumes local-filesystem locking. On N
 to work and will fork the log.
 
 **The backup.** The SQLite file *is* the public audit log. Losing it does not cost user data that
-can be rebuilt — it retroactively removes the verifiability of every past trial. Restore into a
-scratch database and walk the chain occasionally; an untested backup of an audit log is an
-untested product promise. The bucket must not be publicly readable, because a dump contains
-`s_server` for trials still in flight.
+can be rebuilt — it retroactively removes the verifiability of every past trial. `deploy/backup.sh`
+is the job; see below for what it refuses and why.
+
+### Backups
+
+```
+deploy/backup.sh                    →  /srv/vriltrainer/backup.sh
+deploy/backup.env.example           →  /srv/vriltrainer/backup.env     (fill in, mode 0600)
+deploy/vriltrainer-backup.service   →  /etc/systemd/system/
+deploy/vriltrainer-backup.timer     →  /etc/systemd/system/
+target/release/verify_log           →  /srv/vriltrainer/verify_log
+```
+
+```bash
+head -c 32 /dev/urandom | base64 > /srv/vriltrainer/.backup-pass   # umask 077
+systemctl enable --now vriltrainer-backup.timer
+```
+
+Hourly. Each run takes a `VACUUM INTO` snapshot, walks its hash chain, gzips and encrypts it with
+that passphrase, then **decrypts what it just wrote and walks the chain again** before keeping it.
+Retention is every snapshot for a week, one a day for ninety days, one a month after that.
+
+Four refusals, each for something a `cp` does not survive:
+
+- **`VACUUM INTO`, not a file copy.** In WAL mode almost nothing is in the main file — a live `.db`
+  of 4 KB beside a 3 MB `-wal` is normal. Copying the `.db` alone backs up an empty database;
+  copying all three under a concurrent writer backs up three files that need not agree.
+- **The chain is walked, not assumed.** `verify_log --db <path>` is that walk on its own: exit 0
+  verifies, 1 does not, 2 unreadable. Point it at a *copy* — opening a database applies pending
+  migrations, so pointing it at an archive rewrites the artefact under test.
+- **A snapshot shorter than the last one is refused.** The first N entries of a valid log are
+  themselves a valid log, so a chain walk cannot see a missing tail. Only the count comparison can,
+  and it is kept in `backups/.last-count`.
+- **The round trip is exercised every hour, not at restore time.** Otherwise the day the passphrase
+  file is wrong is the day it is needed.
+
+`backup.sh --check` verifies the newest archive and changes nothing. `backup.sh --restore <archive>
+<dest.db>` decrypts, verifies, and refuses to overwrite.
+
+The passphrase is the whole of it: **the archives are unreadable without `.backup-pass`, and it
+lives on the machine being backed up.** Keep a copy somewhere the machine is not.
+
+Off-site is optional and configured in `backup.env` — any S3-compatible endpoint, uploaded through
+`curl --aws-sigv4`. The blob is encrypted before it leaves the box, so the store holds ciphertext
+and a filename. A failed upload warns and does not stop the next snapshot; it must never be the
+reason no backup was taken. The bucket must still not be publicly readable: a dump contains
+`s_server` for trials in flight.
 
 ## What is missing
 

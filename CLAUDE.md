@@ -67,7 +67,7 @@ The shape:
 | `shared/vectors/derivation.json` | The frozen contract between the two implementations |
 | `specs/001-remote-viewing-trainer/` | Spec, plan, contracts, and `tasks.md` (the live worklist) |
 | `docs/trial-protocol-decisions.md` | D1–D34 — why the protocol looks the way it does |
-| `deploy/` | systemd template unit + nginx config |
+| `deploy/` | systemd units + nginx config + the backup job |
 
 `server/src/lib.rs` names its own reading order, and it is the right one: `trial::derive` is the
 derivation both implementations must agree on, `log::chain` owns the hashing rule for the public
@@ -115,6 +115,12 @@ invalidates every published trial. It is a deliberate act, never a build step. S
 - **On a brand-new database file, start the two instances one after another.** The first creates the
   schema and the second dies in `database is locked` while it does. Once the file exists, parallel
   operation is what D24 and R9 are for.
+- **Backing up the database is not a file copy.** In WAL mode the main `.db` can be 4 KB while its
+  `-wal` holds everything, so a `cp` of the `.db` produces an empty backup that opens fine.
+  `deploy/backup.sh` uses `VACUUM INTO`, walks the chain with `verify_log`, and refuses a snapshot
+  with fewer entries than the last — a truncated chain still verifies, so only the count catches it.
+- **`verify_log` must be pointed at a copy.** `Db::open` applies pending migrations, so running it
+  against an archived snapshot rewrites the thing being checked.
 - **`tasks.md` is stale in places.** It carries hand-written unticking notes (e.g. T003 claims axum
   and rusqlite are absent; both have been present for a while). Verify against the code before
   trusting a checkbox, and mark tasks `[X]` as you complete them — `/speckit-implement` reads them.

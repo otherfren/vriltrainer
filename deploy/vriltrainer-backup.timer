@@ -1,0 +1,19 @@
+# Hourly, because the unit of loss here is trials that can never be made
+# verifiable again. A snapshot is ~30 KB encrypted, so the frequency costs
+# nothing and the retention in backup.sh keeps the directory from growing
+# without bound.
+
+[Unit]
+Description=hourly vriltrainer audit log backup
+
+[Timer]
+OnCalendar=hourly
+# Two domains and a backup all waking on the hour would be three read
+# transactions at the same instant, every hour, forever.
+RandomizedDelaySec=300
+# A box that was off at :00 takes the snapshot when it comes back rather than
+# waiting for the next hour.
+Persistent=true
+
+[Install]
+WantedBy=timers.target
