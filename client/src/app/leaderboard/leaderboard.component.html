@@ -1,56 +1,28 @@
 <section class="shell board">
-  <p class="eyebrow" i18n="@@board.eyebrow">Bestenliste · sortiert nach gesicherter Mindestquote</p>
-  <h1 i18n="@@board.heading">Wer über der Nulllinie steht</h1>
+  <p class="eyebrow" i18n="@@board.eyebrow">Bestenliste</p>
+  <h1 i18n="@@board.heading">Wer besser liegt als Zufall</h1>
 
-  <p class="lede" i18n="@@board.lede">
-    Ränge sind Anteile, keine Plätze — Annunaki sind immer die besten 0,1 %, egal wie viele
-    mitspielen. Sortiert wird nach der gesicherten Mindestquote, weil sie die Anzahl der Sitzungen
-    mitwiegt. Die Abweichung steht daneben: die auffälligere, aber schwächere Zahl.
-    <a routerLink="/statistik">Die ganze Leiter</a> steht bei der Statistik, neben der Verteilung,
-    aus der sie kommt.
-  </p>
-
+  <!-- The reasoning behind the bands — shares rather than places, why the sort is on the assured
+       minimum — used to stand here as four sentences nobody came to this page to read. It lives on
+       the statistics page now, beside the distribution it is actually about. What is left is the
+       board, and when there is no board, one line saying so. -->
   @if (failed()) {
     <div class="gate panel">
-      <span class="gate__txt">
-        <ng-container i18n="@@board.unavailable">Die Rangliste ist gerade nicht abrufbar.</ng-container>
-        <button class="btn btn--quiet" type="button" (click)="load(offset())" i18n="@@trial.retry">
-          Erneut versuchen
-        </button>
-      </span>
+      <span class="gate__txt" i18n="@@board.unavailable">Die Rangliste ist gerade nicht abrufbar.</span>
+      <button class="btn btn--quiet" type="button" (click)="load(offset())" i18n="@@trial.retry">
+        Erneut versuchen
+      </button>
     </div>
   } @else if (loading() && board() === null) {
     <div class="gate panel">
       <span class="gate__txt" i18n="@@stats.loading">Wird geladen …</span>
     </div>
   } @else {
-    <!-- FR-042: the eligible count is reported whether or not any band exists, precisely so the
-         board can say how far off the next one is. A band appears once `share × eligible >= 1`,
-         with no rounding, so on a young site this line is the ladder's only visible progress. -->
-    <div class="gate panel">
-      <span class="gate__n measured">{{ eligible() }}</span>
-      <span class="gate__txt">
-        @if (nextBand(); as next) {
-          <ng-container i18n="@@board.nextBand"
-            >ranglistenfähige Spieler. <strong>{{ next.rank.title }}</strong> gibt es ab
-            {{ next.unlocksAt }} — bei kleiner Besetzung wäre ein Spitzenplatz keine Aussage,
-            sondern der beste Wurf einer kleinen Runde.</ng-container
-          >
-        } @else {
-          <ng-container i18n="@@board.allBands"
-            >ranglistenfähige Spieler. Alle Bänder sind besetzt.</ng-container
-          >
-        }
-      </span>
-    </div>
-
     @if (entries().length === 0) {
-      <div class="tblwrap panel">
-        <p class="board__empty" i18n="@@board.empty">
-          Noch niemand auf der Liste. Ranglistenfähig ab {{ eligibilityTrials() }} Sitzungen an
-          mindestens {{ eligibilityDays() }} verschiedenen Tagen — und keine Zeile hier ist
-          erfunden, also bleibt sie leer, bis jemand das erreicht.
-        </p>
+      <div class="gate panel">
+        <span class="gate__txt" i18n="@@board.notEnough">
+          Noch nicht genug Ergebnisse für eine aussagekräftige Rangliste.
+        </span>
       </div>
     } @else {
       <div class="tblwrap panel" [class.is-stale]="loading()">
@@ -122,17 +94,11 @@
     }
   }
 
-  <p class="board__note">
-    <ng-container i18n="@@board.note">
-    Ranglistenfähig ab {{ eligibilityTrials() }} Sitzungen an mindestens {{ eligibilityDays() }}
-    verschiedenen Tagen. Über mehrere Tage, weil Parallelität keinen Kalender zusammenschiebt —
-    und weil verteilte Sitzungen ohnehin die besseren Daten sind.</ng-container
-    >
-    @if (updatedAt(); as at) {
-      <ng-container i18n="@@board.recomputed"
-        >Ränge zuletzt neu berechnet am {{ when(at) }}; sie laufen etwa alle fünfzehn Minuten
-        nach.</ng-container
-      >
-    }
-  </p>
+  @if (entries().length > 0) {
+    <p class="board__note" i18n="@@board.eligibility">
+      Ranglistenfähig ab {{ eligibilityTrials() }} Sitzungen an mindestens
+      {{ eligibilityDays() }} verschiedenen Tagen.
+    </p>
+  }
+
 </section>

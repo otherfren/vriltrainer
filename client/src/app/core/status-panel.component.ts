@@ -59,17 +59,15 @@ import { SessionService } from './session.service';
           <!-- The count decides the noun, so it is an ICU plural rather than a ternary: English
                and German agree here, but a language with a dual or a paucal does not, and a
                ternary hard-codes the assumption that two forms are enough. -->
-          <p class="status__why" i18n="@@status.locked.why">
+          <p class="status__why" i18n="@@status.locked.short">
             Noch <strong>{{ player.remaining() }}</strong>
             {player.remaining(), plural, =1 {Sitzung} other {Sitzungen}}, dann schaltet die
-            Statistik frei. Vorher ist eine Trefferquote keine Aussage: bei so wenigen Versuchen
-            sieht reines Raten regelmäßig nach einer Begabung aus.
+            Statistik frei.
           </p>
           @if (player.abandoned() > 0) {
-            <p class="status__why" i18n="@@status.locked.abandoned">
+            <p class="status__why" i18n="@@status.locked.abandonedShort">
               <strong>{{ player.abandoned() }}</strong>
-              {player.abandoned(), plural, =1 {Sitzung} other {Sitzungen}} abgebrochen — auch das
-              steht im Protokoll, von der ersten an.
+              {player.abandoned(), plural, =1 {Sitzung} other {Sitzungen}} abgebrochen.
             </p>
           }
         } @else {
@@ -117,7 +115,7 @@ import { SessionService } from './session.service';
                   <span class="fig__val measured">{{ signed(player.deviation()) }} σ</span>
                 </div>
                 <div class="fig">
-                  <span class="fig__label" i18n="@@fig.wilson">Gesicherte Mindestquote</span>
+                  <span class="fig__label" i18n="@@fig.wilson">Mindestens</span>
                   <span class="fig__val measured">{{ pct(player.wilson()) }} %</span>
                 </div>
                 <div class="fig">
@@ -140,12 +138,13 @@ import { SessionService } from './session.service';
                 [reading]="reading()"
               />
 
-              <p class="detail__note" i18n="@@status.detail.note">
-                Die Abweichung ist die auffälligere Zahl, die Mindestquote die belastbarere: sie
-                wiegt mit, wie oft du gespielt hast. Beide stehen über
-                <strong>{{ player.reportedTrials() }}</strong> gewerteten Sitzungen mit
-                <strong>{{ player.reportedHits() }}</strong> Treffern und rücken erst am nächsten
-                Blockende weiter — sonst könnte man aufhören, sobald die Zahl gefällt.
+              <!-- FR-019: the n these figures stand over, because without it a reader divides a
+                   deviation by the live trial count and gets a wrong answer. A caption, not an
+                   essay — the reasoning behind block-wise reporting is not what somebody opened
+                   this panel to read. -->
+              <p class="detail__note" i18n="@@status.detail.basis">
+                Über <strong>{{ player.reportedTrials() }}</strong> gewerteten Sitzungen,
+                <strong>{{ player.reportedHits() }}</strong> Treffer.
               </p>
             </div>
           }

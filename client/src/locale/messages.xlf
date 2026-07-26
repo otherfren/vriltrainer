@@ -180,46 +180,39 @@
           <context context-type="linenumber">163,165</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="foot.baseline" datatype="html">
-        <source> Die Nulllinie liegt bei 12,5 % — reines Raten. Jede Zahl hier ist ein Ausschlag davon. </source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">180,183</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="foot.aria" datatype="html">
         <source>Fußzeile</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">183,184</context>
+          <context context-type="linenumber">179,180</context>
         </context-group>
       </trans-unit>
       <trans-unit id="foot.source" datatype="html">
         <source>Quellcode · AGPL-3.0</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">184,186</context>
+          <context context-type="linenumber">180,182</context>
         </context-group>
       </trans-unit>
       <trans-unit id="foot.protocol" datatype="html">
         <source> Protokoll · D1–D28 </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">189,191</context>
+          <context context-type="linenumber">185,187</context>
         </context-group>
       </trans-unit>
       <trans-unit id="foot.download" datatype="html">
         <source>Datensatz herunterladen</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">193,195</context>
+          <context context-type="linenumber">189,191</context>
         </context-group>
       </trans-unit>
       <trans-unit id="foot.impressum" datatype="html">
         <source>Impressum</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">198,201</context>
+          <context context-type="linenumber">194,197</context>
         </context-group>
       </trans-unit>
       <trans-unit id="meta.title" datatype="html">
@@ -731,7 +724,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/status-panel.component.ts</context>
-          <context context-type="linenumber">77,78</context>
+          <context context-type="linenumber">75,76</context>
         </context-group>
       </trans-unit>
       <trans-unit id="status.unavailable" datatype="html">
@@ -748,8 +741,8 @@
           <context context-type="linenumber">39,41</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="status.locked.why" datatype="html">
-        <source> Noch <x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/><x id="INTERPOLATION" equiv-text="{{ player.remaining() }}"/><x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> <x id="ICU" equiv-text="{player.remaining(), plural, =1 {Sitzung} other {Sitzungen}}" xid="7282540405251226179"/>, dann schaltet die Statistik frei. Vorher ist eine Trefferquote keine Aussage: bei so wenigen Versuchen sieht reines Raten regelmäßig nach einer Begabung aus. </source>
+      <trans-unit id="status.locked.short" datatype="html">
+        <source> Noch <x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/><x id="INTERPOLATION" equiv-text="{{ player.remaining() }}"/><x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> <x id="ICU" equiv-text="{player.remaining(), plural, =1 {Sitzung} other {Sitzungen}}" xid="7282540405251226179"/>, dann schaltet die Statistik frei. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/status-panel.component.ts</context>
           <context context-type="linenumber">63,67</context>
@@ -763,143 +756,143 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/status-panel.component.ts</context>
-          <context context-type="linenumber">71</context>
+          <context context-type="linenumber">70</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="status.locked.abandoned" datatype="html">
-        <source><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/><x id="INTERPOLATION" equiv-text="{{ player.abandoned() }}"/><x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> <x id="ICU" equiv-text="{player.abandoned(), plural, =1 {Sitzung} other {Sitzungen}}" xid="7282540405251226179"/> abgebrochen — auch das steht im Protokoll, von der ersten an. </source>
+      <trans-unit id="status.locked.abandonedShort" datatype="html">
+        <source><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/><x id="INTERPOLATION" equiv-text="{{ player.abandoned() }}"/><x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> <x id="ICU" equiv-text="{player.abandoned(), plural, =1 {Sitzung} other {Sitzungen}}" xid="7282540405251226179"/> abgebrochen. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/status-panel.component.ts</context>
-          <context context-type="linenumber">70,73</context>
+          <context context-type="linenumber">69,72</context>
         </context-group>
       </trans-unit>
       <trans-unit id="status.allStats" datatype="html">
         <source>Alle Statistiken</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/status-panel.component.ts</context>
-          <context context-type="linenumber">78,81</context>
+          <context context-type="linenumber">76,79</context>
         </context-group>
       </trans-unit>
       <trans-unit id="fig.trials" datatype="html">
         <source>Sitzungen</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/status-panel.component.ts</context>
-          <context context-type="linenumber">83,84</context>
+          <context context-type="linenumber">81,82</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">163,164</context>
+          <context context-type="linenumber">156,157</context>
         </context-group>
       </trans-unit>
       <trans-unit id="fig.hits" datatype="html">
         <source>Treffer</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/status-panel.component.ts</context>
-          <context context-type="linenumber">87,88</context>
+          <context context-type="linenumber">85,86</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">167,168</context>
+          <context context-type="linenumber">160,161</context>
         </context-group>
       </trans-unit>
       <trans-unit id="fig.rate" datatype="html">
         <source>Quote</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/status-panel.component.ts</context>
-          <context context-type="linenumber">91,92</context>
+          <context context-type="linenumber">89,90</context>
         </context-group>
       </trans-unit>
       <trans-unit id="fig.rank" datatype="html">
         <source>Psi-Rang</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/status-panel.component.ts</context>
-          <context context-type="linenumber">98,99</context>
+          <context context-type="linenumber">96,97</context>
         </context-group>
       </trans-unit>
       <trans-unit id="status.details.hide" datatype="html">
         <source>Details schließen</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/status-panel.component.ts</context>
-          <context context-type="linenumber">106,107</context>
+          <context context-type="linenumber">104,105</context>
         </context-group>
       </trans-unit>
       <trans-unit id="status.details.show" datatype="html">
         <source>Details anzeigen</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/status-panel.component.ts</context>
-          <context context-type="linenumber">108,110</context>
+          <context context-type="linenumber">106,108</context>
         </context-group>
       </trans-unit>
       <trans-unit id="fig.deviation" datatype="html">
         <source>Abweichung</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/status-panel.component.ts</context>
-          <context context-type="linenumber">116,117</context>
+          <context context-type="linenumber">114,115</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">175,176</context>
+          <context context-type="linenumber">168,169</context>
         </context-group>
       </trans-unit>
       <trans-unit id="fig.wilson" datatype="html">
-        <source>Gesicherte Mindestquote</source>
+        <source>Mindestens</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/status-panel.component.ts</context>
-          <context context-type="linenumber">120,121</context>
+          <context context-type="linenumber">118,119</context>
         </context-group>
       </trans-unit>
       <trans-unit id="fig.abandoned" datatype="html">
         <source>Abgebrochen</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/status-panel.component.ts</context>
-          <context context-type="linenumber">124,125</context>
+          <context context-type="linenumber">122,123</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">179,180</context>
+          <context context-type="linenumber">172,173</context>
         </context-group>
       </trans-unit>
       <trans-unit id="fig.chance" datatype="html">
         <source>Zufallsrate</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/status-panel.component.ts</context>
-          <context context-type="linenumber">128,129</context>
+          <context context-type="linenumber">126,127</context>
         </context-group>
       </trans-unit>
       <trans-unit id="meter.you.label" datatype="html">
         <source>Du</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/status-panel.component.ts</context>
-          <context context-type="linenumber">138</context>
+          <context context-type="linenumber">136</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">193</context>
+          <context context-type="linenumber">186</context>
         </context-group>
       </trans-unit>
       <trans-unit id="meter.you.needle" datatype="html">
         <source>du</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/status-panel.component.ts</context>
-          <context context-type="linenumber">140</context>
+          <context context-type="linenumber">138</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">195</context>
+          <context context-type="linenumber">188</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="status.detail.note" datatype="html">
-        <source> Die Abweichung ist die auffälligere Zahl, die Mindestquote die belastbarere: sie wiegt mit, wie oft du gespielt hast. Beide stehen über <x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/><x id="INTERPOLATION" equiv-text="{{ player.reportedTrials() }}"/><x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> gewerteten Sitzungen mit <x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/><x id="INTERPOLATION_1" equiv-text="{{ player.reportedHits() }}"/><x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> Treffern und rücken erst am nächsten Blockende weiter — sonst könnte man aufhören, sobald die Zahl gefällt. </source>
+      <trans-unit id="status.detail.basis" datatype="html">
+        <source> Über <x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/><x id="INTERPOLATION" equiv-text="{{ player.reportedTrials() }}"/><x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> gewerteten Sitzungen, <x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/><x id="INTERPOLATION_1" equiv-text="{{ player.reportedHits() }}"/><x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> Treffer. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/status-panel.component.ts</context>
-          <context context-type="linenumber">144,149</context>
+          <context context-type="linenumber">146,149</context>
         </context-group>
       </trans-unit>
       <trans-unit id="meter.you.reading" datatype="html">
         <source><x id="deviation" equiv-text="this.signed(this.player.deviation())"/> σ · Mindestquote <x id="wilson" equiv-text="this.pct(this.player.wilson())"/> %</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/status-panel.component.ts</context>
-          <context context-type="linenumber">177</context>
+          <context context-type="linenumber">176</context>
         </context-group>
       </trans-unit>
       <trans-unit id="meter.defaultLabel" datatype="html">
@@ -938,38 +931,31 @@
         </context-group>
       </trans-unit>
       <trans-unit id="board.eyebrow" datatype="html">
-        <source>Bestenliste · sortiert nach gesicherter Mindestquote</source>
+        <source>Bestenliste</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
           <context context-type="linenumber">2,3</context>
         </context-group>
       </trans-unit>
       <trans-unit id="board.heading" datatype="html">
-        <source>Wer über der Nulllinie steht</source>
+        <source>Wer besser liegt als Zufall</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
           <context context-type="linenumber">3,5</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="board.lede" datatype="html">
-        <source> Ränge sind Anteile, keine Plätze — Annunaki sind immer die besten 0,1 %, egal wie viele mitspielen. Sortiert wird nach der gesicherten Mindestquote, weil sie die Anzahl der Sitzungen mitwiegt. Die Abweichung steht daneben: die auffälligere, aber schwächere Zahl. <x id="START_LINK" ctype="x-a" equiv-text="&lt;a routerLink=&quot;/statistik&quot;&gt;"/>Die ganze Leiter<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> steht bei der Statistik, neben der Verteilung, aus der sie kommt. </source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
-          <context context-type="linenumber">6,13</context>
         </context-group>
       </trans-unit>
       <trans-unit id="board.unavailable" datatype="html">
         <source>Die Rangliste ist gerade nicht abrufbar.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
-          <context context-type="linenumber">16,17</context>
+          <context context-type="linenumber">11,12</context>
         </context-group>
       </trans-unit>
       <trans-unit id="trial.retry" datatype="html">
         <source> Erneut versuchen </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
-          <context context-type="linenumber">18,19</context>
+          <context context-type="linenumber">13,15</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.html</context>
@@ -984,127 +970,106 @@
         <source>Wird geladen …</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
+          <context context-type="linenumber">18,20</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/stats/stats.component.html</context>
+          <context context-type="linenumber">118,121</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/stats/stats.component.html</context>
+          <context context-type="linenumber">138,140</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="board.notEnough" datatype="html">
+        <source> Noch nicht genug Ergebnisse für eine aussagekräftige Rangliste. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
           <context context-type="linenumber">24,26</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">121,124</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">142,144</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="board.nextBand" datatype="html">
-        <source>ranglistenfähige Spieler. <x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/><x id="INTERPOLATION" equiv-text="{{ next.rank.title }}"/><x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> gibt es ab <x id="INTERPOLATION_1" equiv-text="{{ next.unlocksAt }}"/> — bei kleiner Besetzung wäre ein Spitzenplatz keine Aussage, sondern der beste Wurf einer kleinen Runde.</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
-          <context context-type="linenumber">35,37</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="board.allBands" datatype="html">
-        <source>ranglistenfähige Spieler. Alle Bänder sind besetzt.</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
-          <context context-type="linenumber">41,43</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="board.empty" datatype="html">
-        <source> Noch niemand auf der Liste. Ranglistenfähig ab <x id="INTERPOLATION" equiv-text="{{ eligibilityTrials() }}"/> Sitzungen an mindestens <x id="INTERPOLATION_1" equiv-text="{{ eligibilityDays() }}"/> verschiedenen Tagen — und keine Zeile hier ist erfunden, also bleibt sie leer, bis jemand das erreicht. </source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
-          <context context-type="linenumber">50,53</context>
         </context-group>
       </trans-unit>
       <trans-unit id="board.col.rank" datatype="html">
         <source>Rang</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
-          <context context-type="linenumber">61,62</context>
+          <context context-type="linenumber">33,34</context>
         </context-group>
       </trans-unit>
       <trans-unit id="board.col.name" datatype="html">
         <source>Name</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
-          <context context-type="linenumber">62,63</context>
+          <context context-type="linenumber">34,35</context>
         </context-group>
       </trans-unit>
       <trans-unit id="board.col.wilson" datatype="html">
         <source>Mindestquote</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
-          <context context-type="linenumber">63,64</context>
+          <context context-type="linenumber">35,36</context>
         </context-group>
       </trans-unit>
       <trans-unit id="board.col.trials" datatype="html">
         <source>Sitzungen</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
-          <context context-type="linenumber">64,65</context>
+          <context context-type="linenumber">36,37</context>
         </context-group>
       </trans-unit>
       <trans-unit id="board.col.rate" datatype="html">
         <source>Quote</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
-          <context context-type="linenumber">65,66</context>
+          <context context-type="linenumber">37,38</context>
         </context-group>
       </trans-unit>
       <trans-unit id="board.col.deviation" datatype="html">
         <source>Abw.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
-          <context context-type="linenumber">66,68</context>
+          <context context-type="linenumber">38,40</context>
         </context-group>
       </trans-unit>
       <trans-unit id="board.maskedTitle" datatype="html">
         <source>Name noch nicht freigegeben — die Kennung daneben bleibt nachprüfbar</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
-          <context context-type="linenumber">83,84</context>
+          <context context-type="linenumber">55,56</context>
         </context-group>
       </trans-unit>
       <trans-unit id="board.pager.aria" datatype="html">
         <source>Seiten der Bestenliste</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
-          <context context-type="linenumber">101,103</context>
+          <context context-type="linenumber">73,75</context>
         </context-group>
       </trans-unit>
       <trans-unit id="board.prev" datatype="html">
         <source>← Zurück</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
-          <context context-type="linenumber">108,109</context>
+          <context context-type="linenumber">80,81</context>
         </context-group>
       </trans-unit>
       <trans-unit id="board.next" datatype="html">
         <source>Weiter →</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
-          <context context-type="linenumber">117,118</context>
+          <context context-type="linenumber">89,90</context>
         </context-group>
       </trans-unit>
       <trans-unit id="board.range" datatype="html">
         <source>Plätze <x id="INTERPOLATION" equiv-text="{{ firstShown() }}"/>–<x id="INTERPOLATION_1" equiv-text="{{ lastShown() }}"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
-          <context context-type="linenumber">121,125</context>
+          <context context-type="linenumber">93,97</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="board.note" datatype="html">
-        <source> Ranglistenfähig ab <x id="INTERPOLATION" equiv-text="{{ eligibilityTrials() }}"/> Sitzungen an mindestens <x id="INTERPOLATION_1" equiv-text="{{ eligibilityDays() }}"/> verschiedenen Tagen. Über mehrere Tage, weil Parallelität keinen Kalender zusammenschiebt — und weil verteilte Sitzungen ohnehin die besseren Daten sind.</source>
+      <trans-unit id="board.eligibility" datatype="html">
+        <source> Ranglistenfähig ab <x id="INTERPOLATION" equiv-text="{{ eligibilityTrials() }}"/> Sitzungen an mindestens <x id="INTERPOLATION_1" equiv-text="{{ eligibilityDays() }}"/> verschiedenen Tagen. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
-          <context context-type="linenumber">127,129</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="board.recomputed" datatype="html">
-        <source>Ränge zuletzt neu berechnet am <x id="INTERPOLATION" equiv-text="{{ when(at) }}"/>; sie laufen etwa alle fünfzehn Minuten nach.</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
-          <context context-type="linenumber">133,134</context>
+          <context context-type="linenumber">99,104</context>
         </context-group>
       </trans-unit>
       <trans-unit id="legal.eyebrow" datatype="html">
@@ -1228,297 +1193,241 @@
         </context-group>
       </trans-unit>
       <trans-unit id="stats.noTrialsYet" datatype="html">
-        <source> Noch keine abgeschlossene Sitzung. Bis eine da ist, steht hier keine Quote — <x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>eine erfundene wäre der einzige unehrliche Wert auf dieser Seite.<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/></source>
+        <source> Noch keine abgeschlossene Sitzung. Sobald es eine gibt, steht die Quote hier. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">18,22</context>
+          <context context-type="linenumber">18,21</context>
         </context-group>
       </trans-unit>
       <trans-unit id="stats.tails" datatype="html">
         <source>Die zwei Enden</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">23,24</context>
+          <context context-type="linenumber">22,23</context>
         </context-group>
       </trans-unit>
       <trans-unit id="stats.noDataYet" datatype="html">
         <source>Noch keine Daten</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">24,25</context>
+          <context context-type="linenumber">23,24</context>
         </context-group>
       </trans-unit>
       <trans-unit id="stats.tails.noteEmpty" datatype="html">
-        <source> Hier stehen später die Spieler, die mehr als <x id="INTERPOLATION" equiv-text="{{ tailSigma() }}"/> σ über bzw. unter dem Zufall liegen. Unter reinem Zufall sind das ungefähr gleich viele an beiden Enden — genau das ist der Test, und er braucht keine Statistikkenntnisse, nur einen Blick. </source>
+        <source> Hier stehen später die Spieler, die deutlich besser oder deutlich schlechter liegen als Zufall. Etwa gleich viele auf beiden Seiten heißt: es war Zufall. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">35,37</context>
+          <context context-type="linenumber">34,37</context>
         </context-group>
       </trans-unit>
       <trans-unit id="stats.expectedWere" datatype="html">
         <source>erwartet waren <x id="INTERPOLATION" equiv-text="{{ pct(a.expected_rate, 1) }}"/> %</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">44,46</context>
+          <context context-type="linenumber">42,44</context>
         </context-group>
       </trans-unit>
       <trans-unit id="stats.summary" datatype="html">
         <source><x id="INTERPOLATION" equiv-text="{{ count(a.trials) }}"/> Sitzungen · <x id="INTERPOLATION_1" equiv-text="{{ count(a.accounts) }}"/> <x id="ICU" equiv-text="{a.accounts, plural, =1 {Konto} other {Konten}}" xid="4678562321411626396"/> · Abweichung <x id="INTERPOLATION_2" equiv-text="{{ signed(a.deviation) }}"/> σ · <x id="INTERPOLATION_3" equiv-text="{{ count(a.abandoned) }}"/> abgebrochen ·</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">50,53</context>
+          <context context-type="linenumber">48,51</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4678562321411626396" datatype="html">
         <source>{VAR_PLURAL, plural, =1 {Konto} other {Konten}}</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">51</context>
+          <context context-type="linenumber">49</context>
         </context-group>
       </trans-unit>
       <trans-unit id="stats.verdict.nothing" datatype="html">
         <source>bisher nichts.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">55,57</context>
+          <context context-type="linenumber">53,55</context>
         </context-group>
       </trans-unit>
       <trans-unit id="stats.verdict.notable" datatype="html">
         <source>das ist auffällig — und noch keine Erklärung.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">58,61</context>
+          <context context-type="linenumber">56,59</context>
         </context-group>
       </trans-unit>
       <trans-unit id="stats.tails.headWithBounds" datatype="html">
         <source> Die zwei Enden · Konten ab <x id="INTERPOLATION" equiv-text="{{ tailMinTrials() }}"/> Sitzungen, <x id="INTERPOLATION_1" equiv-text="{{ tailSigma() }}"/> σ </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">65,68</context>
+          <context context-type="linenumber">63,66</context>
         </context-group>
       </trans-unit>
       <trans-unit id="stats.tails.above" datatype="html">
         <source>über +<x id="INTERPOLATION" equiv-text="{{ tailSigma() }}"/> σ</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">72,73</context>
+          <context context-type="linenumber">70,71</context>
         </context-group>
       </trans-unit>
       <trans-unit id="stats.tails.below" datatype="html">
         <source>unter −<x id="INTERPOLATION" equiv-text="{{ tailSigma() }}"/> σ</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">77,78</context>
+          <context context-type="linenumber">75,76</context>
         </context-group>
       </trans-unit>
       <trans-unit id="stats.tails.note" datatype="html">
-        <source> Unter reinem Zufall sind beide Enden ungefähr gleich schwer. Eine echte Fähigkeit könnte nur das obere schwerer machen — solange die zwei Zahlen sich ähneln, ist zu sehen, was zu erwarten war. </source>
+        <source> Etwa gleich viele auf beiden Seiten heißt: es war Zufall. Eine echte Fähigkeit könnte nur die obere Seite größer machen. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">82,85</context>
+          <context context-type="linenumber">80,82</context>
         </context-group>
       </trans-unit>
       <trans-unit id="stats.ladder" datatype="html">
         <source>Die Leiter</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">90,91</context>
+          <context context-type="linenumber">87,88</context>
         </context-group>
       </trans-unit>
       <trans-unit id="stats.ladder.middle" datatype="html">
         <source>die mittleren <x id="INTERPOLATION" equiv-text="{{ share(l.share) }}"/> %</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">99,100</context>
+          <context context-type="linenumber">96,97</context>
         </context-group>
       </trans-unit>
       <trans-unit id="stats.ladder.band" datatype="html">
         <source><x id="INTERPOLATION" equiv-text="{{ share(l.share) }}"/> % · ab <x id="INTERPOLATION_1" equiv-text="{{ l.unlocksAt }}"/> Ranglistenfähigen</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">103,104</context>
+          <context context-type="linenumber">100,101</context>
         </context-group>
       </trans-unit>
       <trans-unit id="stats.unavailable.head" datatype="html">
         <source>Zahlen nicht abrufbar</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">113,115</context>
+          <context context-type="linenumber">110,112</context>
         </context-group>
       </trans-unit>
       <trans-unit id="stats.unavailable.lead" datatype="html">
         <source> Die Gesamtwerte kommen vom Server und werden nicht hier ausgedacht — also steht hier nichts, solange er nicht antwortet. <x id="START_TAG_BUTTON" ctype="x-button" equiv-text="&lt;button class=&quot;btn btn--quiet&quot; type=&quot;button&quot; (click)=&quot;load()&quot;&gt;"/>Erneut versuchen<x id="CLOSE_TAG_BUTTON" ctype="x-button" equiv-text="&lt;/button&gt;"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">116,120</context>
+          <context context-type="linenumber">113,117</context>
         </context-group>
       </trans-unit>
       <trans-unit id="stats.mine" datatype="html">
         <source>Deine Werte</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">125,127</context>
+          <context context-type="linenumber">122,124</context>
         </context-group>
       </trans-unit>
       <trans-unit id="stats.mine.noAccount" datatype="html">
-        <source> Noch kein Konto. Eine Sitzung anfangen legt eines an — danach steht hier dein eigener Stand neben dem aller anderen. </source>
+        <source> Noch kein Konto. Fang eine Sitzung an, dann steht dein Stand hier. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">129,132</context>
+          <context context-type="linenumber">126,128</context>
         </context-group>
       </trans-unit>
       <trans-unit id="stats.mine.unavailable" datatype="html">
         <source>Deine Zahlen sind gerade nicht abrufbar.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">136,138</context>
+          <context context-type="linenumber">132,134</context>
         </context-group>
       </trans-unit>
       <trans-unit id="status.reload" datatype="html">
         <source> Erneut laden </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">139,140</context>
+          <context context-type="linenumber">135,136</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="stats.mine.locked" datatype="html">
-        <source>Freigeschaltet nach <x id="INTERPOLATION" equiv-text="{{ player.unlocksAt() }}"/> Sitzungen — noch <x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/><x id="INTERPOLATION_1" equiv-text="{{ player.remaining() }}"/><x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/>. Eine Trefferquote aus <x id="INTERPOLATION_2" equiv-text="{{ player.completed() }}"/> Versuchen wäre keine Aussage, sondern eine Anekdote.</source>
+      <trans-unit id="stats.mine.lockedShort" datatype="html">
+        <source>Noch <x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/><x id="INTERPOLATION" equiv-text="{{ player.remaining() }}"/><x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> Sitzungen, dann stehen deine Zahlen hier. Bei weniger sagt eine Trefferquote noch nichts.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">148,151</context>
+          <context context-type="linenumber">144,145</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="stats.mine.abandoned" datatype="html">
-        <source>Abgebrochen: <x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/><x id="INTERPOLATION" equiv-text="{{ player.abandoned() }}"/><x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> — steht von Anfang an mit da.</source>
+      <trans-unit id="stats.mine.abandonedShort" datatype="html">
+        <source>Abgebrochen: <x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/><x id="INTERPOLATION" equiv-text="{{ player.abandoned() }}"/><x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">155,156</context>
+          <context context-type="linenumber">149,150</context>
         </context-group>
       </trans-unit>
       <trans-unit id="fig.hitRate" datatype="html">
         <source>Trefferquote</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">171,172</context>
+          <context context-type="linenumber">164,165</context>
         </context-group>
       </trans-unit>
       <trans-unit id="fig.days" datatype="html">
         <source>Tage</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">183,184</context>
+          <context context-type="linenumber">176,177</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="stats.mine.basis" datatype="html">
-        <source> Abweichung und Mindestquote stehen über <x id="INTERPOLATION" equiv-text="{{ player.reportedTrials() }}"/> gewerteten Sitzungen mit <x id="INTERPOLATION_1" equiv-text="{{ player.reportedHits() }}"/> Treffern. Sitzungen und Quote darüber sind der laufende Stand — die zwei Zahlen dürfen sich also über das <x id="START_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;em&gt;"/>n<x id="CLOSE_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;/em&gt;"/> uneinig sein, und beide haben recht. </source>
+      <trans-unit id="stats.mine.basisShort" datatype="html">
+        <source> Gerechnet über <x id="INTERPOLATION" equiv-text="{{ player.reportedTrials() }}"/> gewertete Sitzungen mit <x id="INTERPOLATION_1" equiv-text="{{ player.reportedHits() }}"/> Treffern. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">201,207</context>
+          <context context-type="linenumber">194,198</context>
         </context-group>
       </trans-unit>
       <trans-unit id="stats.reading" datatype="html">
-        <source>Wie man das liest</source>
+        <source>Kurz erklärt</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">212,214</context>
+          <context context-type="linenumber">205,207</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="read.baseline.t" datatype="html">
-        <source>Die Nulllinie liegt bei <x id="INTERPOLATION" equiv-text="{{ chanceRate }}"/> %</source>
+      <trans-unit id="read.chance.t" datatype="html">
+        <source>Warum 12,5 %?</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">216,217</context>
+          <context context-type="linenumber">209,210</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="read.baseline.d" datatype="html">
-        <source> Ein Ziel von acht. Wer rät, trifft im Schnitt jedes achte Mal. Jede Zahl auf dieser Seite ist ein Ausschlag von dieser Linie, nicht von null. </source>
+      <trans-unit id="read.chance.d" datatype="html">
+        <source> Acht Bilder, eines ist richtig. Wer nur rät, liegt im Schnitt bei jedem achten Mal richtig. Alles darüber wäre mehr als Raten. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">218,220</context>
+          <context context-type="linenumber">211,213</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="read.falsePositives.t" datatype="html">
-        <source> Falsch-positive sind hier die Regel, nicht die Ausnahme </source>
+      <trans-unit id="read.streak.t" datatype="html">
+        <source>Eine gute Serie heißt noch nichts</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">225,227</context>
+          <context context-type="linenumber">217,218</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="read.falsePositives.d" datatype="html">
-        <source> Wer genug Leute würfeln lässt, bekommt immer jemanden mit einer erstaunlichen Serie — das ist eine Aussage über die Anzahl der Leute, nicht über die Person. Deshalb stehen oben beide Enden nebeneinander und nicht nur das obere. </source>
+      <trans-unit id="read.streak.d" datatype="html">
+        <source> Wenn genug Leute raten, hat immer jemand eine erstaunliche Glückssträhne. Deshalb zeigen wir oben beide Seiten: die, die besser liegen als Zufall, und die, die schlechter liegen. Sind beide etwa gleich groß, war es Zufall. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">228,231</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="read.symmetry.t" datatype="html">
-        <source>Beide Enden gleich schwer heißt: kein Effekt</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">235,236</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="read.symmetry.d" datatype="html">
-        <source> Eine echte Fähigkeit könnte nur das obere Ende schwerer machen. Solange sich die zwei Zahlen ähneln, ist zu sehen, was zu erwarten war. Dafür braucht es keine Statistik, nur einen Blick auf die Symmetrie. </source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">237,240</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="read.ranks.t" datatype="html">
-        <source>Ränge sind Anteile, keine Bestenplätze</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">244,245</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="read.ranks.d" datatype="html">
-        <source> Annunaki sind die besten 0,1 %, Loosh-Farmer die besten 0,5 %, und so weiter — nach unten spiegelbildlich. Ein Anteil bedeutet dasselbe, egal ob neun Leute spielen oder neunhunderttausend; ein dritter Platz bedeutet das nicht. Ein Band wird erst vergeben, wenn der Anteil rechnerisch mindestens eine Person trifft — deshalb steht neben jedem Rang, ab welcher Besetzung es ihn gibt. </source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">246,250</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="read.multiAccounts.t" datatype="html">
-        <source>Mehrere Konten sind eingepreist, nicht bekämpft</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">255,256</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="read.multiAccounts.d" datatype="html">
-        <source> Wer zwanzig Konten anlegt und das beste vorzeigt, macht genau das, was die Zahlen oben ohnehin schon messen: viele Versuche, von denen einer gut aussieht. Keine Scoring-Regel repariert das, also wird es nicht behauptet — die Gesamtquote und die zwei Enden bleiben die Aussage, nicht der oberste Eintrag. </source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">257,260</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="read.wilson.t" datatype="html">
-        <source>Mindestquote schlägt Abweichung</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">265,266</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="read.wilson.d" datatype="html">
-        <source> Die Abweichung in σ ist die auffälligere Zahl, die gesicherte Mindestquote die belastbarere: sie wiegt mit, wie oft jemand gespielt hat. Drei Treffer aus acht sind keine Begabung, sie sind ein Dienstagnachmittag. </source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">267,269</context>
+          <context context-type="linenumber">219,221</context>
         </context-group>
       </trans-unit>
       <trans-unit id="read.yours.t" datatype="html">
-        <source>Deine <x id="INTERPOLATION" equiv-text="{{ minePct() }}"/> % im Kontext</source>
+        <source>Deine <x id="INTERPOLATION" equiv-text="{{ minePct() }}"/> %</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">275,276</context>
+          <context context-type="linenumber">227,228</context>
         </context-group>
       </trans-unit>
       <trans-unit id="read.yours.d" datatype="html">
-        <source> Von 10 000 Leuten ohne jede Fähigkeit erreichen <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;measured&quot;&gt;"/><x id="INTERPOLATION" equiv-text="{{ perTenK() }}"/><x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/> diesen Wert allein durch Glück. Ohne diese Zeile ist die Zahl nicht interpretierbar. </source>
+        <source> Von 10 000 Leuten, die nur raten, kommen <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;measured&quot;&gt;"/><x id="INTERPOLATION" equiv-text="{{ perTenK() }}"/><x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/> auf so ein Ergebnis — allein durch Glück. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">277,280</context>
+          <context context-type="linenumber">229,232</context>
         </context-group>
       </trans-unit>
       <trans-unit id="stats.tails.aria" datatype="html">

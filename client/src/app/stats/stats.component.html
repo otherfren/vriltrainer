@@ -15,8 +15,7 @@
       </h1>
 
       <p class="lede" i18n="@@stats.noTrialsYet">
-        Noch keine abgeschlossene Sitzung. Bis eine da ist, steht hier keine Quote —
-        <strong>eine erfundene wäre der einzige unehrliche Wert auf dieser Seite.</strong>
+        Noch keine abgeschlossene Sitzung. Sobald es eine gibt, steht die Quote hier.
       </p>
 
       <div class="tails panel">
@@ -32,9 +31,8 @@
           </div>
         </div>
         <p class="tails__note" i18n="@@stats.tails.noteEmpty">
-          Hier stehen später die Spieler, die mehr als {{ tailSigma() }} σ über bzw. unter dem
-          Zufall liegen. Unter reinem Zufall sind das ungefähr gleich viele an beiden Enden — genau
-          das ist der Test, und er braucht keine Statistikkenntnisse, nur einen Blick.
+          Hier stehen später die Spieler, die deutlich besser oder deutlich schlechter liegen als
+          Zufall. Etwa gleich viele auf beiden Seiten heißt: es war Zufall.
         </p>
       </div>
     } @else {
@@ -79,9 +77,8 @@
         </div>
 
         <p class="tails__note" i18n="@@stats.tails.note">
-          Unter reinem Zufall sind beide Enden ungefähr gleich schwer. Eine echte Fähigkeit könnte
-          nur das obere schwerer machen — solange die zwei Zahlen sich ähneln, ist zu sehen, was zu
-          erwarten war.
+          Etwa gleich viele auf beiden Seiten heißt: es war Zufall. Eine echte Fähigkeit könnte nur
+          die obere Seite größer machen.
         </p>
       </div>
     }
@@ -126,8 +123,7 @@
 
     @if (!session.signedIn()) {
       <p class="mine__locked panel" i18n="@@stats.mine.noAccount">
-        Noch kein Konto. Eine Sitzung anfangen legt eines an — danach steht hier dein eigener
-        Stand neben dem aller anderen.
+        Noch kein Konto. Fang eine Sitzung an, dann steht dein Stand hier.
       </p>
     } @else if (!player.loaded()) {
       <p class="mine__locked panel">
@@ -144,16 +140,13 @@
       </p>
     } @else if (!player.unlocked()) {
       <p class="mine__locked panel">
-        <ng-container i18n="@@stats.mine.locked"
-          >Freigeschaltet nach {{ player.unlocksAt() }} Sitzungen — noch
-          <strong>{{ player.remaining() }}</strong>. Eine Trefferquote aus
-          {{ player.completed() }} Versuchen wäre keine Aussage, sondern eine
-          Anekdote.</ng-container
+        <ng-container i18n="@@stats.mine.lockedShort"
+          >Noch <strong>{{ player.remaining() }}</strong> Sitzungen, dann stehen deine Zahlen
+          hier. Bei weniger sagt eine Trefferquote noch nichts.</ng-container
         >
         @if (player.abandoned() > 0) {
-          <ng-container i18n="@@stats.mine.abandoned"
-            >Abgebrochen: <strong>{{ player.abandoned() }}</strong> — steht von Anfang an mit
-            da.</ng-container
+          <ng-container i18n="@@stats.mine.abandonedShort"
+            >Abgebrochen: <strong>{{ player.abandoned() }}</strong></ng-container
           >
         }
       </p>
@@ -197,86 +190,44 @@
 
       <!-- FR-019: the inferential figures advance per block, so the n they stand over is printed
            beside them. Without it a reader divides one by the other and gets a wrong answer. -->
-      <p class="mine__basis" i18n="@@stats.mine.basis">
-        Abweichung und Mindestquote stehen über {{ player.reportedTrials() }} gewerteten Sitzungen
-        mit {{ player.reportedHits() }} Treffern. Sitzungen und Quote darüber sind der laufende
-        Stand — die zwei Zahlen dürfen sich also über das <em>n</em> uneinig sein, und beide haben
-        recht.
+      <p class="mine__basis" i18n="@@stats.mine.basisShort">
+        Gerechnet über {{ player.reportedTrials() }} gewertete Sitzungen mit
+        {{ player.reportedHits() }} Treffern.
       </p>
     }
   </div>
 
-  <!-- Everything that would otherwise crowd the charts. The figures above are meant to be
-       readable at a glance; the reasoning lives here, once, at the bottom. -->
+  <!-- Three short answers to the three questions somebody actually has, in the words they would
+       use. This was seven headed paragraphs of statistical reasoning — correct, and not what
+       anybody came to a game to read. FR-018 is the one line that has to stay: a departure from
+       chance means nothing without how often luck alone produces it. -->
   <div class="reading panel">
-    <p class="eyebrow" i18n="@@stats.reading">Wie man das liest</p>
+    <p class="eyebrow" i18n="@@stats.reading">Kurz erklärt</p>
 
     <dl class="reading__list">
       <div>
-        <dt i18n="@@read.baseline.t">Die Nulllinie liegt bei {{ chanceRate }} %</dt>
-        <dd i18n="@@read.baseline.d">
-          Ein Ziel von acht. Wer rät, trifft im Schnitt jedes achte Mal. Jede Zahl auf dieser
-          Seite ist ein Ausschlag von dieser Linie, nicht von null.
+        <dt i18n="@@read.chance.t">Warum 12,5 %?</dt>
+        <dd i18n="@@read.chance.d">
+          Acht Bilder, eines ist richtig. Wer nur rät, liegt im Schnitt bei jedem achten Mal
+          richtig. Alles darüber wäre mehr als Raten.
         </dd>
       </div>
 
       <div>
-        <dt i18n="@@read.falsePositives.t">
-          Falsch-positive sind hier die Regel, nicht die Ausnahme
-        </dt>
-        <dd i18n="@@read.falsePositives.d">
-          Wer genug Leute würfeln lässt, bekommt immer jemanden mit einer erstaunlichen Serie —
-          das ist eine Aussage über die Anzahl der Leute, nicht über die Person. Deshalb stehen
-          oben beide Enden nebeneinander und nicht nur das obere.
-        </dd>
-      </div>
-
-      <div>
-        <dt i18n="@@read.symmetry.t">Beide Enden gleich schwer heißt: kein Effekt</dt>
-        <dd i18n="@@read.symmetry.d">
-          Eine echte Fähigkeit könnte nur das obere Ende schwerer machen. Solange sich die zwei
-          Zahlen ähneln, ist zu sehen, was zu erwarten war. Dafür braucht es keine Statistik, nur
-          einen Blick auf die Symmetrie.
-        </dd>
-      </div>
-
-      <div>
-        <dt i18n="@@read.ranks.t">Ränge sind Anteile, keine Bestenplätze</dt>
-        <dd i18n="@@read.ranks.d">
-          Annunaki sind die besten 0,1 %, Loosh-Farmer die besten 0,5 %, und so weiter — nach
-          unten spiegelbildlich. Ein Anteil bedeutet dasselbe, egal ob neun Leute spielen oder
-          neunhunderttausend; ein dritter Platz bedeutet das nicht. Ein Band wird erst vergeben,
-          wenn der Anteil rechnerisch mindestens eine Person trifft — deshalb steht neben jedem
-          Rang, ab welcher Besetzung es ihn gibt.
-        </dd>
-      </div>
-
-      <div>
-        <dt i18n="@@read.multiAccounts.t">Mehrere Konten sind eingepreist, nicht bekämpft</dt>
-        <dd i18n="@@read.multiAccounts.d">
-          Wer zwanzig Konten anlegt und das beste vorzeigt, macht genau das, was die Zahlen oben
-          ohnehin schon messen: viele Versuche, von denen einer gut aussieht. Keine Scoring-Regel
-          repariert das, also wird es nicht behauptet — die Gesamtquote und die zwei Enden bleiben
-          die Aussage, nicht der oberste Eintrag.
-        </dd>
-      </div>
-
-      <div>
-        <dt i18n="@@read.wilson.t">Mindestquote schlägt Abweichung</dt>
-        <dd i18n="@@read.wilson.d">
-          Die Abweichung in σ ist die auffälligere Zahl, die gesicherte Mindestquote die
-          belastbarere: sie wiegt mit, wie oft jemand gespielt hat. Drei Treffer aus acht sind
-          keine Begabung, sie sind ein Dienstagnachmittag.
+        <dt i18n="@@read.streak.t">Eine gute Serie heißt noch nichts</dt>
+        <dd i18n="@@read.streak.d">
+          Wenn genug Leute raten, hat immer jemand eine erstaunliche Glückssträhne. Deshalb zeigen
+          wir oben beide Seiten: die, die besser liegen als Zufall, und die, die schlechter liegen.
+          Sind beide etwa gleich groß, war es Zufall.
         </dd>
       </div>
 
       @if (player.unlocked()) {
         <div>
-          <dt i18n="@@read.yours.t">Deine {{ minePct() }} % im Kontext</dt>
+          <dt i18n="@@read.yours.t">Deine {{ minePct() }} %</dt>
           <dd i18n="@@read.yours.d">
-            Von 10 000 Leuten ohne jede Fähigkeit erreichen
-            <span class="measured">{{ perTenK() }}</span> diesen Wert allein durch Glück. Ohne
-            diese Zeile ist die Zahl nicht interpretierbar.
+            Von 10 000 Leuten, die nur raten, kommen
+            <span class="measured">{{ perTenK() }}</span> auf so ein Ergebnis — allein durch Glück.
           </dd>
         </div>
       }
