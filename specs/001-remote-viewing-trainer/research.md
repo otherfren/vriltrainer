@@ -60,7 +60,8 @@ confidence level is not.
 ## R3 — How the "by chance" context line is computed
 
 **Decision.** For an account with `n` completed trials and `k` hits, report the one-sided
-binomial tail `P(X >= k)` under `p = 0.125`, expressed as an expected count over the current
+binomial tail on the side the result fell — `P(X >= k)` at or above the expected count, `P(X <= k)`
+below it — under `p = 0.125`, expressed as an expected count over the current
 eligible population: *"about N of every 10,000 users reach this by chance."* Computed exactly
 from the binomial for the sizes involved, not by normal approximation.
 
@@ -130,9 +131,12 @@ to it, forwarding `Host` unchanged and setting a client-address header that the 
 
 **Rationale.** Both of these silently break a decision if omitted, which is why they are recorded
 as configuration requirements rather than left to deployment day. Without a forwarded client
-address every request appears to come from `127.0.0.1`, so the IP limit on account creation
-becomes either inert or global — throttling all users together. Without an unchanged `Host` the
-locale selection in D10 has nothing to select on. A service that trusted the header from any
+address every request appears to come from `127.0.0.1`, so the admin login limiter — the only
+per-address rule left after D30 removed the account-creation cap — either counts every operator
+attempt against one bucket or throttles all of them together. The unchanged `Host` is no longer
+load-bearing for language — D24 made the locale a startup flag — but it is still forwarded so that
+a misrouted proxy shows up as a warning from `locale::host_matches` instead of as a site quietly
+serving the wrong language. A service that trusted the header from any
 source would let any client forge its own address, so the trust boundary is the proxy.
 
 ## R9 — SQLite under concurrent load
@@ -154,7 +158,7 @@ discipline is now explicit rather than structural:
 - `UNIQUE` on the sequence number and on `prev_hash`, so any lapse in the above **fails loudly**
   instead of forking silently. This is the part that matters: a fork passes every test on a quiet
   machine and appears only under concurrency.
-- A chain walk at startup and in the nightly backup job.
+- A chain walk at startup and in the hourly backup job.
 
 Read traffic — leaderboard, statistics, log export — dominates and is unaffected. Ranks are
 recomputed by a background task every ~15 minutes (D23) and materialised, so the board is a read
@@ -190,5 +194,5 @@ knowingly. All three are moot once the images are the operator's own.
 |---|---|---|
 | Meme licensing (R10) | P3, when ranks first render | Closed — artwork is the operator's own |
 | Parallel account farming | Leaderboard credibility | Three-day spread (FR-040) raises cost; the aggregate is unaffected either way |
-| Log growth from never-completed trials | Storage over years | Capped concurrent trials per account (D17); ~100 MB per million rows is not a real constraint |
+| Log growth from never-completed trials | Storage over years | The cap of D17 is gone (D30); an open trial still expires on the D16 clock and is published as abandoned, and D32 sweeps accounts the log never names. ~100 MB per million rows is not a real constraint |
 | A genuine positive result | Reputation, and scrutiny | The architecture exists precisely so such a result could be defended; no further action |

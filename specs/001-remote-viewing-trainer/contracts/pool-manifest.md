@@ -13,7 +13,7 @@ an internal asset.
     { "id": "img_04c1…", "category": "tool" },
     { "id": "img_09fe…", "category": "landscape" }
   ],
-  "manifest_hash": "sha256:…"                            // over the sorted (id, category) pairs
+  "manifest_hash": "sha256:…"                            // over the categories and the sorted pairs
 }
 ```
 
@@ -24,9 +24,13 @@ an internal asset.
   is normative, not cosmetic.
 - **A category's member list is the sorted list filtered to that category**, preserving order.
   There is deliberately no second ordering to keep in sync.
-- **`manifest_hash` covers the sorted (id, category) pairs, not the ids alone.** Hashing only the
-  ids would let a category be reassigned without changing the hash, silently altering every
-  future derivation while the manifest appeared untouched (D22).
+- **`manifest_hash` covers the category list and the sorted (id, category) pairs, not the ids
+  alone.** The preimage is
+  `LE64(K) ‖ (LE64(|c|) ‖ c for each category, in manifest order) ‖ LE64(N) ‖ (LE64(|id|) ‖ id ‖ LE64(|category|) ‖ category for each image, in manifest order)`,
+  hashed with SHA-256 and written as `sha256:<lowercase hex>`. The two collection lengths are bare
+  counts, so this is deliberately *not* `framed()` over the pairs. Hashing only the ids would let
+  a category be reassigned without changing the hash, silently altering every future derivation
+  while the manifest appeared untouched (D22).
 - A Merkle root was specified originally and dropped: a tree buys inclusion proofs without a full
   download, and the manifest is published whole (D5, D17).
 - **`img_…` identifiers are hashes of the normalised image bytes.** Identity follows content, so

@@ -35,21 +35,28 @@ the published head (D17, hash chain rather than Merkle).
 | `id` | Internal opaque identifier. **This is what appears in the log** — never the name (FR-023) |
 | `public_id` | Short identifier shown beside the name on the leaderboard (FR-029). Drawn independently; **not** derived from the access token (D9) |
 | `token_hash` | Hash of the capability token. The token itself is never stored (D9) |
-| `display_name` | Self-chosen, **nullable**. Removing it satisfies erasure while the log stays intact (FR-035, FR-036) |
+| `display_name` | Self-chosen, **nullable**. What the holder sees, in whatever state it is (D25) |
+| `public_name` | The last name a human approved, and the only name a stranger ever sees (D25, FR-047) |
+| `name_state` | `pending`, `approved`, `rejected` or `erased`. Erasure is marked here, not by nullness |
+| `name_reason` | Machine-readable refusal code; the sentence shown to the user is client copy |
+| `name_changed_at` | Last submission, for the rename rate limit (FR-048). A rejection clears it |
 | `created_at` | |
 
 Validation: a name is not unique — collisions are expected and resolved for the reader by
-`public_id`. Removal sets `display_name` to null and is irreversible from the interface.
+`public_id`. Erasure sets both `display_name` and `public_name` to null and `name_state` to
+`erased`, which satisfies erasure while the log stays intact (FR-035, FR-036). It is irreversible
+from the interface, and the permanence is carried by the state rather than by nullness, because a
+rejection clears the name too.
 
 ### `log_entry`
 
 | Field | Notes |
 |---|---|
 | `seq` | Monotonic, gapless. Gaps would themselves be evidence of tampering |
-| `kind` | `COMMIT` or `RESOLVE` |
+| `kind` | `commit` or `resolve` — the literals the CHECK constraint and the export carry; the uppercase spelling elsewhere in this document is typographic |
 | `trial_id` | Links the pair |
 | `account_id` | The opaque `account.id`, never the name |
-| `created_at` | UTC. The three-day spread in FR-040 counts distinct UTC days from resolve entries (R4) |
+| `at` | UTC. The three-day spread in FR-040 counts distinct UTC days from resolve entries (R4) |
 | `prev_hash`, `entry_hash` | The chain |
 
 `COMMIT` additionally carries the commitment `C`, the coordinate, the `pool_version` and the
@@ -72,7 +79,7 @@ backup contains no pending answers.
 | Entity | Fields |
 |---|---|
 | `pool_version` | `id`, `manifest_hash`, `image_count`, `created_at` |
-| `pool_image` | `pool_version`, `index`, `image_id`, **`category`**, `source_url`, `licence`, `attribution` |
+| `pool_image` | `pool_version`, `idx`, `image_id`, **`category`**, `source_url`, `licence`, `attribution` |
 
 `image_id` is the hash of the **normalised** bytes, so identity follows content rather than
 filename (D5). `manifest_hash` is a plain hash over the sorted `(image_id, category)` pairs — the
@@ -104,11 +111,33 @@ long-lived access token in the target URL (D11).
 ### `account_stats` — derived
 
 Maintained incrementally on each resolve rather than computed per request: `completed`, `hits`,
-`abandoned`, `distinct_utc_days`, `wilson_lower`, `deviation`, `eligible`.
+`abandoned`, `distinct_utc_days`, `last_utc_day`, `updated_at`, and at a block boundary
+`wilson_lower`, `wilson_upper`, `deviation` and `rank_slug`. `eligible` and `ranked_at` are not
+written on resolve: they are materialised by the ~15-minute rank pass (D23, D31), which is why the
+board states when that pass last ran.
 
-The leaderboard sorts by `wilson_lower` among rows where `eligible` is true, and eligibility is
-`completed >= 100 AND distinct_utc_days >= 3` (FR-040). Ranks are then assigned by position and
-only rendered at all once 200 rows are eligible (FR-042).
+The leaderboard sorts by `wilson_lower` among rows where `eligible` is true, tie-broken by
+`wilson_upper`, then `completed`, then `public_id`, and eligibility is
+`completed >= 100 AND distinct_utc_days >= 3` (FR-040). A rank is independent of that order: it is
+a fixed band of standard deviations read off the account's own `deviation` as soon as it has
+`stats_unlock_at` completed trials, so every rung exists at every population and no stranger can
+move it (FR-042, D31).
+
+### `admin_key`
+
+| Field | Notes |
+|---|---|
+| `id` | |
+| `label` | Who or what the key was cut for |
+| `hash` | The key itself is never stored, the same discipline as D9 |
+| `created_at`, `revoked_at` | Retired rather than deleted, so the old row still answers "was it used?" |
+| `last_used_at` | Stamped on each authenticated call |
+
+One privilege level, because the public admin API of D25 performs only reversible operations —
+approve and reject a name. The hash lives here rather than in an environment file so rotation needs
+no restart.
+
+Migrations themselves are tracked in `schema_version`, written by the migration runner.
 
 ## Trial state transitions
 

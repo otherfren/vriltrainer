@@ -22,7 +22,7 @@ Newline-delimited JSON, one entry per line, ordered by `seq` with no gaps.
 ```
 
 `account` is the opaque account identifier. **Self-chosen names never appear here** — that is what
-lets a name be erased without invalidating a single entry (FR-023, FR-036, D13).
+lets a name be erased without invalidating a single entry (FR-026, FR-036, D13).
 
 `pool_manifest_hash` is the hash of the manifest the trial was sealed against, and it is inside
 `hash` like every other field. A version number is a pointer: the same number can be re-cut with
@@ -44,8 +44,9 @@ downloaded file alone.
    `shared/vectors/README.md` — must equal the `commitment` from
    the paired commit entry — proving the target was fixed before the choice, and that *this*
    coordinate belongs to *this* trial.
-3. **The pool.** Fetch the manifest for `pool_version`, rehash it over the sorted `(id, category)`
-   pairs, and compare the result to the commit entry's `pool_manifest_hash`. Skipping this makes
+3. **The pool.** Fetch the manifest for `pool_version`, rehash it over its category list and its
+   sorted `(id, category)` pairs as `contracts/pool-manifest.md` lays the preimage out, and compare
+   the result to the commit entry's `pool_manifest_hash`. Skipping this makes
    step 4 a proof that the server agrees with itself: the eight images a seed names depend
    entirely on which manifest is in front of you.
 4. **Each derivation.** With `s_server` and `s_client` from the resolve entry and the pool

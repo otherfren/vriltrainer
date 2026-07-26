@@ -8,9 +8,9 @@
 
 **Input**: User description: "Online trainer for remote viewing. A user invents a name and receives a secret access link. Trial loop: a coordinate is shown, a click reveals 8 images, the user picks one, the next click shows right or wrong plus a cryptographic proof, the next click starts over. Score tracking, leaderboard, statistics with z-score from 10 trials. Bilingual across two domains, public audit log."
 
-**Design basis**: Mechanism and concept decisions were settled in two prior interviews and are
-recorded in `docs/trial-protocol-decisions.md` (D1–D21). That document is binding on planning;
-this specification states what the product must do, not how.
+**Design basis**: Mechanism and concept decisions were settled in two prior interviews and have been
+amended repeatedly since, in `docs/trial-protocol-decisions.md` (D1–D34). That document is binding
+on planning; this specification states what the product must do, not how.
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -157,12 +157,14 @@ account and full history carry over.
 - **A user loses their access link** — the account and its history become unreachable,
   permanently, with no recovery path.
 - **A user reaches ten trials with zero hits** — statistics are shown regardless.
-- **Fewer than 200 accounts are eligible** — no ranks are awarded to anyone, and the current
-  eligible count is shown in place of the ladder. A ladder whose tiers run to position 200
-  cannot be filled by a dozen people without making the top of it meaningless.
-- **An account is ranked, then overtaken while inactive** — positional ranks move when others
-  play, so a rank already shared elsewhere can go stale. The artefact carries the figures it was
-  earned with, so it stays truthful about the moment it describes.
+- **Only a handful of accounts are eligible** — every rung of the ladder still exists, because a
+  rank is a fixed distance from chance rather than a share of the population (D31). The number of
+  currently eligible accounts is stated beside the board, so a reader can judge for themselves how
+  much a title on a small population is worth.
+- **An account is ranked, then keeps playing** — a rank is recomputed from the account's own
+  record at each block boundary and can move in either direction; nobody else joining, playing or
+  leaving can move it (D31, D33). The artefact carries the figures it was earned with, so it stays
+  truthful about the moment it describes.
 - **A trial is answered faster than the minimum viewing time** — refused without evaluation, the
   trial stays open, and the user may answer again.
 - **The image collection is extended between trials** — earlier trials remain verifiable against
@@ -355,9 +357,10 @@ account and full history carry over.
   choosing the image from the largest category performs no better than 12.5%.
 - **SC-012**: The abandonment rate, overall and per account, is computable by a third party from
   the public record alone, so selective abandonment is detectable rather than hidden.
-- **SC-013**: No account holds a rank without having met the eligibility rule, and every rank an
-  account holds is the one its own published deviation earns — recomputable by the holder, and
-  unchanged by anyone else joining, playing or leaving.
+- **SC-013**: Every rank an account holds is the one its own published deviation earns — awarded as
+  soon as the account has completed enough trials for the statistics view to open, recomputable by
+  the holder, and unchanged by anyone else joining, playing or leaving. Appearing on the public
+  leaderboard is a separate question and stays subject to the eligibility rule (SC-009).
 - **SC-018**: No name reaches a public surface without having been approved, and a name refused
   during review is discarded rather than stored.
 - **SC-014**: The counts of markedly-above-chance and markedly-below-chance accounts are both
@@ -387,14 +390,16 @@ account and full history carry over.
 - FR numbers are stable identifiers, not an ordering. FR-037 was added after the first pass and
   sits with the trial requirements rather than at the end, so that existing references keep
   pointing at the same requirements.
-- Play itself is not rate-limited over time, but two limits apply: account creation is capped per
-  client address, and each account may hold only a small number of uncompleted trials at once. The
-  second is what bounds growth of the permanent log, since every trial is recorded at creation.
-  Abuse of the leaderboard through many throwaway accounts is **not** answered by a scoring rule,
-  because none exists: at true chance there is no signal to rank, so any ordering orders luck and
-  more accounts buy more luck (D27). The eligibility rule in FR-040 raises its price, the
-  aggregate figure in FR-020 carries the main claim rather than the top entry, and the position is
-  stated on the statistics page rather than defended.
+- Neither play nor account creation is rate-limited: the per-address creation cap and the cap on
+  concurrent uncompleted trials were both removed (D30). Nothing bounds growth of the permanent log
+  per account — an account that holds many trials open produces many visible abandonments in the
+  public record, which is the accounting rather than a prevention, and accounts that never reached
+  the log at all are swept after a grace period (D32). Abuse of the leaderboard through many
+  throwaway accounts is **not** answered by a scoring rule, because none exists: at true chance
+  there is no signal to rank, so any ordering orders luck and more accounts buy more luck (D27).
+  The eligibility rule in FR-040 raises its price, the aggregate figure in FR-020 carries the main
+  claim rather than the top entry, and the position is stated on the statistics page rather than
+  defended.
 - The leaderboard's effective minimum is 100 completed trials, spread over at least three days.
   It is deliberately low at launch, when attracting users matters more than a farm-proof board,
   and it is configuration rather than a constant so it can rise with activity (D26). It is not a
@@ -403,11 +408,13 @@ account and full history carry over.
   weighs trial count rather than surprise alone. A lucky 100-trial run at 25% produces a larger
   deviation from chance than a steady 1000 trials at 15%, and the latter is treated as the
   stronger result.
-- The rank ladder is eleven bands, symmetric around *Normie*: *Annunaki* (best 0,1 %),
-  *Insektoider Loosh-Farmer* (0,5 %), *Reptiloidenarchont* (2 %), *Grey Alien* (7 %),
-  *Psionisches Asset* (20 %), *Normie* (middle 60 %), then mirrored downward through *Zirbeldrüse
-  verkalkt*, *Erdstrahlen-Opfer*, *Orgonit-Enjoyer*, *Psi-Nullleiter* and *Kartoffel*. Shares, not
-  seats and not thresholds — a share means the same thing at any population size (D23).
+- The rank ladder is eleven bands, symmetric around *Normie*, cut at fixed distances from chance in
+  even 0,8 σ steps: *Normie* is ±0,3 σ, then *Psionisches Asset* (+0,3 to +1,1 σ), *Grey Alien*
+  (+1,1 to +1,9 σ), *Reptiloidenarchont* (+1,9 to +2,7 σ), *Insektoider Loosh-Farmer* (+2,7 to
+  +3,5 σ) and *Annunaki* (from +3,5 σ), mirrored downward through *Zirbeldrüse verkalkt*,
+  *Erdstrahlen-Opfer*, *Orgonit-Enjoyer*, *Psi-Nullleiter* and *Kartoffel*. Distances, not shares
+  and not seats — a band is computed from the holder's own record and cannot be moved by anyone
+  else playing (D31, superseding D23).
 - The product's stated position is that it is a public experiment whose most likely outcome is no
   detectable effect, delivered in an irreverent register. This is a premise, not a prediction the
   system enforces: the statistics are computed the same way whatever they show.

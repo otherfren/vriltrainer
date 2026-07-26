@@ -16,7 +16,8 @@ Every response carries `Content-Language`.
 
 ### `POST /api/account`
 
-Creates an account from a self-chosen name. Rate-limited per client address.
+Creates an account from a self-chosen name. Not rate-limited: the per-address creation cap of D17
+was removed by D30.
 
 ```jsonc
 // request
@@ -30,7 +31,7 @@ collapsed — and not necessarily what was typed, or the client displays a name 
 hold. The name starts `pending` and is masked on public surfaces until approved (D25, FR-047).
 
 `access_token` is returned **once and never again**. There is no recovery (FR-005).
-`400` when the name pre-filter refuses it, `429` when the per-address creation limit is exceeded.
+`400` when the name pre-filter refuses it, carrying the refusal code as `{ "error": "hate" }`.
 
 ### `GET /api/account` — authenticated
 
@@ -63,7 +64,7 @@ that exists (FR-035). The account's trials remain in the log under its opaque id
 
 ## Trial
 
-### `POST /api/trial`
+### `POST /api/trial` — authenticated
 
 Starts a trial. Writes the `COMMIT` entry before responding.
 
@@ -72,16 +73,19 @@ Starts a trial. Writes the `COMMIT` entry before responding.
 {
   "trial_id": "7f3a…",
   "coordinate": "4821-9037",
-  "commitment": "sha256:…",          // H(s_server ‖ nonce ‖ coordinate)
+  "commitment": "sha256:…",          // framed(s_server, nonce, coordinate) — each field
+                                      // length-prefixed, see public-log.md
   "pool_version": 3,
   "pool_manifest_hash": "sha256:…",
   "token": "…"                        // token 1, opaque to the client
 }
 ```
 
-`429` when the account already holds the maximum number of uncompleted trials (D17).
+There is no cap on how many trials an account may hold open at once — the D17 limit was removed by
+D30. An unanswered trial still expires on the D16 clock and is still published as abandoned
+(FR-021).
 
-### `POST /api/trial/reveal`
+### `POST /api/trial/reveal` — authenticated
 
 Supplies the client's randomness and receives the candidate set. The target is fixed here — after
 both contributions exist, before any choice (D1, D3).
@@ -98,7 +102,7 @@ both contributions exist, before any choice (D1, D3).
 
 The response body is the same shape whatever the target is; nothing here distinguishes it.
 
-### `POST /api/trial/answer`
+### `POST /api/trial/answer` — authenticated
 
 ```jsonc
 // request
@@ -121,6 +125,7 @@ the log, for the same reason (D3, SC-002). `seq` names that entry.
 
 | Status | Meaning |
 |---|---|
+| `400` | `chosen` is not one of the eight images shown, or the token does not parse. Nothing is written and the trial stays open — a choice the server never put on screen is refused rather than scored as a miss, because a resolve entry naming an image nobody saw is a line no reader of the log can make sense of |
 | `425` | Answered less than three seconds after reveal. **Rejected before the chosen image is examined**, so it leaks nothing (FR-039, SC-016). The trial stays open and may be answered again |
 | `409` | This trial already has an evaluated answer (FR-037) |
 | `410` | The trial's validity period has elapsed; it is permanently abandoned (FR-038) |
@@ -131,17 +136,26 @@ the log, for the same reason (D3, SC-002). `seq` names that entry.
 
 ```jsonc
 // 200 — before the threshold
-{ "completed": 4, "unlocks_at": 10 }
+{ "completed": 4, "abandoned": 1, "unlocks_at": 10, "thresholds": { "…" } }
 // 200 — after
 {
   "completed": 120, "hits": 21, "abandoned": 6,
-  "hit_rate": 0.175, "deviation": 1.62,
+  "hit_rate": 0.175,
+  "reported_trials": 120, "reported_hits": 21,  // the block the inferences stand over (FR-019)
+  "deviation": 1.62,
   "by_chance_per_10k": 527,             // how many of 10,000 reach this by luck (R3)
-  "wilson_lower": 0.117,
+  "wilson_lower": 0.117, "wilson_upper": 0.248,
   "distinct_days": 4, "eligible": true,
-  "rank": "grey"
+  "rank": "grey",
+  "unlocks_at": 10,
+  "thresholds": { "stats_unlock_at": 10, "eligibility_trials": 100, "eligibility_days": 3,
+                  "bands": [ "…" ], "block_size": 10 }
 }
 ```
+
+`deviation`, `wilson_lower` and `wilson_upper` advance per block of ten completed trials and stand
+over `reported_trials`/`reported_hits`, not over `completed`, which is why the two counts can
+disagree and both be right (FR-019).
 
 `abandoned` is always present, so selective abandonment is visible rather than hidden (FR-021).
 `rank` is a band **slug**, not a position: a band is a fixed stretch of standard deviations, so
@@ -160,29 +174,56 @@ FR-050).
   "trials": 148213, "hits": 18571, "hit_rate": 0.12529,
   "expected_rate": 0.125, "deviation": 0.34,
   "accounts": 1841, "abandoned": 9022,
-  "tail_high": 7, "tail_low": 6          // the two tails, side by side (FR-043)
+  "tail_high": 7, "tail_low": 6,         // the two tails, side by side (FR-043)
+  "qualified": 214,                      // accounts the distribution is over
+  "tail_sigma": 1.9, "tail_min_trials": 10,
+  "distribution": [                      // one column per rung, most negative first (D31)
+    { "from": null, "to": -3.5, "accounts": 0, "tail": true, "rank": "kartoffel" },
+    "…",
+    { "from": -0.3, "to": 0.3, "accounts": 121, "tail": false, "rank": null },
+    "…"
+  ],
+  "thresholds": { "…" }
 }
 ```
 
 This is the headline figure, presented as such even when it is exactly chance (FR-045). The two
-tail counts are the significance test a reader can perform by looking.
+tail counts are the significance test a reader can perform by looking, and `distribution` is the
+same finding as a measurement: every qualified account binned into the sigma bands the ladder is
+cut at, empty bands included, so a flat chart reads as the null rather than as a broken page.
+`from` is `null` on the lowest band and `to` on the highest, which is how an open end is stated
+rather than implied by some large number; `rank` is `null` for the middle one.
+`tail_sigma` and `tail_min_trials` say what "markedly" means here and over what minimum record.
 
-### `GET /api/leaderboard` — public
+### `GET /api/leaderboard?offset=<n>&limit=<n>` — public
 
-Sorted by `wilson_lower` descending among eligible accounts (D20). Every entry carries the sort
-key as its primary figure plus the supporting numbers (FR-041).
+Paged. `offset` defaults to 0, `limit` to 20 and is clamped to 1..100; both are echoed back so a
+client can page without keeping its own copy of the defaults.
+
+Sorted by `wilson_lower` descending among eligible accounts, then `wilson_upper`, then `completed`,
+then `public_id` (D20). Every entry carries both sort keys as its primary figures plus the
+supporting numbers (FR-041): below chance `wilson_lower` is zero at every `n`, so the low tail is
+ordered entirely on the ceiling, and a board sorted on something it does not show is the complaint
+D20 settled.
 
 ```jsonc
 {
   "eligible_accounts": 214,
   "bands_active": ["asset", "grey", "reptilian", "loosh", "annunaki"],
   "ranks_updated_at": "2026-07-25T18:00:00Z",
+  "offset": 0,
+  "limit": 20,
   "entries": [
     { "place": 1, "band": "reptilian", "name": "otherfren", "public_id": "7F3A9C",
-      "wilson_lower": 0.181, "completed": 430, "hit_rate": 0.212, "deviation": 3.9 }
-  ]
+      "wilson_lower": 0.181, "wilson_upper": 0.249, "completed": 430, "hit_rate": 0.212,
+      "deviation": 3.9 }
+  ],
+  "thresholds": { "…" }
 }
 ```
+
+`band` is **absent** for an account in the middle band — Normie has no slug, the same absence
+`rank` uses on `GET /api/stats/me`.
 
 `name` is the most recently **approved** name, or a fixed-length mask if none has been approved yet
 (FR-047, D25). The mask reveals neither the length nor the characters of what it hides; `public_id`
@@ -215,6 +256,14 @@ The published image list for a pool version. Format in [pool-manifest.md](./pool
 Required for anyone recomputing a trial, and to be rehashed and held against the
 `pool_manifest_hash` in the trial's commit entry before it is drawn against — the version number
 is a pointer and can be re-cut (D34).
+
+### `GET /pool/{image_id}.png`
+
+The image bytes, served out of the binary (D29). Deliberately not under `/api`: this is what an
+`<img src>` points at, and the client builds the address from the manifest's identifiers alone.
+`image/png`, an ETag of the identifier, `Cache-Control: public, max-age=31536000, immutable` — the
+identifier is the hash of the bytes, so a cached copy cannot go stale. Anything that is not a known
+`<image_id>.png` is a `404`.
 
 ## Language handoff
 
@@ -281,3 +330,20 @@ queue, which is why it is not a quiet `200`.
 `hate`, `vulgar`, `address` — or `refused` for what a human turns down and the filter has no word
 for. A closed list, because the code is rendered by the client's message catalogue and free text
 here would be untranslated product copy stored in the database and shown to the holder verbatim.
+
+## Health
+
+### `GET /api/health`
+
+```jsonc
+// 200
+{ "status": "ok", "seq": 148213, "locale": "de", "pool_version": 2 }
+// 503
+{ "status": "unavailable" }
+```
+
+`seq` is read from the chain head rather than returned as a constant, so a process that still
+accepts connections while the database underneath it has gone reports `503` instead of looking
+healthy. `503` rather than `500`, because it says "send traffic elsewhere", which is the one thing
+a monitor and a proxy both know how to act on. Nothing here is secret: the head is published at
+`GET /api/log/head` anyway.
