@@ -128,14 +128,32 @@ export class StatsComponent {
   perTenK = () => this.count(this.player.perTenK());
 
   /**
-   * Bar height for a tail count, against the larger of the two.
+   * Bar height for one band, against the fullest band in the same chart.
    *
-   * Against each other rather than against a fixed scale, because the comparison the chart is
-   * making is between the two ends and nothing else. A minimum height keeps a count of zero
-   * visible as a drawn bar of nothing rather than as a missing column.
+   * Against the peak rather than against a fixed scale, because the shape is what is being read and
+   * a population of eight would otherwise draw as eight invisible slivers. A minimum height keeps an
+   * empty band a drawn bar of nothing rather than a missing column — a gap in the middle of a
+   * distribution is a finding, and it has to be visible as one.
    */
   height(n: number): number {
-    const peak = Math.max(this.tailHigh(), this.tailLow(), 1);
+    const peak = Math.max(...this.bands().map((b) => b.accounts), 1);
     return Math.max(4, (n / peak) * 100);
+  }
+
+  /**
+   * An axis tick in standard deviations. Signed, and built from the band's own edges rather than
+   * from a list of labels here — a hand-kept axis is the way a chart starts disagreeing with the
+   * data it draws. Symbols and digits only, so there is nothing in it to translate.
+   */
+  private tick(v: number): string {
+    if (v === 0) return '0';
+    return `${v < 0 ? '−' : '+'}${Math.abs(v)}`;
+  }
+
+  /** The open ends say so with an inequality; every band in between states both of its edges. */
+  bandLabel(b: SigmaBand): string {
+    if (b.from === null) return `< ${this.tick(b.to ?? 0)}`;
+    if (b.to === null) return `> ${this.tick(b.from)}`;
+    return `${this.tick(b.from)}…${this.tick(b.to)}`;
   }
 }

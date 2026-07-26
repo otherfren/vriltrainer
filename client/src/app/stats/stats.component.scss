@@ -108,6 +108,21 @@
   padding: 0 15%;
 }
 
+/* Eight bands across, so the columns sit against each other as one shape rather than as separate
+   figures. The axis ticks are the narrowest thing on the page and are allowed to be. */
+.hist--spread {
+  gap: 3px;
+
+  .hist__z {
+    font-size: 0.6rem;
+    white-space: nowrap;
+  }
+
+  .hist__count {
+    font-size: 0.7rem;
+  }
+}
+
 /* T105: the empty state is a drawn chart with nothing in it, not a hidden one. A missing chart
    reads as a page that failed; a grey one reads as a measurement nobody has taken yet. */
 .hist__bar--empty {

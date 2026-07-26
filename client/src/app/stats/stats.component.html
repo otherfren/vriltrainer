@@ -59,21 +59,26 @@
       </p>
 
       <div class="tails panel">
-        <p class="eyebrow" i18n="@@stats.tails.headWithBounds">
-          Die zwei Enden · Konten ab {{ tailMinTrials() }} Sitzungen, {{ tailSigma() }} σ
+        <p class="eyebrow" i18n="@@stats.spread.headWithBounds">
+          Die Verteilung · {{ count(qualified()) }} Konten ab {{ tailMinTrials() }} Sitzungen, die
+          Enden ab {{ tailSigma() }} σ
         </p>
 
-        <div class="hist hist--tails" role="img" [attr.aria-label]="tailsAriaLabel()">
-          <div class="hist__col">
-            <span class="hist__count">{{ count(tailHigh()) }}</span>
-            <span class="hist__bar hist__bar--tail" [style.height.%]="height(tailHigh())"></span>
-            <span class="hist__z" i18n="@@stats.tails.above">über +{{ tailSigma() }} σ</span>
-          </div>
-          <div class="hist__col">
-            <span class="hist__count">{{ count(tailLow()) }}</span>
-            <span class="hist__bar hist__bar--tail" [style.height.%]="height(tailLow())"></span>
-            <span class="hist__z" i18n="@@stats.tails.below">unter −{{ tailSigma() }} σ</span>
-          </div>
+        <!-- Every band the server cut, empty ones included. The two ends are the coloured columns
+             at the edges; the middle they are ends of is the rest of the chart. -->
+        <div class="hist hist--spread" role="img" [attr.aria-label]="spreadAriaLabel()">
+          @for (b of bands(); track $index) {
+            <div class="hist__col">
+              <span class="hist__count">{{ count(b.accounts) }}</span>
+              <span
+                class="hist__bar"
+                [class.hist__bar--tail]="b.tail"
+                [class.hist__bar--mid]="!b.tail"
+                [style.height.%]="height(b.accounts)"
+              ></span>
+              <span class="hist__z">{{ bandLabel(b) }}</span>
+            </div>
+          }
         </div>
 
         <p class="tails__note" i18n="@@stats.tails.note">
