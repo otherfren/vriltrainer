@@ -3,6 +3,7 @@ import { Meta, Title } from '@angular/platform-browser';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { StatusPanelComponent } from './core/status-panel.component';
 import { SceneComponent } from './core/scene.component';
+import { ApiService } from './core/api.service';
 import { PlayerService } from './core/player.service';
 import { SessionService } from './core/session.service';
 
@@ -28,6 +29,7 @@ function maskToken(url: string): string {
 export class AppComponent {
   readonly player = inject(PlayerService);
   readonly session = inject(SessionService);
+  private readonly api = inject(ApiService);
 
   /**
    * Which side of the language switch is the one you are on.
@@ -105,6 +107,37 @@ export class AppComponent {
   /** A click on the backdrop lands on the dialog element itself, never on its contents. */
   onDialogClick(event: MouseEvent): void {
     if (event.target === this.dialog()?.nativeElement) this.closeKey();
+  }
+
+  /**
+   * Crosses to the other domain carrying the session (D11, FR-031, T067).
+   *
+   * The two domains are separate origins, so `localStorage` does not travel: without this the
+   * switch arrives as an anonymous first-time visitor, and the name gate then creates a *second*
+   * account. One person would sit in the leaderboard and the aggregate twice, with their trials
+   * split across both.
+   *
+   * What crosses is a handoff code, never the long-lived token — single use, thirty seconds, and
+   * worthless once burnt, so a URL somebody is streaming gives nothing away.
+   *
+   * The modified clicks are left to the browser. Ctrl-click and middle-click mean "open a copy
+   * over there", and a code is single-use: spending it on a tab the visitor is not looking at
+   * would be worse than arriving anonymously.
+   */
+  async switchTo(origin: string, event: MouseEvent): Promise<void> {
+    if (event.defaultPrevented || event.button !== 0) return;
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    if (!this.session.signedIn()) return;
+
+    event.preventDefault();
+    try {
+      const code = await this.api.mintHandoff();
+      location.assign(`${origin}/#h=${code}`);
+    } catch {
+      // The switch itself must not be what fails. Arriving without the session is the outcome
+      // this feature improves on, not a broken state — and it is still the other language.
+      location.assign(origin);
+    }
   }
 
   copyKey(): void {

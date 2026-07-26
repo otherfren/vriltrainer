@@ -17,6 +17,15 @@ import { Injectable, computed, signal } from '@angular/core';
 const TOKEN_KEY = 'vriltrainer.access_token';
 const ACCOUNT_KEY = 'vriltrainer.account';
 
+/**
+ * What came in on the fragment.
+ *
+ * Two shapes, and they are not interchangeable. `t` is the long-lived access token and *is* the
+ * account. `h` is a handoff code: single use, thirty seconds, and worth nothing once burnt —
+ * which is why it, and never the token, is what the language switch puts in a URL (D11, FR-031).
+ */
+type Arrival = { kind: 'token' | 'handoff'; value: string };
+
 /** What the holder knows about their own account. */
 export interface Account {
   publicId: string;
@@ -54,14 +63,32 @@ export class SessionService {
     return t === null ? null : `${location.origin}/#t=${t}`;
   });
 
+  /**
+   * A handoff code that arrived in the fragment and has not been burnt yet.
+   *
+   * Read here because this is the one file allowed to touch the fragment, but redeemed elsewhere:
+   * burning it is a network request, and `ApiService` already depends on this service. Held for
+   * the app initializer to collect.
+   */
+  readonly pendingHandoff = signal<string | null>(null);
+
   constructor() {
-    const fromLink = this.takeFragment();
-    if (fromLink !== null) {
-      this.adopt(fromLink);
+    const arrived = this.takeFragment();
+    if (arrived?.kind === 'token') {
+      this.adopt(arrived.value);
       return;
     }
+
+    // The stored session is loaded either way. A handoff that fails to redeem then leaves this
+    // browser as whatever it already was, rather than as nobody.
     this.token.set(this.stored.get(TOKEN_KEY));
     this.account.set(parseAccount(this.stored.get(ACCOUNT_KEY)));
+
+    if (arrived?.kind === 'handoff') {
+      // A code from the other domain outranks whatever is stored here: the visitor asked to
+      // continue *that* session, and the account it names is the one they were just playing.
+      this.pendingHandoff.set(arrived.value);
+    }
   }
 
   /** After `POST /api/account`: the one moment the token is ever handed out (FR-002, D9). */
@@ -113,15 +140,26 @@ export class SessionService {
    * `replaceState` rather than `pushState`: a back button that returns to the URL carrying the
    * secret would put it back on screen, which is what the fragment scheme exists to prevent.
    */
-  private takeFragment(): string | null {
+  private takeFragment(): Arrival | null {
     const hash = location.hash.startsWith('#') ? location.hash.slice(1) : location.hash;
     if (hash === '') return null;
 
-    const token = new URLSearchParams(hash).get('t');
-    if (token === null || token === '') return null;
+    const params = new URLSearchParams(hash);
+    const token = params.get('t');
+    const handoff = params.get('h');
+
+    // `t` first: an access link is the stronger claim, and a URL carrying both is not something
+    // this application produces.
+    const arrival: Arrival | null =
+      token !== null && token !== ''
+        ? { kind: 'token', value: token }
+        : handoff !== null && handoff !== ''
+          ? { kind: 'handoff', value: handoff }
+          : null;
+    if (arrival === null) return null;
 
     history.replaceState(null, '', location.pathname + location.search);
-    return token;
+    return arrival;
   }
 }
 

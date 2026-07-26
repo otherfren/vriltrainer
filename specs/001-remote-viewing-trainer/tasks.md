@@ -175,7 +175,7 @@ over and no second account appears.
 - [X] T064 [US4] Serve the locale bundle fixed at startup in `server/src/http/static.rs` — one binary, two processes, two systemd units, two nginx upstreams (D24)
 - [X] T065 [US4] Implement handoff code minting and redemption in `server/src/account/handoff.rs` — single use, roughly 30 seconds
 - [X] T066 [US4] Implement `POST /api/handoff` and `POST /api/handoff/redeem` in `server/src/http/routes/handoff.rs`
-- [ ] T067 [US4] Build the language switch in `client/src/app/account/language-switch.component.ts` — carries the session via a handoff code, never the long-lived token, so the switch stays safe to stream (FR-031, D11)
+- [X] T067 [US4] Build the language switch — implemented in `client/src/app/app.component.ts` (`switchTo`) rather than a component of its own: it is two links in the header, and a component wrapping two links is a file to open before you can read them — carries the session via a handoff code, never the long-lived token, so the switch stays safe to stream (FR-031, D11)
 - [X] T068 [P] [US4] Add `hreflang` cross-references and suppress any automatic language redirect in `client/src/index.html` (FR-032)
 - [ ] T069 [US4] Implement `DELETE /api/account/name` in `server/src/http/routes/account.rs` — self-service, authenticated by the access link, which is the only proof of ownership that exists (FR-035)
 - [ ] T070 [P] [US4] Build name removal in `client/src/app/account/remove-name.component.ts`

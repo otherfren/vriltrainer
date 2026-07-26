@@ -60,12 +60,16 @@
       <div class="lang">
         @if (german) {
           <span class="lang__item is-active" i18n-title="@@lang.de.title" title="Deutsch · vriltrainer.de">DE</span>
+          <!-- A real href, and the click is intercepted rather than replaced. Middle-click, "open
+               in new tab" and a browser with no JavaScript all still reach the other domain — they
+               just arrive without the session, which is where this was before the handoff. -->
           <a
             class="lang__item"
             href="https://vriltrainer.com"
             hreflang="en"
             i18n-title="@@lang.en.title"
             title="English · vriltrainer.com"
+            (click)="switchTo('https://vriltrainer.com', $event)"
             >EN</a
           >
         } @else {
@@ -75,6 +79,7 @@
             hreflang="de"
             i18n-title="@@lang.de.title"
             title="Deutsch · vriltrainer.de"
+            (click)="switchTo('https://vriltrainer.de', $event)"
             >DE</a
           >
           <span class="lang__item is-active" i18n-title="@@lang.en.title" title="English · vriltrainer.com">EN</span>

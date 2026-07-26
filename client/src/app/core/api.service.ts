@@ -213,6 +213,36 @@ export class ApiService {
     return this.request<OwnAccount>('GET', '/api/account');
   }
 
+  /**
+   * Mints a handoff code for crossing to the other domain (D11, FR-031).
+   *
+   * Short-lived and single use. The long-lived token deliberately never enters an address bar —
+   * the whole point of the fragment scheme is that the credential is not in a URL anybody could
+   * be looking at, and a language switch is exactly the moment somebody might be streaming.
+   */
+  async mintHandoff(): Promise<string> {
+    const minted = await this.request<{ code: string }>('POST', '/api/handoff', {});
+    return minted.code;
+  }
+
+  /**
+   * Burns a code and adopts the token it yields.
+   *
+   * Unauthenticated, necessarily: this is the request by which the browser *becomes*
+   * authenticated on this domain. The token that comes back is a **new** one and the origin
+   * domain's copy stops working — forced, because only a hash of a token is ever stored (D9), so
+   * the old one cannot be handed back.
+   */
+  async redeemHandoff(code: string): Promise<void> {
+    const redeemed = await this.request<{ access_token: string }>(
+      'POST',
+      '/api/handoff/redeem',
+      { code },
+      false,
+    );
+    this.session.adopt(redeemed.access_token);
+  }
+
   // ---- the trial loop -----------------------------------------------------------------------
 
   /** Starts a trial. The server writes the `COMMIT` entry before it answers (FR-007, D3). */
