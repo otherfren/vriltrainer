@@ -47,11 +47,10 @@
         <ng-container i18n="@@stats.summary"
           >{{ count(a.trials) }} Sitzungen · {{ count(a.accounts) }}
           {a.accounts, plural, =1 {Konto} other {Konten}} · Abweichung {{ signed(a.deviation) }} σ ·
-          {{ count(a.abandoned) }} abgebrochen ·</ng-container
+          {{ count(a.abandoned) }} abgebrochen</ng-container
         >
-        @if (a.deviation > -2 && a.deviation < 2) {
-          <strong i18n="@@stats.verdict.nothing">bisher nichts.</strong>
-        } @else {
+        @if (a.deviation <= -2 || a.deviation >= 2) {
+          <span>&nbsp;· </span>
           <strong i18n="@@stats.verdict.notable"
             >das ist auffällig — und noch keine Erklärung.</strong
           >
