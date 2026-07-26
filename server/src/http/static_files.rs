@@ -20,6 +20,7 @@ use std::path::Path;
 use axum::Router;
 use axum::body::Body;
 use axum::extract::Request;
+use axum::http::header;
 use axum::middleware::Next;
 use tower::ServiceExt;
 use tower_http::services::{ServeDir, ServeFile};
@@ -54,8 +55,15 @@ pub fn mount(router: Router, public: Option<&Path>) -> Router {
                 if is_service_path(request.uri().path()) {
                     return next.run(request).await;
                 }
+                let path = request.uri().path().to_owned();
                 match files.oneshot(request).await {
-                    Ok(response) => response.map(Body::new),
+                    Ok(response) => {
+                        let mut response = response.map(Body::new);
+                        response
+                            .headers_mut()
+                            .insert(header::CACHE_CONTROL, cache_control(&path));
+                        response
+                    }
                     // `ServeDir`'s error type is `Infallible`: a missing file is a 404 response,
                     // not an error.
                     Err(never) => match never {},
@@ -63,6 +71,38 @@ pub fn mount(router: Router, public: Option<&Path>) -> Router {
             }
         },
     ))
+}
+
+/// A year, matching what `routes::image` says about the pool. Conventional cap for `max-age`;
+/// `immutable` is the operative half.
+const A_YEAR: &str = "public, max-age=31536000, immutable";
+
+/// Revalidate every time. Not "do not store" — the copy is kept and a 304 makes the check free.
+const REVALIDATE: &str = "no-cache";
+
+/// How long a file may be believed without asking again.
+///
+/// Two kinds of file come out of `ng build` and they want opposite answers. `main-SGEQNEQN.js` has
+/// a content hash in its name, so its bytes can never change under that name and a year is a
+/// statement of fact. `index.html` and `favicon.ico` keep their names across every deploy, so a
+/// cached copy is a copy of an old release.
+///
+/// Nothing was sent at all before this, which left it to each browser's heuristics — and a favicon
+/// is the file browsers are most willing to keep forever on a guess. Changing one and finding the
+/// old one still on screen is how this was noticed.
+fn cache_control(path: &str) -> header::HeaderValue {
+    let hashed = path
+        .rsplit('/')
+        .next()
+        .and_then(|file| file.strip_suffix(".js").or_else(|| file.strip_suffix(".css")))
+        .and_then(|stem| stem.rsplit_once('-'))
+        // Angular's `outputHashing` writes eight upper-case base32 characters. A file called
+        // `some-name.js` must not match, or one deploy would be cached for a year.
+        .is_some_and(|(_, hash)| {
+            hash.len() >= 8 && hash.chars().all(|c| c.is_ascii_uppercase() || c.is_ascii_digit())
+        });
+
+    header::HeaderValue::from_static(if hashed { A_YEAR } else { REVALIDATE })
 }
 
 /// Paths the router owns. Prefix matching on a segment boundary, so a client route called
@@ -91,6 +131,25 @@ mod tests {
     use super::*;
     use crate::config::Config;
     use crate::http::{AppState, router, test_support};
+
+    #[test]
+    fn a_hashed_asset_is_immutable_and_everything_else_is_rechecked() {
+        // What `ng build` emits with `outputHashing: all`.
+        assert_eq!(cache_control("/main-SGEQNEQN.js"), A_YEAR);
+        assert_eq!(cache_control("/styles-6RENA5BN.css"), A_YEAR);
+        assert_eq!(cache_control("/chunk-2CFFCWGT.js"), A_YEAR);
+
+        // Names that survive a deploy. A year here is how a stale release stays on screen.
+        assert_eq!(cache_control("/index.html"), REVALIDATE);
+        assert_eq!(cache_control("/favicon.ico"), REVALIDATE);
+        assert_eq!(cache_control("/favicon.svg"), REVALIDATE);
+        assert_eq!(cache_control("/ui/eye.svg"), REVALIDATE);
+        assert_eq!(cache_control("/stats"), REVALIDATE);
+
+        // Hand-written names that merely contain a hyphen are not content hashes.
+        assert_eq!(cache_control("/vril-meter.js"), REVALIDATE);
+        assert_eq!(cache_control("/some-Name.css"), REVALIDATE);
+    }
 
     #[test]
     fn the_router_keeps_its_own_prefixes() {
