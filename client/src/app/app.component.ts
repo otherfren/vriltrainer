@@ -48,7 +48,7 @@ export class AppComponent {
     inject(Title).setTitle($localize`:@@meta.title:vriltrainer — öffentlicher Remote-Viewing-Test`);
     inject(Meta).updateTag({
       name: 'description',
-      content: $localize`:@@meta.description:Ein öffentliches Forced-Choice-Experiment zum Remote Viewing. Jede Sitzung ist vorab versiegelt und im Nachhinein von jedem nachrechenbar.`,
+      content: $localize`:@@meta.description:Ich rekrutiere psionische Assets um die Reptiloiden zu bekämpfen. Teste deine telepathischen Fähigkeiten!`,
     });
   }
 

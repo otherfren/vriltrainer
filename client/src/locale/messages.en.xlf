@@ -301,12 +301,12 @@
         <target>vriltrainer — a public remote viewing test</target>
       </trans-unit>
       <trans-unit id="meta.description" datatype="html">
-        <source>Ein öffentliches Forced-Choice-Experiment zum Remote Viewing. Jede Sitzung ist vorab versiegelt und im Nachhinein von jedem nachrechenbar.</source>
+        <source>Ich rekrutiere psionische Assets um die Reptiloiden zu bekämpfen. Teste deine telepathischen Fähigkeiten!</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.ts</context>
           <context context-type="linenumber">51</context>
         </context-group>
-        <target>A public forced-choice experiment in remote viewing. Every session is sealed in advance and can be recomputed afterwards by anyone.</target>
+        <target>I am recruiting psionic assets to fight the reptilians. Test your telepathic abilities!</target>
       </trans-unit>
       <trans-unit id="login.fallbackName" datatype="html">
         <source>Konto</source>
