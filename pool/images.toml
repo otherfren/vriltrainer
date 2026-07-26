@@ -3890,14 +3890,6 @@ category = "weapon"
 
 
   [[group.image]]
-  file = "dolch_kugelknauf.jpg"
-  de = "Dolch mit Kugelknauf"
-  en = "Dagger with round pommel"
-  licence = "CC0"
-  source = "https://commons.wikimedia.org/wiki/File:Clevelandart_1916.1687.jpg"
-
-
-  [[group.image]]
   file = "dolch_figurengriff.jpg"
   de = "Dolch mit Figurengriff"
   en = "Dagger with figure grip"

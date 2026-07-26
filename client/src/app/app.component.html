@@ -123,6 +123,37 @@
         <button class="btn btn--quiet" type="button" (click)="closeKey()" i18n="@@keydlg.close">Schließen</button>
       </div>
 
+      <!-- The erasure the privacy page promises, in the panel it points at. Two steps rather than
+           one: the name is gone for good afterwards, and a stray click on a dialog somebody opened
+           to copy their link should not cost them their entry on the board. -->
+      @if (player.name(); as own) {
+        <div class="keydlg__erase">
+          @if (!erasing) {
+            <button class="btn btn--quiet" type="button" (click)="erasing = true" i18n="@@erase.start">
+              Namen löschen
+            </button>
+          } @else {
+            <p class="keydlg__note" i18n="@@erase.confirm">
+              Der Name wird sofort entfernt und ist nicht wiederherstellbar. Deine Sitzungen bleiben
+              im Protokoll — unter deiner Kennung, ohne Namen.
+            </p>
+            <div class="keydlg__row">
+              <button class="btn btn--danger" type="button" [disabled]="erasingNow" (click)="eraseName()" i18n="@@erase.confirmYes">
+                Namen endgültig löschen
+              </button>
+              <button class="btn btn--quiet" type="button" (click)="erasing = false" i18n="@@erase.cancel">
+                Abbrechen
+              </button>
+            </div>
+          }
+          @if (eraseFailed) {
+            <p class="keydlg__note" i18n="@@erase.failed">
+              Das hat nicht geklappt. Versuch es gleich noch einmal.
+            </p>
+          }
+        </div>
+      }
+
       <!-- Said here rather than only at the name gate: this is the panel somebody opens when they
            wonder why the board is not showing their name (D25, FR-047). -->
       @if (player.publicId(); as id) {
@@ -191,6 +222,7 @@
     </div>
 
     <p class="foot__legal">
+      <a routerLink="/datenschutz" i18n="@@foot.privacy">Datenschutz</a>
       <a routerLink="/impressum" i18n="@@foot.impressum">Impressum</a>
     </p>
   </div>

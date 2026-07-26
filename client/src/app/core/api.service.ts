@@ -240,6 +240,18 @@ export class ApiService {
    * the whole point of the fragment scheme is that the credential is not in a URL anybody could
    * be looking at, and a language switch is exactly the moment somebody might be streaming.
    */
+  /**
+   * `DELETE /api/account/name` — FR-035, the erasure this site can actually perform.
+   *
+   * The account and its sessions survive; only the name goes, because the sessions are entries in
+   * an append-only chain and removing one would void what every other entry proves. The record
+   * stays checkable under the public identifier and belongs to nobody. Idempotent by contract, so
+   * a second call is not an error and the button needs no guard against a double click.
+   */
+  async eraseName(): Promise<void> {
+    await this.request<unknown>('DELETE', '/api/account/name');
+  }
+
   async mintHandoff(): Promise<string> {
     const minted = await this.request<{ code: string }>('POST', '/api/handoff', {});
     return minted.code;

@@ -16,6 +16,10 @@ export const routes: Routes = [
       import('./leaderboard/leaderboard.component').then((m) => m.LeaderboardComponent),
   },
   {
+    path: 'datenschutz',
+    loadComponent: () => import('./legal/datenschutz.component').then((m) => m.DatenschutzComponent),
+  },
+  {
     path: 'impressum',
     loadComponent: () => import('./legal/impressum.component').then((m) => m.ImpressumComponent),
   },

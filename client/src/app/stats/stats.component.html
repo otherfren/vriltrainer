@@ -86,6 +86,15 @@
           }
         </div>
 
+        <!-- On a phone the per-column sigma labels do not fit, and shrinking them until they fit
+             makes eleven unreadable numbers instead of none. They are hidden there and this line
+             takes over: which end is which. The exact ranges are in the ladder directly below,
+             where they are readable. -->
+        <p class="hist__axis" aria-hidden="true">
+          <span i18n="@@stats.spread.axisLow">unter dem Zufall</span>
+          <span i18n="@@stats.spread.axisHigh">über dem Zufall</span>
+        </p>
+
         <p class="tails__note" i18n="@@stats.tails.note">
           Etwa gleich viele auf beiden Seiten heißt: es war Zufall. Eine echte Fähigkeit könnte nur
           die obere Seite größer machen.

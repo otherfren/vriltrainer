@@ -177,12 +177,12 @@ over and no second account appears.
 - [X] T066 [US4] Implement `POST /api/handoff` and `POST /api/handoff/redeem` in `server/src/http/routes/handoff.rs`
 - [X] T067 [US4] Build the language switch — implemented in `client/src/app/app.component.ts` (`switchTo`) rather than a component of its own: it is two links in the header, and a component wrapping two links is a file to open before you can read them — carries the session via a handoff code, never the long-lived token, so the switch stays safe to stream (FR-031, D11)
 - [X] T068 [P] [US4] Add `hreflang` cross-references and suppress any automatic language redirect in `client/src/index.html` (FR-032)
-- [ ] T069 [US4] Implement `DELETE /api/account/name` in `server/src/http/routes/account.rs` — self-service, authenticated by the access link, which is the only proof of ownership that exists (FR-035)
+- [X] T069 [US4] Implement `DELETE /api/account/name` in `server/src/http/routes/account.rs` — self-service, authenticated by the access link, which is the only proof of ownership that exists (FR-035)
 - [ ] T070 [P] [US4] Build name removal in `client/src/app/account/remove-name.component.ts`
 - [ ] T071 [P] [US4] Write the data protection notice for both domains in `client/src/app/legal/` — the GDPR follows the operator and the visitor, not the interface language, so it belongs on both (FR-033, D13)
 - [ ] T072 [P] [US4] Add the disclosure at name entry that the name and full trial history are public (FR-034)
 - [ ] T073 [US4] Add the Impressum for the `.de` domain in `client/src/app/legal/` — a separate obligation from the GDPR notice
-- [ ] T074 [US4] Test that erasure leaves the record verifiable in `server/tests/erasure.rs` — remove a name, re-verify every one of that account's entries, which stay under the opaque identifier (FR-036, SC-008)
+- [X] T074 [US4] Test that erasure leaves the record verifiable in `server/tests/erasure.rs` — remove a name, re-verify every one of that account's entries, which stay under the opaque identifier (FR-036, SC-008)
 - [ ] T087 [US4] Add the contract test for the account and handoff endpoints in `server/tests/contract_account.rs` (constitution III)
 - [X] T090 [US4] Test that a language switch preserves the account and creates no duplicate, in `server/tests/handoff_identity.rs` (SC-007)
 

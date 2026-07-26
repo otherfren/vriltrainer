@@ -169,6 +169,37 @@ export class AppComponent {
     this.session.signOut();
   }
 
+  /** Whether the erase step is showing its confirmation, and whether the call is in flight. */
+  erasing = false;
+  erasingNow = false;
+  eraseFailed = false;
+
+  /**
+   * Deletes the display name and nothing else (FR-035).
+   *
+   * The session keeps its token — the account is still yours to play, it simply has no name any
+   * more — so the stored record is rewritten rather than dropped, and the header falls through to
+   * the public identifier the way it does for a browser that arrived by access link. The figures
+   * are reloaded because the leaderboard row the panel links to now reads differently.
+   */
+  async eraseName(): Promise<void> {
+    const account = this.session.account();
+    this.erasingNow = true;
+    this.eraseFailed = false;
+    try {
+      await this.api.eraseName();
+      if (account) this.session.rememberAccount({ ...account, name: '' });
+      void this.player.refresh();
+      this.erasing = false;
+    } catch {
+      // Deliberately no detail: the one thing a visitor can do about it is try again, and the
+      // status code of a DELETE they did not know they were making is not information to them.
+      this.eraseFailed = true;
+    } finally {
+      this.erasingNow = false;
+    }
+  }
+
   onLogoutDialogClick(event: MouseEvent): void {
     if (event.target === this.logoutDialog()?.nativeElement) this.cancelLogout();
   }

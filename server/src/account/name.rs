@@ -6,10 +6,11 @@
 //! otherwise, so a row reads as *a name exists here and has not been cleared* rather than as an
 //! absence.
 //!
-//! **The only column a public surface may read is `public_name`**, and [`approve`] is its only
-//! writer. `display_name` is the holder's copy and has no path to a page; a query that selects it
-//! for the leaderboard is the one way the masking of FR-047 can be defeated, and it is visibly not
-//! this module.
+//! **The only column a public surface may read is `public_name`**, and [`approve`] is the only
+//! thing that ever puts a string into it — [`reject`] and [`erase`] can only clear it.
+//! `display_name` is the holder's copy and has no path to a page; a query that selects it for the
+//! leaderboard is the one way the masking of FR-047 can be defeated, and it is visibly not this
+//! module.
 //!
 //! FR-026 is untouched by any of this: the log references the opaque account id and never the
 //! name, so nothing here reaches the record.
@@ -212,6 +213,47 @@ pub fn reject(
         } else {
             Approval::Stale
         })
+    })
+}
+
+/// Erases the name at the holder's own request (FR-035).
+///
+/// What is deleted is the name, not the history. The log is an append-only hash chain and no row of
+/// it is ever rewritten; the account's trials stay in it under the opaque identifier and every proof
+/// over them still verifies (FR-036). That is what FR-026 bought by keeping names out of the chain
+/// in the first place, and it is the promise the data protection notice makes: erasure that costs
+/// the record nothing, because the record never held the name.
+///
+/// Both name columns go, so the account is masked on every public surface from the next read on
+/// (FR-047) while its rows and its figures stay exactly where they were.
+///
+/// **A name still in the queue disappears from it**, because `pending` selects on `display_name`
+/// being present. A reviewer must not be handed a name whose owner has already asked for it to be
+/// gone, and a review decision already in flight lands as [`Approval::Stale`] rather than
+/// republishing it — both [`approve`] and [`reject`] match on `display_name`, which is now null. So
+/// erasure wins any race with the review, which is the only direction that is safe to lose in.
+///
+/// Permanent, and marked by `name_state = 'erased'` rather than by `display_name` being null: a
+/// refusal discards the name too (SC-018), so nullness distinguishes nothing, and the state is what
+/// stops [`submit`] from ever setting one again.
+///
+/// Idempotent, and no error for an account that has no name to lose. `DELETE` asks for a state
+/// rather than for an event, and a holder who clicks twice on a slow connection has not made a
+/// mistake worth a message.
+///
+/// The account itself survives: the token still authenticates it and it still plays. Erasing a name
+/// is not closing an account, and conflating the two would take a record out of the log that FR-036
+/// says stays.
+pub fn erase(db: &Db, account_id: &str, now: &str) -> Result<(), DbError> {
+    db.write(|tx| {
+        tx.execute(
+            "UPDATE account
+                SET display_name = NULL, public_name = NULL, name_state = 'erased',
+                    name_reason = ?2, name_changed_at = ?3
+              WHERE id = ?1",
+            params![account_id, ERASED, now],
+        )?;
+        Ok(())
     })
 }
 
@@ -483,7 +525,7 @@ mod tests {
         let id = account_with_name(&db, "otherfren");
         approve(&db, &id, "otherfren").unwrap();
 
-        account::forget_name(&db, &id, NEXT_DAY).unwrap();
+        erase(&db, &id, NEXT_DAY).unwrap();
         assert_eq!(on_the_board(&db, &id), MASK);
 
         let view = holder(&db, &id).unwrap();
@@ -505,6 +547,43 @@ mod tests {
             Err(NameError::Erased)
         ));
         assert!(pending(&db, 10).unwrap().is_empty());
+    }
+
+    /// Erasure has to beat the review, or a name its owner has withdrawn is read out by a human
+    /// and can still be published by a decision that was made a moment too late.
+    #[test]
+    fn erasing_a_name_takes_it_out_of_the_review_queue() {
+        let db = Db::open_in_memory().unwrap();
+        let id = account_with_name(&db, "otherfren");
+
+        // What the reviewer is holding while the holder asks for the name to be gone.
+        assert_eq!(pending(&db, 10).unwrap().len(), 1);
+        erase(&db, &id, NEXT_DAY).unwrap();
+
+        assert!(pending(&db, 10).unwrap().is_empty());
+        assert_eq!(
+            approve(&db, &id, "otherfren").unwrap(),
+            Approval::Stale,
+            "a decision made before the erasure must not publish the name afterwards"
+        );
+        assert_eq!(on_the_board(&db, &id), MASK);
+    }
+
+    /// The contract calls `DELETE /api/account/name` idempotent, and this is where that has to be
+    /// true: a second click on a slow connection is not a mistake to report.
+    #[test]
+    fn erasing_twice_changes_nothing_the_second_time() {
+        let db = Db::open_in_memory().unwrap();
+        let id = account_with_name(&db, "otherfren");
+
+        erase(&db, &id, NEXT_DAY).unwrap();
+        let once = holder(&db, &id).unwrap();
+        erase(&db, &id, DAY_AFTER).unwrap();
+        let twice = holder(&db, &id).unwrap();
+
+        assert_eq!(twice.name, None);
+        assert_eq!(twice.state, once.state);
+        assert_eq!(twice.reason, once.reason);
     }
 
     /// A name the pre-filter refuses must not reach the queue through `submit`, or the filter is

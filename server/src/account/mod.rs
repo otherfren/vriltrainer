@@ -160,26 +160,6 @@ pub fn own(db: &Db, account_id: &str) -> Result<Option<OwnAccount>, DbError> {
     Ok(row)
 }
 
-/// Removes the display name, satisfying erasure (FR-035). The account's trials stay in the log
-/// under its opaque identifier and every proof over them still verifies (FR-036) — which is the
-/// entire reason names were kept out of the chain in the first place.
-///
-/// Permanent, and marked by `name_state = 'erased'`. Not by `display_name` being null: a refusal
-/// discards the name too (SC-018), so nullness distinguishes nothing, and the state is what stops
-/// [`name::submit`] from ever setting one again.
-pub fn forget_name(db: &Db, account_id: &str, now: &str) -> Result<(), DbError> {
-    db.write(|tx| {
-        tx.execute(
-            "UPDATE account
-                SET display_name = NULL, public_name = NULL, name_state = 'erased',
-                    name_reason = ?2, name_changed_at = ?3
-              WHERE id = ?1",
-            params![account_id, name::ERASED, now],
-        )?;
-        Ok(())
-    })
-}
-
 /// The public identifier: six uppercase hex characters, which is the form the client renders
 /// beside a name.
 fn mint_public_id() -> String {
@@ -335,7 +315,7 @@ mod tests {
         };
         let entry = db.append(NOW, commit).unwrap();
 
-        forget_name(&db, &account.id, LATER).unwrap();
+        name::erase(&db, &account.id, LATER).unwrap();
 
         assert_eq!(db.verify_chain().unwrap(), 1);
         assert_eq!(db.entries_from(1, 10).unwrap(), vec![entry]);
@@ -352,14 +332,5 @@ mod tests {
             authenticate(&db, &account.access_token).unwrap(),
             Some(account.id)
         );
-    }
-
-    #[test]
-    fn erasure_is_idempotent() {
-        let db = Db::open_in_memory().unwrap();
-        let account = create(&db, "otherfren", NOW).unwrap();
-        forget_name(&db, &account.id, LATER).unwrap();
-        forget_name(&db, &account.id, LATER).unwrap();
-        assert_eq!(name::holder(&db, &account.id).unwrap().name, None);
     }
 }

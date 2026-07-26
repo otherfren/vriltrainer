@@ -122,7 +122,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">154,155</context>
+          <context context-type="linenumber">185,186</context>
         </context-group>
         <target>Copied</target>
       </trans-unit>
@@ -134,7 +134,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">156,157</context>
+          <context context-type="linenumber">187,188</context>
         </context-group>
         <target>Copy</target>
       </trans-unit>
@@ -162,12 +162,52 @@
         </context-group>
         <target>Close</target>
       </trans-unit>
+      <trans-unit id="erase.start" datatype="html">
+        <source> Namen löschen </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">133,134</context>
+        </context-group>
+        <target>Delete my name</target>
+      </trans-unit>
+      <trans-unit id="erase.confirm" datatype="html">
+        <source> Der Name wird sofort entfernt und ist nicht wiederherstellbar. Deine Sitzungen bleiben im Protokoll — unter deiner Kennung, ohne Namen. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">137,139</context>
+        </context-group>
+        <target>The name is removed immediately and cannot be restored. Your sessions stay in the record — under your identifier, without a name.</target>
+      </trans-unit>
+      <trans-unit id="erase.confirmYes" datatype="html">
+        <source> Namen endgültig löschen </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">142,143</context>
+        </context-group>
+        <target>Delete the name for good</target>
+      </trans-unit>
+      <trans-unit id="erase.cancel" datatype="html">
+        <source> Abbrechen </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">145,146</context>
+        </context-group>
+        <target>Cancel</target>
+      </trans-unit>
+      <trans-unit id="erase.failed" datatype="html">
+        <source> Das hat nicht geklappt. Versuch es gleich noch einmal. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">151,152</context>
+        </context-group>
+        <target>That did not work. Try again in a moment.</target>
+      </trans-unit>
       <trans-unit id="keydlg.publicId" datatype="html">
         <source> Öffentliche Kennung <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;measured&quot;&gt;"/><x id="INTERPOLATION" equiv-text="{{ id }}"/><x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span
           &gt;"/>. Dein Name erscheint auf öffentlichen Seiten erst, wenn er freigegeben ist — bis dahin steht dort eine Verdeckung neben dieser Kennung. Dir zeigen wir ihn immer. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">130,133</context>
+          <context context-type="linenumber">161,164</context>
         </context-group>
         <target>Public id <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;measured&quot;&gt;"/><x id="INTERPOLATION" equiv-text="{{ id }}"/><x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span
           &gt;"/>. Your name appears on public pages only once it has been approved — until then a mask stands there beside this id. To you we always show it.</target>
@@ -176,7 +216,7 @@
         <source>Wirklich abmelden?</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">144,145</context>
+          <context context-type="linenumber">175,176</context>
         </context-group>
         <target>Really sign out?</target>
       </trans-unit>
@@ -184,7 +224,7 @@
         <source> Abmelden löscht den Zugang <x id="START_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;em&gt;"/>aus diesem Browser<x id="CLOSE_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;/em&gt;"/>. Es gibt keine Wiederherstellung über Mail oder Passwort — ohne diesen Link kommt niemand mehr an das Konto, auch wir nicht. Sichere ihn jetzt, falls noch nicht geschehen. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">146,149</context>
+          <context context-type="linenumber">177,180</context>
         </context-group>
         <target>Signing out deletes the access <x id="START_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;em&gt;"/>from this browser<x id="CLOSE_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;/em&gt;"/>. There is no recovery by mail or password — without this link nobody can reach the account again, us included. Save it now if you have not already.</target>
       </trans-unit>
@@ -192,7 +232,7 @@
         <source> Abbrechen </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">160,162</context>
+          <context context-type="linenumber">191,193</context>
         </context-group>
         <target>Cancel</target>
       </trans-unit>
@@ -200,7 +240,7 @@
         <source> Abmelden </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">163,165</context>
+          <context context-type="linenumber">194,196</context>
         </context-group>
         <target>Sign out</target>
       </trans-unit>
@@ -208,7 +248,7 @@
         <source>Fußzeile</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">179,180</context>
+          <context context-type="linenumber">210,211</context>
         </context-group>
         <target>Footer</target>
       </trans-unit>
@@ -216,7 +256,7 @@
         <source>Quellcode · AGPL-3.0</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">180,182</context>
+          <context context-type="linenumber">211,213</context>
         </context-group>
         <target>Source · AGPL-3.0</target>
       </trans-unit>
@@ -224,7 +264,7 @@
         <source> Protokoll · D1–D33 </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">185,187</context>
+          <context context-type="linenumber">216,218</context>
         </context-group>
         <target>Protocol · D1–D33</target>
       </trans-unit>
@@ -232,15 +272,23 @@
         <source>Datensatz herunterladen</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">189,191</context>
+          <context context-type="linenumber">220,222</context>
         </context-group>
         <target>Download the record</target>
+      </trans-unit>
+      <trans-unit id="foot.privacy" datatype="html">
+        <source>Datenschutz</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">225,226</context>
+        </context-group>
+        <target>Privacy</target>
       </trans-unit>
       <trans-unit id="foot.impressum" datatype="html">
         <source>Impressum</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">194,197</context>
+          <context context-type="linenumber">226,229</context>
         </context-group>
         <target>Legal notice</target>
       </trans-unit>
@@ -872,7 +920,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">179,180</context>
+          <context context-type="linenumber">188,189</context>
         </context-group>
         <target>Psi rank</target>
       </trans-unit>
@@ -892,7 +940,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">188,189</context>
+          <context context-type="linenumber">197,198</context>
         </context-group>
         <target>Expected</target>
       </trans-unit>
@@ -904,7 +952,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">192,193</context>
+          <context context-type="linenumber">201,202</context>
         </context-group>
         <target>By luck</target>
       </trans-unit>
@@ -1028,11 +1076,11 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">136,139</context>
+          <context context-type="linenumber">145,148</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">156,158</context>
+          <context context-type="linenumber">165,167</context>
         </context-group>
         <target>Loading …</target>
       </trans-unit>
@@ -1139,6 +1187,294 @@
           <context context-type="linenumber">99,104</context>
         </context-group>
         <target>Eligible from <x id="INTERPOLATION" equiv-text="{{ eligibilityTrials() }}"/> sessions across at least <x id="INTERPOLATION_1" equiv-text="{{ eligibilityDays() }}"/> different days.</target>
+      </trans-unit>
+      <trans-unit id="privacy.eyebrow" datatype="html">
+        <source>Artikel 13 DSGVO</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/legal/datenschutz.component.ts</context>
+          <context context-type="linenumber">24,25</context>
+        </context-group>
+        <target>Article 13 GDPR</target>
+      </trans-unit>
+      <trans-unit id="privacy.heading" datatype="html">
+        <source>Datenschutz</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/legal/datenschutz.component.ts</context>
+          <context context-type="linenumber">25,27</context>
+        </context-group>
+        <target>Privacy</target>
+      </trans-unit>
+      <trans-unit id="privacy.lead" datatype="html">
+        <source> Diese Seite speichert so wenig wie möglich. Was sie speichert, steht hier vollständig. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/legal/datenschutz.component.ts</context>
+          <context context-type="linenumber">29,32</context>
+        </context-group>
+        <target>This site stores as little as it can. What it does store is all of it, here.</target>
+      </trans-unit>
+      <trans-unit id="privacy.short.h" datatype="html">
+        <source>Das Wichtigste zuerst</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/legal/datenschutz.component.ts</context>
+          <context context-type="linenumber">32,33</context>
+        </context-group>
+        <target>The short version</target>
+      </trans-unit>
+      <trans-unit id="privacy.short.1" datatype="html">
+        <source> Kein Tracking, keine Cookies, keine Werbung, keine Weitergabe zu Werbezwecken. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/legal/datenschutz.component.ts</context>
+          <context context-type="linenumber">35,37</context>
+        </context-group>
+        <target>No tracking, no cookies, no advertising, nothing passed on to advertisers.</target>
+      </trans-unit>
+      <trans-unit id="privacy.short.2" datatype="html">
+        <source> Keine E-Mail-Adresse, kein Passwort, kein Name aus deinem Ausweis — du wählst selbst, wie du heißt. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/legal/datenschutz.component.ts</context>
+          <context context-type="linenumber">38,40</context>
+        </context-group>
+        <target>No e-mail address, no password, no legal name — you choose what you are called.</target>
+      </trans-unit>
+      <trans-unit id="privacy.short.3" datatype="html">
+        <source> Im öffentlichen Protokoll steht <x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>nie dein Name<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/>, sondern eine zufällige Kennung. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/legal/datenschutz.component.ts</context>
+          <context context-type="linenumber">42,44</context>
+        </context-group>
+        <target>The public record <x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>never carries your name<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/>, only a random identifier.</target>
+      </trans-unit>
+      <trans-unit id="privacy.short.4" datatype="html">
+        <source> Deinen Namen kannst du jederzeit löschen. Deine Sitzungen bleiben — warum, steht weiter unten. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/legal/datenschutz.component.ts</context>
+          <context context-type="linenumber">46,48</context>
+        </context-group>
+        <target>You can delete your name at any time. Your sessions stay — why, is further down.</target>
+      </trans-unit>
+      <trans-unit id="privacy.who.h" datatype="html">
+        <source>Wer verantwortlich ist</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/legal/datenschutz.component.ts</context>
+          <context context-type="linenumber">51,52</context>
+        </context-group>
+        <target>Who is responsible</target>
+      </trans-unit>
+      <trans-unit id="privacy.who.p" datatype="html">
+        <source> Die im <x id="START_LINK" ctype="x-a" equiv-text="&lt;a routerLink=&quot;/impressum&quot;&gt;"/>Impressum<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/> genannte Person. Dort stehen auch Anschrift und Kontakt. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/legal/datenschutz.component.ts</context>
+          <context context-type="linenumber">53,55</context>
+        </context-group>
+        <target>The person named in the <x id="START_LINK" ctype="x-a" equiv-text="&lt;a routerLink=&quot;/impressum&quot;&gt;"/>legal notice<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/>, where the address and contact details are.</target>
+      </trans-unit>
+      <trans-unit id="privacy.what.h" datatype="html">
+        <source>Was gespeichert wird</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/legal/datenschutz.component.ts</context>
+          <context context-type="linenumber">57,58</context>
+        </context-group>
+        <target>What is stored</target>
+      </trans-unit>
+      <trans-unit id="privacy.what.account" datatype="html">
+        <source><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>Zu deinem Konto:<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> der Name, den du dir gibst, eine zufällige öffentliche Kennung, und der Prüfwert deines Zugangslinks. Den Link selbst speichern wir nicht — wir könnten dein Konto also nicht wiederherstellen, selbst wenn wir wollten. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/legal/datenschutz.component.ts</context>
+          <context context-type="linenumber">59,62</context>
+        </context-group>
+        <target><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>For your account:<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> the name you give yourself, a random public identifier, and a check value derived from your access link. The link itself is not stored — we could not restore your account even if we wanted to.</target>
+      </trans-unit>
+      <trans-unit id="privacy.what.trials" datatype="html">
+        <source><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>Zu jeder Sitzung:<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> Zeitpunkt, Koordinate, die Festlegung auf das Ziel, das Bild, das du gewählt hast, das Ziel und ob es ein Treffer war. Das ist der Datensatz, den die Seite öffentlich nachprüfbar macht. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/legal/datenschutz.component.ts</context>
+          <context context-type="linenumber">64,67</context>
+        </context-group>
+        <target><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>For every session:<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> the time, the coordinate, the commitment to the target, the image you picked, the target, and whether it was a hit. That is the record this site makes publicly checkable.</target>
+      </trans-unit>
+      <trans-unit id="privacy.what.logs" datatype="html">
+        <source><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>Beim Aufruf:<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> der Webserver protokolliert deine IP-Adresse, Zeitpunkt und aufgerufene Adresse. Der Dienst selbst protokolliert <x id="START_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;em&gt;"/>keine<x id="CLOSE_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;/em&gt;"/> IP-Adresse — nur Anfragekennung, Methode und Pfad, und der Zugangslink wird dabei abgeschnitten, bevor etwas geschrieben wird. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/legal/datenschutz.component.ts</context>
+          <context context-type="linenumber">69,73</context>
+        </context-group>
+        <target><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>When you visit:<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> the web server logs your IP address, the time and the address requested. The service itself logs <x id="START_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;em&gt;"/>no<x id="CLOSE_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;/em&gt;"/> IP address — only a request id, a method and a path, and the access link is cut off before anything is written.</target>
+      </trans-unit>
+      <trans-unit id="privacy.public.h" datatype="html">
+        <source>Was öffentlich sichtbar ist</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/legal/datenschutz.component.ts</context>
+          <context context-type="linenumber">75,76</context>
+        </context-group>
+        <target>What is publicly visible</target>
+      </trans-unit>
+      <trans-unit id="privacy.public.p" datatype="html">
+        <source> Auf der Bestenliste stehen dein Name und deine öffentliche Kennung. Im herunterladbaren Protokoll steht nur die Kennung — dort taucht dein Name an keiner Stelle auf. Ein neuer Name wird erst nach einer Prüfung durch einen Menschen veröffentlicht; bis dahin steht auf öffentlichen Seiten eine Maske. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/legal/datenschutz.component.ts</context>
+          <context context-type="linenumber">77,80</context>
+        </context-group>
+        <target>The leaderboard shows your name and your public identifier. The downloadable record shows only the identifier — your name appears nowhere in it. A new name is published only after a human has reviewed it; until then public pages show a mask.</target>
+      </trans-unit>
+      <trans-unit id="privacy.why.h" datatype="html">
+        <source>Rechtsgrundlage</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/legal/datenschutz.component.ts</context>
+          <context context-type="linenumber">83,84</context>
+        </context-group>
+        <target>Legal basis</target>
+      </trans-unit>
+      <trans-unit id="privacy.why.p" datatype="html">
+        <source> Konto und Sitzungen: Artikel 6 Absatz 1 Buchstabe b DSGVO — ohne sie gibt es den Dienst nicht, den du benutzen willst. Zugriffsprotokolle: Artikel 6 Absatz 1 Buchstabe f — ein Server, der seine Aufrufe nicht sieht, lässt sich weder betreiben noch gegen Missbrauch verteidigen. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/legal/datenschutz.component.ts</context>
+          <context context-type="linenumber">85,88</context>
+        </context-group>
+        <target>Account and sessions: Article 6(1)(b) GDPR — without them there is no service for you to use. Access logs: Article 6(1)(f) — a server that cannot see its own requests can neither be operated nor defended against abuse.</target>
+      </trans-unit>
+      <trans-unit id="privacy.keep.h" datatype="html">
+        <source>Wie lange</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/legal/datenschutz.component.ts</context>
+          <context context-type="linenumber">91,92</context>
+        </context-group>
+        <target>For how long</target>
+      </trans-unit>
+      <trans-unit id="privacy.keep.1" datatype="html">
+        <source><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>Konto ohne einzige Sitzung:<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> wird nach 30 Tagen automatisch gelöscht, mitsamt Name und Kennung. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/legal/datenschutz.component.ts</context>
+          <context context-type="linenumber">94,96</context>
+        </context-group>
+        <target><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>An account that never played a session:<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> deleted automatically after 30 days, name and identifier with it.</target>
+      </trans-unit>
+      <trans-unit id="privacy.keep.2" datatype="html">
+        <source><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>Zugriffsprotokoll des Webservers:<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> 7 Tage, dann wird es überschrieben. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/legal/datenschutz.component.ts</context>
+          <context context-type="linenumber">98,100</context>
+        </context-group>
+        <target><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>The web server's access log:<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> 7 days, then it is overwritten.</target>
+      </trans-unit>
+      <trans-unit id="privacy.keep.3" datatype="html">
+        <source><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>Sitzungen im öffentlichen Protokoll:<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> dauerhaft. Der nächste Abschnitt sagt, warum. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/legal/datenschutz.component.ts</context>
+          <context context-type="linenumber">101,103</context>
+        </context-group>
+        <target><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>Sessions in the public record:<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> permanently. The next section says why.</target>
+      </trans-unit>
+      <trans-unit id="privacy.erase.h" datatype="html">
+        <source>Löschen</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/legal/datenschutz.component.ts</context>
+          <context context-type="linenumber">106,107</context>
+        </context-group>
+        <target>Deletion</target>
+      </trans-unit>
+      <trans-unit id="privacy.erase.name" datatype="html">
+        <source><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>Deinen Namen kannst du jederzeit löschen<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/>, im Menü hinter deinem Namen oben. Danach steht an seiner Stelle überall nur noch die Kennung. Das ist sofort wirksam und lässt sich nicht rückgängig machen. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/legal/datenschutz.component.ts</context>
+          <context context-type="linenumber">108,111</context>
+        </context-group>
+        <target><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>You can delete your name at any time<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/>, from the menu behind your name at the top. After that only the identifier stands in its place everywhere. It takes effect immediately and cannot be undone.</target>
+      </trans-unit>
+      <trans-unit id="privacy.erase.trials" datatype="html">
+        <source><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>Die Sitzungen selbst lassen sich nicht löschen<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/>, und das ist der Kern dieser Seite: Das Protokoll ist eine Kette, in der jeder Eintrag den vorherigen absichert. Ein Eintrag, den man herausnehmen kann, würde jede Zusage entwerten, die alle anderen Einträge geben — die Seite könnte dann nicht mehr belegen, dass das Ziel vor deiner Wahl feststand. Deshalb steht in dieser Kette von Anfang an kein Name, sondern nur eine zufällige Kennung. Nach der Löschung des Namens ist der Datensatz weiterhin nachprüfbar, aber niemandem mehr zuzuordnen. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/legal/datenschutz.component.ts</context>
+          <context context-type="linenumber">113,119</context>
+        </context-group>
+        <target><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>The sessions themselves cannot be deleted<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/>, and that is the heart of this site: the record is a chain in which every entry secures the one before it. An entry that could be taken out would void the promise every other entry makes — the site could no longer show that the target was fixed before you chose. That is why the chain carries no name in the first place, only a random identifier. Once the name is deleted the record is still checkable, and belongs to nobody.</target>
+      </trans-unit>
+      <trans-unit id="privacy.erase.rest" datatype="html">
+        <source> Wenn du dich abmeldest, ohne den Link gespeichert zu haben, kommt niemand mehr an das Konto — auch wir nicht. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/legal/datenschutz.component.ts</context>
+          <context context-type="linenumber">122,125</context>
+        </context-group>
+        <target>If you sign out without having saved your link, nobody can reach the account again — us included.</target>
+      </trans-unit>
+      <trans-unit id="privacy.others.h" datatype="html">
+        <source>Wer die Daten sonst sieht</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/legal/datenschutz.component.ts</context>
+          <context context-type="linenumber">126,127</context>
+        </context-group>
+        <target>Who else sees the data</target>
+      </trans-unit>
+      <trans-unit id="privacy.others.p" datatype="html">
+        <source> Der Server steht bei der Hetzner Online GmbH in Deutschland. Davor liegt Cloudflare, das den Verkehr weiterleitet und dabei IP-Adressen verarbeitet; dabei können Daten in Drittländer übertragen werden. Weitere Empfänger gibt es nicht — keine Analysedienste, keine Werbenetzwerke, keine sozialen Netzwerke. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/legal/datenschutz.component.ts</context>
+          <context context-type="linenumber">128,131</context>
+        </context-group>
+        <target>The server is hosted by Hetzner Online GmbH in Germany. In front of it sits Cloudflare, which forwards the traffic and processes IP addresses in doing so; this can involve transfers to third countries. There are no other recipients — no analytics, no ad networks, no social networks.</target>
+      </trans-unit>
+      <trans-unit id="privacy.cookies.h" datatype="html">
+        <source>Cookies</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/legal/datenschutz.component.ts</context>
+          <context context-type="linenumber">134,135</context>
+        </context-group>
+        <target>Cookies</target>
+      </trans-unit>
+      <trans-unit id="privacy.cookies.p" datatype="html">
+        <source> Keine. Dein Zugangslink liegt im lokalen Speicher deines Browsers, damit du nach dem Neuladen noch angemeldet bist — technisch notwendig, deshalb fragt dich diese Seite auch nicht um Erlaubnis dafür. Beim Abmelden wird er dort gelöscht. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/legal/datenschutz.component.ts</context>
+          <context context-type="linenumber">136,139</context>
+        </context-group>
+        <target>None. Your access link is kept in your browser's local storage so that you are still signed in after a reload — technically necessary, which is why this site does not ask your permission for it. Signing out deletes it.</target>
+      </trans-unit>
+      <trans-unit id="privacy.rights.h" datatype="html">
+        <source>Deine Rechte</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/legal/datenschutz.component.ts</context>
+          <context context-type="linenumber">141,142</context>
+        </context-group>
+        <target>Your rights</target>
+      </trans-unit>
+      <trans-unit id="privacy.rights.p" datatype="html">
+        <source> Du hast das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung, Datenübertragbarkeit und Widerspruch. Für die Auskunft brauchst du nichts zu beantragen: Der vollständige Datensatz zu deiner Kennung steht im Protokoll, das du unten auf jeder Seite herunterladen kannst. Für alles andere genügt eine Nachricht an die Adresse im Impressum. Du kannst dich außerdem bei einer Datenschutz-Aufsichtsbehörde beschweren. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/legal/datenschutz.component.ts</context>
+          <context context-type="linenumber">143,147</context>
+        </context-group>
+        <target>You have the right to access, rectification, erasure, restriction of processing, data portability and objection. For access you need not apply for anything: the complete record for your identifier is in the log you can download at the foot of every page. For anything else, a message to the address in the legal notice is enough. You may also complain to a data protection supervisory authority.</target>
+      </trans-unit>
+      <trans-unit id="privacy.dsa.h" datatype="html">
+        <source>Rechtswidrige Inhalte melden</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/legal/datenschutz.component.ts</context>
+          <context context-type="linenumber">150,151</context>
+        </context-group>
+        <target>Reporting illegal content</target>
+      </trans-unit>
+      <trans-unit id="privacy.dsa.p" datatype="html">
+        <source> Der einzige Inhalt, den Nutzer hier veröffentlichen können, ist ihr Anzeigename. Wenn dir einer rechtswidrig erscheint, melde ihn an die Adresse im Impressum — das ist die Kontaktstelle nach Artikel 16 der Verordnung über digitale Dienste. Nenne dabei den Namen oder die öffentliche Kennung und in einem Satz, was das Problem ist. Du bekommst eine Antwort, und wenn die Meldung zutrifft, wird der Name entfernt. Namen werden ohnehin vor der Veröffentlichung von einem Menschen geprüft. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/legal/datenschutz.component.ts</context>
+          <context context-type="linenumber">152,157</context>
+        </context-group>
+        <target>The only content users publish here is their display name. If one strikes you as illegal, report it to the address in the legal notice — that is the point of contact under Article 16 of the Digital Services Act. Give the name or the public identifier and say in one sentence what the problem is. You will get an answer, and if the report is justified the name is removed. Names are reviewed by a human before publication in any case.</target>
+      </trans-unit>
+      <trans-unit id="privacy.note.h" datatype="html">
+        <source>Was diese Seite ist</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/legal/datenschutz.component.ts</context>
+          <context context-type="linenumber">160,161</context>
+        </context-group>
+        <target>What this site is</target>
+      </trans-unit>
+      <trans-unit id="privacy.note.p" datatype="html">
+        <source> Ein öffentliches Experiment. Die Trefferquote liegt bei reinem Raten bei 12,5 %, und genau das ist das erwartete Ergebnis. Die Seite behauptet nichts anderes und weist niemandem übersinnliche Fähigkeiten nach — sie rechnet nach, ob die Zahlen vom Zufall abweichen, und veröffentlicht alles, was zum Nachrechnen nötig ist. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/legal/datenschutz.component.ts</context>
+          <context context-type="linenumber">162,165</context>
+        </context-group>
+        <target>A public experiment. Pure guessing hits 12.5 % of the time, and that is the expected result. The site claims nothing else and proves nobody psychic — it works out whether the numbers depart from chance, and publishes everything needed to check.</target>
       </trans-unit>
       <trans-unit id="legal.eyebrow" datatype="html">
         <source>Angaben gemäß § 5 DDG</source>
@@ -1350,11 +1686,27 @@
         </context-group>
         <target>The spread · <x id="INTERPOLATION" equiv-text="{{ count(qualified()) }}"/> accounts from <x id="INTERPOLATION_1" equiv-text="{{ tailMinTrials() }}"/> sessions on, the ends from <x id="INTERPOLATION_2" equiv-text="{{ tailSigma() }}"/> σ</target>
       </trans-unit>
+      <trans-unit id="stats.spread.axisLow" datatype="html">
+        <source>unter dem Zufall</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/stats/stats.component.html</context>
+          <context context-type="linenumber">94,95</context>
+        </context-group>
+        <target>below chance</target>
+      </trans-unit>
+      <trans-unit id="stats.spread.axisHigh" datatype="html">
+        <source>über dem Zufall</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/stats/stats.component.html</context>
+          <context context-type="linenumber">95,98</context>
+        </context-group>
+        <target>above chance</target>
+      </trans-unit>
       <trans-unit id="stats.tails.note" datatype="html">
         <source> Etwa gleich viele auf beiden Seiten heißt: es war Zufall. Eine echte Fähigkeit könnte nur die obere Seite größer machen. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">90,92</context>
+          <context context-type="linenumber">99,101</context>
         </context-group>
         <target>About the same number on both sides means it was luck. A real ability could only make the upper side bigger.</target>
       </trans-unit>
@@ -1362,7 +1714,7 @@
         <source>Die Leiter</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">97,98</context>
+          <context context-type="linenumber">106,107</context>
         </context-group>
         <target>The ladder</target>
       </trans-unit>
@@ -1370,7 +1722,7 @@
         <source>±<x id="INTERPOLATION" equiv-text="{{ sigma(l.to) }}"/> σ · <x id="INTERPOLATION_1" equiv-text="{{ oneIn(l) }}"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">110,111</context>
+          <context context-type="linenumber">119,120</context>
         </context-group>
         <target>±<x id="INTERPOLATION" equiv-text="{{ sigma(l.to) }}"/> σ · <x id="INTERPOLATION_1" equiv-text="{{ oneIn(l) }}"/></target>
       </trans-unit>
@@ -1378,7 +1730,7 @@
         <source>ab <x id="INTERPOLATION" equiv-text="{{ sigma(l.from) }}"/> σ · <x id="INTERPOLATION_1" equiv-text="{{ oneIn(l) }}"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">114,115</context>
+          <context context-type="linenumber">123,124</context>
         </context-group>
         <target>from <x id="INTERPOLATION" equiv-text="{{ sigma(l.from) }}"/> σ · <x id="INTERPOLATION_1" equiv-text="{{ oneIn(l) }}"/></target>
       </trans-unit>
@@ -1386,7 +1738,7 @@
         <source><x id="INTERPOLATION" equiv-text="{{ sigma(l.from) }}"/> bis <x id="INTERPOLATION_1" equiv-text="{{ sigma(l.to) }}"/> σ · <x id="INTERPOLATION_2" equiv-text="{{ oneIn(l) }}"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">118,119</context>
+          <context context-type="linenumber">127,128</context>
         </context-group>
         <target><x id="INTERPOLATION" equiv-text="{{ sigma(l.from) }}"/> to <x id="INTERPOLATION_1" equiv-text="{{ sigma(l.to) }}"/> σ · <x id="INTERPOLATION_2" equiv-text="{{ oneIn(l) }}"/></target>
       </trans-unit>
@@ -1394,7 +1746,7 @@
         <source>Zahlen nicht abrufbar</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">128,130</context>
+          <context context-type="linenumber">137,139</context>
         </context-group>
         <target>Figures not available</target>
       </trans-unit>
@@ -1402,7 +1754,7 @@
         <source> Die Gesamtwerte kommen vom Server und werden nicht hier ausgedacht — also steht hier nichts, solange er nicht antwortet. <x id="START_TAG_BUTTON" ctype="x-button" equiv-text="&lt;button class=&quot;btn btn--quiet&quot; type=&quot;button&quot; (click)=&quot;load()&quot;&gt;"/>Erneut versuchen<x id="CLOSE_TAG_BUTTON" ctype="x-button" equiv-text="&lt;/button&gt;"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">131,135</context>
+          <context context-type="linenumber">140,144</context>
         </context-group>
         <target>The overall figures come from the server and are not invented here — so nothing stands here while it is not answering. <x id="START_TAG_BUTTON" ctype="x-button" equiv-text="&lt;button class=&quot;btn btn--quiet&quot; type=&quot;button&quot; (click)=&quot;load()&quot;&gt;"/>Try again<x id="CLOSE_TAG_BUTTON" ctype="x-button" equiv-text="&lt;/button&gt;"/></target>
       </trans-unit>
@@ -1410,7 +1762,7 @@
         <source>Deine Werte</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">140,142</context>
+          <context context-type="linenumber">149,151</context>
         </context-group>
         <target>Your figures</target>
       </trans-unit>
@@ -1418,7 +1770,7 @@
         <source> Noch kein Konto. Fang eine Sitzung an, dann steht dein Stand hier. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">144,146</context>
+          <context context-type="linenumber">153,155</context>
         </context-group>
         <target>No account yet. Start a session and your standing appears here.</target>
       </trans-unit>
@@ -1426,7 +1778,7 @@
         <source>Deine Zahlen sind gerade nicht abrufbar.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">150,152</context>
+          <context context-type="linenumber">159,161</context>
         </context-group>
         <target>Your figures are not available right now.</target>
       </trans-unit>
@@ -1434,7 +1786,7 @@
         <source> Erneut laden </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">153,154</context>
+          <context context-type="linenumber">162,163</context>
         </context-group>
         <target>Reload</target>
       </trans-unit>
@@ -1442,7 +1794,7 @@
         <source>Noch <x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/><x id="INTERPOLATION" equiv-text="{{ player.remaining() }}"/><x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> Sitzungen, dann stehen deine Zahlen hier. Bei weniger sagt eine Trefferquote noch nichts.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">162,163</context>
+          <context context-type="linenumber">171,172</context>
         </context-group>
         <target><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/><x id="INTERPOLATION" equiv-text="{{ player.remaining() }}"/><x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> more sessions and your figures appear here. Below that, a hit rate says nothing yet.</target>
       </trans-unit>
@@ -1450,7 +1802,7 @@
         <source>Abgebrochen: <x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/><x id="INTERPOLATION" equiv-text="{{ player.abandoned() }}"/><x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">167,168</context>
+          <context context-type="linenumber">176,177</context>
         </context-group>
         <target>Abandoned: <x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/><x id="INTERPOLATION" equiv-text="{{ player.abandoned() }}"/><x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/></target>
       </trans-unit>
@@ -1458,7 +1810,7 @@
         <source>Trefferquote</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">184,185</context>
+          <context context-type="linenumber">193,194</context>
         </context-group>
         <target>Hit rate</target>
       </trans-unit>
@@ -1466,7 +1818,7 @@
         <source>Sitzungen</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">199,200</context>
+          <context context-type="linenumber">208,209</context>
         </context-group>
         <target>Sessions</target>
       </trans-unit>
@@ -1474,7 +1826,7 @@
         <source>Treffer</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">203,204</context>
+          <context context-type="linenumber">212,213</context>
         </context-group>
         <target>Hits</target>
       </trans-unit>
@@ -1482,7 +1834,7 @@
         <source>Abweichung</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">207,208</context>
+          <context context-type="linenumber">216,217</context>
         </context-group>
         <target>Deviation</target>
       </trans-unit>
@@ -1490,7 +1842,7 @@
         <source>Abgebrochen</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">211,212</context>
+          <context context-type="linenumber">220,221</context>
         </context-group>
         <target>Abandoned</target>
       </trans-unit>
@@ -1498,7 +1850,7 @@
         <source>Tage</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">215,216</context>
+          <context context-type="linenumber">224,225</context>
         </context-group>
         <target>Days</target>
       </trans-unit>
@@ -1506,7 +1858,7 @@
         <source>Du</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">225</context>
+          <context context-type="linenumber">234</context>
         </context-group>
         <target>You</target>
       </trans-unit>
@@ -1514,7 +1866,7 @@
         <source>du</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">227</context>
+          <context context-type="linenumber">236</context>
         </context-group>
         <target>you</target>
       </trans-unit>
@@ -1522,7 +1874,7 @@
         <source> Gerechnet über <x id="INTERPOLATION" equiv-text="{{ player.reportedTrials() }}"/> gewertete Sitzungen mit <x id="INTERPOLATION_1" equiv-text="{{ player.reportedHits() }}"/> Treffern. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">233,237</context>
+          <context context-type="linenumber">242,246</context>
         </context-group>
         <target>Computed over <x id="INTERPOLATION" equiv-text="{{ player.reportedTrials() }}"/> scored sessions with <x id="INTERPOLATION_1" equiv-text="{{ player.reportedHits() }}"/> hits.</target>
       </trans-unit>
@@ -1530,7 +1882,7 @@
         <source>Kurz erklärt</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">244,246</context>
+          <context context-type="linenumber">253,255</context>
         </context-group>
         <target>In short</target>
       </trans-unit>
@@ -1538,7 +1890,7 @@
         <source>Warum 12,5 %?</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">248,249</context>
+          <context context-type="linenumber">257,258</context>
         </context-group>
         <target>Why 12.5 %?</target>
       </trans-unit>
@@ -1546,7 +1898,7 @@
         <source> Acht Bilder, eines ist richtig. Wer nur rät, liegt im Schnitt bei jedem achten Mal richtig. Alles darüber wäre mehr als Raten. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">250,252</context>
+          <context context-type="linenumber">259,261</context>
         </context-group>
         <target>Eight pictures, one is right. Guess, and you are right about one time in eight on average. Anything above that would be more than guessing.</target>
       </trans-unit>
@@ -1554,7 +1906,7 @@
         <source>Eine gute Serie heißt noch nichts</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">256,257</context>
+          <context context-type="linenumber">265,266</context>
         </context-group>
         <target>A good streak means nothing on its own</target>
       </trans-unit>
@@ -1562,7 +1914,7 @@
         <source> Wenn genug Leute raten, hat immer jemand eine erstaunliche Glückssträhne. Deshalb zeigen wir oben beide Seiten: die, die besser liegen als Zufall, und die, die schlechter liegen. Sind beide etwa gleich groß, war es Zufall. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">258,260</context>
+          <context context-type="linenumber">267,269</context>
         </context-group>
         <target>When enough people guess, somebody always gets an astonishing lucky run. That is why both sides are shown above: those doing better than chance, and those doing worse. If the two are about the same size, it was luck.</target>
       </trans-unit>
@@ -1570,7 +1922,7 @@
         <source>Deine <x id="INTERPOLATION" equiv-text="{{ minePct() }}"/> %</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">266,267</context>
+          <context context-type="linenumber">275,276</context>
         </context-group>
         <target>Your <x id="INTERPOLATION" equiv-text="{{ minePct() }}"/> %</target>
       </trans-unit>
@@ -1578,7 +1930,7 @@
         <source> Von 10 000 Leuten, die nur raten, kommen <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;measured&quot;&gt;"/><x id="INTERPOLATION" equiv-text="{{ perTenK() }}"/><x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/> auf so ein Ergebnis — allein durch Glück. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">268,271</context>
+          <context context-type="linenumber">277,280</context>
         </context-group>
         <target>Of 10,000 people who are only guessing, <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;measured&quot;&gt;"/><x id="INTERPOLATION" equiv-text="{{ perTenK() }}"/><x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/> get a result like this — on luck alone.</target>
       </trans-unit>

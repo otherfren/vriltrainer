@@ -10,7 +10,7 @@ use axum::extract::{FromRequestParts, State};
 use axum::http::request::Parts;
 use axum::http::{StatusCode, header};
 use axum::response::{IntoResponse, Json, Response};
-use axum::routing::post;
+use axum::routing::{delete, post};
 use serde::{Deserialize, Serialize};
 
 use crate::account::{self, name::NameError, name_filter::Refusal};
@@ -18,8 +18,10 @@ use crate::db::now_rfc3339;
 use crate::http::{ApiError, AppState};
 
 pub fn routes() -> Router<AppState> {
-    // T069 and T100 — erasure and rename — mount here too, and stay 501 until they do.
-    Router::new().route("/api/account", post(create).get(whoami))
+    // The rename of T100 mounts here too.
+    Router::new()
+        .route("/api/account", post(create).get(whoami))
+        .route("/api/account/name", delete(erase_name))
 }
 
 /// The authenticated account's opaque identifier.
@@ -135,6 +137,27 @@ async fn whoami(
     .into_response())
 }
 
+/// Removes the holder's name, for good (FR-035).
+///
+/// Self-service and authenticated by nothing but the access token, because the token is the only
+/// proof of ownership that exists (D9) — an erasure that had to go through the operator would be a
+/// support address on a site with no accounts to look anyone up by, and a promise in the data
+/// protection notice that one person's inbox has to keep.
+///
+/// `204` and no body: there is nothing left to describe, and the client already knows what it asked
+/// for. Idempotent by the contract, so a second call is another `204` rather than a `404` about a
+/// name that is already gone.
+///
+/// **The log is not touched.** The account's trials stay in the record under the opaque identifier
+/// and stay verifiable (FR-036) — see [`account::name::erase`], which is where that holds.
+async fn erase_name(
+    State(state): State<AppState>,
+    Holder(account): Holder,
+) -> Result<Response, ApiError> {
+    account::name::erase(&state.db, &account, &now_rfc3339())?;
+    Ok(StatusCode::NO_CONTENT.into_response())
+}
+
 /// A refused name is a 400 carrying the machine-readable code, never a sentence: the sentence is
 /// product copy, it differs per domain (D10), and it lives in the client's message catalogue.
 fn refusal(e: NameError) -> ApiError {
@@ -166,7 +189,10 @@ mod tests {
     use axum::http::{Request, StatusCode};
     use tower::ServiceExt;
 
-    use crate::http::{router, test_support};
+    use crate::account::name::{self, MASK};
+    use crate::config::Config;
+    use crate::http::routes::stats::test_support::{Fixture, json};
+    use crate::http::{AppState, router, test_support};
 
     /// A request that looks like it came through nginx from `forwarded`.
     ///
@@ -306,5 +332,199 @@ mod tests {
                 .unwrap();
             assert_eq!(response.status(), StatusCode::CREATED);
         }
+    }
+
+    fn authenticated(method: &str, uri: &str, token: &str) -> Request<Body> {
+        Request::builder()
+            .method(method)
+            .uri(uri)
+            .header("authorization", format!("Bearer {token}"))
+            .body(Body::empty())
+            .unwrap()
+    }
+
+    async fn call(state: &AppState, request: Request<Body>) -> axum::response::Response {
+        router(state.clone()).oneshot(request).await.unwrap()
+    }
+
+    async fn public(state: &AppState, uri: &str) -> serde_json::Value {
+        let request = Request::builder().uri(uri).body(Body::empty()).unwrap();
+        json(call(state, request).await).await
+    }
+
+    /// FR-035, the shape the contract asks for: `204`, no body, and both name columns empty. The
+    /// queue is checked here as well, because a name withdrawn from review is the case where an
+    /// incomplete erasure would still put the name in front of a human.
+    #[tokio::test]
+    async fn erasing_a_name_answers_204_and_leaves_nothing_behind() {
+        let state = test_support::state();
+        let created = json(call(&state, create_request("203.0.113.30", "otherfren")).await).await;
+        let token = created["access_token"].as_str().unwrap().to_string();
+        name::approve(
+            &state.db,
+            &crate::account::authenticate(&state.db, &token)
+                .unwrap()
+                .unwrap(),
+            "otherfren",
+        )
+        .unwrap();
+
+        let response = call(&state, authenticated("DELETE", "/api/account/name", &token)).await;
+        assert_eq!(response.status(), StatusCode::NO_CONTENT);
+        assert!(
+            axum::body::to_bytes(response.into_body(), 1024)
+                .await
+                .unwrap()
+                .is_empty(),
+            "there is nothing left to describe"
+        );
+
+        // Scoped: an in-memory reader borrows the writer, and anything that reads while it lives
+        // waits for it — including `pending` below.
+        let (display, public_name, state_column): (Option<String>, Option<String>, String) = {
+            let reader = state.db.reader().unwrap();
+            reader
+                .query_row(
+                    "SELECT display_name, public_name, name_state FROM account",
+                    [],
+                    |r| Ok((r.get(0)?, r.get(1)?, r.get(2)?)),
+                )
+                .unwrap()
+        };
+        assert_eq!(display, None, "the holder's copy is gone");
+        assert_eq!(public_name, None, "and so is the published one");
+        assert_eq!(state_column, "erased");
+        assert!(
+            name::pending(&state.db, 10).unwrap().is_empty(),
+            "a withdrawn name must not sit in front of a reviewer"
+        );
+    }
+
+    /// The holder's half of FR-036: erasing the name costs the account nothing it had earned. The
+    /// published side of the same promise — the chain, the entries and the aggregate — is checked
+    /// from outside the process in `tests/erasure.rs`, which is where T074 belongs.
+    #[tokio::test]
+    async fn erasure_costs_the_account_none_of_its_record() {
+        let mut fixture = Fixture::new();
+        let player = fixture.player();
+        let state = fixture.state.clone();
+        name::approve(&state.db, &player.id, &player.name).unwrap();
+        fixture.play(&player, 12, 3);
+
+        let mine_before =
+            json(call(&state, authenticated("GET", "/api/stats/me", &player.token)).await).await;
+
+        let response = call(
+            &state,
+            authenticated("DELETE", "/api/account/name", &player.token),
+        )
+        .await;
+        assert_eq!(response.status(), StatusCode::NO_CONTENT);
+
+        assert_eq!(
+            json(call(&state, authenticated("GET", "/api/stats/me", &player.token)).await).await,
+            mine_before,
+            "every figure the holder had before the erasure is the figure they have after it"
+        );
+        // Still playable, which is the difference between erasing a name and closing an account.
+        assert_eq!(
+            crate::account::authenticate(&state.db, &player.token).unwrap(),
+            Some(player.id)
+        );
+    }
+
+    /// Idempotent by the contract. A `DELETE` asks for a state, not for an event, and a second
+    /// click on a slow connection must not produce an error page about a name that is already gone.
+    #[tokio::test]
+    async fn erasing_twice_is_not_an_error() {
+        let state = test_support::state();
+        let created = json(call(&state, create_request("203.0.113.31", "otherfren")).await).await;
+        let token = created["access_token"].as_str().unwrap().to_string();
+
+        for _ in 0..2 {
+            let response = call(&state, authenticated("DELETE", "/api/account/name", &token)).await;
+            assert_eq!(response.status(), StatusCode::NO_CONTENT);
+        }
+    }
+
+    /// The token is the only proof of ownership there is (D9), so a request without one is not a
+    /// request about anybody's name.
+    #[tokio::test]
+    async fn a_stranger_cannot_erase_a_name() {
+        let state = test_support::state();
+        let created = json(call(&state, create_request("203.0.113.32", "otherfren")).await).await;
+
+        for token in ["not-a-token", ""] {
+            let response = call(&state, authenticated("DELETE", "/api/account/name", token)).await;
+            assert_eq!(response.status(), StatusCode::UNAUTHORIZED);
+        }
+        let response = call(
+            &state,
+            Request::builder()
+                .method("DELETE")
+                .uri("/api/account/name")
+                .body(Body::empty())
+                .unwrap(),
+        )
+        .await;
+        assert_eq!(response.status(), StatusCode::UNAUTHORIZED);
+
+        assert_eq!(
+            crate::account::own(
+                &state.db,
+                &crate::account::authenticate(&state.db, created["access_token"].as_str().unwrap())
+                    .unwrap()
+                    .unwrap()
+            )
+            .unwrap()
+            .unwrap()
+            .name
+            .as_deref(),
+            Some("otherfren"),
+            "the name nobody was authorised to erase is still there"
+        );
+    }
+
+    /// What the world sees afterwards. The row stays on the board — an account that vanished would
+    /// be a record nobody can check (FR-036) — masked exactly like a name awaiting approval
+    /// (FR-047) and still attributable through the public identifier beside it (FR-029). The holder
+    /// gets `null` and the state, so the client can say *why* there is no name rather than offering
+    /// a field that will never be accepted again.
+    #[tokio::test]
+    async fn after_erasure_the_board_shows_the_mask_and_the_holder_sees_no_name() {
+        // The shipped eligibility floor is a hundred trials; lowered so the board can be populated
+        // without writing a hundred log entries. The day count, which carries the argument, stands.
+        let mut config = Config::default();
+        config.thresholds.eligibility_trials = config.thresholds.stats_unlock_at;
+        let mut fixture = Fixture::with_config(config);
+        let player = fixture.player();
+        let state = fixture.state.clone();
+        name::approve(&state.db, &player.id, &player.name).unwrap();
+        fixture.play_across_days(&player, 4, 3, 3);
+
+        let before = public(&state, "/api/leaderboard").await;
+        assert_eq!(before["entries"][0]["name"], player.name);
+
+        call(
+            &state,
+            authenticated("DELETE", "/api/account/name", &player.token),
+        )
+        .await;
+
+        let after = public(&state, "/api/leaderboard").await;
+        assert_eq!(
+            after["entries"][0]["public_id"], player.public_id,
+            "the account is still on the board and still checkable against the log"
+        );
+        assert_eq!(after["entries"][0]["name"], MASK);
+        assert_eq!(
+            after["entries"][0]["completed"], before["entries"][0]["completed"],
+            "with the record it earned"
+        );
+
+        let whoami =
+            json(call(&state, authenticated("GET", "/api/account", &player.token)).await).await;
+        assert!(whoami["name"].is_null());
+        assert_eq!(whoami["name_state"], "erased");
     }
 }

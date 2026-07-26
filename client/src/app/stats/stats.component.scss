@@ -114,6 +114,16 @@
 .hist--spread {
   gap: 3px;
 
+  /* On a phone this chart was what broke the page. Eleven columns share about 28 px each, the
+     axis label under one is `-2,7…-1,9` at `white-space: nowrap`, and a flex item does not shrink
+     below its own content — so the row stayed as wide as its text and the *body* scrolled
+     sideways, taking every other section with it. `min-width: 0` lets a column be as narrow as the
+     room allows; the media query at the bottom then drops the label rather than shrinking it into
+     illegibility. */
+  .hist__col {
+    min-width: 0;
+  }
+
   .hist__z {
     font-size: 0.6rem;
     white-space: nowrap;
@@ -338,6 +348,56 @@
   .hist__pic {
     width: 22px;
     height: 22px;
+  }
+}
+
+/* The axis under the spread chart, on phones only. Two words instead of eleven numbers. */
+.hist__axis {
+  display: none;
+}
+
+/* Below this the eleven per-column labels cannot be read at any size that fits, so they go and the
+   axis line above takes their place. Everything else shrinks with them: the drawings are
+   recognition marks, not labels, and the ladder below prints every rung in full. The two-bar
+   charts are untouched — they have two columns and all the room in the world. */
+@media (max-width: 34rem) {
+  /* The chart panel gives back half its padding here. On a 360 px phone the shell already takes
+     48 px and the panel another 48, which left 264 px for eleven columns — the difference between
+     22 px of bar and 24 is the difference between a chart and a picket fence. */
+  .tails {
+    padding: var(--s4);
+  }
+
+  .hist--spread {
+    gap: 2px;
+
+    .hist__z {
+      display: none;
+    }
+    .hist__count {
+      font-size: 0.5625rem;
+    }
+    .hist__pic {
+      width: 17px;
+      height: 17px;
+      margin-top: 1px;
+    }
+    .hist__bar {
+      border-width: 2px;
+    }
+  }
+
+  .hist__axis {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--label);
+    font-weight: 700;
+    font-size: 0.625rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--pop-ink);
+    opacity: 0.85;
+    margin: calc(var(--s2) * -1) 0 var(--s4);
   }
 }
 
