@@ -505,7 +505,7 @@ Settled 2026-07-25 while preparing the implementation plan.
 | Token encryption | XChaCha20-Poly1305; the 192-bit nonce removes any nonce-reuse concern without a counter |
 | Derivation stream | `SHA-256(seed ‖ counter)`, consumed in 64-bit words, **rejection sampling** rather than modulo, decoys by partial Fisher-Yates |
 | Log structure | Hash chain only — each entry carries `prev_hash`, the head is the last entry hash |
-| Statistics block size | 25 completed trials |
+| Statistics block size | ~~25 completed trials~~ **10, see below** |
 | Leaderboard minimum | 100 completed trials, held as configuration and revisited against real distributions |
 | Image pipeline | A Rust tool using the `image` crate, doubling as the operator's annotate-and-scale script |
 | Deployment | Behind the existing nginx on the Hetzner host, alongside other sites |
@@ -522,6 +522,20 @@ verifiability is the entire point.
 The image tool is not only a build step. It is the interface the operator uses when curating:
 find an image, annotate its provenance and licence, scale and normalize it, and get back the
 manifest entry.
+
+**The block size is ten, not twenty-five.** Corrected on 2026-07-26 after watching the panel do
+what the number implies: the statistics unlock at ten completed sessions, and with a block of
+twenty-five the rank and the by-chance figure then sat unchanged for fifteen more. A held figure
+is only worth holding if a reader believes it is a figure, and one that never moves reads as a
+broken page — the first report from the running site was exactly that. Ten makes every boundary a
+multiple of the unlock (10, 20, 30 …), so the `n` a figure stands over is always the last
+boundary, and the page never shows a claim computed over trials it does not name.
+
+What this costs is real and is the reason it is written down: a player can stop after a block that
+flattered them, and the shorter the block the more often that opportunity comes round. It is not
+what protects the site's headline figure, though. That protection is the aggregate over every
+account (D8), which optional stopping by one player cannot bias, plus the eligibility rule for a
+rank — 100 completed trials across three UTC days (D21), which no block size changes.
 
 **Two consequences of sitting behind a shared nginx, both of which silently break a decision if
 missed:**

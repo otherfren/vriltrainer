@@ -148,6 +148,13 @@ pub struct Config {
     /// Completed trials per reported block (D17). Block-wise reporting is what blunts optional
     /// stopping: a user who plays until the number looks good otherwise inflates the
     /// false-positive rate far past 5 %.
+    ///
+    /// Ten rather than the twenty-five D17 named, and the same ten the statistics unlock at, so
+    /// every boundary is a multiple of the unlock. Twenty-five meant a player watched the same
+    /// rank for fifteen sessions after it first appeared, which reads as a broken page rather than
+    /// as a held figure — and a held figure nobody believes buys no honesty. The protection is
+    /// weaker at ten and still present: the number moves in steps a player cannot stop inside, and
+    /// a rank still needs 100 trials over three days.
     pub block_size: u32,
     /// Seconds that must pass between reveal and answer (D21, FR-039).
     pub min_view_seconds: i64,
@@ -182,7 +189,7 @@ impl Default for Config {
             ],
             token_key_path: None,
             thresholds: Thresholds::default(),
-            block_size: 25,
+            block_size: 10,
             min_view_seconds: 3,
             trial_lifetime_hours: 24,
             rename_cooldown_hours: 24,

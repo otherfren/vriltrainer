@@ -467,14 +467,20 @@ mod tests {
         let unlocked = p.stats();
         assert!(unlocked.deviation > 0.0, "the unlock is the first boundary");
 
-        // Every trial from here to the block boundary is a miss, and the claim must not notice.
-        for _ in 0..(p.cfg.block_size as u64 - unlock - 1) {
+        // The next boundary above the unlock, computed rather than assumed: the block may be
+        // smaller than the unlock (it is, at ten and ten), and an expression that subtracts one
+        // from the other underflows the moment an operator moves either (D26).
+        let block = p.cfg.block_size as u64;
+        let next = blocks::reported_trials(unlock + block, block).max(unlock + 1);
+
+        // Every trial from here to that boundary is a miss, and the claim must not notice.
+        for _ in 0..(next - unlock - 1) {
             p.play(false, DAY_ONE);
         }
         let mid_block = p.stats();
         assert_eq!(mid_block.deviation, unlocked.deviation);
         assert_eq!(mid_block.wilson_lower, unlocked.wilson_lower);
-        assert_eq!(mid_block.completed, p.cfg.block_size as u64 - 1);
+        assert_eq!(mid_block.completed, next - 1);
         assert_eq!(
             mid_block.hits, unlocked.hits,
             "the record itself is reported live"
@@ -484,7 +490,7 @@ mod tests {
         let boundary = p.stats();
         assert!(
             boundary.deviation < unlocked.deviation,
-            "the block closed on fifteen misses and the figure did not move"
+            "the block closed on nothing but misses and the figure did not move"
         );
     }
 

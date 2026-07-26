@@ -508,8 +508,9 @@ mod tests {
         );
     }
 
-    /// FR-019. Fifteen further trials, every one of them a hit, and the claim does not move until
-    /// the block closes.
+    /// FR-019. Nine further trials, every one of them a hit, and the claim does not move until the
+    /// block closes on the tenth. The counts are the shipped ones: the view unlocks at ten and a
+    /// block is ten, so the boundaries are 10, 20, 30.
     #[tokio::test]
     async fn the_reported_figures_advance_in_blocks() {
         let mut f = Fixture::new();
@@ -520,18 +521,18 @@ mod tests {
         assert_eq!(unlocked["reported_trials"], 10);
         assert_eq!(unlocked["reported_hits"], 1);
 
-        f.play(&player, 14, 14);
+        f.play(&player, 9, 9);
         let mid = json(call(&f.state, "/api/stats/me", Some(&player.token)).await).await;
-        assert_eq!(mid["completed"], 24, "the record is reported live");
-        assert_eq!(mid["hits"], 15);
+        assert_eq!(mid["completed"], 19, "the record is reported live");
+        assert_eq!(mid["hits"], 10);
         assert_eq!(mid["reported_trials"], 10, "the claim is not");
         assert_eq!(mid["deviation"], unlocked["deviation"]);
         assert_eq!(mid["wilson_lower"], unlocked["wilson_lower"]);
 
         f.play(&player, 1, 1);
         let closed = json(call(&f.state, "/api/stats/me", Some(&player.token)).await).await;
-        assert_eq!(closed["reported_trials"], 25);
-        assert_eq!(closed["reported_hits"], 16);
+        assert_eq!(closed["reported_trials"], 20);
+        assert_eq!(closed["reported_hits"], 11);
         assert!(closed["deviation"].as_f64().unwrap() > unlocked["deviation"].as_f64().unwrap());
     }
 

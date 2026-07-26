@@ -314,7 +314,7 @@ mod tests {
         let body = json(call(&f.state, "/api/leaderboard").await).await;
         assert_eq!(body["thresholds"]["eligibility_trials"], 10);
         assert_eq!(body["thresholds"]["eligibility_days"], 3);
-        assert_eq!(body["thresholds"]["block_size"], 25);
+        assert_eq!(body["thresholds"]["block_size"], 10);
         assert_eq!(body["thresholds"]["bands"][0]["high"], "annunaki");
         assert_eq!(body["thresholds"]["bands"][0]["low"], "kartoffel");
         assert!(body["ranks_updated_at"].as_str().unwrap().ends_with('Z'));

@@ -74,7 +74,21 @@ export class PlayerService {
   readonly unlocked = computed(() => this.stats()?.hit_rate !== undefined);
   readonly remaining = computed(() => Math.max(0, this.unlocksAt() - this.completed()));
 
-  readonly rate = computed(() => this.stats()?.hit_rate ?? 0);
+  /**
+   * The hit rate over the reported block, not the live one.
+   *
+   * `hit_rate` in the response is over every completed trial and moves after each session, while
+   * the deviation, the by-chance figure and the rank stand still until the next block boundary
+   * (FR-019). Printing the live rate beside them put two different `n` in one row: a panel showing
+   * "15,0 %" over the line "10 sessions, 2 hits" invites the reader to divide 2 by 10, get 20 %,
+   * and conclude the site cannot do arithmetic. One `n` for every figure that is a claim; the raw
+   * counts of sessions and hits stay live, because stopping cannot flatter a record.
+   */
+  readonly rate = computed(() => {
+    const s = this.stats();
+    if (!s || !s.reported_trials) return 0;
+    return (s.reported_hits ?? 0) / s.reported_trials;
+  });
   readonly deviation = computed(() => this.stats()?.deviation ?? 0);
   readonly wilson = computed(() => this.stats()?.wilson_lower ?? 0);
   readonly perTenK = computed(() => this.stats()?.by_chance_per_10k ?? 0);
