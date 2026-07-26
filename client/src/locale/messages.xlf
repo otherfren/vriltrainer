@@ -195,7 +195,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="foot.protocol" datatype="html">
-        <source> Protokoll · D1–D28 </source>
+        <source> Protokoll · D1–D33 </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
           <context context-type="linenumber">185,187</context>

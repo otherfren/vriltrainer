@@ -24,7 +24,7 @@ append-only hash chain; an instance refuses to start if the chain does not link.
 That is why the two implementations - Rust on the server, TypeScript in the browser - must derive a
 trial byte-for-byte identically. Verifiability is the product.
 
-`docs/trial-protocol-decisions.md` (D1-D30) records why the protocol looks the way it does.
+`docs/trial-protocol-decisions.md` (D1-D33) records why the protocol looks the way it does.
 
 ## Documents are written in English
 
@@ -66,7 +66,7 @@ The shape:
 | `client/` | Angular 19 interface, Karma/Jasmine tests |
 | `shared/vectors/derivation.json` | The frozen contract between the two implementations |
 | `specs/001-remote-viewing-trainer/` | Spec, plan, contracts, and `tasks.md` (the live worklist) |
-| `docs/trial-protocol-decisions.md` | D1–D30 — why the protocol looks the way it does |
+| `docs/trial-protocol-decisions.md` | D1–D33 — why the protocol looks the way it does |
 | `deploy/` | systemd template unit + nginx config |
 
 `server/src/lib.rs` names its own reading order, and it is the right one: `trial::derive` is the
@@ -82,7 +82,7 @@ prefix `export PATH="$HOME/.cargo/bin:$PATH"` or run through `bash -lc`. `node` 
 `chromium` are in `/usr/bin` and need no such handling.
 
 ```bash
-cargo test --workspace                 # 267 tests, all passing as of 2026-07-26
+cargo test --workspace                 # 277 tests, all passing as of 2026-07-26
 cd client && npm run conformance       # 7 derivation vectors — see below
 cargo clippy --workspace --all-targets
 cargo fmt --all

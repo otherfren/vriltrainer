@@ -221,12 +221,12 @@
         <target>Source · AGPL-3.0</target>
       </trans-unit>
       <trans-unit id="foot.protocol" datatype="html">
-        <source> Protokoll · D1–D28 </source>
+        <source> Protokoll · D1–D33 </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
           <context context-type="linenumber">185,187</context>
         </context-group>
-        <target>Protocol · D1–D28</target>
+        <target>Protocol · D1–D33</target>
       </trans-unit>
       <trans-unit id="foot.download" datatype="html">
         <source>Datensatz herunterladen</source>
