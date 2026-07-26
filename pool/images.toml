@@ -1325,3 +1325,166 @@ category = "light"
   en = "Two-armed wall sconce"
   licence = "CC0"
   source = "https://commons.wikimedia.org/wiki/File:Kaarsenhouder,_BK-KOG-1048.jpg"
+
+# Rijksmuseum armour, same route as the candlesticks: Commons mirrors the collection, the licence
+# comes from the museum, and the photographs are one object on grey. Four helmets and four
+# breastplates rather than eight of either, because the shelf already held two suits and a helmet.
+#
+# Rejected while looking, and worth writing down because the titles gave no hint: two of the best
+# suits are photographed *inside their display case* — glass, reflections, a coat and three rifles
+# in frame — and a gilt winged helmet sits on a wooden stand, which is a second object and reads as
+# a bird.
+[[group]]
+dir = "armour"
+category = "armour"
+
+  [[group.image]]
+  file = "visierhelm_geschlossen.jpg"
+  de = "Geschlossener Visierhelm"
+  en = "Closed visored helmet"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Gesloten_vizierhelm_van_ruiterharnas,_NG-NM-528-H.jpg"
+
+  [[group.image]]
+  file = "stahlhelm_m28.jpg"
+  de = "Stahlhelm des niederländischen Heeres"
+  en = "Dutch army steel helmet"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Helm_van_het_Nederlandse_leger,_M_28_-_%27Nieuw_Model%27,_NG-1991-1.jpg"
+
+  [[group.image]]
+  file = "helm_nackenschutz.jpg"
+  de = "Helm mit Nackenschutz"
+  en = "Helmet with neck guard"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Helm_van_ijzer_met_zilver_ingelegd,_AK-MAK-137.jpg"
+
+  [[group.image]]
+  file = "reiterhelm_eisen.jpg"
+  de = "Reiterhelm aus Eisen"
+  en = "Iron cavalry helmet"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Ruiterhelm_van_ijzer,_NG-NM-538.jpg"
+
+  [[group.image]]
+  file = "brustpanzer_schwarz.jpg"
+  de = "Schwarzer Brustpanzer"
+  en = "Blackened breastplate"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Borstplaat_van_ijzeren_kuras,_NG-NM-529-B.jpg"
+
+  [[group.image]]
+  file = "brustpanzer_stahl.jpg"
+  de = "Brustpanzer aus Stahl"
+  en = "Steel breastplate"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Borstplaat_van_een_harquebusiers_harnas_voor_een_jongeman,_NG-NM-530-A.jpg"
+
+  [[group.image]]
+  file = "brustpanzer_geaetzt.jpg"
+  de = "Geätzter Brustpanzer"
+  en = "Etched breastplate"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Borstplaat_van_een_harnas_met_versieringen,_NG-KOG-770-3.jpg"
+
+  [[group.image]]
+  file = "brustpanzer_lendenschutz.jpg"
+  de = "Brustpanzer mit Lendenschutz"
+  en = "Breastplate with skirt of lames"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Harnas_van_Piet_Hein,_NG-NM-527.jpg"
+
+# Thirteen pieces of Rijksmuseum jewellery, which is what finally fills `ornament` — it stood at
+# three, the thinnest shelf in the pool, because clean cut-out photographs of decorative objects
+# are exactly what a keyword search on Commons does not have.
+#
+# The filter that did the work here was subject, not licence. A pendant is only usable if it is not
+# *also* something else: everything shaped like a mermaid, a dragon, a toad, a cannon or a pistol
+# went back, and so did every one carrying a face — a bust, a Madonna head, a coin portrait — since
+# those belong to `person`, `animal` and `weapon` and would put a confusable pair in one trial.
+# Two dropped after the square crop rather than before it: a pendant whose amber ball the crop
+# halved, and a long chain that centre-cropped is a tangle with its medallion cut off. The
+# originals were fine — the crop is the second look, and it is not optional.
+#
+# Two more failed on lettering: a heraldic plaque with an inscription round the rim, and a brooch
+# still attached to the printed card it was sold on.
+[[group]]
+dir = "ornament"
+category = "ornament"
+
+  [[group.image]]
+  file = "collier_goldfaecher.jpg"
+  de = "Goldanhänger an Kette"
+  en = "Gold fan pendant on a chain"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Collier_met_hanger,_BK-1980-64.jpg"
+
+  [[group.image]]
+  file = "kreuz_filigran_gold.jpg"
+  de = "Goldkreuz in Filigranarbeit"
+  en = "Gold filigree cross"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Hanger,_voornamelijk_gevormd_door_filigrein_Zeeuwse_knopen,_BK-1970-18.jpg"
+
+  [[group.image]]
+  file = "collier_goldrosette.jpg"
+  de = "Goldcollier mit Rosette"
+  en = "Gold necklace with a rosette"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Hanger,_BK-1974-78-G.jpg"
+
+  [[group.image]]
+  file = "anhaenger_edelsteine.jpg"
+  de = "Anhänger mit Rubinen und Smaragden"
+  en = "Pendant set with rubies and emeralds"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Hanger,_AK-NM-7073.jpg"
+
+  [[group.image]]
+  file = "anhaenger_quarz_gruen.jpg"
+  de = "Silberanhänger mit grünem Quarz"
+  en = "Silver pendant with green quartz"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Hanger_van_zilver_met_druppelvormige_groene_aventurijnkwarts,_BK-2010-2-315.jpg"
+
+  [[group.image]]
+  file = "anhaenger_achat_weiss.jpg"
+  de = "Silberanhänger mit weißem Achat"
+  en = "Silver pendant with white agate"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Hanger_van_zilver_met_ovale_witte_agaat,_BK-2010-2-316.jpg"
+
+  [[group.image]]
+  file = "anhaenger_karneol.jpg"
+  de = "Goldanhänger mit Karneol"
+  en = "Gold pendant with a carnelian"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Ovale_hanger_van_goud_in_twee_kleuren_met_carneool,_BK-2010-2-319.jpg"
+
+  [[group.image]]
+  file = "anhaenger_filigran.jpg"
+  de = "Silberanhänger in Filigranarbeit"
+  en = "Silver filigree pendant"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Ovale_hanger_van_filigrein_in_zilver_met_symmetrische_lussen,_BK-2010-2-333.jpg"
+
+  [[group.image]]
+  file = "kreuz_filigran_rosetten.jpg"
+  de = "Filigrankreuz mit Rosetten"
+  en = "Filigree cross with rosettes"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Hanger_in_de_vorm_van_een_kruis_gevormd_door_horens_die_eindigen_in_een_rozet,_BK-1970-17.jpg"
+
+  [[group.image]]
+  file = "medaillon_goldspirale.jpg"
+  de = "Goldmedaillon mit Spiralrippen"
+  en = "Gold locket with spiral fluting"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Sieraad_in_de_vorm_van_een_S-vormig_geribde_doos,_BK-16594.jpg"
+
+  [[group.image]]
+  file = "brosche_herz_diamanten.jpg"
+  de = "Herzbrosche mit Diamanten"
+  en = "Diamond heart brooch"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Vlaams_Hart,_BK-1967-2.jpg"
