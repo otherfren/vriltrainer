@@ -372,11 +372,19 @@
         </context-group>
         <target>This name goes on a public leaderboard. Not this one.</target>
       </trans-unit>
+      <trans-unit id="gate.what" datatype="html">
+        <source> Hier trainierst du Remote Viewing.<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/> Du bekommst eine Koordinate, nimmst wahr, was das Ziel sein könnte, und deckst dann acht Bilder auf. Eines davon ist das Ziel. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
+          <context context-type="linenumber">29,31</context>
+        </context-group>
+        <target>This is where you train remote viewing.<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/>You are given a coordinate, sense what the target might be, and then reveal eight images. One of them is the target.</target>
+      </trans-unit>
       <trans-unit id="gate.heading" datatype="html">
         <source>Wie sollen wir dich nennen?</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">24,26</context>
+          <context context-type="linenumber">34,36</context>
         </context-group>
         <target>What should we call you?</target>
       </trans-unit>
@@ -384,7 +392,7 @@
         <source>Der Name steht auf der öffentlichen Bestenliste.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">26,28</context>
+          <context context-type="linenumber">36,38</context>
         </context-group>
         <target>The name goes on the public leaderboard.</target>
       </trans-unit>
@@ -392,7 +400,7 @@
         <source>Anzeigename</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">28,30</context>
+          <context context-type="linenumber">38,40</context>
         </context-group>
         <target>Display name</target>
       </trans-unit>
@@ -400,7 +408,7 @@
         <source> 3 bis <x id="INTERPOLATION" equiv-text="{{ max }}"/> Zeichen. Buchstaben, Ziffern, Leerzeichen, Bindestrich, Unterstrich. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">51,53</context>
+          <context context-type="linenumber">61,63</context>
         </context-group>
         <target>3 to <x id="INTERPOLATION" equiv-text="{{ max }}"/> characters. Letters, digits, spaces, hyphen, underscore.</target>
       </trans-unit>
@@ -408,7 +416,7 @@
         <source>Konto wird angelegt …</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">62,63</context>
+          <context context-type="linenumber">72,73</context>
         </context-group>
         <target>Creating account …</target>
       </trans-unit>
@@ -416,7 +424,7 @@
         <source>Loslegen</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">64,65</context>
+          <context context-type="linenumber">74,75</context>
         </context-group>
         <target>Start</target>
       </trans-unit>
@@ -424,7 +432,7 @@
         <source>Zu kurz.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">123</context>
+          <context context-type="linenumber">133</context>
         </context-group>
         <target>Too short.</target>
       </trans-unit>
@@ -432,7 +440,7 @@
         <source>Zu lang.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">124</context>
+          <context context-type="linenumber">134</context>
         </context-group>
         <target>Too long.</target>
       </trans-unit>
@@ -440,7 +448,7 @@
         <source>Der Name muss wie ein Name aussehen: Buchstaben, nicht nur Zeichen und Ziffern.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">125</context>
+          <context context-type="linenumber">135</context>
         </context-group>
         <target>The name has to look like a name: letters, not just marks and digits.</target>
       </trans-unit>
@@ -448,7 +456,7 @@
         <source>Der Name ist für die Seite selbst reserviert.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">126</context>
+          <context context-type="linenumber">136</context>
         </context-group>
         <target>That name is reserved for the site itself.</target>
       </trans-unit>
@@ -456,7 +464,7 @@
         <source>Such dir etwas anderes aus.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">127</context>
+          <context context-type="linenumber">137</context>
         </context-group>
         <target>Pick something else.</target>
       </trans-unit>
@@ -464,7 +472,7 @@
         <source>Der Name steht auf einer öffentlichen Rangliste. Nicht dieser.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">128</context>
+          <context context-type="linenumber">138</context>
         </context-group>
         <target>This name goes on a public leaderboard. Not this one.</target>
       </trans-unit>
@@ -472,7 +480,7 @@
         <source>Keine Adressen im Namen.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">129</context>
+          <context context-type="linenumber">139</context>
         </context-group>
         <target>No addresses in the name.</target>
       </trans-unit>
@@ -480,7 +488,7 @@
         <source>Keine Verbindung zum Server. Es wurde nichts angelegt — dein Name ist in Ordnung, versuch es gleich noch einmal.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">148</context>
+          <context context-type="linenumber">158</context>
         </context-group>
         <target>No connection to the server. Nothing was created — your name is fine, try again in a moment.</target>
       </trans-unit>
@@ -488,7 +496,7 @@
         <source>Der Dienst ist gerade nicht erreichbar (Fehler <x id="status" equiv-text="e.status"/>). Das liegt nicht an deinem Namen — versuch es in ein paar Minuten noch einmal.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">155</context>
+          <context context-type="linenumber">165</context>
         </context-group>
         <target>The service is not reachable right now (error <x id="status" equiv-text="e.status"/>). This is not about your name — try again in a few minutes.</target>
       </trans-unit>
@@ -496,7 +504,7 @@
         <source>Der Name wurde abgelehnt. Such dir einen anderen aus.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">161</context>
+          <context context-type="linenumber">171</context>
         </context-group>
         <target>The name was refused. Pick another one.</target>
       </trans-unit>
@@ -504,7 +512,7 @@
         <source>Unerwartete Antwort vom Server (Fehler <x id="status" equiv-text="e.status"/>). Das liegt nicht an deinem Namen.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">166</context>
+          <context context-type="linenumber">176</context>
         </context-group>
         <target>Unexpected answer from the server (error <x id="status" equiv-text="e.status"/>). This is not about your name.</target>
       </trans-unit>
@@ -512,23 +520,15 @@
         <source>Das Konto konnte nicht angelegt werden. Das liegt nicht an deinem Namen — versuch es noch einmal.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">169</context>
+          <context context-type="linenumber">179</context>
         </context-group>
         <target>The account could not be created. This is not about your name — try again.</target>
-      </trans-unit>
-      <trans-unit id="category.landscape" datatype="html">
-        <source>Landschaft</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/core/pool.ts</context>
-          <context context-type="linenumber">38</context>
-        </context-group>
-        <target>Landscape</target>
       </trans-unit>
       <trans-unit id="category.building" datatype="html">
         <source>Bauwerk</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/pool.ts</context>
-          <context context-type="linenumber">39</context>
+          <context context-type="linenumber">43</context>
         </context-group>
         <target>Building</target>
       </trans-unit>
@@ -536,7 +536,7 @@
         <source>Tier</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/pool.ts</context>
-          <context context-type="linenumber">40</context>
+          <context context-type="linenumber">44</context>
         </context-group>
         <target>Animal</target>
       </trans-unit>
@@ -544,7 +544,7 @@
         <source>Pflanze</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/pool.ts</context>
-          <context context-type="linenumber">41</context>
+          <context context-type="linenumber">45</context>
         </context-group>
         <target>Plant</target>
       </trans-unit>
@@ -552,7 +552,7 @@
         <source>Fahrzeug</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/pool.ts</context>
-          <context context-type="linenumber">42</context>
+          <context context-type="linenumber">46</context>
         </context-group>
         <target>Vehicle</target>
       </trans-unit>
@@ -560,7 +560,7 @@
         <source>Werkzeug</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/pool.ts</context>
-          <context context-type="linenumber">43</context>
+          <context context-type="linenumber">47</context>
         </context-group>
         <target>Tool</target>
       </trans-unit>
@@ -568,7 +568,7 @@
         <source>Essen</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/pool.ts</context>
-          <context context-type="linenumber">44</context>
+          <context context-type="linenumber">48</context>
         </context-group>
         <target>Food</target>
       </trans-unit>
@@ -576,55 +576,39 @@
         <source>Kleidung</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/pool.ts</context>
-          <context context-type="linenumber">45</context>
+          <context context-type="linenumber">49</context>
         </context-group>
         <target>Clothing</target>
       </trans-unit>
       <trans-unit id="category.instrument" datatype="html">
-        <source>Instrument</source>
+        <source>Musikinstrument</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/pool.ts</context>
-          <context context-type="linenumber">46</context>
+          <context context-type="linenumber">50</context>
         </context-group>
-        <target>Instrument</target>
+        <target>Musical instrument</target>
       </trans-unit>
       <trans-unit id="category.furniture" datatype="html">
         <source>Möbel</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/pool.ts</context>
-          <context context-type="linenumber">47</context>
+          <context context-type="linenumber">51</context>
         </context-group>
         <target>Furniture</target>
-      </trans-unit>
-      <trans-unit id="category.water" datatype="html">
-        <source>Wasser</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/core/pool.ts</context>
-          <context context-type="linenumber">48</context>
-        </context-group>
-        <target>Water</target>
-      </trans-unit>
-      <trans-unit id="category.sky" datatype="html">
-        <source>Himmel</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/core/pool.ts</context>
-          <context context-type="linenumber">49</context>
-        </context-group>
-        <target>Sky</target>
       </trans-unit>
       <trans-unit id="category.machine" datatype="html">
         <source>Maschine</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/pool.ts</context>
-          <context context-type="linenumber">50</context>
+          <context context-type="linenumber">52</context>
         </context-group>
         <target>Machine</target>
       </trans-unit>
       <trans-unit id="category.textile" datatype="html">
-        <source>Textil</source>
+        <source>Stoff</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/pool.ts</context>
-          <context context-type="linenumber">51</context>
+          <context context-type="linenumber">53</context>
         </context-group>
         <target>Textile</target>
       </trans-unit>
@@ -632,7 +616,7 @@
         <source>Behälter</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/pool.ts</context>
-          <context context-type="linenumber">52</context>
+          <context context-type="linenumber">54</context>
         </context-group>
         <target>Container</target>
       </trans-unit>
@@ -640,23 +624,15 @@
         <source>Schild</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/pool.ts</context>
-          <context context-type="linenumber">53</context>
+          <context context-type="linenumber">55</context>
         </context-group>
         <target>Sign</target>
-      </trans-unit>
-      <trans-unit id="category.stairs" datatype="html">
-        <source>Treppe</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/core/pool.ts</context>
-          <context context-type="linenumber">54</context>
-        </context-group>
-        <target>Stairs</target>
       </trans-unit>
       <trans-unit id="category.bridge" datatype="html">
         <source>Brücke</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/pool.ts</context>
-          <context context-type="linenumber">55</context>
+          <context context-type="linenumber">56</context>
         </context-group>
         <target>Bridge</target>
       </trans-unit>
@@ -664,7 +640,7 @@
         <source>Tür</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/pool.ts</context>
-          <context context-type="linenumber">56</context>
+          <context context-type="linenumber">57</context>
         </context-group>
         <target>Door</target>
       </trans-unit>
@@ -672,7 +648,7 @@
         <source>Licht</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/pool.ts</context>
-          <context context-type="linenumber">57</context>
+          <context context-type="linenumber">58</context>
         </context-group>
         <target>Light</target>
       </trans-unit>
@@ -680,15 +656,15 @@
         <source>Stein</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/pool.ts</context>
-          <context context-type="linenumber">58</context>
+          <context context-type="linenumber">59</context>
         </context-group>
         <target>Stone</target>
       </trans-unit>
       <trans-unit id="category.ornament" datatype="html">
-        <source>Ornament</source>
+        <source>Dekoration</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/pool.ts</context>
-          <context context-type="linenumber">59</context>
+          <context context-type="linenumber">60</context>
         </context-group>
         <target>Ornament</target>
       </trans-unit>
@@ -696,17 +672,41 @@
         <source>Mensch</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/pool.ts</context>
-          <context context-type="linenumber">60</context>
+          <context context-type="linenumber">61</context>
         </context-group>
         <target>Person</target>
       </trans-unit>
-      <trans-unit id="category.street" datatype="html">
-        <source>Straße</source>
+      <trans-unit id="category.insect" datatype="html">
+        <source>Insekt</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/pool.ts</context>
-          <context context-type="linenumber">61</context>
+          <context context-type="linenumber">62</context>
         </context-group>
-        <target>Street</target>
+        <target>Insect</target>
+      </trans-unit>
+      <trans-unit id="category.toy" datatype="html">
+        <source>Spielzeug</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/pool.ts</context>
+          <context context-type="linenumber">63</context>
+        </context-group>
+        <target>Toy</target>
+      </trans-unit>
+      <trans-unit id="category.armour" datatype="html">
+        <source>Rüstung</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/pool.ts</context>
+          <context context-type="linenumber">64</context>
+        </context-group>
+        <target>Armour</target>
+      </trans-unit>
+      <trans-unit id="category.weapon" datatype="html">
+        <source>Waffe</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/pool.ts</context>
+          <context context-type="linenumber">65</context>
+        </context-group>
+        <target>Weapon</target>
       </trans-unit>
       <trans-unit id="rank.normie" datatype="html">
         <source>Normie</source>

@@ -6,6 +6,19 @@
   max-width: 44rem;
 }
 
+/* Above the heading, and set like a label rather than like prose: it has to be read before the
+   input is looked at, by somebody who does not yet know what this site is. */
+.gate__what {
+  font-family: var(--label);
+  font-weight: 700;
+  font-size: 1.0625rem;
+  line-height: 1.45;
+  max-width: none;
+  margin-bottom: var(--s4);
+  padding-bottom: var(--s3);
+  border-bottom: 3px solid var(--ink);
+}
+
 .gate__h {
   font-size: clamp(1.6rem, 4.5vw, 2.5rem);
   margin-bottom: var(--s4);

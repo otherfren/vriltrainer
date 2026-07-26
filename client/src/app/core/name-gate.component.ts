@@ -21,6 +21,16 @@ import { NAME_MAX, checkDisplayName, normaliseDisplayName } from './display-name
   imports: [FormsModule],
   template: `
     <div class="gate panel">
+      <!-- What the site is, before the first thing it asks for. Visitors kept asking what this
+           was even about, and a name field is a bad place to find out: somebody who does not know
+           what they are signing up for either leaves or invents a name and never plays, which is
+           the row D32 then sweeps. Two short sentences, in the order somebody needs them. -->
+      <p class="gate__what" i18n="@@gate.what">
+        Hier trainierst du Remote Viewing.<br />
+        Du bekommst eine Koordinate, nimmst wahr, was das Ziel sein könnte, und deckst dann acht
+        Bilder auf. Eines davon ist das Ziel.
+      </p>
+
       <h1 class="gate__h" i18n="@@gate.heading">Wie sollen wir dich nennen?</h1>
 
       <p class="gate__lead" i18n="@@gate.lead">Der Name steht auf der öffentlichen Bestenliste.</p>

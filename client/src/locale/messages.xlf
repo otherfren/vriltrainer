@@ -327,130 +327,137 @@
           <context context-type="linenumber">114</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="gate.what" datatype="html">
+        <source> Hier trainierst du Remote Viewing.<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/> Du bekommst eine Koordinate, nimmst wahr, was das Ziel sein könnte, und deckst dann acht Bilder auf. Eines davon ist das Ziel. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
+          <context context-type="linenumber">29,31</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="gate.heading" datatype="html">
         <source>Wie sollen wir dich nennen?</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">24,26</context>
+          <context context-type="linenumber">34,36</context>
         </context-group>
       </trans-unit>
       <trans-unit id="gate.lead" datatype="html">
         <source>Der Name steht auf der öffentlichen Bestenliste.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">26,28</context>
+          <context context-type="linenumber">36,38</context>
         </context-group>
       </trans-unit>
       <trans-unit id="gate.label" datatype="html">
         <source>Anzeigename</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">28,30</context>
+          <context context-type="linenumber">38,40</context>
         </context-group>
       </trans-unit>
       <trans-unit id="gate.hint" datatype="html">
         <source> 3 bis <x id="INTERPOLATION" equiv-text="{{ max }}"/> Zeichen. Buchstaben, Ziffern, Leerzeichen, Bindestrich, Unterstrich. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">51,53</context>
+          <context context-type="linenumber">61,63</context>
         </context-group>
       </trans-unit>
       <trans-unit id="gate.creating" datatype="html">
         <source>Konto wird angelegt …</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">62,63</context>
+          <context context-type="linenumber">72,73</context>
         </context-group>
       </trans-unit>
       <trans-unit id="gate.start" datatype="html">
         <source>Loslegen</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">64,65</context>
+          <context context-type="linenumber">74,75</context>
         </context-group>
       </trans-unit>
       <trans-unit id="refuse.tooShort" datatype="html">
         <source>Zu kurz.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">123</context>
+          <context context-type="linenumber">133</context>
         </context-group>
       </trans-unit>
       <trans-unit id="refuse.tooLong" datatype="html">
         <source>Zu lang.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">124</context>
+          <context context-type="linenumber">134</context>
         </context-group>
       </trans-unit>
       <trans-unit id="refuse.shapeless" datatype="html">
         <source>Der Name muss wie ein Name aussehen: Buchstaben, nicht nur Zeichen und Ziffern.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">125</context>
+          <context context-type="linenumber">135</context>
         </context-group>
       </trans-unit>
       <trans-unit id="refuse.reserved" datatype="html">
         <source>Der Name ist für die Seite selbst reserviert.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">126</context>
+          <context context-type="linenumber">136</context>
         </context-group>
       </trans-unit>
       <trans-unit id="refuse.hate" datatype="html">
         <source>Such dir etwas anderes aus.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">127</context>
+          <context context-type="linenumber">137</context>
         </context-group>
       </trans-unit>
       <trans-unit id="refuse.vulgar" datatype="html">
         <source>Der Name steht auf einer öffentlichen Rangliste. Nicht dieser.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">128</context>
+          <context context-type="linenumber">138</context>
         </context-group>
       </trans-unit>
       <trans-unit id="refuse.address" datatype="html">
         <source>Keine Adressen im Namen.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">129</context>
+          <context context-type="linenumber">139</context>
         </context-group>
       </trans-unit>
       <trans-unit id="fail.network" datatype="html">
         <source>Keine Verbindung zum Server. Es wurde nichts angelegt — dein Name ist in Ordnung, versuch es gleich noch einmal.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">148</context>
+          <context context-type="linenumber">158</context>
         </context-group>
       </trans-unit>
       <trans-unit id="fail.serverDown" datatype="html">
         <source>Der Dienst ist gerade nicht erreichbar (Fehler <x id="status" equiv-text="e.status"/>). Das liegt nicht an deinem Namen — versuch es in ein paar Minuten noch einmal.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">155</context>
+          <context context-type="linenumber">165</context>
         </context-group>
       </trans-unit>
       <trans-unit id="fail.nameRefused" datatype="html">
         <source>Der Name wurde abgelehnt. Such dir einen anderen aus.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">161</context>
+          <context context-type="linenumber">171</context>
         </context-group>
       </trans-unit>
       <trans-unit id="fail.unexpected" datatype="html">
         <source>Unerwartete Antwort vom Server (Fehler <x id="status" equiv-text="e.status"/>). Das liegt nicht an deinem Namen.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">166</context>
+          <context context-type="linenumber">176</context>
         </context-group>
       </trans-unit>
       <trans-unit id="fail.unknown" datatype="html">
         <source>Das Konto konnte nicht angelegt werden. Das liegt nicht an deinem Namen — versuch es noch einmal.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">169</context>
+          <context context-type="linenumber">179</context>
         </context-group>
       </trans-unit>
       <trans-unit id="category.building" datatype="html">
