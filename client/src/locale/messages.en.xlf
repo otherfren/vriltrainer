@@ -372,35 +372,27 @@
         </context-group>
         <target>This name goes on a public leaderboard. Not this one.</target>
       </trans-unit>
-      <trans-unit id="gate.eyebrow" datatype="html">
-        <source>Bevor es losgeht</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">24,25</context>
-        </context-group>
-        <target>Before we start</target>
-      </trans-unit>
       <trans-unit id="gate.heading" datatype="html">
         <source>Wie sollen wir dich nennen?</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">25,27</context>
+          <context context-type="linenumber">24,26</context>
         </context-group>
         <target>What should we call you?</target>
       </trans-unit>
       <trans-unit id="gate.lead" datatype="html">
-        <source> Der Name steht auf der öffentlichen Rangliste und neben jeder einzelnen Sitzung im herunterladbaren Protokoll. Er ist das Einzige an dir, das nicht anonym ist — alles andere läuft unter einer zufälligen Kennung. </source>
+        <source>Der Name steht auf der öffentlichen Bestenliste.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">28,31</context>
+          <context context-type="linenumber">26,28</context>
         </context-group>
-        <target>The name goes on the public leaderboard and beside every single session in the downloadable record. It is the only thing about you that is not anonymous — everything else runs under a random id.</target>
+        <target>The name goes on the public leaderboard.</target>
       </trans-unit>
       <trans-unit id="gate.label" datatype="html">
         <source>Anzeigename</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">33,35</context>
+          <context context-type="linenumber">28,30</context>
         </context-group>
         <target>Display name</target>
       </trans-unit>
@@ -408,7 +400,7 @@
         <source> 3 bis <x id="INTERPOLATION" equiv-text="{{ max }}"/> Zeichen. Buchstaben, Ziffern, Leerzeichen, Bindestrich, Unterstrich. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">56,58</context>
+          <context context-type="linenumber">51,53</context>
         </context-group>
         <target>3 to <x id="INTERPOLATION" equiv-text="{{ max }}"/> characters. Letters, digits, spaces, hyphen, underscore.</target>
       </trans-unit>
@@ -416,7 +408,7 @@
         <source>Konto wird angelegt …</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">67,68</context>
+          <context context-type="linenumber">62,63</context>
         </context-group>
         <target>Creating account …</target>
       </trans-unit>
@@ -424,23 +416,15 @@
         <source>Loslegen</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">69,70</context>
+          <context context-type="linenumber">64,65</context>
         </context-group>
         <target>Start</target>
-      </trans-unit>
-      <trans-unit id="gate.note" datatype="html">
-        <source> Der Name wird vor der Veröffentlichung von einem Menschen freigegeben. Bis dahin steht auf öffentlichen Seiten eine Verdeckung — dir selbst zeigen wir ihn immer. Entfernen kannst du ihn jederzeit; die Sitzungen bleiben dann unter der Kennung stehen und nachrechenbar. </source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">74,77</context>
-        </context-group>
-        <target>A human approves the name before it is published. Until then public pages show a mask — to you we always show it. You can remove it at any time; the sessions then stand under the id, still verifiable.</target>
       </trans-unit>
       <trans-unit id="refuse.tooShort" datatype="html">
         <source>Zu kurz.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">134</context>
+          <context context-type="linenumber">123</context>
         </context-group>
         <target>Too short.</target>
       </trans-unit>
@@ -448,7 +432,7 @@
         <source>Zu lang.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">135</context>
+          <context context-type="linenumber">124</context>
         </context-group>
         <target>Too long.</target>
       </trans-unit>
@@ -456,7 +440,7 @@
         <source>Der Name muss wie ein Name aussehen: Buchstaben, nicht nur Zeichen und Ziffern.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">136</context>
+          <context context-type="linenumber">125</context>
         </context-group>
         <target>The name has to look like a name: letters, not just marks and digits.</target>
       </trans-unit>
@@ -464,7 +448,7 @@
         <source>Der Name ist für die Seite selbst reserviert.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">137</context>
+          <context context-type="linenumber">126</context>
         </context-group>
         <target>That name is reserved for the site itself.</target>
       </trans-unit>
@@ -472,7 +456,7 @@
         <source>Such dir etwas anderes aus.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">138</context>
+          <context context-type="linenumber">127</context>
         </context-group>
         <target>Pick something else.</target>
       </trans-unit>
@@ -480,7 +464,7 @@
         <source>Der Name steht auf einer öffentlichen Rangliste. Nicht dieser.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">139</context>
+          <context context-type="linenumber">128</context>
         </context-group>
         <target>This name goes on a public leaderboard. Not this one.</target>
       </trans-unit>
@@ -488,7 +472,7 @@
         <source>Keine Adressen im Namen.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">140</context>
+          <context context-type="linenumber">129</context>
         </context-group>
         <target>No addresses in the name.</target>
       </trans-unit>
@@ -496,7 +480,7 @@
         <source>Keine Verbindung zum Server. Es wurde nichts angelegt — dein Name ist in Ordnung, versuch es gleich noch einmal.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">159</context>
+          <context context-type="linenumber">148</context>
         </context-group>
         <target>No connection to the server. Nothing was created — your name is fine, try again in a moment.</target>
       </trans-unit>
@@ -504,7 +488,7 @@
         <source>Der Dienst ist gerade nicht erreichbar (Fehler <x id="status" equiv-text="e.status"/>). Das liegt nicht an deinem Namen — versuch es in ein paar Minuten noch einmal.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">166</context>
+          <context context-type="linenumber">155</context>
         </context-group>
         <target>The service is not reachable right now (error <x id="status" equiv-text="e.status"/>). This is not about your name — try again in a few minutes.</target>
       </trans-unit>
@@ -512,7 +496,7 @@
         <source>Der Name wurde abgelehnt. Such dir einen anderen aus.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">172</context>
+          <context context-type="linenumber">161</context>
         </context-group>
         <target>The name was refused. Pick another one.</target>
       </trans-unit>
@@ -520,7 +504,7 @@
         <source>Unerwartete Antwort vom Server (Fehler <x id="status" equiv-text="e.status"/>). Das liegt nicht an deinem Namen.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">177</context>
+          <context context-type="linenumber">166</context>
         </context-group>
         <target>Unexpected answer from the server (error <x id="status" equiv-text="e.status"/>). This is not about your name.</target>
       </trans-unit>
@@ -528,7 +512,7 @@
         <source>Das Konto konnte nicht angelegt werden. Das liegt nicht an deinem Namen — versuch es noch einmal.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">180</context>
+          <context context-type="linenumber">169</context>
         </context-group>
         <target>The account could not be created. This is not about your name — try again.</target>
       </trans-unit>

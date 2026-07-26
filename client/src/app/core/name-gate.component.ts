@@ -7,9 +7,9 @@ import { NAME_MAX, checkDisplayName, normaliseDisplayName } from './display-name
  * The gate in front of the first trial.
  *
  * It stands where the coordinate normally does, because the coordinate is the start of a session
- * and there is no session to start until the account exists. Everything the name commits you to
- * is said here rather than after the fact: it goes on a public board, next to a trial history
- * that is permanent, and it is the only thing about you that is not opaque.
+ * and there is no session to start until the account exists. It says one thing only — the name is
+ * public, on the board — because a wall of text in front of a single input field is a wall people
+ * stop reading. The rest (moderation, masking, removal) is told where it becomes relevant.
  *
  * `checkDisplayName` runs here so somebody learns what is wrong while they type. It is **not** the
  * gate — the server applies the same rules on `POST /api/account`, and when the two disagree it
@@ -21,14 +21,9 @@ import { NAME_MAX, checkDisplayName, normaliseDisplayName } from './display-name
   imports: [FormsModule],
   template: `
     <div class="gate panel">
-      <p class="eyebrow" i18n="@@gate.eyebrow">Bevor es losgeht</p>
       <h1 class="gate__h" i18n="@@gate.heading">Wie sollen wir dich nennen?</h1>
 
-      <p class="gate__lead" i18n="@@gate.lead">
-        Der Name steht auf der öffentlichen Rangliste und neben jeder einzelnen Sitzung im
-        herunterladbaren Protokoll. Er ist das Einzige an dir, das nicht anonym ist — alles
-        andere läuft unter einer zufälligen Kennung.
-      </p>
+      <p class="gate__lead" i18n="@@gate.lead">Der Name steht auf der öffentlichen Bestenliste.</p>
 
       <label class="gate__label" for="displayName" i18n="@@gate.label">Anzeigename</label>
       <input
@@ -69,12 +64,6 @@ import { NAME_MAX, checkDisplayName, normaliseDisplayName } from './display-name
           <ng-container i18n="@@gate.start">Loslegen</ng-container>
         }
       </button>
-
-      <p class="gate__note" i18n="@@gate.note">
-        Der Name wird vor der Veröffentlichung von einem Menschen freigegeben. Bis dahin steht auf
-        öffentlichen Seiten eine Verdeckung — dir selbst zeigen wir ihn immer. Entfernen kannst du
-        ihn jederzeit; die Sitzungen bleiben dann unter der Kennung stehen und nachrechenbar.
-      </p>
     </div>
   `,
   styleUrl: './name-gate.component.scss',
