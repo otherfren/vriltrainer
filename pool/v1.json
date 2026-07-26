@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "created": "2026-07-26T11:32:05Z",
-  "count": 201,
+  "created": "2026-07-26T12:49:18Z",
+  "count": 209,
   "categories": [
     "animal",
     "armour",
@@ -81,6 +81,10 @@
       "category": "armour"
     },
     {
+      "id": "img_114b8c07105faf294077029ab8649569",
+      "category": "light"
+    },
+    {
       "id": "img_11cb84072e8001122ff18e043cce0cca",
       "category": "food"
     },
@@ -143,6 +147,10 @@
     {
       "id": "img_1fa2f13ee3f49492e768863002834878",
       "category": "food"
+    },
+    {
+      "id": "img_1ff0dafb486e8d086b6e8b0bacad1cca",
+      "category": "light"
     },
     {
       "id": "img_1ff9680f6f91b23f565643817c1eb0fc",
@@ -213,6 +221,10 @@
       "category": "insect"
     },
     {
+      "id": "img_37235493ec7aacd57c40c7e0d117f326",
+      "category": "light"
+    },
+    {
       "id": "img_37a6fe756de74ff3e8c17c4d12886c16",
       "category": "clothing"
     },
@@ -275,6 +287,10 @@
     {
       "id": "img_441c283360b99ea8e8a5a18a190151a3",
       "category": "tool"
+    },
+    {
+      "id": "img_44cb60edf15a3b74e9b3944ed9014d28",
+      "category": "light"
     },
     {
       "id": "img_456ab191f3b5dfc9c8128c0b92d61fdc",
@@ -345,6 +361,10 @@
       "category": "armour"
     },
     {
+      "id": "img_5b20e1ab78fabfc2a74d3e064584e142",
+      "category": "light"
+    },
+    {
       "id": "img_5b86d034898f54e2b5c613db4a7bec2a",
       "category": "toy"
     },
@@ -393,6 +413,10 @@
       "category": "armour"
     },
     {
+      "id": "img_65c46f1fdf77261f2315a5dda2269952",
+      "category": "light"
+    },
+    {
       "id": "img_65f794fd3732866fed298600a113d1fb",
       "category": "building"
     },
@@ -403,6 +427,10 @@
     {
       "id": "img_68f6b846a39089d5a352d245efcc5c99",
       "category": "ornament"
+    },
+    {
+      "id": "img_69bac6651eedb2ec1d1d8d1daea696fd",
+      "category": "light"
     },
     {
       "id": "img_6b9252b50319e72b4c97da5b35d17e26",
@@ -519,6 +547,10 @@
     {
       "id": "img_958d261ffc805f2de2fdc559e166466e",
       "category": "vehicle"
+    },
+    {
+      "id": "img_983fd4797bf86e9fd1f1186cc7bae98e",
+      "category": "light"
     },
     {
       "id": "img_9c0e9b365d06696c5eaf03716eee2f03",
@@ -829,5 +861,5 @@
       "category": "food"
     }
   ],
-  "manifest_hash": "sha256:304c391d633d8171e63ac8458eed3b0929faf7c8545e75097b6fc7e12db1ffc0"
+  "manifest_hash": "sha256:8871d449081c64896cf6a06e01da0e4999598408549d5fb9c35289102fc16ca1"
 }

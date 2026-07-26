@@ -1254,3 +1254,74 @@ category = "light"
   en = "Whale oil lamp"
   licence = "CC0"
   source = "https://commons.wikimedia.org/wiki/File:Whale_Oil_Lamp_MET_ADA5311.jpg"
+
+# Eight from the Rijksmuseum, by way of Commons: CC0 by provenance, one object each, isolated on
+# grey. The keyword search on Commons is exhausted for this category (see the note above); a museum
+# collection with a machine-readable licence is not, and this is what it looks like when it works.
+#
+# Candlesticks and nothing but candlesticks, deliberately. Images in one category never appear in
+# the same trial — D22 draws eight different categories — so near-duplicates are safest filed
+# together, and eight variations on brass and silver are eight images no set can pair up.
+#
+# What was rejected while looking: a glass candelabrum that reads as a vase, a candlestick shaped
+# like a woman, one painted with a parrot, and a gilt chandelier hanging on a metre of rod, which
+# centre-cropped square is a rod.
+[[group]]
+dir = "light"
+category = "light"
+
+  [[group.image]]
+  file = "wandleuchter_messing.jpg"
+  de = "Messing-Wandleuchter"
+  en = "Brass wall sconce"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Kaarsenhouder,_BK-1976-15-A.jpg"
+
+  [[group.image]]
+  file = "kerzenhalter_keramik_gruen.jpg"
+  de = "Grüner Kerzenhalter aus Keramik"
+  en = "Green ceramic candle holder"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Blaker_met_oor,_BK-1972-18.jpg"
+
+  [[group.image]]
+  file = "kronleuchter_messing.jpg"
+  de = "Kronleuchter aus Messing"
+  en = "Brass chandelier"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Kaarsenkroon_Kaarsenkroon_van_twee_hoogten_met_ieder_acht_armen,_BK-1987-1.jpg"
+
+  [[group.image]]
+  file = "kerzenstaender_delft_blau.jpg"
+  de = "Blau-weißer Kerzenständer"
+  en = "Blue and white candlestick"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Kandelaar_Kandelaar_met_chinoiserie_decoratie,_BK-1958-22.jpg"
+
+  [[group.image]]
+  file = "kerzenstaender_dreiarmig.jpg"
+  de = "Dreiarmiger Kerzenständer"
+  en = "Three-armed candlestick"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Kandelaar_met_drie_armen,_BK-NM-4682.jpg"
+
+  [[group.image]]
+  file = "kerzenstaender_dorn_messing.jpg"
+  de = "Kerzenständer mit Dorn"
+  en = "Pricket candlestick"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Kandelaar_met_geprofileerde_voet_en_stam,_voorzien_van_een_kaarsenpin,_BK-NM-2384.jpg"
+
+  [[group.image]]
+  file = "kerzenstaender_messing_klein.jpg"
+  de = "Kleiner Messingkerzenständer"
+  en = "Small brass candlestick"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Kandelaar_met_geprofileerde_voet_en_stam,_BK-NM-2399.jpg"
+
+  [[group.image]]
+  file = "wandleuchter_zweiarmig.jpg"
+  de = "Zweiarmiger Wandleuchter"
+  en = "Two-armed wall sconce"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Kaarsenhouder,_BK-KOG-1048.jpg"
