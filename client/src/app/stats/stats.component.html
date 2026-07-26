@@ -65,7 +65,12 @@
         </p>
 
         <!-- Every band the server cut, empty ones included. The two ends are the coloured columns
-             at the edges; the middle they are ends of is the rest of the chart. -->
+             at the edges; the middle they are ends of is the rest of the chart.
+
+             One column per rung, and the rung's drawing under it. Since D31 the bands and the
+             ladder are cut at the same sigmas, so this chart and the ladder below it are finally
+             the same axis — before the rebuild it was eight columns under eleven rungs and there
+             was no way to line one up against the other. -->
         <div class="hist hist--spread" role="img" [attr.aria-label]="spreadAriaLabel()">
           @for (b of bands(); track $index) {
             <div class="hist__col">
@@ -76,6 +81,7 @@
                 [class.hist__bar--mid]="!b.tail"
                 [style.height.%]="height(b.accounts)"
               ></span>
+              <img class="hist__pic" [src]="icon(b.rank ?? 'normie')" alt="" />
               <span class="hist__z">{{ bandLabel(b) }}</span>
             </div>
           }
@@ -95,14 +101,22 @@
           <li [class.is-mid]="l.middle">
             <img class="ladder__pic" [src]="icon(l.rank.slug)" alt="" />
             <span class="ladder__title">{{ l.rank.title }}</span>
+            <!-- The stretch of sigma the rung covers, and how many pure guessers land on it. The
+                 second figure is derived from the first rather than configured: under the share
+                 model this line printed the share back, which is to say it stated its own
+                 definition and proved nothing. -->
             <span class="ladder__span">
               @if (l.middle) {
                 <ng-container i18n="@@stats.ladder.middle"
-                  >die mittleren {{ share(l.share) }} %</ng-container
+                  >±{{ sigma(l.to) }} σ · {{ oneIn(l) }}</ng-container
+                >
+              } @else if (l.to === null) {
+                <ng-container i18n="@@stats.ladder.open"
+                  >ab {{ sigma(l.from) }} σ · {{ oneIn(l) }}</ng-container
                 >
               } @else {
                 <ng-container i18n="@@stats.ladder.band"
-                  >{{ share(l.share) }} % · ab {{ l.unlocksAt }} Ranglistenfähigen</ng-container
+                  >{{ sigma(l.from) }} bis {{ sigma(l.to) }} σ · {{ oneIn(l) }}</ng-container
                 >
               }
             </span>
@@ -156,7 +170,32 @@
         }
       </p>
     } @else {
+      <!-- The four a player came for, in the order they ask them: what am I, how often did I hit,
+           how often should I have, and how surprising is the gap. The rest is still on this page —
+           this is the statistics page — but below them and visibly secondary. -->
       <div class="mine__grid">
+        <div class="mine__cell mine__cell--rank">
+          <img class="mine__pic" [src]="icon(player.rank().slug)" alt="" />
+          <span class="mine__box">
+            <span class="mine__label" i18n="@@fig.rank">Psi-Rang</span>
+            <span class="mine__rank">{{ player.rank().title }}</span>
+          </span>
+        </div>
+        <div class="mine__cell">
+          <span class="mine__label" i18n="@@fig.hitRate">Trefferquote</span>
+          <span class="mine__val measured">{{ minePct() }} %</span>
+        </div>
+        <div class="mine__cell">
+          <span class="mine__label" i18n="@@fig.expected">Erwartet</span>
+          <span class="mine__val measured">{{ chanceRate }} %</span>
+        </div>
+        <div class="mine__cell">
+          <span class="mine__label" i18n="@@fig.luck">Durch Glück</span>
+          <span class="mine__val measured">{{ mineLuck() }}</span>
+        </div>
+      </div>
+
+      <div class="mine__more">
         <div class="mine__cell">
           <span class="mine__label" i18n="@@fig.trials">Sitzungen</span>
           <span class="mine__val measured">{{ player.completed() }}</span>
@@ -164,10 +203,6 @@
         <div class="mine__cell">
           <span class="mine__label" i18n="@@fig.hits">Treffer</span>
           <span class="mine__val measured">{{ player.hits() }}</span>
-        </div>
-        <div class="mine__cell">
-          <span class="mine__label" i18n="@@fig.hitRate">Trefferquote</span>
-          <span class="mine__val measured">{{ minePct() }} %</span>
         </div>
         <div class="mine__cell">
           <span class="mine__label" i18n="@@fig.deviation">Abweichung</span>

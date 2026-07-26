@@ -106,8 +106,21 @@ export class StatsComponent {
     return (n >= 0 ? '+' : '') + this.de(n);
   }
 
-  share(fraction: number): string {
-    return this.de(fraction * 100, fraction < 0.01 ? 1 : 0);
+  /** A band edge, in standard deviations. One decimal, which is how the ladder is configured. */
+  sigma(v: number | null): string {
+    return this.de(v ?? 0, 1);
+  }
+
+  /**
+   * How many pure guessers it takes before one of them lands on this rung.
+   *
+   * The reciprocal of a share the ladder derives from the normal distribution — see `ranks.ts`. It
+   * is not a setting and not a measurement: it is what the configured edges imply under the null,
+   * which is the number that makes a title mean something.
+   */
+  oneIn(rung: Rung): string {
+    if (rung.chanceShare <= 0) return '—';
+    return $localize`:@@stats.ladder.oneIn:1 von ${this.count(Math.round(1 / rung.chanceShare))}:many:`;
   }
 
   /** Chance is 1 in 8 by construction (D3), written as a figure so it follows the locale. */
@@ -126,6 +139,18 @@ export class StatsComponent {
   mineZ = () => this.signed(this.player.deviation());
   mineWilson = () => this.pct(this.player.wilson(), 1);
   perTenK = () => this.count(this.player.perTenK());
+
+  /**
+   * The same "one in so many" the status panel leads with, from the same published figure.
+   *
+   * Zero means rarer than the server's rounding can express, not impossible — see
+   * `by_chance::per_10_000`.
+   */
+  mineLuck = () => {
+    const per10k = this.player.perTenK();
+    if (per10k <= 0) return $localize`:@@fig.luck.rarest:< 1 von 10 000`;
+    return $localize`:@@fig.luck.oneIn:1 von ${this.count(Math.round(10_000 / per10k))}:many:`;
+  };
 
   /**
    * Bar height for one band, against the fullest band in the same chart.

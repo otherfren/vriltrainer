@@ -108,8 +108,9 @@
   padding: 0 15%;
 }
 
-/* Eight bands across, so the columns sit against each other as one shape rather than as separate
-   figures. The axis ticks are the narrowest thing on the page and are allowed to be. */
+/* Eleven bands across — one per rung since D31 — so the columns sit against each other as one
+   shape rather than as separate figures. The axis ticks are the narrowest thing on the page and are
+   allowed to be. */
 .hist--spread {
   gap: 3px;
 
@@ -120,6 +121,14 @@
 
   .hist__count {
     font-size: 0.7rem;
+  }
+
+  /* Small, because eleven of them across a phone is the constraint. They are recognition marks for
+     a ladder printed in full underneath, not the labels themselves. */
+  .hist__pic {
+    width: 26px;
+    height: 26px;
+    margin-top: 2px;
   }
 }
 
@@ -261,6 +270,53 @@
   font-size: 1.5rem;
 }
 
+/* The rank is the first cell and the only one that is a picture. It is coloured because it is the
+   answer to the question people open this section for. */
+.mine__cell--rank {
+  background: var(--zap);
+  flex-direction: row;
+  align-items: center;
+  gap: var(--s3);
+}
+
+.mine__pic {
+  width: 44px;
+  height: 44px;
+  image-rendering: pixelated;
+  flex: none;
+}
+
+.mine__box {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.mine__rank {
+  font-family: var(--shout);
+  font-size: 1.25rem;
+  line-height: 1.1;
+}
+
+/* Everything that is not one of the four. Still here — this is the statistics page — and visibly
+   the second thing rather than folded away behind a toggle. */
+.mine__more {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: var(--s3);
+  margin-bottom: var(--s6);
+}
+
+.mine__more .mine__cell {
+  box-shadow: none;
+  padding: var(--s2) var(--s3);
+}
+
+.mine__more .mine__val {
+  font-size: 1.125rem;
+}
+
 .mine__context {
   padding: var(--s4);
   margin-top: var(--s6);
@@ -269,7 +325,8 @@
 }
 
 @media (max-width: 52rem) {
-  .mine__grid {
+  .mine__grid,
+  .mine__more {
     grid-template-columns: repeat(2, 1fr);
   }
   .tails__read {

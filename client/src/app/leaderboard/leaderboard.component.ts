@@ -2,7 +2,7 @@ import { Component, LOCALE_ID, computed, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ApiService, Board, BoardEntry } from '../core/api.service';
 import { MASKED_NAME } from '../core/display-name';
-import { RankDef, ladder, rankFor, rankIcon } from '../core/ranks';
+import { RankDef, rankFor, rankIcon } from '../core/ranks';
 
 /**
  * The board, straight from `GET /api/leaderboard`.
@@ -46,21 +46,9 @@ export class LeaderboardComponent {
   readonly firstShown = computed(() => this.offset() + 1);
   readonly lastShown = computed(() => this.offset() + this.entries().length);
 
-  /**
-   * The nearest band that does not exist yet, and the population it needs.
-   *
-   * FR-042: the board reports `eligible_accounts` whether or not any band is active precisely so
-   * it can say how far off the next one is. A band appears once `share × eligible >= 1`, with no
-   * rounding, so on a young site this line is the ladder's only visible progress.
-   */
-  readonly nextBand = computed(() => {
-    const t = this.board()?.thresholds;
-    if (t === undefined) return null;
-    const missing = ladder(t.bands)
-      .filter((r) => !r.middle && r.unlocksAt > this.eligible())
-      .sort((a, b) => a.unlocksAt - b.unlocksAt);
-    return missing[0] ?? null;
-  });
+  // There was a `nextBand` here: the nearest rung that did not exist yet and the population it
+  // needed. It went with D31. A rung is a distance from chance now, so every rung exists from the
+  // first day and there is no waiting for one to unlock. It was never rendered in any case.
 
   readonly eligibilityTrials = computed(() => this.board()?.thresholds.eligibility_trials ?? 0);
   readonly eligibilityDays = computed(() => this.board()?.thresholds.eligibility_days ?? 0);

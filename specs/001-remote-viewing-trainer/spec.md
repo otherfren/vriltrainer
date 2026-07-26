@@ -267,10 +267,11 @@ account and full history carry over.
 - **FR-041**: The leaderboard MUST display, for every entry, the statistic it is sorted by as
   the primary figure, together with the account's completed-trial count, hit rate and deviation
   from chance.
-- **FR-042**: System MUST assign ranks as shares of the eligible population rather than by
-  absolute thresholds or fixed seat counts, and MUST award a band only once that band holds at
-  least one account without rounding — `share x eligible >= 1` — stating how many accounts are
-  currently eligible whether or not any band is active (D23).
+- **FR-042**: System MUST assign ranks from an account's own deviation from chance, in fixed bands
+  of standard deviations, rather than from its position among other accounts or its share of them
+  — so that a rank is recomputable by its holder and cannot be changed by anyone else playing. The
+  bands MUST be symmetric about chance and MUST exist at every population; the system MUST state
+  how many accounts are currently eligible (D31, superseding D23).
 - **FR-043**: System MUST assign a distinct rank to accounts performing markedly below chance,
   and MUST display the count of markedly-below and markedly-above accounts together, so the
   symmetry of the two tails is visible.
@@ -354,9 +355,9 @@ account and full history carry over.
   choosing the image from the largest category performs no better than 12.5%.
 - **SC-012**: The abandonment rate, overall and per account, is computable by a third party from
   the public record alone, so selective abandonment is detectable rather than hidden.
-- **SC-013**: No account holds a rank without having met the eligibility rule, and no band is
-  awarded while the eligible population is too small for that band to hold one account without
-  rounding.
+- **SC-013**: No account holds a rank without having met the eligibility rule, and every rank an
+  account holds is the one its own published deviation earns — recomputable by the holder, and
+  unchanged by anyone else joining, playing or leaving.
 - **SC-018**: No name reaches a public surface without having been approved, and a name refused
   during review is discarded rather than stored.
 - **SC-014**: The counts of markedly-above-chance and markedly-below-chance accounts are both

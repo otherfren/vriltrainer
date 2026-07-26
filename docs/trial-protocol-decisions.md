@@ -716,6 +716,12 @@ For a trainer it is judged a net gain — it gives the discrimination something 
 
 ## D23 — Ranks are shares of the population, not positions
 
+> **Superseded by D31 (2026-07-26).** Shares were replaced by fixed distances from chance. The
+> argument below against seat counts still holds — a seat does not mean the same thing at two
+> population sizes — but a share turned out to have the same defect one level up: it still made
+> your title a statement about who else showed up. The eleven rank names here are current; only the
+> edges moved.
+
 Supersedes D19. The ladder is eleven bands, symmetric around Normie:
 
 | Rank | Band |
@@ -1034,3 +1040,73 @@ Consequences:
   is unaffected and still exists; it protects a password, not a quota.
 - Two tests now assert the *absence* of each limit, so re-introducing one fails the suite rather
   than passing silently.
+
+## D31 — Ranks are distances from chance, not shares of the population
+
+Supersedes D23. A rung is a fixed band of standard deviations. The ladder is unchanged in its
+eleven names and its symmetry; only what decides them moved.
+
+| Rank | Band | Under chance |
+|---|---|---|
+| Annunaki | from +3,5 σ | 1 in 4 298 |
+| Insektoider Loosh-Farmer | +2,7 to +3,5 σ | 1 in 309 |
+| Reptiloidenarchont | +1,9 to +2,7 σ | 1 in 40 |
+| Grey Alien | +1,1 to +1,9 σ | 1 in 9 |
+| Psionisches Asset | +0,3 to +1,1 σ | 1 in 4 |
+| Normie | ±0,3 σ | 1 in 4 |
+| Zirbeldrüse verkalkt | −1,1 to −0,3 σ | 1 in 4 |
+| Erdstrahlen-Opfer | −1,9 to −1,1 σ | 1 in 9 |
+| Orgonit-Enjoyer | −2,7 to −1,9 σ | 1 in 40 |
+| Psi-Nullleiter | −3,5 to −2,7 σ | 1 in 309 |
+| Kartoffel | below −3,5 σ | 1 in 4 298 |
+
+D23 fixed the supply of titles, and that was the right thing to want. It bought it with the wrong
+currency. Three problems, in the order they matter:
+
+**A share is not checkable.** This site's whole claim is that a visitor can recompute everything
+from their own record and the public log. A share cannot be recomputed by anyone: it needs the
+entire eligible population and the server's sort over it. A sigma comes out of one account's own
+trials and hits. Every other number on the site is verifiable and the rank was not, and there was
+no reason for that except history.
+
+**A share made the ladder's own argument circular.** FR-043 asks a reader to compare the two ends:
+roughly equal means chance, a heavier top means something to explain. Under D23 the two ends held
+*equal shares because they were configured to*, so the comparison was true by construction at every
+population and proved precisely nothing. On fixed sigma edges the same comparison becomes an
+empirical result. This is the reason to change, more than the other two.
+
+**A share means a stranger can demote you.** Your title moved when other people signed up, played,
+or stopped playing, while your own record sat still. That is a bad property in a game and a worse
+one in a measurement.
+
+**The edges.** Normie is ±0,3 σ and the rungs step outward in even 0,8 σ intervals: 0,3 / 1,1 /
+1,9 / 2,7 / 3,5. Even steps are not decoration — they make eleven rungs eleven equal columns, so
+the distribution chart and the ladder are the same axis and each column can carry its rung's
+drawing. Before this, the chart had eight columns cut at whole sigmas under a ladder of eleven
+rungs cut at shares, and there was no way to lay one against the other.
+
+The numbers barely move under the null. D23's shares were already the tails of a normal
+distribution: 0,1 % is 3,09 σ, 0,5 % is 2,58 σ, 2 % is 2,05 σ, 7 % is 1,48 σ, 20 % is 0,84 σ. The
+one deliberate change is at the top — Annunaki is now about four times rarer than it was, one in
+4 298 rather than one in a thousand. An edge at 3,1 σ would have matched the old figure exactly;
+3,5 σ was chosen instead, and the even step is what pays for it.
+
+Consequences, including the ones that cost something:
+
+- **Titles are no longer capped.** They grow linearly with the population. The eligibility rule —
+  100 trials across 3 distinct UTC days — is now the only brake on grinding one out, and it is a
+  real one: z grows with the square root of n, so a player with a tiny systematic edge reaches any
+  fixed threshold eventually. That is the accepted price of a measurement over a scarcity.
+  Block-wise reporting (D17) still blunts optional stopping.
+- `band_unlocks_at` and the progressive unlock rule are gone. Every rung exists on day one, so
+  `bands_active` on the board is the whole ladder and no longer a function of population. The field
+  stays because readers use it to see what the rungs above them are called.
+- `TAIL_SIGMA` moved from 2,0 to 1,9, because a tail has to start on a band edge or it cannot be
+  read off the chart. "Markedly above chance" is Reptiloidenarchont and up.
+- The distribution has eleven columns, one per rung, each publishing its rank slug. Normie is one
+  column and not two halves; twelve columns under eleven rungs would have reintroduced the
+  mismatch by a smaller margin.
+- The ladder on the statistics page now prints, beside each title, how many pure guessers it takes
+  before one lands there. That figure is derived from the edges through the normal CDF rather than
+  configured. Under D23 the equivalent line printed the configured share back — it restated its own
+  definition.

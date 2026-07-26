@@ -88,10 +88,9 @@ struct Mine<'a> {
     wilson_upper: f64,
     distinct_days: u32,
     eligible: bool,
-    /// A band **slug**, not a position — bands are shares of the eligible population, so there is
-    /// no seat number to report (D23, FR-042). Absent while the account's band does not exist yet,
-    /// and absent entirely for the middle 60 %, which is Normie and the honest answer for almost
-    /// everyone.
+    /// A band **slug**, not a position — a rung is a distance from chance, so there is no seat
+    /// number to report (D31, FR-042). Absent for the middle band, which is Normie: under chance
+    /// about a quarter of everyone, and the honest answer for them.
     #[serde(skip_serializing_if = "Option::is_none")]
     rank: Option<String>,
     unlocks_at: u32,
@@ -279,7 +278,7 @@ fn read_totals(db: &Db, cfg: &Config, now: &str) -> Result<Totals, DbError> {
         hits,
         accounts,
         abandoned,
-        spread: spread::of(&deviations),
+        spread: spread::of(&deviations, &cfg.thresholds),
     })
 }
 
@@ -564,9 +563,9 @@ mod tests {
         let high = f.player();
         let low = f.player();
         let middling = f.player();
-        // Fifty trials, because two standard deviations below chance is unreachable at
-        // twenty-five: a whole block of misses is only 1.9 sigma. The low tail is a real finding
-        // and it costs more trials to earn than the high one.
+        // Fifty trials, because the low tail costs more of them to earn than the high one: a
+        // whole block of twenty-five misses is 1.9 sigma exactly, which is the edge and not
+        // comfortably past it.
         f.play(&high, 50, 15);
         f.play(&low, 50, 0);
         f.play(&middling, 50, 6);
@@ -574,7 +573,7 @@ mod tests {
         let body = json(call(&f.state, "/api/stats/aggregate", None).await).await;
         assert_eq!(body["tail_high"], 1);
         assert_eq!(body["tail_low"], 1);
-        assert_eq!(body["tail_sigma"], 2.0);
+        assert_eq!(body["tail_sigma"], 1.9);
         assert_eq!(body["tail_min_trials"], 10);
     }
 
@@ -630,7 +629,11 @@ mod tests {
         assert_eq!(body["tail_low"], 0);
         assert_eq!(body["qualified"], 1);
         let bands = body["distribution"].as_array().unwrap();
-        assert_eq!(bands.len(), 8, "the bands do not depend on the population");
+        assert_eq!(
+            bands.len(),
+            11,
+            "one column per rung, whatever the population"
+        );
         assert_eq!(
             bands
                 .iter()

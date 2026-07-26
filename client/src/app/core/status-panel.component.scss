@@ -91,11 +91,12 @@
   font-size: 1.5rem;
 }
 
+/* First in the row, because it is the first thing anybody looks for. It used to be pushed to the
+   far right by `margin-left: auto`, behind three counts. */
 .rank {
   display: flex;
   align-items: center;
   gap: var(--s3);
-  margin-left: auto;
   background: var(--zap);
   border: 3px solid var(--ink);
   padding: var(--s2) var(--s4) var(--s2) var(--s2);
@@ -121,37 +122,19 @@
   color: var(--ink);
 }
 
-.status__toggle {
-  font-size: 0.75rem;
-  padding: var(--s2) var(--s4);
-}
-
-.detail {
-  margin-top: var(--s6);
-  border-top: 3px solid var(--ink);
-  padding-top: var(--s4);
-}
-
-.detail__grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--s8);
-  margin-bottom: var(--s4);
-}
-
-.detail__note {
+.status__basis {
   color: var(--ink);
   font-size: 0.875rem;
-  margin: var(--s4) 0 0;
+  margin: 0;
   max-width: 68ch;
 }
 
+.status__basis strong {
+  font-weight: 800;
+}
+
 @media (max-width: 44rem) {
-  .status__row,
-  .detail__grid {
+  .status__row {
     gap: var(--s4);
-  }
-  .rank {
-    margin-left: 0;
   }
 }

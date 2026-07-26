@@ -100,7 +100,7 @@ async fn board(
 
     Ok(Json(Board {
         eligible_accounts,
-        bands_active: ranks::active(eligible_accounts, &cfg.thresholds),
+        bands_active: ranks::active(&cfg.thresholds),
         ranks_updated_at,
         offset,
         limit,
@@ -263,28 +263,47 @@ mod tests {
         );
     }
 
-    /// D23: the ladder fills in from the middle outward, and the rarest title stays unminted until
-    /// the population can hold one without rounding (SC-013, FR-042).
+    /// Every entry holds the band its own deviation earns, and nothing else decides it.
+    ///
+    /// The one assertion worth making about ranks on this surface since D31. It is deliberately
+    /// written against `ranks::band_for` rather than against literal slugs: the point is not which
+    /// title a particular fixture happens to produce, it is that the board and the ladder cannot
+    /// disagree about the same number.
+    fn bands_match_deviations(entries: &[serde_json::Value]) {
+        let t = Config::default().thresholds;
+        for entry in entries {
+            let z = entry["deviation"]
+                .as_f64()
+                .expect("an entry states its sigma");
+            let earned = crate::stats::ranks::band_for(z, &t).map(|a| a.slug().to_owned());
+            let held = entry["band"].as_str().map(str::to_owned);
+            assert_eq!(
+                held, earned,
+                "the band on the board is not the one {z} σ earns"
+            );
+        }
+    }
+
+    /// D31, superseding D23: a rung is a distance from chance, so the ladder is the same ladder at
+    /// four accounts as at four thousand and a small board can already hand out titles (FR-042).
+    ///
+    /// This used to assert the opposite — that four eligible accounts is not a leaderboard and gets
+    /// no titles at all. That was the share model, under which your rank was a statement about who
+    /// else had signed up.
     #[tokio::test]
-    async fn bands_appear_only_once_the_population_can_hold_them() {
+    async fn the_ladder_does_not_depend_on_the_population() {
+        let full = serde_json::json!(["asset", "grey", "reptilian", "loosh", "annunaki"]);
+
         let small = populated(4);
         let body = json(call(&small.state, "/api/leaderboard").await).await;
         assert_eq!(body["eligible_accounts"], 4);
-        assert!(
-            body["bands_active"].as_array().unwrap().is_empty(),
-            "four eligible accounts is not a leaderboard"
-        );
-        for entry in body["entries"].as_array().unwrap() {
-            assert!(entry.get("band").is_none(), "a title at four accounts");
-        }
+        assert_eq!(body["bands_active"], full, "the ladder is not a share");
+        bands_match_deviations(body["entries"].as_array().unwrap());
 
         let bigger = populated(5);
         let body = json(call(&bigger.state, "/api/leaderboard").await).await;
-        assert_eq!(body["bands_active"], serde_json::json!(["asset"]));
-        let entries = body["entries"].as_array().unwrap();
-        assert_eq!(entries[0]["band"], "asset");
-        assert_eq!(entries[4]["band"], "pineal", "the ladder is symmetric");
-        assert!(entries[2].get("band").is_none(), "the middle is Normie");
+        assert_eq!(body["bands_active"], full);
+        bands_match_deviations(body["entries"].as_array().unwrap());
     }
 
     /// The board states the numbers it was computed under (D26, FR-050), and when the ranks last
@@ -317,17 +336,20 @@ mod tests {
         assert_eq!(second["offset"], 2);
     }
 
-    /// An empty board is still a board: it has to say how many accounts are eligible so the page
-    /// can say how far off the first band is (FR-042).
+    /// An empty board is still a board: it states the population, and it states the whole ladder
+    /// so a first visitor can see what the rungs are called before anybody holds one (FR-042).
     #[tokio::test]
-    async fn an_empty_board_still_states_the_population() {
+    async fn an_empty_board_still_states_the_population_and_the_ladder() {
         let f = Fixture::new();
         let response = call(&f.state, "/api/leaderboard").await;
         assert_eq!(response.status(), StatusCode::OK);
         let body = json(response).await;
         assert_eq!(body["eligible_accounts"], 0);
         assert!(body["entries"].as_array().unwrap().is_empty());
-        assert!(body["bands_active"].as_array().unwrap().is_empty());
+        assert_eq!(
+            body["bands_active"],
+            serde_json::json!(["asset", "grey", "reptilian", "loosh", "annunaki"])
+        );
     }
 
     /// The low tail is ordered on the *upper* bound, and this is the board that proved it has to be.
@@ -384,16 +406,14 @@ mod tests {
             "the second sort key is not monotone across the board: {ceilings:?}"
         );
 
-        // Only the widest band exists at seven eligible, so the ladder has exactly two titles and
-        // the low one belongs to the longest record without a hit.
-        assert!(entries[0]["band"].is_string());
+        // The bottom place is the longest record without a hit, and it is a low band because that
+        // is what its sigma is — not because it came last. Every other entry is checked the same
+        // way, against its own deviation rather than against its place.
+        assert_eq!(entries[6]["public_id"], long.public_id);
         assert!(
             entries[6]["band"].is_string(),
             "the low band went missing from the bottom place"
         );
-        assert_eq!(entries[6]["public_id"], long.public_id);
-        for e in &entries[1..6] {
-            assert!(e["band"].is_null(), "a middle place was handed a title");
-        }
+        bands_match_deviations(entries);
     }
 }

@@ -96,7 +96,8 @@ export interface Answered {
 export interface RankBand {
   high: string;
   low: string;
-  share: number;
+  /** Where the rung starts, as an absolute distance from chance in standard deviations (D31). */
+  from_sigma: number;
 }
 
 export interface Thresholds {
@@ -127,7 +128,7 @@ export interface MyStats {
   wilson_lower?: number;
   distinct_days?: number;
   eligible?: boolean;
-  /** A band slug. Absent for the middle 60 % and for a band the population cannot fill yet. */
+  /** A band slug. Absent for the middle band — Normie, about a quarter of a chance population. */
   rank?: string;
 }
 
@@ -158,6 +159,12 @@ export interface SigmaBand {
   accounts: number;
   /** Set by the server, so the chart's emphasis and its tail counts share one definition. */
   tail: boolean;
+  /**
+   * The rung this column is, or null for the middle one — Normie. Since D31 the chart's columns
+   * *are* the ladder, and the server says which is which so the client never has to re-derive the
+   * mapping from the edges.
+   */
+  rank: string | null;
 }
 
 export interface BoardEntry {

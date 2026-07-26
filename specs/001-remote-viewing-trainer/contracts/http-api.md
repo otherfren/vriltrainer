@@ -144,11 +144,11 @@ the log, for the same reason (D3, SC-002). `seq` names that entry.
 ```
 
 `abandoned` is always present, so selective abandonment is visible rather than hidden (FR-021).
-`rank` is a band **slug**, not a position: bands are shares of the eligible population, so there is
-no seat number to report (D23, FR-042). The titles those slugs render as are product copy and live
-in the client's message catalogue, one per domain. `rank` is absent while the account's band does
-not yet exist — a band is awarded only once `share x eligible >= 1` — and absent entirely for the
-middle 60 %, which is Normie and the honest answer for almost everyone.
+`rank` is a band **slug**, not a position: a band is a fixed stretch of standard deviations, so
+there is no seat number to report (D31, FR-042). The band follows from `deviation` alone and can be
+rechecked against the published edges without the server's sort. The titles those slugs render as
+are product copy and live in the client's message catalogue, one per domain. `rank` is absent for
+the middle band — Normie, about a quarter of a chance population, and the honest answer for them.
 
 `unlocks_at` and the band edges are configuration and are reported rather than assumed (D26,
 FR-050).
@@ -174,7 +174,8 @@ key as its primary figure plus the supporting numbers (FR-041).
 
 ```jsonc
 {
-  "eligible_accounts": 214, "bands_active": ["asset", "grey", "reptilian", "loosh"],
+  "eligible_accounts": 214,
+  "bands_active": ["asset", "grey", "reptilian", "loosh", "annunaki"],
   "ranks_updated_at": "2026-07-25T18:00:00Z",
   "entries": [
     { "place": 1, "band": "reptilian", "name": "otherfren", "public_id": "7F3A9C",
@@ -188,11 +189,11 @@ key as its primary figure plus the supporting numbers (FR-041).
 is shown beside it either way, so a masked row is still attributable and still checkable against
 the log (FR-029).
 
-`eligible_accounts` is reported whether or not any band is active, so the board can say how far off
-the next one is (FR-042). `bands_active` names the bands that currently exist, widest first: a band
-appears only once `share x eligible >= 1`, with no rounding up, so the ladder fills in from the
-middle outward as the site grows (D23). `ranks_updated_at` is when the ranks were last recomputed —
-roughly every fifteen minutes — because a rank that has not moved otherwise reads as a bug.
+`eligible_accounts` is reported whether or not anybody holds a title (FR-042). `bands_active` names
+the ladder, nearest the middle first. Since D31 every rung exists at every population, so this is
+the full list rather than a function of how many have played; it stays because readers use it to
+see what the rungs above them are called. `ranks_updated_at` is when the ranks were last recomputed
+— roughly every fifteen minutes — because a rank that has not moved otherwise reads as a bug.
 
 ## Public record
 

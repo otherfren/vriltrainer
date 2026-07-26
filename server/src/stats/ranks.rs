@@ -1,10 +1,18 @@
-//! Share-based ranks (D23, FR-042).
+//! Deviation-based ranks (D31, superseding D23).
 //!
-//! Bands are shares, not seats. D19 was right that supply must be fixed rather than earned by
-//! hitting a threshold — absolute thresholds would have minted twenty-eight archons on a
-//! thousand-visitor launch day — and wrong to fix it as a seat count: third place out of ten is
-//! nothing, third place out of two hundred thousand is a title. A share means the same thing at
-//! every population, which is the only form that survives the site growing.
+//! A rank is a distance from chance, not a place in a queue. Shares were the previous answer and
+//! they were wrong for this site in three ways. A share makes your title depend on who else signed
+//! up, so a player who did nothing can be demoted by strangers. A share cannot be checked: it needs
+//! the whole population and the server's sort, on a site whose entire claim is that a visitor can
+//! verify the numbers from their own record. And a share made the ladder's symmetry true by
+//! definition — the two tails held equal shares because they were configured to, so the
+//! tail-versus-tail comparison FR-043 asks a reader to perform proved nothing at all.
+//!
+//! On sigma edges the same comparison becomes an empirical result: equal counts at the two ends
+//! means chance, a heavier top means something to explain. What is given up is supply control —
+//! titles now grow linearly with the population instead of being capped — which is the correct
+//! trade for a measurement, and the eligibility rule (100 trials across 3 days) remains the brake
+//! on grinding one out.
 
 use rusqlite::{Connection, OptionalExtension, params};
 use time::OffsetDateTime;
@@ -71,58 +79,37 @@ impl<'a> Awarded<'a> {
     }
 }
 
-/// The band a place on the board falls into, or `None` for the middle 60 % — Normie, and the
-/// honest answer for almost everyone.
+/// The band a deviation falls into, or `None` for the middle — Normie, and the honest answer for
+/// about a quarter of everyone.
 ///
-/// A band exists only once `share * eligible >= 1`, with **no rounding up**: rounding would hand
-/// out the rarest title at any population, which is the opposite of what a share means. The top
-/// rung is therefore unreachable until a thousand people have taken this seriously.
+/// The distance decides the rung and the sign decides the end, which is the whole of the symmetry:
+/// one comparison, applied to `|deviation|`, cannot cut the two sides differently. Bands are listed
+/// best first, so the first edge the distance clears is the one to award.
 ///
-/// The bands are nested — the best 0,1 % is inside the best 0,5 % — so the first match walking from
-/// the narrowest outward is the one to award.
-pub fn band_for<'t>(place: u64, eligible: u64, t: &'t Thresholds) -> Option<Awarded<'t>> {
-    if place == 0 || place > eligible {
-        return None;
-    }
-    for band in &t.bands {
-        if place <= holders(band, eligible) {
-            return Some(Awarded {
-                band,
-                side: Side::High,
-            });
-        }
-    }
-    // Counted from the bottom, against the same cut. The two ends can never overlap: every share
-    // is below a half, so the widest band's two halves together hold less than the population.
-    let from_bottom = eligible - place + 1;
-    for band in &t.bands {
-        if from_bottom <= holders(band, eligible) {
-            return Some(Awarded {
-                band,
-                side: Side::Low,
-            });
-        }
-    }
-    None
-}
-
-/// How many accounts a band holds at this population, at each end. Zero means the band does not
-/// exist yet.
-pub fn holders(band: &RankBand, eligible: u64) -> u64 {
-    (band.share * eligible as f64).floor() as u64
-}
-
-/// The bands that currently exist, widest first, named by their upper slug (D23, FR-042).
-///
-/// The board reports this whether or not it is empty, so it can say how far off the next rung is
-/// rather than leaving a reader to wonder why nobody has a title.
-pub fn active(eligible: u64, t: &Thresholds) -> Vec<&str> {
+/// Zero counts as high, which is arbitrary and has to be — a value has to go somewhere and no float
+/// that is exactly zero can be split. It costs nothing: a deviation of zero is Normie on either
+/// side, and Normie has no slug.
+pub fn band_for<'t>(deviation: f64, t: &'t Thresholds) -> Option<Awarded<'t>> {
+    let side = if deviation < 0.0 {
+        Side::Low
+    } else {
+        Side::High
+    };
+    let distance = deviation.abs();
     t.bands
         .iter()
-        .rev()
-        .filter(|b| holders(b, eligible) >= 1)
-        .map(|b| b.high.as_str())
-        .collect()
+        .find(|band| distance >= band.from_sigma)
+        .map(|band| Awarded { band, side })
+}
+
+/// The whole ladder, nearest the middle first, named by its upper slug (FR-042).
+///
+/// Every band exists at every population now that a rung is a distance rather than a share, so this
+/// is the full list and no longer a function of how many people have played. It stays on the board
+/// because the board's readers use it to see what the rungs above them are called; the population
+/// argument it used to carry is gone with D23.
+pub fn active(t: &Thresholds) -> Vec<&str> {
+    t.bands.iter().rev().map(|b| b.high.as_str()).collect()
 }
 
 /// Recomputes and materialises every rank, returning the number of eligible accounts.
@@ -136,20 +123,23 @@ pub fn active(eligible: u64, t: &Thresholds) -> Vec<&str> {
 /// move every account's figure every fifteen minutes, which is exactly the mid-block movement the
 /// block rule exists to prevent.
 pub fn recompute(db: &Db, t: &Thresholds, now: &str) -> Result<u64, DbError> {
-    let ordered: Vec<String> = {
+    // Ordered by the board's order even though the rank no longer depends on it. The order is not
+    // wasted: it is the one the board reads back, and running the pass over the same query keeps
+    // "eligible" meaning one thing in both places.
+    let eligible_rows: Vec<(String, f64)> = {
         let reader = db.reader()?;
         let mut stmt = reader.prepare(&format!(
-            "SELECT s.account_id
+            "SELECT s.account_id, s.deviation
                FROM account_stats s JOIN account a ON a.id = s.account_id
               WHERE s.completed >= ?1 AND s.distinct_utc_days >= ?2
               ORDER BY {BOARD_ORDER}"
         ))?;
         let rows = stmt.query_map(params![t.eligibility_trials, t.eligibility_days], |r| {
-            r.get(0)
+            Ok((r.get(0)?, r.get(1)?))
         })?;
-        rows.collect::<rusqlite::Result<Vec<String>>>()?
+        rows.collect::<rusqlite::Result<Vec<(String, f64)>>>()?
     };
-    let eligible = ordered.len() as u64;
+    let eligible = eligible_rows.len() as u64;
 
     db.write(|tx| {
         // Cleared wholesale first. An account that fell out of eligibility — the floor moved, or
@@ -159,9 +149,8 @@ pub fn recompute(db: &Db, t: &Thresholds, now: &str) -> Result<u64, DbError> {
             "UPDATE account_stats SET eligible = 0, rank_slug = NULL, ranked_at = ?1",
             params![now],
         )?;
-        for (index, account_id) in ordered.iter().enumerate() {
-            let place = index as u64 + 1;
-            let slug = band_for(place, eligible, t).map(|a| a.slug());
+        for (account_id, deviation) in &eligible_rows {
+            let slug = band_for(*deviation, t).map(|a| a.slug());
             tx.execute(
                 "UPDATE account_stats SET eligible = 1, rank_slug = ?2, ranked_at = ?3
                   WHERE account_id = ?1",
@@ -219,111 +208,79 @@ fn cutoff(now: &str) -> String {
 mod tests {
     use super::*;
 
-    fn slug_at(place: u64, eligible: u64, t: &Thresholds) -> Option<&str> {
-        band_for(place, eligible, t).map(|a| a.slug())
+    fn slug_at(deviation: f64, t: &Thresholds) -> Option<&str> {
+        band_for(deviation, t).map(|a| a.slug())
     }
 
-    /// D23's rule, at the exact populations `Thresholds::band_unlocks_at` names. One account short
-    /// of each, the band must not exist — that is what "no rounding up" means, and it is the whole
-    /// reason the top rung is a joke about a thousand people rather than a prize for showing up.
+    /// Every rung, at its own edge and just inside it. The edge belongs to the band above, so a
+    /// player who has just reached 1,9 σ is a Reptiloidenarchont and one at 1,89 σ is not.
     #[test]
-    fn a_band_appears_only_when_a_share_of_the_population_reaches_one() {
+    fn a_band_starts_exactly_at_its_edge() {
         let t = Thresholds::default();
         for band in &t.bands {
-            let at = t.band_unlocks_at(band);
-            assert_eq!(
-                slug_at(1, at, &t),
+            let at = band.from_sigma;
+            assert_eq!(slug_at(at, &t), Some(band.high.as_str()), "at +{at} σ");
+            assert_eq!(slug_at(-at, &t), Some(band.low.as_str()), "at −{at} σ");
+            assert_ne!(
+                slug_at(at - 0.01, &t),
                 Some(band.high.as_str()),
-                "{} should exist at {at} eligible",
+                "{} was handed out below its edge",
                 band.high
             );
-            assert_ne!(
-                slug_at(1, at - 1, &t),
-                Some(band.high.as_str()),
-                "{} was handed out at {} eligible",
-                band.high,
-                at - 1
-            );
         }
     }
 
-    /// Below the widest band's threshold there are no titles at all — five eligible accounts is not
-    /// a leaderboard, and D23 would rather say so than crown the least unlucky of four.
+    /// The rank is the account's own figure and nothing else. Population appears nowhere in the
+    /// signature, which is the whole of D31: nobody else signing up can move your title.
     #[test]
-    fn a_population_too_small_for_any_band_has_no_titles() {
+    fn the_ladder_is_the_same_at_every_population() {
         let t = Thresholds::default();
-        for eligible in 1..5u64 {
-            for place in 1..=eligible {
-                assert_eq!(slug_at(place, eligible, &t), None);
-            }
-            assert!(active(eligible, &t).is_empty());
-        }
+        assert_eq!(slug_at(2.0, &t), Some("reptilian"));
+        assert_eq!(
+            active(&t),
+            vec!["asset", "grey", "reptilian", "loosh", "annunaki"]
+        );
     }
 
-    /// The ladder is symmetric, so every title has a mirror at the same distance from the other end
-    /// — the property that makes the ratio between the two tails a significance test a reader
-    /// performs by looking (D19's closing argument, carried into D23).
+    /// Distance decides the rung and the sign only decides the end, so every title has its mirror
+    /// at the same distance below chance. That symmetry is what makes the ratio between the two
+    /// tails a significance test a reader performs by looking (FR-043).
     #[test]
-    fn every_place_has_its_mirror_at_the_other_end() {
+    fn every_deviation_has_its_mirror_at_the_other_end() {
         let t = Thresholds::default();
-        for eligible in [5u64, 15, 50, 200, 1000, 4321] {
-            for place in 1..=eligible.min(60) {
-                let top = band_for(place, eligible, &t);
-                let bottom = band_for(eligible - place + 1, eligible, &t);
-                match (top, bottom) {
-                    (Some(a), Some(b)) => {
-                        assert_eq!(a.band, b.band, "different rungs at {place} of {eligible}");
-                        assert_ne!(a.side, b.side, "the same end twice");
-                    }
-                    (None, None) => {}
-                    other => panic!("the ladder is lopsided at {place} of {eligible}: {other:?}"),
+        for step in 0..500 {
+            let z = step as f64 * 0.01;
+            match (band_for(z, &t), band_for(-z, &t)) {
+                (Some(a), Some(b)) => {
+                    assert_eq!(a.band, b.band, "different rungs at {z} σ");
+                    // Zero is the one deviation that cannot be split, and it is Normie on both
+                    // sides, so it never reaches here with two bands.
+                    assert_ne!(a.side, b.side, "the same end twice at {z} σ");
                 }
+                (None, None) => {}
+                other => panic!("the ladder is lopsided at {z} σ: {other:?}"),
             }
         }
     }
 
-    /// The middle 60 % is Normie and gets no slug at all. At a thousand eligible the ladder holds
-    /// 20 % each side, so places 201 through 800 are the honest majority.
+    /// Inside ±0,3 σ there is no band at all — Normie, which under chance is about a quarter of
+    /// everyone and the honest answer for them.
     #[test]
     fn the_middle_is_normie() {
         let t = Thresholds::default();
-        let eligible = 1000;
-        assert_eq!(slug_at(200, eligible, &t), Some("asset"));
-        assert_eq!(slug_at(201, eligible, &t), None);
-        assert_eq!(slug_at(800, eligible, &t), None);
-        assert_eq!(slug_at(801, eligible, &t), Some("pineal"));
-    }
-
-    /// The two ends can never claim the same place, whatever the population.
-    #[test]
-    fn the_bands_never_overlap() {
-        let t = Thresholds::default();
-        for eligible in 1..300u64 {
-            let held: u64 = t.bands.iter().map(|b| 2 * holders(b, eligible)).sum();
-            assert!(
-                held <= eligible,
-                "{held} titles for {eligible} eligible accounts"
-            );
+        for z in [-0.29, -0.1, 0.0, 0.1, 0.29] {
+            assert_eq!(slug_at(z, &t), None, "at {z} σ");
         }
+        assert_eq!(slug_at(0.3, &t), Some("asset"));
+        assert_eq!(slug_at(-0.3, &t), Some("pineal"));
     }
 
-    /// The worked example in `contracts/http-api.md`: at 214 eligible the ladder has filled in
-    /// from the middle outward as far as the best 0,5 %, and no further.
+    /// The top rung is open-ended. An account can sit at nine sigma, and the band that catches it
+    /// has to be the best one rather than none at all.
     #[test]
-    fn the_active_bands_fill_in_from_the_middle_outward() {
+    fn the_outermost_rungs_are_open_ended() {
         let t = Thresholds::default();
-        assert_eq!(
-            active(214, &t),
-            vec!["asset", "grey", "reptilian", "loosh"],
-            "annunaki needs a thousand"
-        );
-        assert_eq!(active(1000, &t).len(), 5);
-    }
-
-    #[test]
-    fn a_place_outside_the_population_has_no_band() {
-        let t = Thresholds::default();
-        assert_eq!(band_for(0, 1000, &t), None);
-        assert_eq!(band_for(1001, 1000, &t), None);
+        assert_eq!(slug_at(9.0, &t), Some("annunaki"));
+        assert_eq!(slug_at(-9.0, &t), Some("kartoffel"));
     }
 }

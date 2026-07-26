@@ -1,6 +1,5 @@
-import { Component, LOCALE_ID, computed, inject, signal } from '@angular/core';
+import { Component, LOCALE_ID, computed, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { VrilMeterComponent } from './vril-meter.component';
 import { PlayerService } from './player.service';
 import { SessionService } from './session.service';
 
@@ -9,8 +8,13 @@ import { SessionService } from './session.service';
  *
  * It used to be the aggregate meter, which said the same thing on every page forever and was
  * about everyone rather than you. This says one useful thing at a time: before the unlock, how
- * far you are from a number that means anything; after it, the number — with the statistics that
- * make it interpretable one click away rather than in your face.
+ * far you are from a number that means anything; after it, the four figures somebody actually
+ * came for — the rank, the rate, the rate to beat, and how often luck alone gets there.
+ *
+ * Nothing is folded away behind a toggle any more. A panel with a "show details" button is a panel
+ * that has decided what it shows is not the interesting part, and the fix for that is to show the
+ * interesting part, not to add a click. The figures that were behind it — deviation, the Wilson
+ * floor, the abandoned count, the meter — are on the statistics page, which the heading links to.
  *
  * Every figure comes from `GET /api/stats/me`. Two states exist only because it does: the first
  * load, where there is nothing to draw yet, and the failure, where there is nothing to draw and a
@@ -19,7 +23,7 @@ import { SessionService } from './session.service';
 @Component({
   selector: 'app-status-panel',
   standalone: true,
-  imports: [RouterLink, VrilMeterComponent],
+  imports: [RouterLink],
   template: `
     @if (session.signedIn()) {
       <div class="status panel">
@@ -76,20 +80,13 @@ import { SessionService } from './session.service';
             <a class="status__more" routerLink="/statistik" i18n="@@status.allStats">Alle Statistiken</a>
           </div>
 
+          <!-- Four things, in the order somebody actually asks them: what am I, how often did I
+               hit, how often should I have, and how surprising is the difference. Everything else
+               that used to be here — the deviation, the Wilson floor, the abandoned count, the
+               meter — was a second click away behind a "show details" button, which is a button
+               that says "the interesting part is elsewhere". It is: it is on the statistics page,
+               which is one link away and headed as such. -->
           <div class="status__row">
-            <div class="fig">
-              <span class="fig__label" i18n="@@fig.trials">Sitzungen</span>
-              <span class="fig__val measured">{{ player.completed() }}</span>
-            </div>
-            <div class="fig">
-              <span class="fig__label" i18n="@@fig.hits">Treffer</span>
-              <span class="fig__val measured">{{ player.hits() }}</span>
-            </div>
-            <div class="fig">
-              <span class="fig__label" i18n="@@fig.rate">Quote</span>
-              <span class="fig__val measured">{{ pct(player.rate()) }} %</span>
-            </div>
-
             <div class="rank">
               <img class="rank__pic" [src]="'rank/rank-' + player.rank().icon + '.svg'" alt="" />
               <span class="rank__box">
@@ -97,57 +94,29 @@ import { SessionService } from './session.service';
                 <span class="rank__title">{{ player.rank().title }}</span>
               </span>
             </div>
+
+            <div class="fig">
+              <span class="fig__label" i18n="@@fig.rate">Quote</span>
+              <span class="fig__val measured">{{ pct(player.rate()) }} %</span>
+            </div>
+            <div class="fig">
+              <span class="fig__label" i18n="@@fig.expected">Erwartet</span>
+              <span class="fig__val measured">{{ chanceRate }} %</span>
+            </div>
+            <div class="fig">
+              <span class="fig__label" i18n="@@fig.luck">Durch Glück</span>
+              <span class="fig__val measured">{{ luck() }}</span>
+            </div>
           </div>
 
-          <button class="btn btn--quiet status__toggle" type="button" (click)="open.set(!open())">
-            @if (open()) {
-              <ng-container i18n="@@status.details.hide">Details schließen</ng-container>
-            } @else {
-              <ng-container i18n="@@status.details.show">Details anzeigen</ng-container>
-            }
-          </button>
-
-          @if (open()) {
-            <div class="detail">
-              <div class="detail__grid">
-                <div class="fig">
-                  <span class="fig__label" i18n="@@fig.deviation">Abweichung</span>
-                  <span class="fig__val measured">{{ signed(player.deviation()) }} σ</span>
-                </div>
-                <div class="fig">
-                  <span class="fig__label" i18n="@@fig.wilson">Mindestens</span>
-                  <span class="fig__val measured">{{ pct(player.wilson()) }} %</span>
-                </div>
-                <div class="fig">
-                  <span class="fig__label" i18n="@@fig.abandoned">Abgebrochen</span>
-                  <span class="fig__val measured">{{ player.abandoned() }}</span>
-                </div>
-                <div class="fig">
-                  <span class="fig__label" i18n="@@fig.chance">Zufallsrate</span>
-                  <span class="fig__val measured">{{ chanceRate }} %</span>
-                </div>
-              </div>
-
-              <app-vril-meter
-                [deviation]="player.deviation()"
-                [mine]="true"
-                i18n-label="@@meter.you.label"
-                label="Du"
-                i18n-needleLabel="@@meter.you.needle"
-                needleLabel="du"
-                [reading]="reading()"
-              />
-
-              <!-- FR-019: the n these figures stand over, because without it a reader divides a
-                   deviation by the live trial count and gets a wrong answer. A caption, not an
-                   essay — the reasoning behind block-wise reporting is not what somebody opened
-                   this panel to read. -->
-              <p class="detail__note" i18n="@@status.detail.basis">
-                Über <strong>{{ player.reportedTrials() }}</strong> gewerteten Sitzungen,
-                <strong>{{ player.reportedHits() }}</strong> Treffer.
-              </p>
-            </div>
-          }
+          <!-- FR-019: the n the last figure stands over, because without it a reader divides one
+               number by another and gets a wrong answer. It also says what "durch Glück" counts,
+               which a three-word label cannot. -->
+          <p class="status__basis" i18n="@@status.basis">
+            Über <strong>{{ player.reportedTrials() }}</strong> gewerteten Sitzungen mit
+            <strong>{{ player.reportedHits() }}</strong> Treffern. »Durch Glück« heißt: so viele
+            Ratende braucht es, bis einer davon genauso weit kommt.
+          </p>
         }
       </div>
     }
@@ -157,7 +126,6 @@ import { SessionService } from './session.service';
 export class StatusPanelComponent {
   readonly player = inject(PlayerService);
   readonly session = inject(SessionService);
-  readonly open = signal(false);
 
   /**
    * The locale the bundle was compiled for. Angular sets it from the build, so the German bundle
@@ -172,9 +140,22 @@ export class StatusPanelComponent {
   /** Chance is 1 in 8 by construction (D3); written as a figure so it follows the locale. */
   readonly chanceRate = this.pct(0.125);
 
-  readonly reading = computed(() =>
-    $localize`:@@meter.you.reading:${this.signed(this.player.deviation())}:deviation: σ · Mindestquote ${this.pct(this.player.wilson())}:wilson: %`,
-  );
+  /**
+   * How rare this account's result is under pure guessing, as "one in so many".
+   *
+   * The server publishes it per ten thousand, which is the right unit to compute in and the wrong
+   * one to read: "413 von 10 000" makes a reader do the division. Inverted here, and here only —
+   * the figure itself still comes from `by_chance_per_10k` and is not recomputed.
+   *
+   * Zero is not "never". The server rounds, so anything rarer than one in twenty thousand arrives
+   * as zero, and the honest rendering of that is a bound rather than a ratio (see
+   * `by_chance::per_10_000`).
+   */
+  readonly luck = computed(() => {
+    const per10k = this.player.perTenK();
+    if (per10k <= 0) return $localize`:@@fig.luck.rarest:< 1 von 10 000`;
+    return $localize`:@@fig.luck.oneIn:1 von ${this.count(Math.round(10_000 / per10k))}:many:`;
+  });
 
   pct(v: number): string {
     return (v * 100).toLocaleString(this.locale, {
@@ -183,11 +164,7 @@ export class StatusPanelComponent {
     });
   }
 
-  signed(v: number): string {
-    const s = v.toLocaleString(this.locale, {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    });
-    return v >= 0 ? `+${s}` : s;
+  count(v: number): string {
+    return v.toLocaleString(this.locale);
   }
 }

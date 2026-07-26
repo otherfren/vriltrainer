@@ -41,12 +41,19 @@ impl Locale {
     }
 }
 
-/// One rung of the D23 ladder, and its mirror image below Normie.
+/// One rung of the ladder, and its mirror image below Normie.
 ///
-/// The two slugs share a share because the symmetry is the argument: under chance the tails are
+/// The two slugs share one edge because the symmetry is the argument: under chance the tails are
 /// equally populated, so if the site keeps producing about as many Kartoffeln as Annunaki, that
 /// ratio *is* the significance test, readable by anyone without statistics. Storing the pair
 /// together means the ladder cannot drift out of symmetry through an edit to one end.
+///
+/// The edge is a distance from chance, not a share of the population (D31, superseding D23). A
+/// share made a rank a statement about who else showed up: a player could be demoted by strangers
+/// signing up, and the tail-versus-tail comparison was true by construction and therefore proved
+/// nothing. A sigma edge is computed from one account's own trials and hits, which means a holder
+/// can check their own rank without trusting the server's sort — the standard the rest of the site
+/// is built to.
 ///
 /// Slugs, not titles. The titles are product copy and live in the client's message catalogue,
 /// which is what keeps a German string out of a Rust file (see CLAUDE.md).
@@ -56,16 +63,17 @@ pub struct RankBand {
     pub high: String,
     /// Its mirror below Normie, e.g. `kartoffel`.
     pub low: String,
-    /// The share of the eligible population each of the two holds.
-    pub share: f64,
+    /// Where the band starts, as an absolute deviation in standard deviations. An account is in
+    /// the band when `|deviation| >= from_sigma` and below the next rung's edge.
+    pub from_sigma: f64,
 }
 
 impl RankBand {
-    fn new(high: &str, low: &str, share: f64) -> Self {
+    fn new(high: &str, low: &str, from_sigma: f64) -> Self {
         RankBand {
             high: high.into(),
             low: low.into(),
-            share,
+            from_sigma,
         }
     }
 }
@@ -82,9 +90,8 @@ pub struct Thresholds {
     /// Distinct UTC days those trials must span (D21, FR-040). Parallelism does not compress the
     /// calendar, which is the only reason this resists farming at all.
     pub eligibility_days: u32,
-    /// The ladder, best band first. A band is awarded once `share * eligible >= 1`, with no
-    /// rounding up — rounding would hand out the rarest title at any population, which is the
-    /// opposite of what a share means (D23).
+    /// The ladder, best band first — that is, by descending `from_sigma`. A band is awarded on an
+    /// account's own deviation and exists at every population (D31).
     pub bands: Vec<RankBand>,
 }
 
@@ -94,21 +101,28 @@ impl Default for Thresholds {
             stats_unlock_at: 10,
             eligibility_trials: 100,
             eligibility_days: 3,
+            // Even 0,8 σ steps out from a Normie band of ±0,3. The even step is not cosmetic: it
+            // makes the eleven rungs eleven equal columns, so the distribution chart and the
+            // ladder are one axis and a reader can lay them side by side.
             bands: vec![
-                RankBand::new("annunaki", "kartoffel", 0.001),
-                RankBand::new("loosh", "nullleiter", 0.005),
-                RankBand::new("reptilian", "orgonit", 0.02),
-                RankBand::new("grey", "erdstrahlen", 0.07),
-                RankBand::new("asset", "pineal", 0.20),
+                RankBand::new("annunaki", "kartoffel", 3.5),
+                RankBand::new("loosh", "nullleiter", 2.7),
+                RankBand::new("reptilian", "orgonit", 1.9),
+                RankBand::new("grey", "erdstrahlen", 1.1),
+                RankBand::new("asset", "pineal", 0.3),
             ],
         }
     }
 }
 
 impl Thresholds {
-    /// The smallest eligible population at which `band` exists at all.
-    pub fn band_unlocks_at(&self, band: &RankBand) -> u64 {
-        (1.0 / band.share).ceil() as u64
+    /// The band edges as absolute distances from chance, nearest first.
+    ///
+    /// The reverse of [`Thresholds::bands`], which is best first. Both orders are used — the award
+    /// walks one and the binning the other — so reading the edges from the same list is what keeps
+    /// a ladder and a chart from disagreeing.
+    pub fn edges(&self) -> Vec<f64> {
+        self.bands.iter().rev().map(|b| b.from_sigma).collect()
     }
 }
 
@@ -251,12 +265,38 @@ mod tests {
         assert_eq!(Config::from_cli(cli).locale, Locale::En);
     }
 
-    /// D23's rule, read off the configuration rather than restated in code.
+    /// The ladder is a sequence of distances from chance, listed best first, read back nearest
+    /// first. Both orders are load-bearing — the award walks one, the binning the other — so a
+    /// band list sorted the wrong way has to fail here rather than silently invert the ladder.
     #[test]
-    fn bands_unlock_as_the_population_grows() {
+    fn the_bands_are_ordered_by_distance_from_chance() {
         let t = Thresholds::default();
-        let at: Vec<u64> = t.bands.iter().map(|b| t.band_unlocks_at(b)).collect();
-        assert_eq!(at, vec![1000, 200, 50, 15, 5]);
+        assert_eq!(t.edges(), vec![0.3, 1.1, 1.9, 2.7, 3.5]);
+        for pair in t.bands.windows(2) {
+            assert!(
+                pair[0].from_sigma > pair[1].from_sigma,
+                "bands must be listed best first"
+            );
+        }
+        assert!(
+            t.bands.last().expect("a ladder").from_sigma > 0.0,
+            "Normie has width"
+        );
+    }
+
+    /// The steps are even, which is what lets eleven rungs be eleven equal chart columns. A test
+    /// rather than a comment because the property is invisible in the literal list, and an edit
+    /// that breaks it breaks the chart quietly.
+    #[test]
+    fn the_rungs_are_evenly_spaced() {
+        let edges = Thresholds::default().edges();
+        let step = edges[1] - edges[0];
+        for pair in edges.windows(2) {
+            assert!(
+                (pair[1] - pair[0] - step).abs() < 1e-9,
+                "{pair:?} is not one step of {step}"
+            );
+        }
     }
 
     /// The ladder is symmetric by construction, so no edit can leave one tail wider than the
