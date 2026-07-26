@@ -55,38 +55,102 @@
   width: 48px;
 }
 
-/* ---- the saucer ---- */
+/* ---- the saucer, and the banner it tows ---- */
 /* left/top is the resting position; the animation only ever adds transform, so killing
-   motion parks it in the sky instead of off the edge of the screen. */
+   motion parks it in the sky instead of off the edge of the screen.
 
-.scene__saucer {
+   The crossing belongs to the whole formation rather than to the saucer, so the cloth
+   cannot drift away from the ship it hangs on. It begins far enough left that the banner
+   is offscreen too, and ends far enough right to tow it out after the saucer. */
+
+.scene__flight {
   position: absolute;
   left: 0;
   top: 9%;
-  width: 92px;
-  image-rendering: pixelated;
-  opacity: 0.92;
+  display: flex;
+  align-items: center;
   will-change: transform;
   animation: cross 64s linear infinite;
 }
 
 @keyframes cross {
   0% {
-    transform: translate(-20vw, 0);
+    transform: translate(-40vw, 0);
   }
   50% {
-    transform: translate(42vw, -20px);
+    transform: translate(38vw, -20px);
   }
   100% {
-    transform: translate(105vw, 0);
+    transform: translate(112vw, 0);
+  }
+}
+
+.scene__saucer {
+  width: 92px;
+  image-rendering: pixelated;
+  opacity: 0.92;
+}
+
+/* The tow line: short and stiff, so the banner reads as pulled rather than floating. */
+.scene__tow {
+  width: 26px;
+  height: 3px;
+  background: var(--card);
+  opacity: 0.55;
+}
+
+/* The cloth. The strip leans on a slow wave and each letter rides a faster one at its own
+   offset, which ripples the banner along its length instead of flapping it as a board. */
+.scene__banner {
+  display: flex;
+  align-items: center;
+  gap: 1px;
+  padding: 4px 8px;
+  background: var(--card);
+  border: 3px solid var(--ink);
+  box-shadow: var(--drop-sm);
+  opacity: 0.92;
+  transform-origin: right center;
+  will-change: transform;
+  animation: banner-lean 3.4s ease-in-out infinite;
+}
+
+.scene__banner-ch {
+  display: inline-block;
+  font-family: var(--pixel);
+  font-size: 13px;
+  line-height: 1;
+  color: var(--ink);
+  will-change: transform;
+  animation: banner-ripple 1.5s ease-in-out infinite;
+}
+
+@keyframes banner-lean {
+  0%,
+  100% {
+    transform: rotate(-2.5deg) skewY(1.5deg);
+  }
+  50% {
+    transform: rotate(2.5deg) skewY(-1.5deg);
+  }
+}
+
+@keyframes banner-ripple {
+  0%,
+  100% {
+    transform: translateY(-2px);
+  }
+  50% {
+    transform: translateY(2px);
   }
 }
 
 /* Parked somewhere worth looking at, rather than at the left edge where the crossing
-   happens to begin. */
+   happens to begin. Further left than the saucer alone used to sit, because the banner
+   now occupies the space in front of it. */
 @media (prefers-reduced-motion: reduce) {
-  .scene__saucer {
-    left: 58%;
+  .scene__flight {
+    left: 42%;
   }
 }
 
@@ -183,5 +247,16 @@
   }
   .scene__saucer {
     width: 64px;
+  }
+  /* The formation has to cross a phone without dragging the banner over the wordmark. */
+  .scene__banner-ch {
+    font-size: 10px;
+  }
+  .scene__banner {
+    padding: 3px 5px;
+    border-width: 2px;
+  }
+  .scene__tow {
+    width: 16px;
   }
 }

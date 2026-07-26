@@ -32,7 +32,17 @@ import { Component } from '@angular/core';
 
         <img class="scene__moon scene__moon--big" src="scene/moon-big.svg" alt="" />
         <img class="scene__moon scene__moon--small" src="scene/moon-small.svg" alt="" />
-        <img class="scene__saucer" src="scene/saucer.svg" alt="" />
+        <!-- The banner is towed, so it hangs off the trailing edge: the saucer crosses to the
+             right, the cloth is to its left. -->
+        <div class="scene__flight">
+          <div class="scene__banner">
+            @for (ch of banner; track $index) {
+              <span class="scene__banner-ch" [style.animation-delay.s]="ch.delay">{{ ch.c }}</span>
+            }
+          </div>
+          <span class="scene__tow"></span>
+          <img class="scene__saucer" src="scene/saucer.svg" alt="" />
+        </div>
       </div>
 
       <div class="scene__ridge scene__ridge--far"></div>
@@ -49,6 +59,19 @@ import { Component } from '@angular/core';
 export class SceneComponent {
   /** Fixed positions rather than random ones, so the sky does not reshuffle on every render. */
   readonly stars = SceneComponent.scatter(56);
+
+  /**
+   * The towed banner, one letter per cell. The letters share a single wave and differ only in
+   * where they enter it, which is what ripples the cloth along its length instead of flapping
+   * it as one board. Negative delays start every letter mid-wave rather than in step.
+   *
+   * Not translated: the term reads the same on both domains, and the scene is aria-hidden.
+   * The word gap is a hard space, because a plain one collapses out of the flex row.
+   */
+  readonly banner = [...'REMOTE VIEWING'].map((c, i) => ({
+    c: c === ' ' ? ' ' : c,
+    delay: -(i * 0.09),
+  }));
 
   private static scatter(count: number) {
     // A small LCG: the same sky every load, on every machine, without shipping a data file.
