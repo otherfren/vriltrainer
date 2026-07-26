@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# A snapshot of the audit log, exported as plain JSON, verified, kept — and, if configured, sent
+# A snapshot of the audit log, exported as gzipped JSON, verified, kept — and, if configured, sent
 # off the box.
 #
 # The database is not user data that could be re-collected. It is the record every past trial is
@@ -15,6 +15,13 @@
 # opens it. The document carries its own schema, so it also says what it means, not only what it
 # holds. A partially damaged binary page file is usually a total loss; a partially damaged text
 # file is usually a small one.
+#
+# It is stored gzipped, because a text export of the same rows costs a multiple of what the packed
+# pages did and every one of them is kept forever. gzip is not the same kind of dependency as a
+# SQLite page format: it is one ubiquitous, single-purpose wrapper that `zcat`, `zgrep` and `zdiff`
+# read in place, so none of the properties above are given up — the file stays greppable and
+# diffable without unpacking it first. The compressed stream is written with `-n`, so identical
+# content produces identical bytes and the hash in INDEX is stable.
 #
 # Five things it does that a `cp` — or a `.dump` — does not:
 #
@@ -33,7 +40,7 @@
 #      content of every table. The chain walk only covers `log_entry`; this covers the rest —
 #      accounts, stats, pool rows — column by column.
 #
-# The archive is plain text and not encrypted. Nothing in the schema is a secret: access tokens,
+# The archive is compressed but not encrypted. Nothing in the schema is a secret: access tokens,
 # handoff codes and admin keys are stored only as hashes, and the log deliberately carries the
 # opaque account id instead of a name. The database is a record meant to be checkable by anyone,
 # so the thing worth protecting is that it survives and still verifies, not that it stays unread.
@@ -45,7 +52,7 @@
 #
 # Usage:  backup.sh            take, verify, export, prune, upload
 #         backup.sh --check    verify the newest archive and stop, changing nothing
-#         backup.sh --restore <archive.json> <dest.db>    rebuild and verify to a chosen path
+#         backup.sh --restore <archive.json.gz> <dest.db>    rebuild and verify to a chosen path
 set -euo pipefail
 
 ROOT="${VRIL_ROOT:-/home/bob/vriltrainer}"
@@ -60,7 +67,7 @@ FORMAT="vriltrainer-export-1"
 
 # Retention. Everything inside KEEP_ALL_DAYS is kept; past that one archive per day up to
 # KEEP_DAILY_DAYS; past that one per month, forever. The oldest record is the one hardest to
-# reconstruct, so the long tail is kept even though text costs more than the packed pages did.
+# reconstruct, so the long tail is kept.
 KEEP_ALL_DAYS="${VRIL_KEEP_ALL_DAYS:-7}"
 KEEP_DAILY_DAYS="${VRIL_KEEP_DAILY_DAYS:-90}"
 
@@ -71,6 +78,7 @@ preflight() {
     [ -f "$DB" ] || die "no database at $DB"
     [ -x "$VERIFY" ] || die "no verify_log at $VERIFY — build it with: cargo build --release --bin verify_log"
     command -v sqlite3 >/dev/null || die "sqlite3 not installed"
+    command -v gzip >/dev/null || die "gzip not installed"
     mkdir -p "$DEST"
 }
 
@@ -88,10 +96,15 @@ safe_path() {
 #
 # `.mode json` is what writes the rows, so quoting, nulls and the full precision of the REAL
 # columns are SQLite's problem rather than this script's.
+#
+# $out is the compressed name. The document is written and validated as text first — `json_valid`
+# reads through `readfile`, which knows nothing about gzip — and compressed only once it is known
+# to be a whole document.
 export_json() {
     local db="$1" out="$2" count="$3"
-    local tables t rows first=1
+    local tables t rows first=1 plain="${2%.gz}"
     safe_path "$out"
+    [ "$plain" != "$out" ] || die "export target must end in .gz: $out"
 
     ddl() {
         sqlite3 "$db" "SELECT json_group_array(sql) FROM (
@@ -124,10 +137,14 @@ export_json() {
             printf '    "%s": %s' "$t" "$rows"
         done
         printf '\n  }\n}\n'
-    } > "$out"
+    } > "$plain"
 
-    [ "$(sqlite3 :memory: "SELECT json_valid(readfile('$out'));")" = "1" ] \
+    [ "$(sqlite3 :memory: "SELECT json_valid(readfile('$plain'));")" = "1" ] \
         || die "the export is not valid JSON — refusing to keep it"
+
+    gzip -9n < "$plain" > "$out" || die "gzip of the export failed"
+    rm -f "$plain"
+    gzip -t "$out" || die "the compressed export does not decompress — refusing to keep it"
 }
 
 # --- the import ---------------------------------------------------------------------------------
@@ -139,10 +156,19 @@ export_json() {
 #
 # Columns are read back by name out of `pragma_table_info`, so a schema change needs no edit here.
 import_json() {
-    local json="$1" db="$2" t cols exprs
+    local json="$1" db="$2" t cols exprs tmpjson=""
     safe_path "$json"; safe_path "$db"
     [ -f "$json" ] || die "no archive at $json"
     [ -e "$db" ] && die "$db exists — refusing to overwrite"
+
+    # `readfile` cannot see into a gzip stream, so a compressed archive is unpacked to a scratch
+    # file and everything below reads that. An archive from before compression is read as it is,
+    # which is what keeps the old ones restorable.
+    case "$json" in
+        *.gz) tmpjson="$(mktemp)"; safe_path "$tmpjson"
+              gzip -cd "$json" > "$tmpjson" || die "$json does not decompress"
+              json="$tmpjson" ;;
+    esac
 
     [ "$(sqlite3 :memory: "SELECT json_valid(readfile('$json'));")" = "1" ] \
         || die "$json is not valid JSON"
@@ -171,6 +197,8 @@ import_json() {
 
     [ "$(sqlite3 "$db" 'PRAGMA integrity_check;')" = "ok" ] \
         || die "the database rebuilt from $json fails SQLite's integrity check"
+
+    [ -z "$tmpjson" ] || rm -f "$tmpjson"
 }
 
 # Rebuild an archive to $2 and walk its chain. Prints the entry count on stdout.
@@ -181,8 +209,9 @@ check_archive() {
 }
 
 newest_archive() {
-    # ISO-8601 in the name, so lexical order is chronological.
-    find "$DEST" -maxdepth 1 -name 'vriltrainer-*.json' | sort | tail -1
+    # ISO-8601 in the name, so lexical order is chronological. The glob ends open so that the
+    # uncompressed archives written before this change are still seen — by --check and by prune.
+    find "$DEST" -maxdepth 1 -name 'vriltrainer-*.json*' | sort | tail -1
 }
 
 cmd_check() {
@@ -227,7 +256,7 @@ prune() {
         fi
         rm -f "$f"
         note "pruned $base"
-    done < <(find "$DEST" -maxdepth 1 -name 'vriltrainer-*.json' | sort -r)
+    done < <(find "$DEST" -maxdepth 1 -name 'vriltrainer-*.json*' | sort -r)
 }
 
 upload() {
@@ -236,13 +265,15 @@ upload() {
         note "no S3_ENDPOINT/S3_BUCKET in $ROOT/backup.env — local copy only"
         return 0
     fi
-    # Any S3-compatible endpoint will do. The object is plain text and carries no secret, so the
-    # store needs to be durable, not trusted. --aws-sigv4 is in curl since 7.75; no extra client
-    # to keep installed.
+    # Any S3-compatible endpoint will do. The object carries no secret, so the store needs to be
+    # durable, not trusted. --aws-sigv4 is in curl since 7.75; no extra client to keep installed.
+    #
+    # Content-Type says gzip and Content-Encoding is deliberately not set: with it, some clients
+    # decompress on download and the object no longer matches the hash in INDEX.
     if curl -sSf --retry 3 --retry-delay 5 \
             --aws-sigv4 "aws:amz:${S3_REGION:-us-east-1}:s3" \
             --user "${S3_KEY_ID}:${S3_SECRET}" \
-            -H "Content-Type: application/json" \
+            -H "Content-Type: application/gzip" \
             -T "$file" "${S3_ENDPOINT%/}/${S3_BUCKET}/${name}" >/dev/null; then
         note "uploaded $name to ${S3_ENDPOINT%/}/${S3_BUCKET}"
     else
@@ -270,7 +301,7 @@ cmd_backup() {
 
     local stamp name
     stamp="$(date -u +%Y%m%dT%H%M%SZ)"
-    name="vriltrainer-${stamp}-n${count}.json"
+    name="vriltrainer-${stamp}-n${count}.json.gz"
     export_json "$tmp/snap.db" "$tmp/$name" "$count"
     chmod 644 "$tmp/$name"
 
@@ -294,6 +325,6 @@ cmd_backup() {
 case "${1:-}" in
     "")         cmd_backup ;;
     --check)    cmd_check ;;
-    --restore)  [ $# -eq 3 ] || die "usage: backup.sh --restore <archive.json> <dest.db>"; cmd_restore "$2" "$3" ;;
+    --restore)  [ $# -eq 3 ] || die "usage: backup.sh --restore <archive.json.gz> <dest.db>"; cmd_restore "$2" "$3" ;;
     *)          die "unknown argument: $1" ;;
 esac

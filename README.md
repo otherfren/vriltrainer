@@ -203,14 +203,16 @@ target/release/verify_log           →  /srv/vriltrainer/verify_log
 systemctl enable --now vriltrainer-backup.timer
 ```
 
-Hourly. Each run takes a `VACUUM INTO` snapshot, walks its hash chain, exports it as JSON, then
+Hourly. Each run takes a `VACUUM INTO` snapshot, walks its hash chain, exports it as gzipped JSON,
+then
 **rebuilds a database from what it just wrote and walks the chain again** before keeping it.
 Retention is every snapshot for a week, one a day for ninety days, one a month after that.
 
 **The archive is JSON, not a copy of the `.db`.** A record whose whole claim is "anyone can check
 this" should not need SQLite — or any particular version of it, or an intact page format — to be
 read again. The document carries its own DDL and then every row of every table with its column
-names, one row per line, so it can be grepped for a trial id and diffed between two days.
+names, one row per line, so it can be `zgrep`ed for a trial id and `zdiff`ed between two days. It is
+stored gzipped because the text costs a multiple of the packed pages and every archive is kept.
 `backup.sh --restore` is the other direction: schema, rows, then indexes and triggers, which is the
 order that lets already-accepted rows replay past a trigger written for live appends.
 
@@ -232,9 +234,11 @@ Five refusals, each for something a `cp` — or a `.dump` — does not survive:
   `log_entry`; this covers accounts, stats and pool rows too, column by column.
 
 `backup.sh --check` verifies the newest archive and changes nothing. `backup.sh --restore
-<archive.json> <dest.db>` rebuilds, verifies, and refuses to overwrite.
+<archive.json.gz> <dest.db>` rebuilds, verifies, and refuses to overwrite.
 
-**The archives are plain text and are not encrypted.** Nothing in the schema is a secret: access
+**The archives are JSON, gzipped, and not encrypted.** `zcat`, `zgrep` and `zdiff` read them in
+place, and `-n` keeps the compressed bytes stable for identical content. Nothing in the schema is a
+secret: access
 tokens, handoff codes and admin keys are stored only as hashes, and the log carries the opaque
 account id rather than a name. What matters about this database is that it survives and still
 verifies, not that it stays unread — it is the record every past trial is checked against, and it
