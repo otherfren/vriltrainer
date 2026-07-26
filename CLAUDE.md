@@ -2,6 +2,30 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## What this is
+
+**vriltrainer is a public remote viewing test.** That is the subject matter, and it should be clear
+from the first minute of a session: the user is asked to describe or sense a target that has not
+been shown yet.
+
+A trial runs like this. The viewer is given a coordinate - an opaque label with no relationship to
+the target. They reveal, and see eight images from eight different categories. They pick the one
+they believe is the target. The site tells them whether they hit.
+
+Chance is 12.5%, and the site says so itself. The stats page carries a z-score, so a viewer can see
+whether they are actually above chance or just enjoying a streak.
+
+What makes it more than a click game is that **the operator does not have to be trusted.** The
+server commits to its half of the randomness before the viewer's half exists, the viewer's client
+throws in the other half, and both halves plus the target are published after the pick. Anyone can
+recompute the trial at home and confirm the target was fixed in advance. The public log is an
+append-only hash chain; an instance refuses to start if the chain does not link.
+
+That is why the two implementations - Rust on the server, TypeScript in the browser - must derive a
+trial byte-for-byte identically. Verifiability is the product.
+
+`docs/trial-protocol-decisions.md` (D1-D30) records why the protocol looks the way it does.
+
 ## Documents are written in English
 
 Every document in this repository is English: `README.md`, everything under `docs/`, the
