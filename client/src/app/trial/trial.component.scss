@@ -62,8 +62,8 @@
 .seal.panel {
   align-self: stretch;
   position: relative;
-  padding: var(--s6) var(--s4) var(--s4);
-  margin-bottom: var(--s8);
+  padding: var(--s4) var(--s3) var(--s3);
+  margin-bottom: var(--s6);
 }
 
 .seal__stamp {
@@ -91,9 +91,9 @@
 .seal__row {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--s3);
+  gap: var(--s2);
   align-items: baseline;
-  padding: var(--s1) 0;
+  padding: 0.125rem 0;
 }
 
 .seal__row + .seal__row {
@@ -101,23 +101,20 @@
 }
 
 .seal__key {
-  min-width: 6rem;
+  min-width: 4.5rem;
 }
 
 .seal__val {
   font-family: var(--data);
-  font-size: 0.75rem;
+  font-size: 0.6875rem;
   overflow-wrap: anywhere;
 }
 
-.seal__val {
-  font-size: 0.6875rem;
-}
-
+/* No measure here on purpose. The note is three lines over the panel's full width; capped at
+   54ch it wrapped after half of it and read as a column beside empty space. */
 .seal__note {
-  font-size: 0.9375rem;
-  margin: var(--s3) 0 0;
-  max-width: 54ch;
+  font-size: 0.875rem;
+  margin: var(--s2) 0 0;
 }
 
 /* ---- the two things the machine says out loud ---- */

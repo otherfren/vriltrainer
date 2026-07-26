@@ -187,7 +187,7 @@
   "trial.sealed.stamp": "Target is fixed",
   "trial.commitment": "Commitment",
   "trial.pool": "Pool",
-  "trial.sealed.note": "The target is sealed with this number {START_EMPHASISED_TEXT}before{CLOSE_EMPHASISED_TEXT} you choose. After the reveal you recompute all of this yourself — completely, byte by byte.",
+  "trial.sealed.note": "The target is sealed with these coordinates. After the reveal, a mathematical proof is published that lets you check for yourself that the target was fixed before you picked it, and that we did not cheat.",
   "trial.revealing": "Revealing …",
   "trial.reveal": "Reveal",
   "trial.retry": "Try again",
