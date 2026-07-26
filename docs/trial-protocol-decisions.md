@@ -1196,3 +1196,43 @@ Consequences, including what it costs:
   again produces the same thing they had.
 - The sweep is not exposed on the admin API. D25 keeps that surface to reversible operations only,
   and this is not one.
+
+## D33 — A title is a measurement of your own record; the leaderboard is a ranking
+
+Settled 2026-07-26, from the operator watching a real account: it sat in the Grey Alien column of
+the distribution chart and its own panel called it a Normie. Both statements were true, and
+together they read as a bug.
+
+They came from two populations. The chart bins every account with a long enough record for a
+deviation to mean anything — `stats_unlock_at`, ten completed sessions — and publishes each column
+under the rank slug that band awards. A **title**, though, was only written for accounts that also
+met the leaderboard rule of D21: 100 completed trials across three distinct UTC days. So an account
+ten sessions in had a deviation, a column and no title.
+
+**The title now follows the chart.** `ranks::recompute` awards the band from the account's own
+deviation to every account past `stats_unlock_at`, and the `eligible` flag — who is listed on the
+public board — keeps the 100-trials-across-three-days rule untouched. Two questions, two rules,
+and the one the visitor sees on their own page is the one about their own record.
+
+**And it is awarded by the answer that earns it, not by the next pass.** The slug is written in the
+same transaction as the deviation it comes from, inside `accumulate::store_measures`, so the tenth
+answered session shows the title on the page it returns to. The fifteen-minute pass still recomputes
+both — it has to, because the board's flag lives there and because an operator moving an edge (D26)
+has to take effect without a resolve — but nobody waits a quarter of an hour to be told what a
+figure already on their screen implies.
+
+What this costs, stated plainly, because it is a real cost and it was chosen anyway:
+
+- **Titles are cheap and luck buys them.** Three hits in ten is 1,7 σ and reads as Grey Alien. At
+  ten sessions a pure guesser reaches that about one time in twenty. The operator's argument is the
+  right one: a first session that ends in *Normie, come back in ninety more* teaches nobody
+  anything, and the people who are actually above chance will still be the ones left standing on
+  the board, where the rule is hard and the record is long.
+- **The claim the site makes is not the title.** That claim is the aggregate over every account
+  (D8), which one lucky streak cannot move, and the board (D21), which a streak cannot reach. The
+  distribution chart is what keeps the ladder honest in public: it shows how many accounts are
+  standing on each rung, so a reader can see for themselves that the tails are as populated as
+  chance predicts.
+- **A title can be lost.** It moves at every block boundary (FR-019), in both directions, and the
+  page says which `n` it stands over. A rank that could only rise would be a scoreboard for
+  persistence rather than a measurement.

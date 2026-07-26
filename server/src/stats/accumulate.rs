@@ -10,9 +10,9 @@ use rusqlite::{Connection, OptionalExtension, Transaction, params};
 use time::OffsetDateTime;
 use time::format_description::well_known::Rfc3339;
 
-use crate::config::Config;
+use crate::config::{Config, Thresholds};
 use crate::db::{Db, DbError, utc_day};
-use crate::stats::{AccountStats, blocks, measures};
+use crate::stats::{AccountStats, blocks, measures, ranks};
 
 /// Folds one resolved trial into the account's totals.
 ///
@@ -53,7 +53,7 @@ pub fn on_resolve(
 
     let advanced = at_boundary(completed, hits, cfg);
     let abandoned = recount_abandoned(tx, account_id, &still_open_from(at, cfg))?;
-    store_measures(tx, account_id, abandoned, advanced)
+    store_measures(tx, account_id, abandoned, advanced, &cfg.thresholds)
 }
 
 /// Counts a trial the account never completed. Abandonment is the absence of a resolve entry, so
@@ -132,8 +132,8 @@ pub fn rebuild(
     tx.execute(
         "INSERT INTO account_stats
              (account_id, completed, hits, abandoned, distinct_utc_days, last_utc_day,
-              wilson_lower, wilson_upper, deviation, eligible, updated_at)
-         VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, 0, ?10)
+              wilson_lower, wilson_upper, deviation, eligible, updated_at, rank_slug)
+         VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, 0, ?10, ?11)
          ON CONFLICT (account_id) DO UPDATE SET
              completed         = excluded.completed,
              hits              = excluded.hits,
@@ -143,7 +143,8 @@ pub fn rebuild(
              wilson_lower      = excluded.wilson_lower,
              wilson_upper      = excluded.wilson_upper,
              deviation         = excluded.deviation,
-             updated_at        = excluded.updated_at",
+             updated_at        = excluded.updated_at,
+             rank_slug         = excluded.rank_slug",
         params![
             account_id,
             completed,
@@ -154,7 +155,11 @@ pub fn rebuild(
             measures.lower,
             measures.upper,
             measures.deviation,
-            now
+            now,
+            // The same decision as in `store_measures`, from the same deviation: rebuilding from
+            // the log has to land on the row `on_resolve` would have written, or the two paths
+            // disagree about somebody's title until the next pass.
+            ranks::band_for(measures.deviation, &cfg.thresholds).map(|a| a.slug().to_string()),
         ],
     )?;
     Ok(())
@@ -313,26 +318,41 @@ fn at_boundary(completed: u64, hits: u64, cfg: &Config) -> Option<Measures> {
     })
 }
 
-/// Writes the abandoned count always and the measures only when the block advanced.
+/// Writes the abandoned count always, and the measures plus the title only when the block advanced.
+///
+/// The title is written **here**, in the same transaction as the deviation it comes from, and that
+/// is the whole of D33's "immediately". The fifteen-minute pass still recomputes it — it has to,
+/// because the board's flag and an operator moving an edge (D26) both live there — but a player who
+/// has just answered their tenth session must not be told they are a Normie for another quarter of
+/// an hour when the figure that decides it was written a millisecond ago. Sharing one statement with
+/// the measures also means the pair can never disagree: a rank materialised separately would be a
+/// second copy of a decision, and the two would drift the first time one write failed.
 fn store_measures(
     tx: &Transaction<'_>,
     account_id: &str,
     abandoned: u64,
     advanced: Option<Measures>,
+    t: &Thresholds,
 ) -> Result<(), DbError> {
+    // `None` when the block did not advance, and then `COALESCE` keeps the stored value — the same
+    // way the three figures beside it are held still between boundaries (FR-019).
+    let slug = advanced.map(|m| ranks::band_for(m.deviation, t).map(|a| a.slug().to_string()));
     tx.execute(
         "UPDATE account_stats
             SET abandoned    = ?2,
                 wilson_lower = COALESCE(?3, wilson_lower),
                 wilson_upper = COALESCE(?4, wilson_upper),
-                deviation    = COALESCE(?5, deviation)
+                deviation    = COALESCE(?5, deviation),
+                rank_slug    = CASE WHEN ?6 THEN ?7 ELSE rank_slug END
           WHERE account_id = ?1",
         params![
             account_id,
             abandoned,
             advanced.map(|m| m.lower),
             advanced.map(|m| m.upper),
-            advanced.map(|m| m.deviation)
+            advanced.map(|m| m.deviation),
+            advanced.is_some(),
+            slug.flatten(),
         ],
     )?;
     Ok(())
@@ -452,6 +472,41 @@ mod tests {
             p.play(false, day);
         }
         assert_eq!(p.stats().distinct_utc_days, 3);
+    }
+
+    /// D33: the title stands the instant the block that decides it closes, with no pass in between.
+    ///
+    /// This is the frustrating case the operator reported, from the other side. Ten sessions is the
+    /// point where the statistics unlock and the deviation first means something; if the rank were
+    /// materialised only by the fifteen-minute pass, a player who has just earned a title would be
+    /// told they are a Normie for up to another quarter of an hour — on the same page that already
+    /// shows the deviation the title comes from.
+    #[test]
+    fn a_title_is_written_by_the_answer_that_earns_it() {
+        let mut p = Player::new();
+        let unlock = p.cfg.thresholds.stats_unlock_at as u64;
+
+        for _ in 0..unlock - 1 {
+            p.play(true, DAY_ONE);
+        }
+        assert_eq!(
+            p.stats().rank,
+            None,
+            "no title before the statistics view opens at all"
+        );
+
+        p.play(true, DAY_ONE);
+        let earned = p.stats();
+        assert!(earned.deviation > 0.0, "ten from ten is far above chance");
+        assert_eq!(
+            earned.rank.as_deref(),
+            ranks::band_for(earned.deviation, &p.cfg.thresholds).map(|a| a.slug()),
+            "the title is the band the stored deviation falls in, decided in the same write"
+        );
+        assert!(
+            !earned.eligible,
+            "and it is not the board: that still wants 100 trials across three days"
+        );
     }
 
     /// FR-019. The figure that constitutes a claim may only move at a boundary; the record of what

@@ -123,38 +123,56 @@ pub fn active(t: &Thresholds) -> Vec<&str> {
 /// move every account's figure every fifteen minutes, which is exactly the mid-block movement the
 /// block rule exists to prevent.
 pub fn recompute(db: &Db, t: &Thresholds, now: &str) -> Result<u64, DbError> {
-    // Ordered by the board's order even though the rank no longer depends on it. The order is not
-    // wasted: it is the one the board reads back, and running the pass over the same query keeps
-    // "eligible" meaning one thing in both places.
-    let eligible_rows: Vec<(String, f64)> = {
+    // Two populations, and keeping them apart is the point (D33). A **title** is a statement about
+    // one account's own record, so it needs only enough trials for a deviation to mean anything —
+    // the same gate the statistics view and the distribution chart use, `stats_unlock_at`. The
+    // **board** is a public ranking, and that is what the harder rule of 100 trials across three
+    // days is for: it is a brake on grinding a place out, not on learning where you stand.
+    let ranked_rows: Vec<(String, f64)> = {
+        let reader = db.reader()?;
+        let mut stmt = reader
+            .prepare("SELECT account_id, deviation FROM account_stats WHERE completed >= ?1")?;
+        let rows = stmt.query_map(params![t.stats_unlock_at], |r| Ok((r.get(0)?, r.get(1)?)))?;
+        rows.collect::<rusqlite::Result<Vec<(String, f64)>>>()?
+    };
+
+    // Ordered by the board's order even though no rank depends on it. The order is not wasted: it
+    // is the one the board reads back, and running the pass over the same query keeps "eligible"
+    // meaning one thing in both places.
+    let eligible_ids: Vec<String> = {
         let reader = db.reader()?;
         let mut stmt = reader.prepare(&format!(
-            "SELECT s.account_id, s.deviation
+            "SELECT s.account_id
                FROM account_stats s JOIN account a ON a.id = s.account_id
               WHERE s.completed >= ?1 AND s.distinct_utc_days >= ?2
               ORDER BY {BOARD_ORDER}"
         ))?;
         let rows = stmt.query_map(params![t.eligibility_trials, t.eligibility_days], |r| {
-            Ok((r.get(0)?, r.get(1)?))
+            r.get(0)
         })?;
-        rows.collect::<rusqlite::Result<Vec<(String, f64)>>>()?
+        rows.collect::<rusqlite::Result<Vec<String>>>()?
     };
-    let eligible = eligible_rows.len() as u64;
+    let eligible = eligible_ids.len() as u64;
 
     db.write(|tx| {
-        // Cleared wholesale first. An account that fell out of eligibility — the floor moved, or
-        // the operator raised it (D26) — keeps its title otherwise, and SC-013 says no account
-        // holds a rank without meeting the rule in force.
+        // Cleared wholesale first. An account that fell out of either rule — its own record shrank
+        // by an expiry, or the operator moved a floor (D26) — keeps neither flag nor title
+        // otherwise, and SC-013 says no account holds a rank without meeting the rule in force.
         tx.execute(
             "UPDATE account_stats SET eligible = 0, rank_slug = NULL, ranked_at = ?1",
             params![now],
         )?;
-        for (account_id, deviation) in &eligible_rows {
+        for (account_id, deviation) in &ranked_rows {
             let slug = band_for(*deviation, t).map(|a| a.slug());
             tx.execute(
-                "UPDATE account_stats SET eligible = 1, rank_slug = ?2, ranked_at = ?3
-                  WHERE account_id = ?1",
+                "UPDATE account_stats SET rank_slug = ?2, ranked_at = ?3 WHERE account_id = ?1",
                 params![account_id, slug, now],
+            )?;
+        }
+        for account_id in &eligible_ids {
+            tx.execute(
+                "UPDATE account_stats SET eligible = 1 WHERE account_id = ?1",
+                params![account_id],
             )?;
         }
         Ok(())
