@@ -2734,13 +2734,6 @@ category = "stone"
   source = "https://commons.wikimedia.org/wiki/File:Halite_and_sylvite_(GeoDIL_number_-_177).jpg"
 
   [[group.image]]
-  file = "zinnober.jpg"
-  de = "Zinnober"
-  en = "Cinnabar"
-  licence = "CC0"
-  source = "https://commons.wikimedia.org/wiki/File:Cinnabar_(GeoDIL_number_-_1062).jpg"
-
-  [[group.image]]
   file = "olivin_in_basalt.jpg"
   de = "Olivin im Basalt"
   en = "Olivine in basalt"
@@ -2852,22 +2845,1082 @@ category = "building"
   source = "https://commons.wikimedia.org/wiki/File:Eaton_County_Courthouse,_Charlotte.jpg"
 
   [[group.image]]
-  file = "bibliothek_mit_kuppel.jpg"
-  de = "Bibliothek mit Kuppel"
-  en = "Domed library"
-  licence = "PD"
-  source = "https://commons.wikimedia.org/wiki/File:Library_of_Congress,_Washington,_D.C._-_c._1902.jpg"
-
-  [[group.image]]
   file = "sternwarte_mit_saeulen.jpg"
   de = "Sternwarte mit Säulen"
   en = "Observatory with columns"
   licence = "PD"
   source = "https://commons.wikimedia.org/wiki/File:Edinburgh_City_Observatory.jpg"
 
+
+[[group]]
+dir = "animal"
+category = "animal"
+
   [[group.image]]
-  file = "wehrturm_aus_stein.jpg"
-  de = "Wehrturm aus Stein"
-  en = "Stone fortress tower"
+  file = "einsiedlerkrebs.jpg"
+  de = "Einsiedlerkrebs"
+  en = "Hermit crab"
   licence = "PD"
-  source = "https://commons.wikimedia.org/wiki/File:Tripoli_Tower_of_Lions_edit.jpg"
+  source = "https://commons.wikimedia.org/wiki/File:Hermit_Crab_(43101683030).jpg"
+
+
+  [[group.image]]
+  file = "braune_krabbe.jpg"
+  de = "Braune Krabbe"
+  en = "Brown crab"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Fish4528_-_Flickr_-_NOAA_Photo_Library.jpg"
+
+
+  [[group.image]]
+  file = "nacktschnecke_orange_violett.jpg"
+  de = "Orange-violette Nacktschnecke"
+  en = "Orange and purple sea slug"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Spanish_shawl_nudibranch_(Flabellina_iodinea)_CINMS.jpg"
+
+
+  [[group.image]]
+  file = "ammenhai.jpg"
+  de = "Ammenhai"
+  en = "Nurse shark"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:FGBNMS_-_nurse_shark_(27551309652).jpg"
+
+
+  [[group.image]]
+  file = "kolibri.jpg"
+  de = "Kolibri"
+  en = "Hummingbird"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:AllenHummingbird.jpg"
+
+
+  [[group.image]]
+  file = "polarfuchs.jpg"
+  de = "Polarfuchs"
+  en = "Arctic fox"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Alopex_lagopus_standing_on_Nizke_Island.jpg"
+
+
+  [[group.image]]
+  file = "springender_wal.jpg"
+  de = "Springender Wal"
+  en = "Breaching whale"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:SBNMS_-_Minke_Whale_-_Breach_(28670557361)_(cropped).jpg"
+
+
+[[group]]
+dir = "armour"
+category = "armour"
+
+  [[group.image]]
+  file = "helm_visier_offen.jpg"
+  de = "Helm mit hochgestelltem Visier"
+  en = "Helmet with a raised visor"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Clevelandart_1916.1946.jpg"
+
+
+  [[group.image]]
+  file = "helm_gesichtsschlitz.jpg"
+  de = "Helm mit Gesichtsschlitz"
+  en = "Helmet with a face slit"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Clevelandart_1916.1088.jpg"
+
+
+  [[group.image]]
+  file = "helm_zackenkamm.jpg"
+  de = "Helm mit Zackenkamm"
+  en = "Helmet with a cogged comb"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Clevelandart_1916.1804.jpg"
+
+
+  [[group.image]]
+  file = "helm_luftloecher.jpg"
+  de = "Helm mit Luftlöchern"
+  en = "Helmet with breath holes"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Clevelandart_1916.1651.jpg"
+
+
+  [[group.image]]
+  file = "helm_goldbaender.jpg"
+  de = "Helm mit vergoldeten Bändern"
+  en = "Helmet with gilt bands"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Clevelandart_1916.1531.jpg"
+
+
+  [[group.image]]
+  file = "helm_nietband.jpg"
+  de = "Helm mit Nietband"
+  en = "Helmet with a riveted band"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Clevelandart_2014.393.jpg"
+
+
+  [[group.image]]
+  file = "rundschild_stahl.jpg"
+  de = "Runder Stahlschild"
+  en = "Round steel shield"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Clevelandart_1916.1615.jpg"
+
+
+[[group]]
+dir = "clothing"
+category = "clothing"
+
+  [[group.image]]
+  file = "kinderkimono_tuerkis.jpg"
+  de = "Türkiser Kinderkimono"
+  en = "Turquoise child's kimono"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Jongenskimono_Jongens_miyamairi_kimono_met_speelgoed,_AK-RAK-2009-3-98.jpg"
+
+
+  [[group.image]]
+  file = "strumpf_rot.jpg"
+  de = "Roter Strickstrumpf"
+  en = "Red knitted stocking"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Kous_van_rode_gebreide_katoen,_BK-1965-103-22.jpg"
+
+
+  [[group.image]]
+  file = "strampler_gestreift.jpg"
+  de = "Gestreifter Strampler"
+  en = "Striped romper"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Hansop_van_rood-wit_gestreepte_katoen,_met_ceintuur,_BK-1993-24-A.jpg"
+
+
+  [[group.image]]
+  file = "hose_weiss_batist.jpg"
+  de = "Weiße Batisthose"
+  en = "White batiste trousers"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Lange_broek_van_wit_batist,_BK-1983-72.jpg"
+
+
+  [[group.image]]
+  file = "kinderkimono_rosa.jpg"
+  de = "Rosa Kinderkimono"
+  en = "Pink child's kimono"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Meisjes_miyamairi_kimono_met_geometrische-_en_bloem-motieven,_AK-RAK-2009-3-85.jpg"
+
+
+  [[group.image]]
+  file = "matrosenpullover.jpg"
+  de = "Matrosenpullover"
+  en = "Sailor sweater"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Jak,_BK-1984-156-A.jpg"
+
+
+[[group]]
+dir = "container"
+category = "container"
+
+  [[group.image]]
+  file = "steinzeugkrug_gesicht.jpg"
+  de = "Steinzeugkrug mit Gesicht"
+  en = "Stoneware jug with a face"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Kruik_(baardmankruik)_met_een_rozet_in_medaillons,_BK-KOG-476.jpg"
+
+
+  [[group.image]]
+  file = "bronzekanne_dreifuss.jpg"
+  de = "Bronzekanne auf drei Füßen"
+  en = "Bronze jug on three feet"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Kan_op_drie_klauwpoten_en_tuit_eindigend_in_dierenkop,_BK-16428.jpg"
+
+
+  [[group.image]]
+  file = "weidenkorb_brot.jpg"
+  de = "Geflochtener Brotkorb"
+  en = "Woven bread basket"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Broodmand_met_twee_opstaande_handgrepen,_gevlochten,_BK-NM-5783-119.jpg"
+
+
+  [[group.image]]
+  file = "korb_weiss_deckel.jpg"
+  de = "Weißer Korb mit Deckel"
+  en = "White basket with a lid"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Mand_met_deksel,_opengewerkte_wand,_onbeschilderd,_BK-14560-Q.jpg"
+
+
+  [[group.image]]
+  file = "glasflasche_flach.jpg"
+  de = "Flache Glasflasche"
+  en = "Flat glass bottle"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Flacon,_BK-NM-2370.jpg"
+
+
+  [[group.image]]
+  file = "deckelgefaess_gruen.jpg"
+  de = "Grünes Deckelgefäß"
+  en = "Green jar with a lid"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:China,_Han_dynasty_-_Jar_with_Cover_-_1940.49_-_Cleveland_Museum_of_Art.jpg"
+
+
+  [[group.image]]
+  file = "tonkrug_bootmalerei.jpg"
+  de = "Tonkrug mit Bootmalerei"
+  en = "Clay jar painted with boats"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Clevelandart_1914.639.jpg"
+
+
+  [[group.image]]
+  file = "messingkanne_deckel.jpg"
+  de = "Messingkanne mit Deckel"
+  en = "Brass jug with a lid"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Kan_met_twee_eikels_op_de_duimgreep,_BK-14524.jpg"
+
+
+[[group]]
+dir = "food"
+category = "food"
+
+  [[group.image]]
+  file = "weintrauben_rot.jpg"
+  de = "Rote Weintrauben"
+  en = "Red grapes"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:More_grapes.jpg"
+
+
+  [[group.image]]
+  file = "walnusskerne.jpg"
+  de = "Walnusskerne"
+  en = "Walnut kernels"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Walnuts_no_shell.jpg"
+
+
+  [[group.image]]
+  file = "knoblauchknolle.jpg"
+  de = "Knoblauchknolle"
+  en = "Bulb of garlic"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:White_garlic_vegetable.jpg"
+
+
+  [[group.image]]
+  file = "karotte.jpg"
+  de = "Eine Karotte"
+  en = "A carrot"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Cracked_carrot_2017_B.jpg"
+
+
+  [[group.image]]
+  file = "birne.jpg"
+  de = "Eine Birne"
+  en = "A pear"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Rocha_Pear_2017_A8.jpg"
+
+
+  [[group.image]]
+  file = "toastbrot.jpg"
+  de = "Zwei Scheiben Toast"
+  en = "Two slices of toast"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:ToastedWhiteBread.jpg"
+
+
+  [[group.image]]
+  file = "drachenfrucht.jpg"
+  de = "Drachenfrucht"
+  en = "Dragon fruit"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Drachenfrucht_2010.jpg"
+
+
+  [[group.image]]
+  file = "ananas.jpg"
+  de = "Ananas"
+  en = "Pineapple"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Pineapple_fruit_2.jpg"
+
+
+  [[group.image]]
+  file = "speisekuerbis.jpg"
+  de = "Ein Speisekürbis"
+  en = "A squash"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Festival-Squash.jpg"
+
+
+[[group]]
+dir = "furniture"
+category = "furniture"
+
+  [[group.image]]
+  file = "achtecktisch_geschnitzt.jpg"
+  de = "Achteckiger Tisch"
+  en = "Octagonal table"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Achthoekige_tafel,_BK-15391.jpg"
+
+
+  [[group.image]]
+  file = "naehtisch_klappbar.jpg"
+  de = "Nähtisch mit Klappen"
+  en = "Sewing table with drop leaves"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Naaitafel,_BK-1980-22.jpg"
+
+
+  [[group.image]]
+  file = "hocker_vergoldet.jpg"
+  de = "Vergoldeter Hocker"
+  en = "Gilded stool"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Taboeret_van_verguld_populierenhout,_BK-15389.jpg"
+
+
+  [[group.image]]
+  file = "lesepult_holz.jpg"
+  de = "Lesepult aus Holz"
+  en = "Wooden lectern"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Lessenaar_met_rechthoekig_blad_op_achthoekige,_balustervormige_stam,_BK-NM-5783-22.jpg"
+
+
+  [[group.image]]
+  file = "sitzkiste_eiche.jpg"
+  de = "Sitzbank mit Truhe"
+  en = "Oak settle with a chest"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Bank_Bank,_zogenaamde_sittekist,_versierd_met_briefpanelen_en_met_een_onmklapbare_rugleuning,_BK-NM-1971.jpg"
+
+
+  [[group.image]]
+  file = "eckschraenkchen_eiche.jpg"
+  de = "Eckschränkchen aus Eiche"
+  en = "Small oak corner cabinet"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Theetafel,_BK-1975-22.jpg"
+
+
+[[group]]
+dir = "insect"
+category = "insect"
+
+  [[group.image]]
+  file = "weisse_samtameise.jpg"
+  de = "Weiße Samtameise"
+  en = "White velvet ant"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Dasymutilla_gloriosa,_right_side_2,_Cochise_Co.,_AZ_2016-09-02-14.37_(29141358090).jpg"
+
+
+  [[group.image]]
+  file = "hirschfliege.jpg"
+  de = "Hirschfliege"
+  en = "Deer fly"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Deer_Fly_1,_U,_Back,_MD,_PG_County_2013-07-02-17.57.26_ZS_PMax_(9198455223).jpg"
+
+
+  [[group.image]]
+  file = "fliege_gemusterte_fluegel.jpg"
+  de = "Fliege mit gemusterten Flügeln"
+  en = "Fly with patterned wings"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Trypetoptera_canadensis,_side,_md,_upper_marlboro_2014-06-04-12.01.04_ZS_PMax_(14345969235).jpg"
+
+
+  [[group.image]]
+  file = "riesenhornisse.jpg"
+  de = "Riesenhornisse"
+  en = "Giant hornet"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Murder_hornet_back_2020-10-02-09.36.37_ZS_PMax_UDR_(50409006658).jpg"
+
+
+  [[group.image]]
+  file = "blauschwarze_wespe.jpg"
+  de = "Blauschwarze Wespe"
+  en = "Blue-black wasp"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Silver_hair_wasp,_back_2020-08-17-19.11.53_ZS_PMax_UDR_(50254280843).jpg"
+
+
+  [[group.image]]
+  file = "blassgelbe_motte.jpg"
+  de = "Blassgelbe Motte"
+  en = "Pale yellow moth"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Corn_earworm,_moth,_back_2014-06-06-15.37.55_ZS_PMax_(15751290678).jpg"
+
+
+  [[group.image]]
+  file = "rotschwarzer_bockkaefer.jpg"
+  de = "Rot-schwarzer Bockkäfer"
+  en = "Red and black longhorn beetle"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Beetle,_U,_Back,_MD,_Laurel_2013-06-27-14.36.37_ZS_PMax_(9166656711).jpg"
+
+
+  [[group.image]]
+  file = "braune_wildbiene.jpg"
+  de = "Braune Wildbiene"
+  en = "Brown bee"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Andrena_dunningi,_F,_side,_MD,_Harford_County_2013-04-29-17.29_(41717251492).jpg"
+
+
+  [[group.image]]
+  file = "schwarzweisse_wespe.jpg"
+  de = "Schwarzweiße Wespe"
+  en = "Black and white wasp"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Mutillid,_U,_side,_Maryland,_Prince_Georges_County_2013-02-26-14.16.04_ZS_PMax.jpg"
+
+
+[[group]]
+dir = "instrument"
+category = "instrument"
+
+  [[group.image]]
+  file = "trommel_holz.jpg"
+  de = "Holztrommel"
+  en = "Wooden drum"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Trom,_NG-NM-3126-1.jpg"
+
+
+  [[group.image]]
+  file = "trommel_messing.jpg"
+  de = "Messingtrommel"
+  en = "Brass drum"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Trom,_NG-NM-5245-1.jpg"
+
+
+  [[group.image]]
+  file = "trommel_schwarz.jpg"
+  de = "Schwarze Trommel"
+  en = "Black drum"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Trom,_BK-NM-11430-47.jpg"
+
+
+  [[group.image]]
+  file = "tsuzumi_trommel.jpg"
+  de = "Handtrommel"
+  en = "Hand drum"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Japan,_Edo_(1615-1868)_-_Meiji_(1868-1912)_periods_-_Tsuzumi_Drum_-_1918.349_-_Cleveland_Museum_of_Art.jpg"
+
+
+  [[group.image]]
+  file = "naturhorn.jpg"
+  de = "Naturhorn"
+  en = "Natural horn"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Natuurhoorn_(jachthoorn),_BK-NM-11430-35.jpg"
+
+
+  [[group.image]]
+  file = "jagdhorn_rot.jpg"
+  de = "Jagdhorn"
+  en = "Hunting horn"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Natuurhoorn,_BK-NM-5497.jpg"
+
+
+  [[group.image]]
+  file = "waldhorn.jpg"
+  de = "Waldhorn"
+  en = "French horn"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Waldhoorn,_BK-NM-11430-36-1.jpg"
+
+
+  [[group.image]]
+  file = "ventilhorn.jpg"
+  de = "Ventilhorn"
+  en = "Valve horn"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Ventielhoorn,_NG-NM-10385-174-B.jpg"
+
+
+  [[group.image]]
+  file = "serpent.jpg"
+  de = "Serpent"
+  en = "Serpent"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Serpent,_BK-NM-11430-42.jpg"
+
+
+  [[group.image]]
+  file = "rankett.jpg"
+  de = "Rankett"
+  en = "Rackett"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Ranket,_BK-NM-11430-111.jpg"
+
+
+[[group]]
+dir = "light"
+category = "light"
+
+  [[group.image]]
+  file = "energiesparlampe.jpg"
+  de = "Energiesparlampe"
+  en = "Energy-saving lamp"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Lit_CFL_lamp_on_a_dark_background.jpg"
+
+
+  [[group.image]]
+  file = "taschenlampe_winkelkopf.jpg"
+  de = "Taschenlampe"
+  en = "Flashlight"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:(US)_FLASHLIGHT,_TL-122-B,_2002.1978.jpg"
+
+
+  [[group.image]]
+  file = "tischlampe_chrom.jpg"
+  de = "Tischlampe aus Chrom"
+  en = "Chrome table lamp"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Donald_Deskey.Table_Lamp,_1927-1931.jpg"
+
+
+[[group]]
+dir = "person"
+category = "person"
+
+  [[group.image]]
+  file = "frau_freie_schultern.jpg"
+  de = "Frau mit freien Schultern"
+  en = "Woman with bare shoulders"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Portrait_of_Josephine_Baker,_Paris_LCCN2004662545.jpg"
+
+
+  [[group.image]]
+  file = "junger_mann_tweedsakko.jpg"
+  de = "Junger Mann im Tweedsakko"
+  en = "Young man in a tweed jacket"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Portrait_of_Leonard_Bernstein_LCCN2004662600.jpg"
+
+
+  [[group.image]]
+  file = "aeltere_frau_in_weiss.jpg"
+  de = "Ältere Frau in Weiß"
+  en = "Older woman in white"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Portrait_of_Laurette_Taylor_LCCN2004663614.jpg"
+
+
+  [[group.image]]
+  file = "junger_mann_krawatte.jpg"
+  de = "Junger Mann mit Krawatte"
+  en = "Young man with a tie"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Portrait_of_Kristians_Tonny_LCCN2004663630.jpg"
+
+
+  [[group.image]]
+  file = "alte_frau_im_sessel.jpg"
+  de = "Alte Frau im Sessel"
+  en = "Old woman in an armchair"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Portrait_of_Mary_McLeod_Bethune_LCCN2004662601.jpg"
+
+
+  [[group.image]]
+  file = "mann_im_halbschatten.jpg"
+  de = "Mann im Halbschatten"
+  en = "Man in half shadow"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Portrait_of_Paul_Robeson_LCCN2004663510.jpg"
+
+
+  [[group.image]]
+  file = "mann_vor_weisser_tuer.jpg"
+  de = "Mann vor weißer Tür"
+  en = "Man before a white door"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Portrait_of_Van_Vechten_Shaffer,_Cedar_Rapids,_Iowa_LCCN2004663556.jpg"
+
+
+[[group]]
+dir = "plant"
+category = "plant"
+
+[[group]]
+dir = "stone"
+category = "stone"
+
+  [[group.image]]
+  file = "almandin_granat.jpg"
+  de = "Almandin-Granat"
+  en = "Almandine garnet"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Almandine_(GeoDIL_number_-_306).jpg"
+
+
+  [[group.image]]
+  file = "apophyllit_auf_gestein.jpg"
+  de = "Apophyllit auf Gestein"
+  en = "Apophyllite on rock"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Apophyllite_(GeoDIL_number_-_2256).jpg"
+
+
+  [[group.image]]
+  file = "korund_kristall.jpg"
+  de = "Korund-Kristall"
+  en = "Corundum crystal"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Corundum_(GeoDIL_number_-_1427).jpg"
+
+
+  [[group.image]]
+  file = "dolomitstufe.jpg"
+  de = "Dolomitstufe"
+  en = "Dolomite specimen"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Dolomite_(GeoDIL_number_-_792).jpg"
+
+
+  [[group.image]]
+  file = "schriftgranit.jpg"
+  de = "Schriftgranit"
+  en = "Graphic granite"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Graphic_granite_(GeoDIL_number_-_2919).jpg"
+
+
+  [[group.image]]
+  file = "markasit_kruste.jpg"
+  de = "Markasit-Kruste"
+  en = "Marcasite crust"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Marcasite_(GeoDIL_number_-_1045).jpg"
+
+
+  [[group.image]]
+  file = "opal_im_gestein.jpg"
+  de = "Opal im Gestein"
+  en = "Opal in rock"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Opal_(GeoDIL_number_-_710).jpg"
+
+
+  [[group.image]]
+  file = "smithsonit.jpg"
+  de = "Smithsonit"
+  en = "Smithsonite"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Smithsonite_(GeoDIL_number_-_750).jpg"
+
+
+[[group]]
+dir = "tool"
+category = "tool"
+
+  [[group.image]]
+  file = "nussknacker.jpg"
+  de = "Nussknacker"
+  en = "Nutcracker"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Nutcracker_(51465854365).jpg"
+
+
+  [[group.image]]
+  file = "dosenoeffner.jpg"
+  de = "Dosenöffner"
+  en = "Can opener"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Dosen%C3%B6ffner_can_opnener.jpg"
+
+
+  [[group.image]]
+  file = "stemmeisen_holzgriff.jpg"
+  de = "Stemmeisen"
+  en = "Chisel"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Scalpello_23.jpg"
+
+
+[[group]]
+dir = "toy"
+category = "toy"
+
+  [[group.image]]
+  file = "wuerfel_serpentin.jpg"
+  de = "Steinwuerfel"
+  en = "Stone die"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Dice_MET_10.130.1155_001.jpg"
+
+
+  [[group.image]]
+  file = "wuerfel_knochen.jpg"
+  de = "Knochenwuerfel"
+  en = "Bone die"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Dice_MET_10.130.1156_001.jpg"
+
+
+  [[group.image]]
+  file = "springseil_leder.jpg"
+  de = "Springseil"
+  en = "Skipping rope"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:LeatherSkippingRope.JPG"
+
+
+  [[group.image]]
+  file = "scheibenpuzzle_bunt.jpg"
+  de = "Puzzlescheibe"
+  en = "Puzzle disc"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:PuckPuzzleIQBack.jpg"
+
+
+  [[group.image]]
+  file = "kreisel_antik.jpg"
+  de = "Alter Kreisel"
+  en = "Old spinning top"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Toys_2008-101-005_(15406489088).jpg"
+
+
+  [[group.image]]
+  file = "drehpuzzle_rhombus.jpg"
+  de = "Drehpuzzle"
+  en = "Twisty puzzle"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:%E5%8D%81%E4%BA%8C%E8%BB%B8%E8%8F%B1%E5%BD%A2%E5%8D%81%E4%BA%8C%E9%9D%A2%E9%AB%94%E9%AD%94%E8%A1%93%E6%96%B9%E5%A1%8A.jpg"
+
+
+[[group]]
+dir = "vehicle"
+category = "vehicle"
+
+  [[group.image]]
+  file = "heissluftballon_rot.jpg"
+  de = "Heißluftballon"
+  en = "Hot air balloon"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Red_and_orange_hot_air_balloon_(Unsplash).jpg"
+
+
+  [[group.image]]
+  file = "schneemobil.jpg"
+  de = "Schneemobil"
+  en = "Snowmobile"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Snow_mobile_vehicle.jpg"
+
+
+  [[group.image]]
+  file = "strassenbahn_blau.jpg"
+  de = "Straßenbahn"
+  en = "Tram"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Tram_Be_4_6_Mirage_Vinnitsa_2009_G1.jpg"
+
+
+[[group]]
+dir = "ornament"
+category = "ornament"
+
+  [[group.image]]
+  file = "schnalle_granate.jpg"
+  de = "Silberschnalle mit roten Steinen"
+  en = "Silver buckle with red stones"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Clevelandart_1981.9.jpg"
+
+
+  [[group.image]]
+  file = "schnalle_jade.jpg"
+  de = "Schnallenteil aus Jade"
+  en = "Jade buckle piece"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:China,_19th-20th_century_-_Part_of_a_Buckle_or_Ornament_-_1947.554_-_Cleveland_Museum_of_Art.jpg"
+
+
+  [[group.image]]
+  file = "haarkamm_durchbrochen.jpg"
+  de = "Haarkamm mit durchbrochenem Rücken"
+  en = "Hair comb with an openwork crest"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Haarkam_van_blonde_schildpad_met_hoog_opstaande_rijk_gesneden_rug_met_sierlijke_bladranken,_dertien_tanden,_BK-NM-10904-C.jpg"
+
+
+  [[group.image]]
+  file = "haarkamm_blattwerk.jpg"
+  de = "Haarkamm mit Blattwerk"
+  en = "Hair comb with carved leaves"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Haarkam_van_schildpad_en_hoorn_met_rijk_gesneden_rug,_acht_tanden,_BK-NM-10904-A.jpg"
+
+
+  [[group.image]]
+  file = "haarkamm_kronenrand.jpg"
+  de = "Haarkamm mit Zackenkrone"
+  en = "Hair comb with a crown-like crest"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Haarkam_Haarkam_van_blonde_schildpad_met_hoog_opstaande_gesneden_rug,_negen_tanden,_BK-NM-10904-B.jpg"
+
+
+  [[group.image]]
+  file = "spiegel_schildpatt.jpg"
+  de = "Spiegel im Schildpattrahmen"
+  en = "Mirror in a tortoiseshell frame"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Spiegel_met_lijst_van_schildpad,_BK-16481.jpg"
+
+
+  [[group.image]]
+  file = "spiegel_riffelrahmen.jpg"
+  de = "Spiegel im geriffelten Rahmen"
+  en = "Mirror in a ribbed frame"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Spiegel,_BK-1977-128.jpg"
+
+
+[[group]]
+dir = "plant"
+category = "plant"
+
+  [[group.image]]
+  file = "wasserhyazinthe.jpg"
+  de = "Wasserhyazinthenblüte"
+  en = "Water hyacinth bloom"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Water_hyacinth_bloom.jpg"
+
+
+  [[group.image]]
+  file = "kartoffelblueten.jpg"
+  de = "Kartoffelblüten"
+  en = "Potato flowers"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Potato_flowers.jpg"
+
+
+  [[group.image]]
+  file = "paradiesvogelblume.jpg"
+  de = "Paradiesvogelblume"
+  en = "Bird of paradise flower"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Strelitzia_larger.jpg"
+
+
+  [[group.image]]
+  file = "gelbe_sterndistel.jpg"
+  de = "Gelbe Sterndistel"
+  en = "Yellow star thistle"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Yellow_star_thistle.jpg"
+
+
+
+[[group]]
+dir = "plant"
+category = "plant"
+
+  [[group.image]]
+  file = "trichterblueten_orange.jpg"
+  de = "Orange Trichterblüten"
+  en = "Orange trumpet flowers"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Cyrtanthus_sp.jpg"
+
+
+[[group]]
+dir = "building"
+category = "building"
+
+  [[group.image]]
+  file = "musikpavillon_kuppel.jpg"
+  de = "Musikpavillon mit Kuppel"
+  en = "Domed bandstand"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Slater_Park_Bandstand.jpg"
+
+
+  [[group.image]]
+  file = "minarett_ziegel.jpg"
+  de = "Minarett aus Ziegeln"
+  en = "Brick minaret"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Minaret_of_Hazrati_Imam_Mosque_02.jpg"
+
+
+  [[group.image]]
+  file = "steinhuette_wiese.jpg"
+  de = "Steinhütte auf der Wiese"
+  en = "Stone hut in a meadow"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Stone_hut_above_the_right_bank_of_Kozjak_02.jpg"
+
+
+  [[group.image]]
+  file = "holzspeicher_rot.jpg"
+  de = "Roter Holzspeicher"
+  en = "Red wooden granary"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Granary_Oulujoki_Rectory_20200410.jpg"
+
+
+  [[group.image]]
+  file = "stufenpyramide.jpg"
+  de = "Stufenpyramide"
+  en = "Step pyramid"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Pyramid_of_Kukulkan_Chichen_Itza_01.JPG"
+
+
+  [[group.image]]
+  file = "grabmal_mit_kuppel.jpg"
+  de = "Grabmal mit Kuppel"
+  en = "Domed tomb"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Taj_Mahal_2018.jpg"
+
+
+[[group]]
+dir = "machine"
+category = "machine"
+
+  [[group.image]]
+  file = "standbohrmaschine_klein.jpg"
+  de = "Kleine Standbohrmaschine"
+  en = "Small bench drill"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Electronics_DIYers_drill_press_2.jpg"
+
+
+  [[group.image]]
+  file = "wandtelefon_waehlscheibe.jpg"
+  de = "Wandtelefon mit Wählscheibe"
+  en = "Wall telephone with dial"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Telefoontoestel_met_kiesschijf_van_het_merk_Telephone_Company_-_INDUS_V09819.JPG"
+
+
+  [[group.image]]
+  file = "druckpresse_aus_holz.jpg"
+  de = "Druckpresse aus Holz"
+  en = "Wooden printing press"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Houten_handpers_-_INDUS_V08046.jpg"
+
+
+  [[group.image]]
+  file = "buchpresse_spindel.jpg"
+  de = "Buchpresse"
+  en = "Book press"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Papierpers_of_boekenpers_-_INDUS_V08097.jpg"
+
+
+  [[group.image]]
+  file = "handpresse_gusseisen.jpg"
+  de = "Handpresse aus Gusseisen"
+  en = "Cast-iron hand press"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Gietijzeren_hoogdrukhandpers_van_constructeur_Gouy_-_INDUS_V34367-001.jpg"
+
+
+  [[group.image]]
+  file = "schneidemaschine_kurbel.jpg"
+  de = "Schneidemaschine mit Kurbel"
+  en = "Hand-cranked slicer"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Manuele_snijmachine_van_het_merk_Rob_voor_voedingswaren_-_INDUS_V09437.JPG"
+
+
+  [[group.image]]
+  file = "gasofen_weiss.jpg"
+  de = "Weißer Gasofen"
+  en = "White gas heater"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Gaskachel_van_het_merk_Godin_-_INDUS_V13081.jpg"
+
+
+[[group]]
+dir = "weapon"
+category = "weapon"
+
+  [[group.image]]
+  file = "schwert_korbgriff.jpg"
+  de = "Schwert mit Korbgriff"
+  en = "Basket-hilted sword"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Basket-Hilted_Sword_MET_DP105443.jpg"
+
+
+  [[group.image]]
+  file = "schwert_knauf_verziert.jpg"
+  de = "Schwert mit verziertem Knauf"
+  en = "Sword with decorated pommel"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Sword_(Ral_gri)_MET_DP113246.jpg"
+
+
+  [[group.image]]
+  file = "dolch_kugelknauf.jpg"
+  de = "Dolch mit Kugelknauf"
+  en = "Dagger with round pommel"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Clevelandart_1916.1687.jpg"
+
+
+  [[group.image]]
+  file = "dolch_figurengriff.jpg"
+  de = "Dolch mit Figurengriff"
+  en = "Dagger with figure grip"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Clevelandart_1916.1709.jpg"
+
+
+  [[group.image]]
+  file = "schwert_prunkgriff.jpg"
+  de = "Schwert mit Prunkgriff"
+  en = "Sword with ornate hilt"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Sword_MET_LC-14_25_1204-001.jpg"
+
+
+[[group]]
+dir = "stone"
+category = "stone"
+
+  [[group.image]]
+  file = "serpentinstufe.jpg"
+  de = "Serpentinstufe"
+  en = "Serpentine specimen"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Serpentine_(GeoDIL_number_-_1678).jpg"
+
