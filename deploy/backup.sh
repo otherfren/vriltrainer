@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# A snapshot of the audit log, verified, encrypted, kept — and, if configured, sent off the box.
+# A snapshot of the audit log, verified, compressed, kept — and, if configured, sent off the box.
 #
 # The database is not user data that could be re-collected. It is the record every past trial is
 # checked against, so losing it does not lose a day's activity; it retroactively takes the
@@ -17,15 +17,19 @@
 #   3. Refuses a snapshot shorter than the last one. The log only ever grows, so a smaller count
 #      means the tail is missing — and a truncated chain still verifies, because the first N
 #      entries of a valid log are a valid log. Only the comparison catches it.
-#   4. Decrypts what it just wrote and verifies that. Otherwise the day the passphrase file is
-#      wrong is the day of the restore, not the day of the mistake.
+#   4. Reads back what it just wrote and verifies that, rather than trusting the write.
+#
+# The archives are plain gzip, not encrypted. Nothing in the schema is a secret: access tokens,
+# handoff codes and admin keys are stored only as hashes, and the log deliberately carries the
+# opaque account id instead of a name. The database is a record meant to be checkable by anyone,
+# so the thing worth protecting is that it survives and still verifies, not that it stays unread.
 #
 # Everything is configured through `backup.env` beside it, so the copy in the repo and the copy on
 # the box stay byte-identical — unlike the service unit, which had to diverge.
 #
-# Usage:  backup.sh            take, verify, encrypt, prune, upload
+# Usage:  backup.sh            take, verify, compress, prune, upload
 #         backup.sh --check    verify the newest archive and stop, changing nothing
-#         backup.sh --restore <archive> <dest.db>    decrypt and verify to a chosen path
+#         backup.sh --restore <archive> <dest.db>    unpack and verify to a chosen path
 set -euo pipefail
 
 ROOT="${VRIL_ROOT:-/home/bob/vriltrainer}"
@@ -33,7 +37,6 @@ ROOT="${VRIL_ROOT:-/home/bob/vriltrainer}"
 
 DB="${VRIL_DB:-$ROOT/shared/vriltrainer.db}"
 DEST="${VRIL_BACKUP_DIR:-$ROOT/backups}"
-PASSFILE="${VRIL_BACKUP_PASSFILE:-$ROOT/.backup-pass}"
 VERIFY="${VRIL_VERIFY_LOG:-$ROOT/shared/verify_log}"
 INDEX="$DEST/INDEX"
 STATE="$DEST/.last-count"
@@ -47,35 +50,24 @@ KEEP_DAILY_DAYS="${VRIL_KEEP_DAILY_DAYS:-90}"
 die() { echo "backup: $*" >&2; exit 1; }
 note() { echo "backup: $*" >&2; }
 
-gpg_dec() {
-    gpg --batch --quiet --decrypt --pinentry-mode loopback --passphrase-file "$PASSFILE" "$1"
-}
-
 preflight() {
     [ -f "$DB" ] || die "no database at $DB"
     [ -x "$VERIFY" ] || die "no verify_log at $VERIFY — build it with: cargo build --release --bin verify_log"
-    [ -f "$PASSFILE" ] || die "no passphrase at $PASSFILE"
-    # A world-readable passphrase makes the encryption decorative.
-    local mode
-    mode="$(stat -c %a "$PASSFILE")"
-    [ "$mode" = "600" ] || die "$PASSFILE is mode $mode, want 600"
-    [ -s "$PASSFILE" ] || die "$PASSFILE is empty"
     command -v sqlite3 >/dev/null || die "sqlite3 not installed"
-    command -v gpg >/dev/null || die "gpg not installed"
     mkdir -p "$DEST"
 }
 
-# Decrypt an archive to $1 and walk its chain. Prints the entry count on stdout.
+# Unpack an archive to $1 and walk its chain. Prints the entry count on stdout.
 check_archive() {
     local archive="$1" out="$2" floor="${3:-0}"
-    gpg_dec "$archive" | gunzip > "$out" || die "$archive: could not decrypt or decompress"
+    gunzip -c "$archive" > "$out" || die "$archive: could not decompress"
     [ "$(sqlite3 "$out" 'PRAGMA integrity_check;')" = "ok" ] || die "$archive: SQLite integrity check failed"
     "$VERIFY" --db "$out" --at-least "$floor"
 }
 
 newest_archive() {
     # ISO-8601 in the name, so lexical order is chronological.
-    find "$DEST" -maxdepth 1 -name 'vriltrainer-*.db.gz.gpg' | sort | tail -1
+    find "$DEST" -maxdepth 1 -name 'vriltrainer-*.db.gz' | sort | tail -1
 }
 
 cmd_check() {
@@ -85,7 +77,7 @@ cmd_check() {
     [ -n "$archive" ] || die "no archives in $DEST"
     tmp="$(mktemp -d)"; trap "rm -rf '$tmp'" EXIT
     count="$(check_archive "$archive" "$tmp/check.db" 0)"
-    note "$(basename "$archive"): $count entries, decrypts and verifies"
+    note "$(basename "$archive"): $count entries, unpacks and verifies"
 }
 
 cmd_restore() {
@@ -123,7 +115,7 @@ prune() {
         fi
         rm -f "$f"
         note "pruned $base"
-    done < <(find "$DEST" -maxdepth 1 -name 'vriltrainer-*.db.gz.gpg' | sort -r)
+    done < <(find "$DEST" -maxdepth 1 -name 'vriltrainer-*.db.gz' | sort -r)
 }
 
 upload() {
@@ -132,8 +124,9 @@ upload() {
         note "no S3_ENDPOINT/S3_BUCKET in $ROOT/backup.env — local copy only"
         return 0
     fi
-    # Already encrypted, so the store is untrusted by construction and any S3-compatible endpoint
-    # will do. --aws-sigv4 is in curl since 7.75; no extra client to keep installed.
+    # Any S3-compatible endpoint will do. The object is plain gzip and carries no secret, so the
+    # store needs to be durable, not trusted. --aws-sigv4 is in curl since 7.75; no extra client
+    # to keep installed.
     if curl -sSf --retry 3 --retry-delay 5 \
             --aws-sigv4 "aws:amz:${S3_REGION:-us-east-1}:s3" \
             --user "${S3_KEY_ID}:${S3_SECRET}" \
@@ -163,14 +156,11 @@ cmd_backup() {
 
     local stamp name
     stamp="$(date -u +%Y%m%dT%H%M%SZ)"
-    name="vriltrainer-${stamp}-n${count}.db.gz.gpg"
-    gzip -9 < "$tmp/snap.db" \
-        | gpg --batch --yes --quiet --symmetric --cipher-algo AES256 \
-              --pinentry-mode loopback --passphrase-file "$PASSFILE" \
-              -o "$tmp/$name"
-    chmod 600 "$tmp/$name"
+    name="vriltrainer-${stamp}-n${count}.db.gz"
+    gzip -9 < "$tmp/snap.db" > "$tmp/$name"
+    chmod 644 "$tmp/$name"
 
-    # The loop closed: read back what was just written, with the passphrase as it sits on disk.
+    # The loop closed: read back what was just written rather than trusting the write.
     local back
     back="$(check_archive "$tmp/$name" "$tmp/back.db" "$count")"
     [ "$back" = "$count" ] || die "round trip lost entries: wrote $count, read back $back"
@@ -178,7 +168,7 @@ cmd_backup() {
     mv "$tmp/$name" "$DEST/$name"
     echo "$count" > "$STATE"
     printf '%s\t%s\t%s\t%s\n' "$stamp" "$count" "$(sha256sum "$DEST/$name" | cut -d' ' -f1)" "$name" >> "$INDEX"
-    note "$name: $count entries, verified through decrypt"
+    note "$name: $count entries, verified through unpack"
 
     prune
     upload "$DEST/$name" "$name" || true

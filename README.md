@@ -200,13 +200,12 @@ target/release/verify_log           →  /srv/vriltrainer/verify_log
 ```
 
 ```bash
-head -c 32 /dev/urandom | base64 > /srv/vriltrainer/.backup-pass   # umask 077
 systemctl enable --now vriltrainer-backup.timer
 ```
 
-Hourly. Each run takes a `VACUUM INTO` snapshot, walks its hash chain, gzips and encrypts it with
-that passphrase, then **decrypts what it just wrote and walks the chain again** before keeping it.
-Retention is every snapshot for a week, one a day for ninety days, one a month after that.
+Hourly. Each run takes a `VACUUM INTO` snapshot, walks its hash chain, gzips it, then **unpacks
+what it just wrote and walks the chain again** before keeping it. Retention is every snapshot for a
+week, one a day for ninety days, one a month after that.
 
 Four refusals, each for something a `cp` does not survive:
 
@@ -219,20 +218,23 @@ Four refusals, each for something a `cp` does not survive:
 - **A snapshot shorter than the last one is refused.** The first N entries of a valid log are
   themselves a valid log, so a chain walk cannot see a missing tail. Only the count comparison can,
   and it is kept in `backups/.last-count`.
-- **The round trip is exercised every hour, not at restore time.** Otherwise the day the passphrase
-  file is wrong is the day it is needed.
+- **The round trip is exercised every hour, not at restore time.** An archive that cannot be
+  unpacked and re-verified is caught the hour it is written, not the day it is needed.
 
 `backup.sh --check` verifies the newest archive and changes nothing. `backup.sh --restore <archive>
-<dest.db>` decrypts, verifies, and refuses to overwrite.
+<dest.db>` unpacks, verifies, and refuses to overwrite.
 
-The passphrase is the whole of it: **the archives are unreadable without `.backup-pass`, and it
-lives on the machine being backed up.** Keep a copy somewhere the machine is not.
+**The archives are plain gzip and are not encrypted.** Nothing in the schema is a secret: access
+tokens, handoff codes and admin keys are stored only as hashes, and the log carries the opaque
+account id rather than a name. What matters about this database is that it survives and still
+verifies, not that it stays unread — it is the record every past trial is checked against, and it
+is meant to be checkable by anyone.
 
 Off-site is optional and configured in `backup.env` — any S3-compatible endpoint, uploaded through
-`curl --aws-sigv4`. The blob is encrypted before it leaves the box, so the store holds ciphertext
-and a filename. A failed upload warns and does not stop the next snapshot; it must never be the
-reason no backup was taken. The bucket must still not be publicly readable: a dump contains
-`s_server` for trials in flight.
+`curl --aws-sigv4`. A failed upload warns and does not stop the next snapshot; it must never be the
+reason no backup was taken. A trial in flight is not a hazard here: `s_server` is written only on
+the resolve row, which publishes it deliberately, and the table constraint forbids it on a commit
+row. The pending half lives in the sealed token the client holds, not in the database.
 
 ## What is missing
 

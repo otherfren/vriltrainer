@@ -1,4 +1,4 @@
-# Takes, verifies and encrypts one snapshot of the audit log. Driven by
+# Takes and verifies one snapshot of the audit log. Driven by
 # vriltrainer-backup.timer; nothing here is enabled on its own.
 #
 # Runs as bob, like the service it backs up, because both ends of this are files
@@ -23,12 +23,8 @@ Group=bob
 WorkingDirectory=/home/bob/vriltrainer
 ExecStart=/home/bob/vriltrainer/backup.sh
 
-# gpg wants a writable home for its lock and random seed. Kept beside the job
-# rather than in ~/.gnupg so that ProtectHome can stay read-only.
-Environment=GNUPGHOME=/home/bob/vriltrainer/.gnupg
-
 # shared/ for the -shm the read transaction needs, backups/ for the output.
-ReadWritePaths=/home/bob/vriltrainer/shared /home/bob/vriltrainer/backups /home/bob/vriltrainer/.gnupg
+ReadWritePaths=/home/bob/vriltrainer/shared /home/bob/vriltrainer/backups
 ProtectSystem=strict
 ProtectHome=read-only
 PrivateTmp=true
