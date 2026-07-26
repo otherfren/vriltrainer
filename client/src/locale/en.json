@@ -191,7 +191,7 @@
   "trial.revealing": "Revealing …",
   "trial.reveal": "Reveal",
   "trial.retry": "Try again",
-  "trial.takeYourTime": "Take your time with the coordinate. Only then reveal.",
+  "trial.takeYourTime": "Take your time with the coordinate.{LINE_BREAK}Only then reveal.",
   "trial.candidates": "Coordinate {INTERPOLATION} · eight candidates, eight categories",
   "trial.candidateAlt": "Candidate {number}",
   "trial.tag.target": "Target",

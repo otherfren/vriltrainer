@@ -110,11 +110,13 @@
   overflow-wrap: anywhere;
 }
 
-/* No measure here on purpose. The note is three lines over the panel's full width; capped at
-   54ch it wrapped after half of it and read as a column beside empty space. */
 .seal__note {
   font-size: 0.875rem;
   margin: var(--s2) 0 0;
+  /* It is a <p>, so it inherits the 60ch prose measure from styles.scss — and inside a panel that
+     runs to the 70rem shell, 60ch wraps three lines into a column beside empty space. Dropping the
+     local 54ch was not enough; the global one has to be turned off too, the way .eyebrow does. */
+  max-width: none;
 }
 
 /* ---- the two things the machine says out loud ---- */
