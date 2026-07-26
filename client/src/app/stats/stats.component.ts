@@ -1,6 +1,6 @@
 import { Component, LOCALE_ID, computed, inject, signal } from '@angular/core';
 import { VrilMeterComponent } from '../core/vril-meter.component';
-import { AggregateStats, ApiService } from '../core/api.service';
+import { AggregateStats, ApiService, SigmaBand } from '../core/api.service';
 import { Rung, ladder, rankIcon } from '../core/ranks';
 import { PlayerService } from '../core/player.service';
 import { SessionService } from '../core/session.service';
@@ -12,13 +12,19 @@ import { SessionService } from '../core/session.service';
  * None of it existed, and inventing the exact numbers a site of this kind would love to have is
  * the one thing it cannot do and remain worth reading. All of it is gone.
  *
- * What replaces the invented histogram is not a smaller invented histogram. The API publishes two
- * tail counts and not a per-band distribution, so the chart is the two tails — which is also
- * exactly the test FR-043 asks a reader to perform by looking: under chance they arrive in
- * roughly equal numbers, and a real effect can only make the upper one heavier.
+ * What replaces the invented histogram is not a smaller invented histogram. It is the measured one:
+ * the API publishes every qualified account in sigma bands, and the chart draws exactly those bands
+ * with exactly those counts. The test FR-043 asks a reader to perform is still the one to perform by
+ * looking — under chance the two ends arrive in roughly equal numbers and a real effect can only
+ * make the upper one heavier — and now the middle those ends are ends of is on the page too.
  *
- * The empty state is an empty grey chart and one honest line (T105). Not a spinner that never
- * resolves, and not a zero dressed up as a finding.
+ * That middle is the whole reason this is a distribution rather than two columns. Two tail counts of
+ * zero is the honest state under the null and the likely one for a long time, and it reads as a page
+ * that failed rather than as a finding. Every band drawn, with the qualified count beside it, says
+ * the same thing without looking broken.
+ *
+ * The empty state is therefore the same chart, drawn flat, plus one honest line (T105). Not a
+ * spinner that never resolves, and not a zero dressed up as a finding.
  */
 @Component({
   selector: 'app-stats',
@@ -51,6 +57,14 @@ export class StatsComponent {
   readonly tailLow = computed(() => this.aggregate()?.tail_low ?? 0);
   readonly tailSigma = computed(() => this.aggregate()?.tail_sigma ?? 2);
   readonly tailMinTrials = computed(() => this.aggregate()?.tail_min_trials ?? 0);
+
+  /**
+   * The bands, exactly as the server cut them. No fallback set is invented here: a chart drawn from
+   * bands this file made up would be the same failure the page's history is a record of.
+   */
+  readonly bands = computed<SigmaBand[]>(() => this.aggregate()?.distribution ?? []);
+  /** Accounts with a long enough record to be in the chart at all. */
+  readonly qualified = computed(() => this.aggregate()?.qualified ?? 0);
 
   /** The ladder, built from the shares the server reported rather than from a copy here (D26). */
   readonly rungs = computed<Rung[]>(() => {
@@ -103,8 +117,8 @@ export class StatsComponent {
    * Strings the template can only reach through a binding, which the extractor cannot see. Both
    * were built by concatenating German fragments in the template before.
    */
-  readonly tailsAriaLabel = () =>
-    $localize`:@@stats.tails.aria:${this.tailHigh()}:high: Konten über +${this.tailSigma()}:sigma:σ, ${this.tailLow()}:low: darunter`;
+  readonly spreadAriaLabel = () =>
+    $localize`:@@stats.spread.aria:Verteilung von ${this.qualified()}:qualified: Konten: ${this.tailHigh()}:high: über +${this.tailSigma()}:sigma:σ, ${this.tailLow()}:low: unter −${this.tailSigma()}:sigma2:σ, der Rest dazwischen`;
   readonly mineReading = () =>
     $localize`:@@stats.mine.reading:${this.mineZ()}:deviation: σ · gesicherte Mindestquote ${this.mineWilson()}:wilson: %`;
 

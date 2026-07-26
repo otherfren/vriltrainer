@@ -24,8 +24,8 @@ use base64::engine::general_purpose::{STANDARD, STANDARD_NO_PAD, URL_SAFE_NO_PAD
 use rand::{Rng, RngCore};
 use rusqlite::{ErrorCode, OptionalExtension, params};
 use serde::{Deserialize, Serialize};
-use time::format_description::well_known::Rfc3339;
 use time::OffsetDateTime;
+use time::format_description::well_known::Rfc3339;
 
 use crate::db::{Db, DbError, now_rfc3339};
 use crate::http::routes::account::Holder;
@@ -455,7 +455,6 @@ fn base64_bytes(text: &str) -> Option<Vec<u8>> {
 fn expiry(at: &str, lifetime_hours: i64) -> Option<i64> {
     Some(OffsetDateTime::parse(at, &Rfc3339).ok()?.unix_timestamp() + lifetime_hours * 3600)
 }
-
 
 /// The coordinate: `NNNN-NNNN`, uniform, encoding nothing (R6).
 ///

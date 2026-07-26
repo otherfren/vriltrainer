@@ -141,10 +141,23 @@ export interface AggregateStats {
   abandoned: number;
   tail_high: number;
   tail_low: number;
+  /** Every qualified account in sigma bands, most negative first. Always the full set of bands. */
+  distribution: SigmaBand[];
+  /** How many accounts the distribution is over, so a flat chart can be read as a small one. */
+  qualified: number;
   /** What "markedly" means, in standard deviations, and over what minimum record. */
   tail_sigma: number;
   tail_min_trials: number;
   thresholds: Thresholds;
+}
+
+/** One column of the distribution. `from` is null on the lowest band, `to` on the highest. */
+export interface SigmaBand {
+  from: number | null;
+  to: number | null;
+  accounts: number;
+  /** Set by the server, so the chart's emphasis and its tail counts share one definition. */
+  tail: boolean;
 }
 
 export interface BoardEntry {

@@ -13,6 +13,7 @@ pub mod by_chance;
 pub mod eligibility;
 pub mod measures;
 pub mod ranks;
+pub mod spread;
 
 /// One account's figures, as `GET /api/stats/me` reports them.
 #[derive(Debug, Clone, PartialEq, serde::Serialize)]

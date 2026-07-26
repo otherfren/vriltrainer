@@ -94,12 +94,18 @@ fn cache_control(path: &str) -> header::HeaderValue {
     let hashed = path
         .rsplit('/')
         .next()
-        .and_then(|file| file.strip_suffix(".js").or_else(|| file.strip_suffix(".css")))
+        .and_then(|file| {
+            file.strip_suffix(".js")
+                .or_else(|| file.strip_suffix(".css"))
+        })
         .and_then(|stem| stem.rsplit_once('-'))
         // Angular's `outputHashing` writes eight upper-case base32 characters. A file called
         // `some-name.js` must not match, or one deploy would be cached for a year.
         .is_some_and(|(_, hash)| {
-            hash.len() >= 8 && hash.chars().all(|c| c.is_ascii_uppercase() || c.is_ascii_digit())
+            hash.len() >= 8
+                && hash
+                    .chars()
+                    .all(|c| c.is_ascii_uppercase() || c.is_ascii_digit())
         });
 
     header::HeaderValue::from_static(if hashed { A_YEAR } else { REVALIDATE })
