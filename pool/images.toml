@@ -128,11 +128,6 @@ category = "building"
   # A sea at sunset, which used to be the whole of `water`. `building` is the wrong word for it
   # and the right bucket: its two nearest neighbours by composition — the island with a cabin and
   # the lighthouse — are both in here, and a horizon over water is what all three are.
-  [[group.image]]
-  file = "sunset_tranquil_ocean.jpg"
-  de = "Ruhiges Meer bei Sonnenuntergang"
-  en = "Calm sea at sunset"
-
 # Six instruments, and almost every one of them has a twin in here: two strings, two horns, and a
 # drum kit that is nothing like either. That is the category working as intended — a viewer asked
 # to tell a violin from a double bass at a glance is being tested on eyesight, not on anything else.
@@ -283,11 +278,6 @@ category = "ornament"
   # category is the only mechanism that keeps two images apart, so it is the resemblance that
   # decides where a thing is filed, not the taxonomy. `stone` stays declared for the day there are
   # stones that look like stones.
-  [[group.image]]
-  file = "steine_pastelfarben.jpg"
-  de = "Pastellfarbene Kieselsteine"
-  en = "Pastel-coloured pebbles"
-
   [[group.image]]
   file = "stone_bear_holding_a_shield.png"
   de = "Steinbär mit Wappenschild"
@@ -580,6 +570,11 @@ category = "stone"
   file = "riesige_erleuchtete_höhle.jpg"
   de = "Riesige beleuchtete Höhle"
   en = "Vast illuminated cave"
+
+  [[group.image]]
+  file = "../ornament/steine_pastelfarben.jpg"
+  de = "Pastellfarbene Kieselsteine"
+  en = "Pastel-coloured pebbles"
 
 [[group]]
 dir = "food"

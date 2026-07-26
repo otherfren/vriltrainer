@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "created": "2026-07-25T22:24:58Z",
-  "count": 192,
+  "created": "2026-07-26T11:32:05Z",
+  "count": 201,
   "categories": [
     "animal",
     "armour",
@@ -65,6 +65,10 @@
       "category": "plant"
     },
     {
+      "id": "img_0d8e5c38a9fc6ad8bad73d39f79966c4",
+      "category": "insect"
+    },
+    {
       "id": "img_0e195c024e9976cad5d91d24b5c94e68",
       "category": "clothing"
     },
@@ -107,6 +111,10 @@
     {
       "id": "img_15b5d2f67e63d72ffdec213dad7e9e94",
       "category": "furniture"
+    },
+    {
+      "id": "img_165d56c90c0707c2f83a91107c662d2d",
+      "category": "insect"
     },
     {
       "id": "img_169c57192b851b097803ab766805f9bc",
@@ -209,6 +217,10 @@
       "category": "clothing"
     },
     {
+      "id": "img_38f4c4e3b6012b3050b02ee8aba435e6",
+      "category": "light"
+    },
+    {
       "id": "img_38f6ddfe2196964aabb5af5ab78b15c8",
       "category": "furniture"
     },
@@ -235,6 +247,10 @@
     {
       "id": "img_3db9937f06bca6ec7e04a408c0485ab7",
       "category": "animal"
+    },
+    {
+      "id": "img_3dd6b4994245730680db441f1d0109b9",
+      "category": "insect"
     },
     {
       "id": "img_3eb7d4c224735ea28b0100918c456ca1",
@@ -389,10 +405,6 @@
       "category": "ornament"
     },
     {
-      "id": "img_698777f1c779b10d7fc09b3a9192f1e5",
-      "category": "building"
-    },
-    {
       "id": "img_6b9252b50319e72b4c97da5b35d17e26",
       "category": "food"
     },
@@ -433,6 +445,10 @@
       "category": "food"
     },
     {
+      "id": "img_85ea242e59a36b3e034e9b8628d2dcbc",
+      "category": "insect"
+    },
+    {
       "id": "img_86243ef21ae386069095faacd55fb8bc",
       "category": "building"
     },
@@ -463,6 +479,10 @@
     {
       "id": "img_8fe80984d1cf2ba7b2f8465009f37457",
       "category": "food"
+    },
+    {
+      "id": "img_8fec3682a0a7a7b8222234b75eff1bf9",
+      "category": "insect"
     },
     {
       "id": "img_900da82523913b9391a0fd524d6c6cbe",
@@ -503,6 +523,10 @@
     {
       "id": "img_9c0e9b365d06696c5eaf03716eee2f03",
       "category": "food"
+    },
+    {
+      "id": "img_9c835a98d3a68e2e3f112e6c52d1b136",
+      "category": "insect"
     },
     {
       "id": "img_9d9839a57ab8ae93e4acd686ff68b0b8",
@@ -569,6 +593,10 @@
       "category": "weapon"
     },
     {
+      "id": "img_b15bd94bee2c4cd2d0c0957bf649f07f",
+      "category": "light"
+    },
+    {
       "id": "img_b1adc47603ecb742396d8c1a86e30dec",
       "category": "toy"
     },
@@ -586,7 +614,7 @@
     },
     {
       "id": "img_b84bd3451c33fb4b44c623d0d4ebc8a6",
-      "category": "ornament"
+      "category": "stone"
     },
     {
       "id": "img_b8ddb6e9138991de710c36c87634b0cb",
@@ -757,6 +785,10 @@
       "category": "animal"
     },
     {
+      "id": "img_f04c94a6971bd426339155176aeecb28",
+      "category": "insect"
+    },
+    {
       "id": "img_f0de3c3e8b29353004fd9d75d272e225",
       "category": "stone"
     },
@@ -777,6 +809,10 @@
       "category": "tool"
     },
     {
+      "id": "img_fb2c279ed40d7a7f89809fe24a37e415",
+      "category": "insect"
+    },
+    {
       "id": "img_fba0bc400474f3a4927f5951e0ff78d8",
       "category": "instrument"
     },
@@ -793,5 +829,5 @@
       "category": "food"
     }
   ],
-  "manifest_hash": "sha256:b359d99b6bb66e95860c9bedbfc77c996a38427b0bfd801b7c303cb953ca6477"
+  "manifest_hash": "sha256:304c391d633d8171e63ac8458eed3b0929faf7c8545e75097b6fc7e12db1ffc0"
 }
