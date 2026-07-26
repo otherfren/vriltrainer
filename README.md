@@ -6,16 +6,18 @@ Bilingual: `vriltrainer.de` in German, `vriltrainer.com` in English.
 
 The expected result is 12.5%, which is nothing. The site is built to say so.
 
-**Status: live and unfinished.** Both domains are served, the API is complete but for one route,
-and the image pool is published at **v2, 200 images in 19 categories**. What is documented below
-works; what does not exist is listed under [What is missing](#what-is-missing).
+**Status: live and unfinished.** Both domains are served, the API is complete but for the rename
+route, and the image pool is published at **v1, 500 images in 19 categories**. What is documented
+below works; what does not exist is listed under [What is missing](#what-is-missing).
 
 ## Requirements
 
-- **Rust 1.95+** (`cargo`)
-- **Node 22+** — on this machine under `~/.local/node`, linked into `~/.local/bin` so it is on
-  the PATH in login and interactive shells alike. Check with `node --version`; if that fails,
-  open a new terminal.
+- **Rust** (`cargo`). Edition 2024. This machine builds and tests the whole workspace on 1.94.0,
+  so treat that as the floor until something actually needs more. `cargo` comes from
+  `~/.cargo/bin`, which `~/.profile` adds — a non-login shell does not read it, so an agent shell
+  needs `bash -lc` or an explicit PATH.
+- **Node 22+** — `/usr/bin/node`, v22.22.1, on the PATH everywhere. (An older note here described
+  a private install under `~/.local/node`; there is nothing there.)
 
 ## Running locally
 
@@ -28,8 +30,9 @@ cargo test
 #     fails in production on honest trials.
 cd client && npm run conformance && cd ..
 
-# 3 — the client's unit tests. Karma needs to be told which browser to use; there is no
-#     bundled Chrome, so point it at the system one.
+# 3 — the client's unit tests. THESE DO NOT RUN. There is no karma config and no launcher,
+#     and the karma target does not resolve the @fontsource url(). The spec files only
+#     type-check. Left here as the command it would be, not as one that works today.
 cd client && CHROME_BIN=$(command -v chromium) npm test -- --watch=false --browsers=ChromeHeadless
 
 # 4 — the interface in development mode, http://localhost:4200
@@ -47,8 +50,8 @@ operator supplies.
 # 1 — take the images named by pool/images.toml into the catalogue, then cut a version
 cargo run --bin poolctl -- import                      # → pool/normalised/, the build's image input
 cargo run --bin poolctl -- check                       # what is thin, what would block a version
-cargo run --bin poolctl -- build --version 2 --out pool/v2.json   # v2 is the published one
-cp pool/v2.json pool/manifest.json                     # what --pool names
+cargo run --bin poolctl -- build --version 1 --out pool/v1.json   # v1 is the published one
+cp pool/v1.json pool/manifest.json                     # what --pool names
 
 # 2 — the one secret. Everything else in the database is public by design
 openssl rand -hex 32 > token.key && chmod 600 token.key
@@ -75,7 +78,7 @@ the tests do not need it, and `cargo` prints a warning saying the pool is empty.
 they have to agree:
 
 ```
-pool_version=2 pool_images=200 pool_bytes_embedded=200
+pool_version=1 pool_images=500 pool_bytes_embedded=500
 ```
 
 A quick check that it is alive, which is also the shape of the loop:
@@ -127,7 +130,7 @@ cd client && npm run build && cd ..
 target/release/server           →  /srv/vriltrainer/server
 client/dist/client/browser/de   →  /srv/vriltrainer/public_de
 client/dist/client/browser/en   →  /srv/vriltrainer/public_en
-pool/v2.json                    →  /srv/vriltrainer/pool/manifest.json
+pool/v1.json                    →  /srv/vriltrainer/pool/manifest.json
 pool/v<N>.json                  →  /srv/vriltrainer/pool/         (every version, unrenamed)
 deploy/vriltrainer@.service     →  /etc/systemd/system/
 deploy/nginx.conf               →  /etc/nginx/sites-available/vriltrainer
@@ -254,16 +257,17 @@ row. The pending half lives in the sealed token the client holds, not in the dat
 
 | | |
 |---|---|
-| `DELETE /api/account/name` | The only contracted route with no module. It answers `501`, not `404`, and says so |
-| Rank recomputation timer | The fifteen-minute pass exists but is triggered from the read side rather than by a scheduler (T102, D23) |
-| Thin categories | The pool clears the launch bar (200, over the 160 of D5), but 13 of the 19 categories hold fewer than 12 images and will repeat visibly. `poolctl check` names them. Guide: [`docs/curation-guide.md`](docs/curation-guide.md) |
+| Rename (`FR-048`) | The only contracted behaviour with no route. The cooldown logic is written and tested — a rejected name does not consume the limit, and the last approved name stays up while a replacement is reviewed — but nothing mounts it, so no client can reach it (T100) |
+| Rank recomputation timer | The fifteen-minute pass exists but is triggered from the read side rather than by a scheduler (T102) |
+| Traffic figures | No daily counters, no unique-visitor count, no `server metrics` subcommand (T112–T114, D28) |
+| Client tests and CI | The client suite has never executed — there is no karma config and no browser launcher — and nothing runs the conformance check automatically |
 | TLS in the shipped nginx config | `deploy/nginx.conf` has the `ssl_certificate` lines commented out; certificates are per deployment |
 
 Both message catalogues are written and complete — `node client/tools/build-en-catalogue.mjs --check`
 is what says so, and it fails on a gap rather than shipping an untranslated string.
 
 Full list: [`specs/001-remote-viewing-trainer/tasks.md`](specs/001-remote-viewing-trainer/tasks.md)
-— 84 of 115 ticked. Every open line was audited against the code on 2026-07-26; where the code is
+— 91 of 115 ticked. Every open line was audited against the code on 2026-07-26; where the code is
 further along than the line, the line now says how far and what is actually missing.
 
 ## Where things live
