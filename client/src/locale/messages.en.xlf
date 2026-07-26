@@ -1639,12 +1639,12 @@
         <target>No data yet</target>
       </trans-unit>
       <trans-unit id="stats.tails.noteEmpty" datatype="html">
-        <source> Hier stehen später die Spieler, die deutlich besser oder deutlich schlechter liegen als Zufall. Etwa gleich viele auf beiden Seiten heißt: es war Zufall. </source>
+        <source> Hier stehen später die Spieler, die deutlich besser oder deutlich schlechter liegen als Zufall. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
           <context context-type="linenumber">34,37</context>
         </context-group>
-        <target>This is where players who land clearly above or clearly below chance will appear. About the same number on both sides means: it was luck.</target>
+        <target>This is where players who land clearly above or clearly below chance will appear.</target>
       </trans-unit>
       <trans-unit id="stats.expectedWere" datatype="html">
         <source>erwartet waren <x id="INTERPOLATION" equiv-text="{{ pct(a.expected_rate, 1) }}"/> %</source>
@@ -1701,14 +1701,6 @@
           <context context-type="linenumber">95,98</context>
         </context-group>
         <target>above chance</target>
-      </trans-unit>
-      <trans-unit id="stats.tails.note" datatype="html">
-        <source> Etwa gleich viele auf beiden Seiten heißt: es war Zufall. Eine echte Fähigkeit könnte nur die obere Seite größer machen. </source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">99,101</context>
-        </context-group>
-        <target>About the same number on both sides means it was luck. A real ability could only make the upper side bigger.</target>
       </trans-unit>
       <trans-unit id="stats.ladder" datatype="html">
         <source>Die Leiter</source>

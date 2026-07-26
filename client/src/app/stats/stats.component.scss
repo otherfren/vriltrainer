@@ -399,6 +399,31 @@
     opacity: 0.85;
     margin: calc(var(--s2) * -1) 0 var(--s4);
   }
+
+  /* On a phone the rungs were a wrapping flex row, so whether the sigma range stayed beside the
+     title or dropped under it depended on how long that particular title is — eleven rungs, two
+     different shapes, ragged edge. Here the shape is fixed instead of negotiated: picture on the
+     left across both rows, title above, range below, every rung the same. */
+  .ladder__list li {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    column-gap: var(--s3);
+    row-gap: 1px;
+  }
+
+  .ladder__pic {
+    grid-row: 1 / span 2;
+  }
+
+  .ladder__title {
+    align-self: end;
+    line-height: 1.15;
+  }
+
+  .ladder__span {
+    align-self: start;
+  }
 }
 
 /* FR-019: the n the block-wise figures stand over, printed where they are. */
