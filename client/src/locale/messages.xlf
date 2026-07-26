@@ -453,172 +453,165 @@
           <context context-type="linenumber">169</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="category.landscape" datatype="html">
-        <source>Landschaft</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/core/pool.ts</context>
-          <context context-type="linenumber">38</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="category.building" datatype="html">
         <source>Bauwerk</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/pool.ts</context>
-          <context context-type="linenumber">39</context>
+          <context context-type="linenumber">43</context>
         </context-group>
       </trans-unit>
       <trans-unit id="category.animal" datatype="html">
         <source>Tier</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/pool.ts</context>
-          <context context-type="linenumber">40</context>
+          <context context-type="linenumber">44</context>
         </context-group>
       </trans-unit>
       <trans-unit id="category.plant" datatype="html">
         <source>Pflanze</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/pool.ts</context>
-          <context context-type="linenumber">41</context>
+          <context context-type="linenumber">45</context>
         </context-group>
       </trans-unit>
       <trans-unit id="category.vehicle" datatype="html">
         <source>Fahrzeug</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/pool.ts</context>
-          <context context-type="linenumber">42</context>
+          <context context-type="linenumber">46</context>
         </context-group>
       </trans-unit>
       <trans-unit id="category.tool" datatype="html">
         <source>Werkzeug</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/pool.ts</context>
-          <context context-type="linenumber">43</context>
+          <context context-type="linenumber">47</context>
         </context-group>
       </trans-unit>
       <trans-unit id="category.food" datatype="html">
         <source>Essen</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/pool.ts</context>
-          <context context-type="linenumber">44</context>
+          <context context-type="linenumber">48</context>
         </context-group>
       </trans-unit>
       <trans-unit id="category.clothing" datatype="html">
         <source>Kleidung</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/pool.ts</context>
-          <context context-type="linenumber">45</context>
+          <context context-type="linenumber">49</context>
         </context-group>
       </trans-unit>
       <trans-unit id="category.instrument" datatype="html">
-        <source>Instrument</source>
+        <source>Musikinstrument</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/pool.ts</context>
-          <context context-type="linenumber">46</context>
+          <context context-type="linenumber">50</context>
         </context-group>
       </trans-unit>
       <trans-unit id="category.furniture" datatype="html">
         <source>Möbel</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/pool.ts</context>
-          <context context-type="linenumber">47</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="category.water" datatype="html">
-        <source>Wasser</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/core/pool.ts</context>
-          <context context-type="linenumber">48</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="category.sky" datatype="html">
-        <source>Himmel</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/core/pool.ts</context>
-          <context context-type="linenumber">49</context>
+          <context context-type="linenumber">51</context>
         </context-group>
       </trans-unit>
       <trans-unit id="category.machine" datatype="html">
         <source>Maschine</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/pool.ts</context>
-          <context context-type="linenumber">50</context>
+          <context context-type="linenumber">52</context>
         </context-group>
       </trans-unit>
       <trans-unit id="category.textile" datatype="html">
-        <source>Textil</source>
+        <source>Stoff</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/pool.ts</context>
-          <context context-type="linenumber">51</context>
+          <context context-type="linenumber">53</context>
         </context-group>
       </trans-unit>
       <trans-unit id="category.container" datatype="html">
         <source>Behälter</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/pool.ts</context>
-          <context context-type="linenumber">52</context>
+          <context context-type="linenumber">54</context>
         </context-group>
       </trans-unit>
       <trans-unit id="category.sign" datatype="html">
         <source>Schild</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/pool.ts</context>
-          <context context-type="linenumber">53</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="category.stairs" datatype="html">
-        <source>Treppe</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/core/pool.ts</context>
-          <context context-type="linenumber">54</context>
+          <context context-type="linenumber">55</context>
         </context-group>
       </trans-unit>
       <trans-unit id="category.bridge" datatype="html">
         <source>Brücke</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/pool.ts</context>
-          <context context-type="linenumber">55</context>
+          <context context-type="linenumber">56</context>
         </context-group>
       </trans-unit>
       <trans-unit id="category.door" datatype="html">
         <source>Tür</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/pool.ts</context>
-          <context context-type="linenumber">56</context>
+          <context context-type="linenumber">57</context>
         </context-group>
       </trans-unit>
       <trans-unit id="category.light" datatype="html">
         <source>Licht</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/pool.ts</context>
-          <context context-type="linenumber">57</context>
+          <context context-type="linenumber">58</context>
         </context-group>
       </trans-unit>
       <trans-unit id="category.stone" datatype="html">
         <source>Stein</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/pool.ts</context>
-          <context context-type="linenumber">58</context>
+          <context context-type="linenumber">59</context>
         </context-group>
       </trans-unit>
       <trans-unit id="category.ornament" datatype="html">
-        <source>Ornament</source>
+        <source>Dekoration</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/pool.ts</context>
-          <context context-type="linenumber">59</context>
+          <context context-type="linenumber">60</context>
         </context-group>
       </trans-unit>
       <trans-unit id="category.person" datatype="html">
         <source>Mensch</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/pool.ts</context>
-          <context context-type="linenumber">60</context>
+          <context context-type="linenumber">61</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="category.street" datatype="html">
-        <source>Straße</source>
+      <trans-unit id="category.insect" datatype="html">
+        <source>Insekt</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/pool.ts</context>
-          <context context-type="linenumber">61</context>
+          <context context-type="linenumber">62</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="category.toy" datatype="html">
+        <source>Spielzeug</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/pool.ts</context>
+          <context context-type="linenumber">63</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="category.armour" datatype="html">
+        <source>Rüstung</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/pool.ts</context>
+          <context context-type="linenumber">64</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="category.weapon" datatype="html">
+        <source>Waffe</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/pool.ts</context>
+          <context context-type="linenumber">65</context>
         </context-group>
       </trans-unit>
       <trans-unit id="rank.normie" datatype="html">

@@ -56,16 +56,6 @@ category = "building"
   en = "Eiffel Tower, Paris"
 
   [[group.image]]
-  file = "hütte_im_wald.jpg"
-  de = "Hütte im Wald"
-  en = "Cabin in the woods"
-
-  [[group.image]]
-  file = "insel_mit_hütte.jpg"
-  de = "Kleine Insel mit Hütte"
-  en = "Small island with a cabin"
-
-  [[group.image]]
   file = "orient_pearl_shanghai_china.jpg"
   de = "Oriental Pearl Tower, Shanghai"
   en = "Oriental Pearl Tower, Shanghai"
@@ -96,11 +86,6 @@ category = "building"
   en = "Black cabin in the woods"
 
   [[group.image]]
-  file = "wooden_house_surrounded_by_pine_trees.jpg"
-  de = "Holzhaus zwischen Kiefern"
-  en = "Wooden house among pines"
-
-  [[group.image]]
   file = "large_ferris_wheel.jpg"
   de = "Großes Riesenrad"
   en = "Large ferris wheel"
@@ -114,11 +99,6 @@ category = "building"
   file = "elegante_haustreppe_detailliertes_geländer.jpg"
   de = "Elegante Treppe mit verziertem Geländer"
   en = "Elegant staircase with an ornate banister"
-
-  [[group.image]]
-  file = "narrow_alley_sun_split.jpg"
-  de = "Enge Gasse, halb im Sonnenlicht"
-  en = "Narrow alley split by sunlight"
 
   [[group.image]]
   file = "white_lighthouse.jpg"
@@ -183,11 +163,6 @@ category = "plant"
   en = "Vivid red leaves"
 
   [[group.image]]
-  file = "lush_greenhouse_interior.jpg"
-  de = "Üppiges Gewächshaus von innen"
-  en = "Lush greenhouse interior"
-
-  [[group.image]]
   file = "green_prickly_pear_cactus_field.jpg"
   de = "Feld mit Feigenkakteen"
   en = "Field of prickly pear cactus"
@@ -223,11 +198,6 @@ category = "person"
   de = "Lachendes Baby auf einer Schaukel"
   en = "Laughing baby on a swing"
 
-  [[group.image]]
-  file = "tätowierte_frau_nachtclub.jpg"
-  de = "Tätowierte Frau in einem Nachtclub"
-  en = "Tattooed woman in a nightclub"
-
   # The second tattooed woman, and the second baby. Both pairs are here rather than spread across
   # neighbouring categories for the reason the towers are: a category is the only thing that keeps
   # two images out of one set.
@@ -237,11 +207,6 @@ category = "person"
   en = "Tattooed blonde against a red background"
 
   [[group.image]]
-  file = "frau_mit_rosa_mütze_und_baby.jpg"
-  de = "Frau mit rosa Mütze und Baby"
-  en = "Woman in a pink hat with a baby"
-
-  [[group.image]]
   file = "woman_gold_silver_emergency_blanket.jpg"
   de = "Frau in einer goldenen Rettungsdecke"
   en = "Woman in a gold emergency blanket"
@@ -249,11 +214,6 @@ category = "person"
   # The astronaut is here rather than in `machine` because of the blanket above it: a figure
   # wrapped in gold foil and a figure in a metallic suit are the same photograph to someone
   # deciding quickly, and one category is what keeps them out of one set.
-  [[group.image]]
-  file = "astronaut_on_metallic_structure.jpg"
-  de = "Astronaut an einer Metallkonstruktion"
-  en = "Astronaut on a metal structure"
-
   [[group.image]]
   file = "chinese_woman_red_dress_before_rocks.jpg"
   de = "Frau im roten Kleid vor Felsen"
@@ -268,39 +228,19 @@ category = "ornament"
   de = "Diskokugel in Schwarzweiß"
   en = "Mirror ball in black and white"
 
-  [[group.image]]
-  file = "dekorierte_eier_pastellfarben.jpg"
-  de = "Pastellfarben bemalte Eier"
-  en = "Pastel-painted eggs"
-
   # Pebbles are not ornaments, and they are here anyway. The two are different subjects with the
   # same pastel palette, which is a resemblance a viewer would notice in a set of eight — and a
   # category is the only mechanism that keeps two images apart, so it is the resemblance that
   # decides where a thing is filed, not the taxonomy. `stone` stays declared for the day there are
   # stones that look like stones.
-  [[group.image]]
-  file = "stone_bear_holding_a_shield.png"
-  de = "Steinbär mit Wappenschild"
-  en = "Stone bear holding a shield"
-
 [[group]]
 dir = "furniture"
 category = "furniture"
 
   [[group.image]]
-  file = "moderne_weisse_küche_holzarbeitsplatte.jpg"
-  de = "Moderne weiße Küche mit Holzarbeitsplatte"
-  en = "Modern white kitchen with a wooden worktop"
-
-  [[group.image]]
   file = "cantilever_chair_with_cane_seat.jpg"
   de = "Freischwinger mit Geflechtsitz"
   en = "Cantilever chair with a cane seat"
-
-  [[group.image]]
-  file = "cream_upholstered_side_chair.jpg"
-  de = "Cremefarbener Polsterstuhl"
-  en = "Cream upholstered side chair"
 
   # Eight at once, and five of them something to sit on. Chairs beside sofas beside a bench of a
   # table: this is the pair problem arriving as a delivery, and one category absorbs all of it.
@@ -339,19 +279,9 @@ category = "furniture"
   de = "Brauner Holzschrank"
   en = "Brown wooden cabinet"
 
-  [[group.image]]
-  file = "brown_wooden_table_and_chairs.jpg"
-  de = "Holztisch mit Stühlen"
-  en = "Wooden table and chairs"
-
 [[group]]
 dir = "vehicle"
 category = "vehicle"
-
-  [[group.image]]
-  file = "weißer_mercedes_280SE.jpg"
-  de = "Weißer Mercedes 280 SE"
-  en = "White Mercedes 280 SE"
 
   # A second Mercedes. Same marque, same era — the pair that most needs one category between it.
   [[group.image]]
@@ -366,11 +296,6 @@ category = "vehicle"
   file = "black_coupe.jpg"
   de = "Schwarzes Coupé"
   en = "Black coupé"
-
-  [[group.image]]
-  file = "black_shelby.jpg"
-  de = "Schwarzer Shelby"
-  en = "Black Shelby"
 
   [[group.image]]
   file = "black_porsche.jpg"
@@ -398,11 +323,6 @@ category = "vehicle"
   en = "Black motorcycle"
 
   [[group.image]]
-  file = "sport_motorcycles.jpg"
-  de = "Sportmotorräder"
-  en = "Sport motorcycles"
-
-  [[group.image]]
   file = "yellow_vw_t2.jpg"
   de = "Gelber VW T2"
   en = "Yellow VW T2"
@@ -411,11 +331,6 @@ category = "vehicle"
   file = "classic_car_tire.jpg"
   de = "Reifen eines Oldtimers"
   en = "Tyre of a classic car"
-
-  [[group.image]]
-  file = "parked_bicycle_ocean.jpg"
-  de = "Abgestelltes Fahrrad am Meer"
-  en = "Parked bicycle by the sea"
 
   [[group.image]]
   file = "airplane.jpg"
@@ -429,29 +344,9 @@ category = "vehicle"
 
   # A tank is a weapon and it is filed as a vehicle, because at 512 pixels it is a heavy thing on
   # tracks and the sword next to it is not.
-  [[group.image]]
-  file = "tank.jpg"
-  de = "Panzer"
-  en = "Tank"
-
 [[group]]
 dir = "light"
 category = "light"
-
-  [[group.image]]
-  file = "kunstvolle_straßenlaterne_blauer_himmel.jpg"
-  de = "Kunstvolle Straßenlaterne vor blauem Himmel"
-  en = "Ornate street lamp against a blue sky"
-
-  [[group.image]]
-  file = "clear_led_light_bulb.jpg"
-  de = "Klare LED-Glühbirne"
-  en = "Clear LED light bulb"
-
-  [[group.image]]
-  file = "brown_pendant_lights.jpg"
-  de = "Braune Hängeleuchten"
-  en = "Brown pendant lights"
 
   # The moon, which used to be the whole of `sky`. What it shares with a lit bulb and a pendant
   # lamp is the only thing that matters here: a bright object with dark all around it.
@@ -514,18 +409,8 @@ category = "animal"
   de = "Hochlandrind mit Hörnern"
   en = "Highland cow with horns"
 
-  [[group.image]]
-  file = "two_ostriches_peeking_fence.jpg"
-  de = "Zwei Strauße über einem Zaun"
-  en = "Two ostriches peering over a fence"
-
   # A crocodile skull among the living animals. It is not an animal, it is what is left of
   # one — and at thumbnail size that is a distinction nobody makes.
-  [[group.image]]
-  file = "salamander_larva_with_gills.jpg"
-  de = "Salamanderlarve mit Kiemen"
-  en = "Salamander larva with gills"
-
   [[group.image]]
   file = "crocodilian_skull_with_open_jaws.jpg"
   de = "Krokodilschädel mit offenem Kiefer"
@@ -566,24 +451,9 @@ category = "stone"
 
   # A cave, which used to be the whole of `landscape`. It is rock at scale, and it goes beside the
   # minerals rather than into a category of one.
-  [[group.image]]
-  file = "riesige_erleuchtete_höhle.jpg"
-  de = "Riesige beleuchtete Höhle"
-  en = "Vast illuminated cave"
-
-  [[group.image]]
-  file = "../ornament/steine_pastelfarben.jpg"
-  de = "Pastellfarbene Kieselsteine"
-  en = "Pastel-coloured pebbles"
-
 [[group]]
 dir = "food"
 category = "food"
-
-  [[group.image]]
-  file = "burger.jpg"
-  de = "Burger"
-  en = "Burger"
 
   [[group.image]]
   file = "bread_with_egg.jpg"
@@ -592,29 +462,14 @@ category = "food"
 
   # Two plates of pasta. Together, necessarily.
   [[group.image]]
-  file = "noodles.jpg"
-  de = "Nudeln"
-  en = "Noodles"
-
-  [[group.image]]
   file = "pasta_tomatosauce.jpg"
   de = "Pasta mit Tomatensauce"
   en = "Pasta with tomato sauce"
 
   [[group.image]]
-  file = "meat_balls.jpg"
-  de = "Fleischbällchen"
-  en = "Meatballs"
-
-  [[group.image]]
   file = "pile_of_raw_shrimp.jpg"
   de = "Haufen roher Garnelen"
   en = "Pile of raw shrimp"
-
-  [[group.image]]
-  file = "bowl_of_colourful_cereal.jpg"
-  de = "Schale mit buntem Müsli"
-  en = "Bowl of colourful cereal"
 
   [[group.image]]
   file = "double_cheeseburger.jpg"
@@ -625,11 +480,6 @@ category = "food"
   file = "red_apples.jpg"
   de = "Rote Äpfel"
   en = "Red apples"
-
-  [[group.image]]
-  file = "rotten_lemon.jpg"
-  de = "Verfaulte Zitrone"
-  en = "Rotten lemon"
 
   [[group.image]]
   file = "yellow_lemons.jpg"
@@ -645,11 +495,6 @@ category = "food"
   file = "blueberries.jpg"
   de = "Blaubeeren"
   en = "Blueberries"
-
-  [[group.image]]
-  file = "green_salad.jpg"
-  de = "Grüner Salat"
-  en = "Green salad"
 
   [[group.image]]
   file = "grüner_spargel.jpg"
@@ -699,16 +544,6 @@ category = "food"
   en = "Doughnuts"
 
   [[group.image]]
-  file = "strawberry_ice.jpg"
-  de = "Erdbeereis"
-  en = "Strawberry ice cream"
-
-  [[group.image]]
-  file = "cocktail.jpg"
-  de = "Cocktail"
-  en = "Cocktail"
-
-  [[group.image]]
   file = "chocolate_glazed_doughnut.jpg"
   de = "Donut mit Schokoglasur"
   en = "Chocolate-glazed doughnut"
@@ -721,11 +556,6 @@ category = "food"
 [[group]]
 dir = "machine"
 category = "machine"
-
-  [[group.image]]
-  file = "professional_video_camera_tripod.jpg"
-  de = "Profi-Videokamera auf einem Stativ"
-  en = "Professional video camera on a tripod"
 
   [[group.image]]
   file = "digital_camera_on_wooden_surface.jpg"
@@ -755,11 +585,6 @@ category = "machine"
   file = "tischsäge.jpg"
   de = "Tischsäge"
   en = "Table saw"
-
-  [[group.image]]
-  file = "table_drill.jpg"
-  de = "Standbohrmaschine"
-  en = "Pillar drill"
 
 [[group]]
 dir = "instrument"
@@ -801,11 +626,6 @@ category = "instrument"
   en = "Flute"
 
   [[group.image]]
-  file = "accordeon.jpg"
-  de = "Akkordeon"
-  en = "Accordion"
-
-  [[group.image]]
   file = "violin_front_view.jpg"
   de = "Geige von vorn"
   en = "Violin, front view"
@@ -829,19 +649,9 @@ category = "clothing"
   # category would hold one image each, and a one-image category is drawn as often as this whole
   # group — the rarest images in the pool would be the ones nobody thought about.
   [[group.image]]
-  file = "brown_suede_beret.jpg"
-  de = "Braune Wildlederbaskenmütze"
-  en = "Brown suede beret"
-
-  [[group.image]]
   file = "olive_green_field_jacket.jpg"
   de = "Olivgrüne Feldjacke"
   en = "Olive green field jacket"
-
-  [[group.image]]
-  file = "three_coloured_socks.jpg"
-  de = "Drei bunte Socken"
-  en = "Three coloured socks"
 
   [[group.image]]
   file = "gold_rimmed_sunglasses.jpg"
@@ -862,21 +672,6 @@ category = "clothing"
   en = "Black bag"
 
   [[group.image]]
-  file = "red_bag.jpg"
-  de = "Rote Tasche"
-  en = "Red bag"
-
-  [[group.image]]
-  file = "orange_bag.jpg"
-  de = "Orangefarbene Tasche"
-  en = "Orange bag"
-
-  [[group.image]]
-  file = "red_flora_bag.jpg"
-  de = "Rote Tasche mit Blumenmuster"
-  en = "Red bag with a floral pattern"
-
-  [[group.image]]
   file = "leather_backpack.jpg"
   de = "Lederrucksack"
   en = "Leather backpack"
@@ -887,16 +682,6 @@ category = "container"
 
   # Six vessels, three of them ancient pottery and three of them modern glass and ceramic. The
   # museum pieces and the teapot are the same shape problem: a rounded body with an opening.
-  [[group.image]]
-  file = "black_figure_greek_jug.jpg"
-  de = "Griechische Kanne, schwarzfigurig"
-  en = "Black-figure Greek jug"
-
-  [[group.image]]
-  file = "painted_alabastron_vessel.jpg"
-  de = "Bemaltes Alabastron"
-  en = "Painted alabastron vessel"
-
   [[group.image]]
   file = "rough_stone_goblet.png"
   de = "Grober Steinkelch"
@@ -923,11 +708,6 @@ category = "container"
   de = "Rote Vase"
   en = "Red vase"
 
-  [[group.image]]
-  file = "peppermill.jpg"
-  de = "Pfeffermühle"
-  en = "Pepper mill"
-
 [[group]]
 dir = "tool"
 category = "tool"
@@ -935,29 +715,9 @@ category = "tool"
   # Held implements, writing included. A fountain pen and a safety razor are both a slim dark
   # object at arm's length; the staple remover sits between them either way.
   [[group.image]]
-  file = "chrome_safety_razor.jpg"
-  de = "Verchromter Rasierhobel"
-  en = "Chrome safety razor"
-
-  [[group.image]]
-  file = "old_hand_can_opener.jpg"
-  de = "Alter Handdosenöffner"
-  en = "Old hand can opener"
-
-  [[group.image]]
   file = "black_staple_remover.jpg"
   de = "Schwarzer Entklammerer"
   en = "Black staple remover"
-
-  [[group.image]]
-  file = "five_coloured_pencils.jpg"
-  de = "Fünf Buntstifte"
-  en = "Five coloured pencils"
-
-  [[group.image]]
-  file = "green_fountain_pen.jpg"
-  de = "Grüner Füllfederhalter"
-  en = "Green fountain pen"
 
   # Cutlery, and the bone-handled knife moved in from `weapon` to meet the table knife. Two knives
   # in different categories is precisely the set of eight this scheme exists to prevent.
@@ -976,18 +736,8 @@ category = "tool"
   de = "Schaufel"
   en = "Shovel"
 
-  [[group.image]]
-  file = "knife_with_inlaid_bone_handle.jpg"
-  de = "Messer mit eingelegtem Knochengriff"
-  en = "Knife with an inlaid bone handle"
-
   # A cigar among the implements, because at thumbnail size it is a slim brown thing held in the
   # hand — which is also a fair description of the fountain pen two entries up.
-  [[group.image]]
-  file = "cigar.jpg"
-  de = "Zigarre"
-  en = "Cigar"
-
   # A pipe wrench, which stays on the hand-tool side of the line the saws are on the other of.
   [[group.image]]
   file = "silber_rohrzange.jpg"
@@ -1063,16 +813,6 @@ category = "armour"
   de = "Messingfarbene Ritterrüstung"
   en = "Brass knight's armour"
 
-  [[group.image]]
-  file = "gray_armour.jpg"
-  de = "Graue Rüstung"
-  en = "Grey armour"
-
-  [[group.image]]
-  file = "chain_armour.jpg"
-  de = "Kettenrüstung"
-  en = "Chain mail"
-
 [[group]]
 dir = "insect"
 category = "insect"
@@ -1084,11 +824,6 @@ category = "insect"
   file = "yellow_black_wasp_spider.jpg"
   de = "Wespenspinne"
   en = "Wasp spider"
-
-  [[group.image]]
-  file = "black_and_yellow_ladybird_macro.jpg"
-  de = "Schwarz-gelber Marienkäfer"
-  en = "Black and yellow ladybird"
 
   [[group.image]]
   file = "green_longhorn_beetle.jpg"
@@ -1120,16 +855,6 @@ category = "weapon"
   # blades, two long guns, a handgun, a bow. Nothing here can meet its own twin in a set of eight,
   # which is the whole reason a rack of similar weapons is one category and not four.
   [[group.image]]
-  file = "sword.jpg"
-  de = "Schwert"
-  en = "Sword"
-
-  [[group.image]]
-  file = "rapier.jpg"
-  de = "Rapier"
-  en = "Rapier"
-
-  [[group.image]]
   file = "sword_in_stone.jpg"
   de = "Schwert im Stein"
   en = "Sword in the stone"
@@ -1138,11 +863,6 @@ category = "weapon"
   file = "bow.jpg"
   de = "Bogen"
   en = "Bow"
-
-  [[group.image]]
-  file = "black_pistol.jpg"
-  de = "Schwarze Pistole"
-  en = "Black pistol"
 
   [[group.image]]
   file = "black_rifle.jpg"
@@ -1218,13 +938,6 @@ category = "insect"
   source = "https://commons.wikimedia.org/wiki/File:Fly_quartz,_U,_back,_Patuxent_2012-10-31-11_(8141951543).jpg"
 
   [[group.image]]
-  file = "striped_jewel_beetle.jpg"
-  de = "Prachtkäfer"
-  en = "Jewel beetle"
-  licence = "PD"
-  source = "https://commons.wikimedia.org/wiki/File:Acmaeodera_virgo,_u,_back,_Kruger_National_Park,_South_Africa_2018-07-13-15.40.43_ZS_PMax_UDR_(44470111050).jpg"
-
-  [[group.image]]
   file = "striped_weevil.jpg"
   de = "Rüsselkäfer"
   en = "Weevil"
@@ -1247,13 +960,6 @@ category = "light"
   en = "Burning candle"
   licence = "PD"
   source = "https://commons.wikimedia.org/wiki/File:Burning_candle_on_black_background.jpg"
-
-  [[group.image]]
-  file = "whale_oil_lamp.jpg"
-  de = "Walöllampe"
-  en = "Whale oil lamp"
-  licence = "CC0"
-  source = "https://commons.wikimedia.org/wiki/File:Whale_Oil_Lamp_MET_ADA5311.jpg"
 
 # Eight from the Rijksmuseum, by way of Commons: CC0 by provenance, one object each, isolated on
 # grey. The keyword search on Commons is exhausted for this category (see the note above); a museum
@@ -1290,13 +996,6 @@ category = "light"
   en = "Brass chandelier"
   licence = "CC0"
   source = "https://commons.wikimedia.org/wiki/File:Kaarsenkroon_Kaarsenkroon_van_twee_hoogten_met_ieder_acht_armen,_BK-1987-1.jpg"
-
-  [[group.image]]
-  file = "kerzenstaender_delft_blau.jpg"
-  de = "Blau-weißer Kerzenständer"
-  en = "Blue and white candlestick"
-  licence = "CC0"
-  source = "https://commons.wikimedia.org/wiki/File:Kandelaar_Kandelaar_met_chinoiserie_decoratie,_BK-1958-22.jpg"
 
   [[group.image]]
   file = "kerzenstaender_dreiarmig.jpg"
@@ -1488,3 +1187,158 @@ category = "ornament"
   en = "Diamond heart brooch"
   licence = "CC0"
   source = "https://commons.wikimedia.org/wiki/File:Vlaams_Hart,_BK-1967-2.jpg"
+
+# Rijksmuseum vessels and boxes. `container` was at eight; four vases, four boxes and six more
+# vases take it to 22.
+#
+# The line drawn while looking, because it will come up again: painted decoration is allowed, a
+# painted *subject* is not. A vase whose shape carries the image is a vase however many flowers are
+# on it — but a bowl with two women filling its front panel reads as `person`, a flower pot with a
+# fisherman in the middle reads the same way, and a lidded vase with two griffin handles reads as
+# `animal`. Those three went back. It is the same test the parrot chamberstick failed in `light`.
+[[group]]
+dir = "container"
+category = "container"
+
+  [[group.image]]
+  file = "vase_rot_glasur.jpg"
+  de = "Vase mit roter Glasur"
+  en = "Vase with a red glaze"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Eivormige_vaas_bedekt_met_een_rood_glazuur,_AK-MAK-1707.jpg"
+
+  [[group.image]]
+  file = "vase_zylinder_blau.jpg"
+  de = "Zylindervase, blau-weiß"
+  en = "Blue and white cylinder vase"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Bekervaas_met_bloemtakken_en_uitgespaarde_bloemranken_in_lambrequins,_AK-NM-6801.jpg"
+
+  [[group.image]]
+  file = "vase_flasche_blau.jpg"
+  de = "Flaschenvase, blau-weiß"
+  en = "Blue and white bottle vase"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Flesvormige_vaas_met_gelukssymbolen_en_gestileerde_bloemen,_AK-NM-6756-A.jpg"
+
+  [[group.image]]
+  file = "vase_rolle_blau.jpg"
+  de = "Rollwagenvase, blau-weiß"
+  en = "Blue and white rouleau vase"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Cilindrische_flesvormige_vaas_met_kostbaarheden_en_bladranken,_AK-RBK-14935-A.jpg"
+
+  [[group.image]]
+  file = "kelchvase_gold.jpg"
+  de = "Kelchvase mit Goldrand"
+  en = "Chalice vase with gilt rims"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Cuppa_van_een_kastanjevaas,_BK-R-5041.jpg"
+
+  [[group.image]]
+  file = "lackdose_schwarz.jpg"
+  de = "Lackdose mit Goldmalerei"
+  en = "Black lacquer box with gold painting"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Doosje_met_gebombeerde_zijden,_zwarte_lak_met_waterlandschappen_in_goud,_AK-NM-6130.jpg"
+
+  [[group.image]]
+  file = "doppelkuerbisvase.jpg"
+  de = "Doppelkürbisvase"
+  en = "Double-gourd vase"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Flesvormige_vaas_met_doorlopende_landschappen,_decoratieve_banden_en_een_tulpmotief,_AK-NM-13172.jpg"
+
+  [[group.image]]
+  file = "vase_achtkant_blumen.jpg"
+  de = "Achtkantige Vase mit Blüten"
+  en = "Octagonal vase with blossoms"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Achthoekige_flesvormige_vaas_met_bloeiende_planten_en_bloemranken,_BK-1968-258-B.jpg"
+
+  [[group.image]]
+  file = "dose_email_blau.jpg"
+  de = "Dose mit blauem Email"
+  en = "Box with blue enamel"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Snuifdoos_met_blauwe,_translucide_email,_BK-16242.jpg"
+
+  [[group.image]]
+  file = "golddose_blau.jpg"
+  de = "Golddose mit blauen Feldern"
+  en = "Gold box with blue panels"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Doos,_BK-17147.jpg"
+
+  [[group.image]]
+  file = "vase_flasche_stippen.jpg"
+  de = "Flaschenvase mit Blütenfeldern"
+  en = "Bottle vase with flower panels"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Flesvormige_vaas_met_bloeiende_planten_en_stippen_in_een_vakdecoratie,_AK-RBK-14399-A.jpg"
+
+  [[group.image]]
+  file = "vase_bluetenbaum.jpg"
+  de = "Vase mit blühendem Baum"
+  en = "Vase with a flowering tree"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Achthoekige,_flesvormige_vaas_met_een_bloeiende_boom,_BK-1968-261.jpg"
+
+  [[group.image]]
+  file = "golddose_gefleckt.jpg"
+  de = "Golddose mit gefleckter Auflage"
+  en = "Gold box with a spotted inlay"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Snuifdoos_met_panterdessin,_BK-17160.jpg"
+
+# Six from the Rijksmuseum instrument collection. What went back is the useful part of this round:
+# a cymbal that is a plain brown disc and reads as a lid, a horn mute that is a blue cone, a
+# bronze rattle that reads as a lidded urn, a gilt bell that reads as a mushroom, and a castanet
+# with a museum label stuck to it. Recognisable as an instrument is a higher bar than "is one".
+#
+# The Ruckers harpsichord failed on lettering: SIC TRANSIT GLORIA MVNDI across the lid.
+[[group]]
+dir = "instrument"
+category = "instrument"
+
+  [[group.image]]
+  file = "gambe_rombouts.jpg"
+  de = "Bassgambe"
+  en = "Bass viola da gamba"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Bas_viola_da_gamba,_Pieter_Rombouts,_1708.jpg"
+
+  [[group.image]]
+  file = "gambe_sieben.jpg"
+  de = "Gambe mit sieben Saiten"
+  en = "Seven-string viol"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Bas-viola_da_gamba,_BK-KOG-1347-A.jpg"
+
+  [[group.image]]
+  file = "drehleier.jpg"
+  de = "Drehleier"
+  en = "Hurdy-gurdy"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Draailier,_BK-NM-5493.jpg"
+
+  [[group.image]]
+  file = "glocke_bronze.jpg"
+  de = "Bronzeglocke"
+  en = "Bronze bell"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Bel,_NG-NM-10390-2.jpg"
+
+  [[group.image]]
+  file = "laeuteglocke.jpg"
+  de = "Läuteglocke"
+  en = "Tolling bell"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Luiklok,_BK-BFR-373.jpg"
+
+  [[group.image]]
+  file = "cembalo_bemalt.jpg"
+  de = "Bemaltes Cembalo"
+  en = "Painted harpsichord"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Klavecimbel,_Onofrio_Antonio_Guarracino_BK-2016-14.jpg"

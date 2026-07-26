@@ -34,8 +34,12 @@ export function imageSrc(id: string): string {
  * truthful thing to show — a "Sonstiges" would quietly merge two categories on screen that the
  * draw treats as separate.
  */
+// One entry per category id in `pool/categories.toml`, and nothing else. The four that were
+// missing — insect, toy, armour, weapon — printed the raw id at a German visitor after every
+// verdict, because the fallback below is deliberately the id rather than a guess. Five that were
+// here are gone from the pool (landscape, water, sky, stairs, street) and are dropped with them:
+// a label for a category no draw can produce is a string nobody will ever see being wrong.
 const CATEGORY_LABELS: Record<string, string> = {
-  landscape: $localize`:@@category.landscape:Landschaft`,
   building: $localize`:@@category.building:Bauwerk`,
   animal: $localize`:@@category.animal:Tier`,
   plant: $localize`:@@category.plant:Pflanze`,
@@ -43,22 +47,22 @@ const CATEGORY_LABELS: Record<string, string> = {
   tool: $localize`:@@category.tool:Werkzeug`,
   food: $localize`:@@category.food:Essen`,
   clothing: $localize`:@@category.clothing:Kleidung`,
-  instrument: $localize`:@@category.instrument:Instrument`,
+  instrument: $localize`:@@category.instrument:Musikinstrument`,
   furniture: $localize`:@@category.furniture:Möbel`,
-  water: $localize`:@@category.water:Wasser`,
-  sky: $localize`:@@category.sky:Himmel`,
   machine: $localize`:@@category.machine:Maschine`,
-  textile: $localize`:@@category.textile:Textil`,
+  textile: $localize`:@@category.textile:Stoff`,
   container: $localize`:@@category.container:Behälter`,
   sign: $localize`:@@category.sign:Schild`,
-  stairs: $localize`:@@category.stairs:Treppe`,
   bridge: $localize`:@@category.bridge:Brücke`,
   door: $localize`:@@category.door:Tür`,
   light: $localize`:@@category.light:Licht`,
   stone: $localize`:@@category.stone:Stein`,
-  ornament: $localize`:@@category.ornament:Ornament`,
+  ornament: $localize`:@@category.ornament:Dekoration`,
   person: $localize`:@@category.person:Mensch`,
-  street: $localize`:@@category.street:Straße`,
+  insect: $localize`:@@category.insect:Insekt`,
+  toy: $localize`:@@category.toy:Spielzeug`,
+  armour: $localize`:@@category.armour:Rüstung`,
+  weapon: $localize`:@@category.weapon:Waffe`,
 };
 
 export function categoryLabel(id: string): string {
