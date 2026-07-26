@@ -1124,3 +1124,75 @@ Consequences, including the ones that cost something:
   before one lands there. That figure is derived from the edges through the normal CDF rather than
   configured. Under D23 the equivalent line printed the configured share back — it restated its own
   definition.
+
+## D32 — Accounts that never reached the log are swept; accounts the log names are permanent
+
+Decided 2026-07-26. Follows from D30, which removed the per-address cap on account creation.
+
+`POST /api/account` writes a row for every name a visitor tries. Since D30 nothing rations that, so
+a visitor who arrives once, invents a name and never reveals a coordinate leaves a permanent row
+holding a name, a public identifier and a token hash. Over months that is the whole of the growth in
+a database whose interesting half is the audit log. There is now a sweep, and **one** condition on
+it:
+
+> An account is deleted only if it appears nowhere in `log_entry`, and only after a grace period.
+
+**Why that is the only safe condition.** The log is append-only and hash-linked; every instance
+walks it at startup and refuses to run if it does not link (D2, D24). A cleanup job that touched a
+log row would not be a cleanup job, it would be an outage. So the sweep never touches the log — and
+the corollary is that an account the log *names* can never be swept either, because its opaque
+identifier is inside a commit entry's hash and a row in `account` that the log points at is not
+optional. That includes the case that looks like garbage and is not: a trial committed and never
+answered. It is published as abandoned (FR-021, SC-012), the abandonment rate is a figure the site
+makes claims about, and the account behind it stays for ever.
+
+**Nothing published moves.** This was checked rather than assumed, because D8's rule is that the
+aggregate runs over every trial by every account and any condition on the population biases it.
+`GET /api/stats/aggregate` reads `trials`, `hits`, `deviation` and `abandoned` out of `log_entry`,
+and — the one that had to be looked at — it counts accounts as `COUNT(DISTINCT account_id)` over
+resolve rows, not as `COUNT(*) FROM account`. So an account with no trials was never in any of the
+five figures, and a sweep of such accounts moves none of them. That is D8 read backwards: had the
+account count come off the `account` table, the sweep would have moved it, and the honest reading
+would then have been that the old number was never "how many people have played" but "how many
+people have ever typed a name" — two different claims printed under one label. As it stands the
+published figure was already the truthful one and this decision costs it nothing.
+
+**The grace period is thirty days**, in `Config::unused_account_grace_hours` (D26: configuration,
+not a constant). It is set generously on purpose. The token *is* the account and there is no
+recovery (D9), so a sweep that is early destroys the bookmark of somebody who signed up, read the
+instructions and meant to come back, and that person has no way to tell anyone it happened. Being
+late costs one inert row. The two costs are not comparable, so the number sits where the wrong one
+cannot occur. A trial expires after 24 hours, so anybody who ever started one is in the log long
+before thirty days; the same width is what makes the sweep safe against a request in flight, since
+no handler holds an authenticated account for a month between the lookup and the append.
+
+**When it runs.** Interval-gated, once an hour, driven from `POST /api/account` — the one route that
+produces the rows. This is the shape `ranks::ensure_fresh` already uses while the service has no
+scheduler, and deliberately not a second mechanism beside it: when a background task lands (T102
+brings one for the rank pass) the timer calls the sweep directly and the call site goes. Hanging it
+off the creating route rather than a read path has one property the rank pass cannot have from a
+`GET`: the pass is driven by exactly the traffic that makes the garbage, so a site nobody visits
+runs no passes and needs none, and no public read can be made to sweep the table. It runs *before*
+the insert, so a database that refuses the sweep cannot leave a visitor holding the only copy of a
+token whose row may not have survived.
+
+Consequences, including what it costs:
+
+- The last-swept time lives in process memory, so the two processes of D24 sweep on their own clocks
+  and a restart brings the next sweep forward. Both are free: the pass is idempotent and one that
+  finds nothing is a single anti-join. The alternative was a second migration against a live
+  audit-log file whose only content is bookkeeping for a job.
+- Everything hanging off a swept account goes in the same transaction through `Db::write`: the
+  `account_stats` row of zeroes that a visit to the statistics page creates before any trial, dead
+  `handoff_code` rows, and the pending name — which is a filter over `account` itself, so a swept
+  account leaves no name in the review queue for a human to approve on behalf of nobody.
+- The schema keeps **no** `ON DELETE CASCADE`, and that absence is now load-bearing. With
+  `foreign_keys = ON` a delete that would orphan a log entry fails outright, which makes the foreign
+  key a backstop for the sweep's predicate in the same way the `UNIQUE` on `prev_hash` is a backstop
+  for the append discipline. A test asserts it, so adding a cascade has to break something that says
+  why not.
+- A holder who signed up, kept the link and never played loses the account after thirty days. That
+  is the accepted cost, and it is small precisely because such an account holds nothing: signing up
+  again produces the same thing they had.
+- The sweep is not exposed on the admin API. D25 keeps that surface to reversible operations only,
+  and this is not one.

@@ -171,6 +171,18 @@ pub struct Config {
     /// moment the reviewer read the queue and the moment they clicked approve, and a human would
     /// have published a name nobody ever saw — the outcome pre-approval exists to prevent.
     pub rename_cooldown_hours: i64,
+    /// How long an account that appears nowhere in the log is kept before it is swept (D32).
+    ///
+    /// Thirty days, and deliberately generous. The token *is* the account and there is no recovery
+    /// (D9), so being early destroys the bookmark of somebody who signed up, read the instructions
+    /// and meant to come back — and that visitor has no way to tell anyone it happened. Being late
+    /// costs one row holding a name, a public identifier and a token hash. Those two costs are not
+    /// comparable, so the number is set where the wrong one cannot happen.
+    ///
+    /// A trial dies after `trial_lifetime_hours`, so anybody who ever started one is in the log
+    /// long before this. The width is also what makes the sweep safe against a request in flight:
+    /// no handler holds an account for thirty days between authenticating it and writing its commit.
+    pub unused_account_grace_hours: i64,
 }
 
 impl Default for Config {
@@ -193,6 +205,7 @@ impl Default for Config {
             min_view_seconds: 3,
             trial_lifetime_hours: 24,
             rename_cooldown_hours: 24,
+            unused_account_grace_hours: 24 * 30,
         }
     }
 }

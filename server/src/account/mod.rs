@@ -9,6 +9,7 @@ pub mod admin_key;
 pub mod handoff;
 pub mod name;
 pub mod name_filter;
+pub mod reap;
 
 use rand::RngCore;
 use rusqlite::{ErrorCode, OptionalExtension, params};

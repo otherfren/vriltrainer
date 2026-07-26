@@ -1,6 +1,6 @@
 //! vriltrainer server.
 //!
-//! Design basis: `docs/trial-protocol-decisions.md` D1–D31, and the artifacts under
+//! Design basis: `docs/trial-protocol-decisions.md` D1–D32, and the artifacts under
 //! `specs/001-remote-viewing-trainer/`.
 //!
 //! Reading order for the parts that are load-bearing rather than merely present: [`trial::derive`]

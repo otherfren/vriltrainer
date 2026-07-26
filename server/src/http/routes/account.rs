@@ -84,7 +84,15 @@ async fn create(
     State(state): State<AppState>,
     Json(request): Json<CreateRequest>,
 ) -> Result<Response, ApiError> {
-    let account = account::create(&state.db, &request.name, &now_rfc3339()).map_err(refusal)?;
+    let now = now_rfc3339();
+
+    // The sweep of D32 hangs off this route because this route is what fills the table, and it runs
+    // **before** the insert rather than after it. Interval-gated, so it is a no-op on all but one
+    // request an hour; when it does run and the database refuses it, the visitor must not already be
+    // holding the one copy of a token whose row may not have survived.
+    account::reap::ensure_swept(&state.db, state.config.as_ref(), &now)?;
+
+    let account = account::create(&state.db, &request.name, &now).map_err(refusal)?;
 
     Ok((
         StatusCode::CREATED,
