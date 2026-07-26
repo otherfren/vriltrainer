@@ -1164,3 +1164,74 @@ category = "weapon"
   de = "Scharfschützengewehr"
   en = "Sniper rifle"
 
+# Achtung: NICHT von Unsplash. Diese acht kommen von Wikimedia Commons, und die Lizenz steht
+# deshalb an jedem Bild einzeln — die `[defaults]` oben behaupten UNSPLASH, und ein Default, der
+# einem Bild aus anderer Quelle stillschweigend folgt, ist eine falsche Lizenzangabe.
+#
+# Sieben sind PD, davon sechs Studioaufnahmen des USGS Bee Inventory and Monitoring Lab: ein Tier
+# auf schwarzem Grund, freigestellt, nichts sonst im Bild. Die Hummel ist CC0.
+#
+# Was aussortiert wurde und warum, weil es beim naechsten Mal wieder auftaucht: ein Amulett und
+# ein Denkmal (waeren `ornament` bzw. `building`), ein Flugzeug und eine Raumsonde, die beide
+# "Grasshopper" respektive "Dragonfly" heissen (waeren `vehicle`), eine Zikade auf einer
+# Handflaeche (waere `person`), ein Bild mit eingebranntem Credit-Balken, eine Praepariernadel
+# quer durchs Motiv, und eine leere Libellenlarvenhaut, die aussieht wie eine Garnele.
+[[group]]
+dir = "insect"
+category = "insect"
+
+  [[group.image]]
+  file = "stag_beetle.jpg"
+  de = "Hirschkäfer"
+  en = "Stag beetle"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Lucanus_cervus_male_2017_G1.jpg"
+
+  [[group.image]]
+  file = "buff_tailed_bumblebee.jpg"
+  de = "Dunkle Erdhummel"
+  en = "Buff-tailed bumblebee"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Bombus_terrestris.jpg"
+
+  [[group.image]]
+  file = "african_wasp.jpg"
+  de = "Wespe"
+  en = "Wasp"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:African_Wasp,_f,_face,_Kruger_National_Park,_South_Africa_Mpumalanga_2018-08-10-11.07.17_ZS_PMax_UDR_(45567545554).jpg"
+
+  [[group.image]]
+  file = "jumping_spider.jpg"
+  de = "Springspinne"
+  en = "Jumping spider"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Jumping_spider_full_view,_beltsville,_md_2016-08-06-16.59_(28823773735).jpg"
+
+  [[group.image]]
+  file = "carolina_grasshopper.jpg"
+  de = "Heuschrecke"
+  en = "Carolina grasshopper"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Carolina_Grasshopper,_U,_Side,_MD,_PG_County_2013-07-31-18.45.15_ZS_PMax_(9448811986).jpg"
+
+  [[group.image]]
+  file = "amber_fly.jpg"
+  de = "Fliege"
+  en = "Fly"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Fly_quartz,_U,_back,_Patuxent_2012-10-31-11_(8141951543).jpg"
+
+  [[group.image]]
+  file = "striped_jewel_beetle.jpg"
+  de = "Prachtkäfer"
+  en = "Jewel beetle"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Acmaeodera_virgo,_u,_back,_Kruger_National_Park,_South_Africa_2018-07-13-15.40.43_ZS_PMax_UDR_(44470111050).jpg"
+
+  [[group.image]]
+  file = "striped_weevil.jpg"
+  de = "Rüsselkäfer"
+  en = "Weevil"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Curculionidae,_U,_side,_La_Ve_Jarabacoa,_Dominican_Republic_2013-02-28-11.13.12_ZS_PMax_(8525969123).jpg"
