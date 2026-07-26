@@ -1235,3 +1235,27 @@ category = "insect"
   en = "Weevil"
   licence = "PD"
   source = "https://commons.wikimedia.org/wiki/File:Curculionidae,_U,_side,_La_Ve_Jarabacoa,_Dominican_Republic_2013-02-28-11.13.12_ZS_PMax_(8525969123).jpg"
+
+# Auch Commons, also Lizenz je Bild. Zwei statt der zehn, die `light` braucht — und der Grund
+# gehoert hierher, weil er beim naechsten Versuch derselbe ist: saubere, freigestellte
+# Produktfotos von Lampen sind auf Commons fast durchweg CC BY-SA, und ein sichtbarer Credit ist
+# genau das, was dieser Pool nicht tragen kann. Was streng gemeinfrei uebrig bleibt, sind Gemaelde
+# (waeren `ornament`), Panoramen ganzer Studios, und Makros so nah, dass die Lampe nicht mehr zu
+# erkennen ist.
+[[group]]
+dir = "light"
+category = "light"
+
+  [[group.image]]
+  file = "burning_candle.jpg"
+  de = "Brennende Kerze"
+  en = "Burning candle"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Burning_candle_on_black_background.jpg"
+
+  [[group.image]]
+  file = "whale_oil_lamp.jpg"
+  de = "Walöllampe"
+  en = "Whale oil lamp"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Whale_Oil_Lamp_MET_ADA5311.jpg"
