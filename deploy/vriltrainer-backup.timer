@@ -1,5 +1,5 @@
 # Hourly, because the unit of loss here is trials that can never be made
-# verifiable again. A snapshot is ~30 KB gzipped, so the frequency costs
+# verifiable again. A snapshot is ~85 KB of JSON, so the frequency costs
 # nothing and the retention in backup.sh keeps the directory from growing
 # without bound.
 

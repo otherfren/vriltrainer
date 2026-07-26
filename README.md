@@ -203,11 +203,18 @@ target/release/verify_log           →  /srv/vriltrainer/verify_log
 systemctl enable --now vriltrainer-backup.timer
 ```
 
-Hourly. Each run takes a `VACUUM INTO` snapshot, walks its hash chain, gzips it, then **unpacks
-what it just wrote and walks the chain again** before keeping it. Retention is every snapshot for a
-week, one a day for ninety days, one a month after that.
+Hourly. Each run takes a `VACUUM INTO` snapshot, walks its hash chain, exports it as JSON, then
+**rebuilds a database from what it just wrote and walks the chain again** before keeping it.
+Retention is every snapshot for a week, one a day for ninety days, one a month after that.
 
-Four refusals, each for something a `cp` does not survive:
+**The archive is JSON, not a copy of the `.db`.** A record whose whole claim is "anyone can check
+this" should not need SQLite — or any particular version of it, or an intact page format — to be
+read again. The document carries its own DDL and then every row of every table with its column
+names, one row per line, so it can be grepped for a trial id and diffed between two days.
+`backup.sh --restore` is the other direction: schema, rows, then indexes and triggers, which is the
+order that lets already-accepted rows replay past a trigger written for live appends.
+
+Five refusals, each for something a `cp` — or a `.dump` — does not survive:
 
 - **`VACUUM INTO`, not a file copy.** In WAL mode almost nothing is in the main file — a live `.db`
   of 4 KB beside a 3 MB `-wal` is normal. Copying the `.db` alone backs up an empty database;
@@ -218,13 +225,16 @@ Four refusals, each for something a `cp` does not survive:
 - **A snapshot shorter than the last one is refused.** The first N entries of a valid log are
   themselves a valid log, so a chain walk cannot see a missing tail. Only the count comparison can,
   and it is kept in `backups/.last-count`.
-- **The round trip is exercised every hour, not at restore time.** An archive that cannot be
-  unpacked and re-verified is caught the hour it is written, not the day it is needed.
+- **The round trip is exercised every hour, not at restore time.** An export nobody has ever
+  imported is a guess. An archive that cannot be rebuilt and re-verified is caught the hour it is
+  written, not the day it is needed.
+- **The rebuild is compared to the snapshot with `.sha3sum`.** The chain walk only covers
+  `log_entry`; this covers accounts, stats and pool rows too, column by column.
 
-`backup.sh --check` verifies the newest archive and changes nothing. `backup.sh --restore <archive>
-<dest.db>` unpacks, verifies, and refuses to overwrite.
+`backup.sh --check` verifies the newest archive and changes nothing. `backup.sh --restore
+<archive.json> <dest.db>` rebuilds, verifies, and refuses to overwrite.
 
-**The archives are plain gzip and are not encrypted.** Nothing in the schema is a secret: access
+**The archives are plain text and are not encrypted.** Nothing in the schema is a secret: access
 tokens, handoff codes and admin keys are stored only as hashes, and the log carries the opaque
 account id rather than a name. What matters about this database is that it survives and still
 verifies, not that it stays unread — it is the record every past trial is checked against, and it
