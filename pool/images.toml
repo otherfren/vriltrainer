@@ -1342,3 +1342,1501 @@ category = "instrument"
   en = "Painted harpsichord"
   licence = "PD"
   source = "https://commons.wikimedia.org/wiki/File:Klavecimbel,_Onofrio_Antonio_Guarracino_BK-2016-14.jpg"
+
+# Seventeen from the Rijksmuseum, and deliberately not one more chair: the shelf already held five
+# chairs and three sofas, so this is a bed, a cradle, two benches, a footstool, five tables, a desk
+# and five cases. Mirrors are a dead end there — the collection is almost all *spiegellijsten*,
+# frames, which are `ornament`.
+[[group]]
+dir = "furniture"
+category = "furniture"
+
+  [[group.image]]
+  file = "mahogany_four_poster_bed.jpg"
+  de = "Himmelbett aus Mahagoni"
+  en = "Mahogany four-poster bed"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Ledikant_van_mahoniehout,_BK-KOG-736.jpg"
+
+  [[group.image]]
+  file = "ebony_cradle.jpg"
+  de = "Wiege aus Ebenholz"
+  en = "Ebony cradle"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Schommelwieg,_BK-1966-48.jpg"
+
+  [[group.image]]
+  file = "carved_hall_bench.jpg"
+  de = "Geschnitzte Flurbank"
+  en = "Carved hall bench"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Gangbank,_BK-16716.jpg"
+
+  [[group.image]]
+  file = "oak_bench.jpg"
+  de = "Eichenbank mit ovalen Durchbrüchen"
+  en = "Oak bench with oval openings"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Bank,_versierd_met_ellipsvormen_en_snoeren._BK-14574.jpg"
+
+  [[group.image]]
+  file = "gilt_footstool.jpg"
+  de = "Vergoldeter Fußschemel mit rotem Samt"
+  en = "Gilt footstool with red velvet"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Voetenbank_bij_troonzetel_van_koning_Willem_III,_NG-C-1995-26.jpg"
+
+  [[group.image]]
+  file = "three_legged_oak_table.jpg"
+  de = "Dreibeiniger Eichentisch"
+  en = "Three-legged oak table"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Driepootstafel,_BK-16725.jpg"
+
+  [[group.image]]
+  file = "oval_side_table.jpg"
+  de = "Ovaler Beistelltisch"
+  en = "Oval side table"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Ovale_tafel,_BK-16149.jpg"
+
+  [[group.image]]
+  file = "demilune_card_table.jpg"
+  de = "Halbrunder Spieltisch"
+  en = "Demi-lune card table"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Halfronde_kaarttafel,_BK-16152-A.jpg"
+
+  [[group.image]]
+  file = "oak_coffee_table.jpg"
+  de = "Couchtisch aus Eiche"
+  en = "Oak coffee table"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Salontafel,_BK-1975-24.jpg"
+
+  [[group.image]]
+  file = "plain_kitchen_table.jpg"
+  de = "Schlichter Küchentisch"
+  en = "Plain kitchen table"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Keukentafel_met_lade,_met_rechthoekig_blad,_op_taps_toelopende_vierkante_poten,_BK-NM-5783-66.jpg"
+
+  [[group.image]]
+  file = "writing_desk.jpg"
+  de = "Schreibtisch mit Aufsatz"
+  en = "Writing desk with cabinet top"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Schrijftafel_met_opstand,_BK-16667.jpg"
+
+  [[group.image]]
+  file = "walnut_commode.jpg"
+  de = "Kommode aus Nussholz"
+  en = "Walnut chest of drawers"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Commode,_BK-NM-8217.jpg"
+
+  [[group.image]]
+  file = "chest_of_drawers_on_stand.jpg"
+  de = "Schubladenschrank auf hohen Beinen"
+  en = "Chest of drawers on tall legs"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Ladenkast,_BK-NM-5239.jpg"
+
+  [[group.image]]
+  file = "oak_cupboard.jpg"
+  de = "Eichenschrank mit Bogenfüllungen"
+  en = "Oak cupboard with arched panels"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Eikenhouten_toogkast,_BK-15502.jpg"
+
+  [[group.image]]
+  file = "lacquer_cabinet.jpg"
+  de = "Lackschrank auf geschnitztem Untergestell"
+  en = "Lacquer cabinet on a carved stand"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Japanse_lakkast,_BK-16881.jpg"
+
+  [[group.image]]
+  file = "glass_door_bookcase.jpg"
+  de = "Bücherschrank mit drei Glastüren"
+  en = "Bookcase with three glass doors"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Driedeurs_boekenkast_van_eikenhout,_BK-2009-269.jpg"
+
+  [[group.image]]
+  file = "carved_oak_sideboard.jpg"
+  de = "Geschnitzte Eichenanrichte"
+  en = "Carved oak sideboard"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Zeeuwse_kast,_BK-NM-164.jpg"
+
+# Only six, and the number is the finding. Of about ninety candidates looked at, six survived, and
+# the losses were not near-misses: half of `Category:Toys in the Rijksmuseum Amsterdam` is dollhouse
+# porcelain, which photographs exactly like real crockery and is therefore `container`; tin, wind-up
+# and diecast toys are all vehicles; rocking horses are `animal`; dolls, tin soldiers, chess pieces
+# and puppets are `person`. `Game boards` is 190 printed sheets with the rules in the picture.
+#
+# What is left is what a toy can be without being something else: a spinning top, a pinwheel, a
+# marble, chattering teeth, and two board games without lettering.
+[[group]]
+dir = "toy"
+category = "toy"
+
+  [[group.image]]
+  file = "wooden_spinning_top.jpg"
+  de = "Holzkreisel"
+  en = "Wooden spinning top"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Spinning_top.jpg"
+
+  [[group.image]]
+  file = "colourful_pinwheel.jpg"
+  de = "Buntes Windrad"
+  en = "Colourful pinwheel"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:A_pinwheel.jpg"
+
+  [[group.image]]
+  file = "glass_marble.jpg"
+  de = "Glasmurmel im Sand"
+  en = "Glass marble in sand"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Marble_toy_2009.JPG"
+
+  [[group.image]]
+  file = "chattering_teeth.jpg"
+  de = "Aufziehbares Klappergebiss"
+  en = "Wind-up chattering teeth"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Chattering_teeth.jpg"
+
+  [[group.image]]
+  file = "nine_mens_morris_board.jpg"
+  de = "Mühlebrett mit Spielsteinen"
+  en = "Nine men's morris board"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Brettspiel_M%C3%BChle.jpg"
+
+  [[group.image]]
+  file = "solitaire_board.jpg"
+  de = "Rotes Solitärbrett mit Murmeln"
+  en = "Red solitaire board with marbles"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:MarbleSolitaire_2.JPG"
+
+# Nineteen household and workshop machines. Category search is useless here and the reason is worth
+# recording: `Machine tools`, `Steam engines`, `Electric motors` and `Lathes` are almost entirely
+# scans of *Canadian machinery*, EB1911 and Brockhaus — PD-old means line drawing. Every image below
+# came from keyword search with the licence filter instead, mostly Industriemuseum Gent (CC0, one
+# object on grey).
+#
+# The American tool museums are unusable wholesale: their photographs carry a black-and-white ruler
+# beside the object, often with the inventory number painted on. The NGA "Index of American Design"
+# hits are watercolours, which no title reveals.
+[[group]]
+dir = "machine"
+category = "machine"
+
+  [[group.image]]
+  file = "espressomaschine.jpg"
+  de = "Espressomaschine"
+  en = "Espresso machine"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Semi_Automatic_Espresso_Machine.jpg"
+
+  [[group.image]]
+  file = "tischventilator.jpg"
+  de = "Tischventilator"
+  en = "Table fan"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Electric_Oscillating_Table_Fan_by_Emerson.jpg"
+
+  [[group.image]]
+  file = "fleischwolf.jpg"
+  de = "Fleischwolf"
+  en = "Meat grinder"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Vintage_meat_grinder_001.jpg"
+
+  [[group.image]]
+  file = "staubsauger.jpg"
+  de = "Staubsauger"
+  en = "Vacuum cleaner"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Ruton_vacuum_cleaner_pic1.JPG"
+
+  [[group.image]]
+  file = "schreibmaschine.jpg"
+  de = "Schreibmaschine"
+  en = "Typewriter"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Typewriter_of_Hermann_Burger.jpg"
+
+  [[group.image]]
+  file = "registrierkasse.jpg"
+  de = "Registrierkasse"
+  en = "Cash register"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Late_20th_Century_Cash_Register_in_Mongolia.jpg"
+
+  [[group.image]]
+  file = "kompressor.jpg"
+  de = "Kompressor"
+  en = "Air compressor"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Air_compressor_small_2009.6.15.JPG"
+
+  [[group.image]]
+  file = "grammophon.jpg"
+  de = "Grammophon"
+  en = "Gramophone"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Antikes_Grammophone_1.jpg"
+
+  [[group.image]]
+  file = "waschmaschine.jpg"
+  de = "Waschmaschine"
+  en = "Washing machine"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Elektrische_wasmachine_van_het_merk_Falda_-_INDUS_V25651.jpg"
+
+  [[group.image]]
+  file = "musikbox.jpg"
+  de = "Musikbox"
+  en = "Jukebox"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Seeburg_VL-200_model.jpg"
+
+  [[group.image]]
+  file = "drucker_3d.jpg"
+  de = "3D-Drucker"
+  en = "3D printer"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Linux_Day_Ivrea_2021_-_FabLab_stampante_3D.jpg"
+
+  [[group.image]]
+  file = "mikrowelle.jpg"
+  de = "Mikrowelle"
+  en = "Microwave oven"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Microwave_oven_%22Erisson%22.jpg"
+
+  [[group.image]]
+  file = "buegeleisen.jpg"
+  de = "Bügeleisen"
+  en = "Electric iron"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:433GrossesElektrobuegeleisenGrossagH1a.jpg"
+
+  [[group.image]]
+  file = "haartrockner.jpg"
+  de = "Haartrockner"
+  en = "Hair dryer"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Hairdryer_20101109.jpg"
+
+  [[group.image]]
+  file = "standmixer.jpg"
+  de = "Standmixer"
+  en = "Blender"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Elektrische_blender_van_het_merk_Teleca_-_INDUS_V09859.JPG"
+
+  [[group.image]]
+  file = "kaffeemuehle.jpg"
+  de = "Kaffeemühle"
+  en = "Coffee grinder"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:KaffemuehleElektrisch1738H5a.jpg"
+
+  [[group.image]]
+  file = "rasenmaeher.jpg"
+  de = "Rasenmäher"
+  en = "Lawn mower"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Lawn_mower_1.JPG"
+
+  [[group.image]]
+  file = "kassettenrecorder.jpg"
+  de = "Kassettenrecorder"
+  en = "Cassette recorder"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:RadioShack-ctr-119.jpg"
+
+  [[group.image]]
+  file = "nadeldrucker.jpg"
+  de = "Nadeldrucker"
+  en = "Dot matrix printer"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Star-LC-10-printer-01.jpg"
+
+# Fifteen tools. The recurring loss here is the set: nearly every category hit is a photograph of
+# six chisels or twelve screwdrivers, and one motif per image means none of them can be used.
+[[group]]
+dir = "tool"
+category = "tool"
+
+  [[group.image]]
+  file = "ziselierhammer.jpg"
+  de = "Ziselierhammer"
+  en = "Chasing hammer"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Ciseleerhamer_van_ijer_ingelegd_met_zilver_en_koper,_BK-NM-12800.jpg"
+
+  [[group.image]]
+  file = "schraubendreher.jpg"
+  de = "Schraubendreher"
+  en = "Screwdriver"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Flat_minus_screwdriver_on_table.jpg"
+
+  [[group.image]]
+  file = "handsaege.jpg"
+  de = "Handsäge"
+  en = "Hand saw"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Hand_saw.jpg"
+
+  [[group.image]]
+  file = "pinzette.jpg"
+  de = "Pinzette"
+  en = "Tweezers"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Tweezers_MET_DP240501.jpg"
+
+  [[group.image]]
+  file = "strohbesen.jpg"
+  de = "Strohbesen"
+  en = "Straw broom"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:20140418_broom.jpg"
+
+  [[group.image]]
+  file = "holzschraubzwinge.jpg"
+  de = "Holzschraubzwinge"
+  en = "Wooden screw clamp"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Model_van_een_bankschroef,_NG-MC-529.jpg"
+
+  [[group.image]]
+  file = "akkuschrauber.jpg"
+  de = "Akkuschrauber"
+  en = "Cordless drill"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Cordless_electric_(screw)_drill.jpg"
+
+  [[group.image]]
+  file = "schneiderschere.jpg"
+  de = "Schneiderschere"
+  en = "Tailor's shears"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Scissors_-_public_domain_01.jpg"
+
+  [[group.image]]
+  file = "seitenschneider.jpg"
+  de = "Seitenschneider"
+  en = "Diagonal cutters"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Diagonal_pliers_2017_-_A1.jpg"
+
+  [[group.image]]
+  file = "rohrabschneider.jpg"
+  de = "Rohrabschneider"
+  en = "Pipe cutter"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Pipecutter_20050728_001.jpg"
+
+  [[group.image]]
+  file = "kartoffelstampfer.jpg"
+  de = "Kartoffelstampfer"
+  en = "Potato masher"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Potatisst%C3%B6t.JPG"
+
+  [[group.image]]
+  file = "teigrolle.jpg"
+  de = "Teigrolle"
+  en = "Rolling pin"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Rolling_pin_2017.jpg"
+
+  [[group.image]]
+  file = "klebepistole.jpg"
+  de = "Klebepistole"
+  en = "Hot glue gun"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Stanley-Hot-Glue-Gun-GR35K.jpg"
+
+  [[group.image]]
+  file = "farbroller.jpg"
+  de = "Farbroller"
+  en = "Paint roller"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Valjak_cetka_1.JPG"
+
+  [[group.image]]
+  file = "holzschlaegel.jpg"
+  de = "Holzschlägel"
+  en = "Wooden mallet"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Mallet,_wood_-_Museo_Egizio,_Turin_S_7519_p01.jpg"
+
+# Eighteen portraits, and this is the source that finally works for a category that had five images:
+# `Category:Photographs by Carl Van Vechten` at the Library of Congress — public domain, head and
+# shoulders, one person, patterned backdrop, and the pencil number sits below the square crop.
+#
+# Four collections that sound right and are not: `PD US FSA/OWI` is a licence category holding
+# aircraft and coastal guns; Brady's plates are uncut multiple exposures, four to eight portraits in
+# one frame; the Bain collection is press photography; and `Portrait photographs in the National
+# Photo Company Collection` is outdoor shots with props — a mace, a shotgun, a banjo, which are
+# `weapon` and `instrument`. Van Vechten needs looking at one by one too: some prints carry
+# PHOTOGRAPH BY CARL VAN VECHTEN in the image, and a candle or a skull beside the sitter puts the
+# picture in another category.
+[[group]]
+dir = "person"
+category = "person"
+
+  [[group.image]]
+  file = "frau_gesenkter_blick.jpg"
+  de = "Frau mit gesenktem Blick"
+  en = "Woman looking down"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Portrait_of_Dorothy_Maynor_LCCN2004663304.jpg"
+
+  [[group.image]]
+  file = "frau_mit_federschmuck.jpg"
+  de = "Frau mit Feder im Haar"
+  en = "Woman with a feather in her hair"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Portrait_of_Edith_Sampson)_-_Edith_LCCN2004663532.jpg"
+
+  [[group.image]]
+  file = "frau_vor_blumentapete.jpg"
+  de = "Frau vor Blumentapete"
+  en = "Woman before floral wallpaper"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Portrait_of_Emily_Vanderbilt_LCCN2004663680.jpg"
+
+  [[group.image]]
+  file = "mann_nadelstreifen.jpg"
+  de = "Mann im Nadelstreifenanzug"
+  en = "Man in a pinstripe suit"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Portrait_of_Feral_Benga_LCCN2004662592.jpg"
+
+  [[group.image]]
+  file = "mann_im_pullover.jpg"
+  de = "Mann im Pullover, im Profil"
+  en = "Man in a sweater, in profile"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Portrait_of_George_Gershwin_LCCN2004662906.jpg"
+
+  [[group.image]]
+  file = "alter_mann_im_mantel.jpg"
+  de = "Alter Mann im Mantel"
+  en = "Old man in a coat"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Portrait_of_George_Grey_Barnard_LCCN2004662568.jpg"
+
+  [[group.image]]
+  file = "lachende_alte_frau.jpg"
+  de = "Lachende alte Frau im Garten"
+  en = "Old woman laughing in a garden"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Portrait_of_Frieda_Lawrence,_Taos,_N.M._LCCN2004663190.jpg"
+
+  [[group.image]]
+  file = "frau_mit_perlenkette.jpg"
+  de = "Alte Frau mit Perlenkette"
+  en = "Old woman with a pearl necklace"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Portrait_of_Gertrude_Atherton,_Burlingame_LCCN2004662531.jpg"
+
+  [[group.image]]
+  file = "frau_mit_brosche.jpg"
+  de = "Frau mit Brosche"
+  en = "Woman with a brooch"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Portrait_of_Gertrude_Stein,_New_York_LCCN2004663586.jpg"
+
+  [[group.image]]
+  file = "mann_mit_schnurrbart.jpg"
+  de = "Mann mit Schnurrbart"
+  en = "Man with a moustache"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Portrait_of_Harold_Arlen_LCCN2004662523.jpg"
+
+  [[group.image]]
+  file = "frau_erhobene_haende.jpg"
+  de = "Frau mit erhobenen Händen"
+  en = "Woman with raised hands"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Portrait_of_Greta_Keller_LCCN2004663123.jpg"
+
+  [[group.image]]
+  file = "mann_vor_farntapete.jpg"
+  de = "Mann im Profil vor Farntapete"
+  en = "Man in profile before fern wallpaper"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Portrait_of_John_O._Killens_LCCN2004663128.jpg"
+
+  [[group.image]]
+  file = "mann_vor_blaettertapete.jpg"
+  de = "Mann im Profil vor Blättertapete"
+  en = "Man in profile before leaf wallpaper"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Portrait_of_Jules_Romains_LCCN2004663525.jpg"
+
+  [[group.image]]
+  file = "junger_mann_fliege.jpg"
+  de = "Junger Mann mit Fliege"
+  en = "Young man with a bow tie"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Portrait_of_Leonard_Bernstein_LCCN2004662600.jpg"
+
+  [[group.image]]
+  file = "mann_am_fenster.jpg"
+  de = "Mann am Fenster"
+  en = "Man at a window"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Portrait_of_Joan_Miro,_Barcelona_1935_June_13.jpg"
+
+  [[group.image]]
+  file = "alte_frau_weisse_bluse.jpg"
+  de = "Alte Frau in weißer Bluse"
+  en = "Old woman in a white blouse"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Mrs._Mary_Fowler_LOC_npcc.05204.jpg"
+
+  [[group.image]]
+  file = "mann_im_anzug.jpg"
+  de = "Mann im Anzug"
+  en = "Man in a suit"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:A.J._Muniz_LOC_npcc.07901.jpg"
+
+  [[group.image]]
+  file = "sitzender_mann_bart.jpg"
+  de = "Sitzender Mann mit Bart"
+  en = "Seated man with a beard"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Robert_Smalls,_S.C._M.C._Born_in_Beaufort,_SC,_April_1839.jpg"
+
+# Sixteen, and all of them hats, caps, coats worn flat, a corset, a kimono and one shoe — because
+# the Rijksmuseum's garments are *systematically* unusable: dresses, skirts, coats and bodices are
+# without exception on a mannequin whose base plate is in the frame, children's jackets hang on a
+# visible black rod, and gloves and shoes are photographed as pairs. Of fourteen shoe and glove
+# photographs exactly one showed a single object.
+#
+# LACMA is worse and should not be tried again: 96 of 98 shoe titles begin "Pair of", and its
+# costume titles lie outright — an "Infant's Cap" that is a flat weaving sample.
+[[group]]
+dir = "clothing"
+category = "clothing"
+
+  [[group.image]]
+  file = "zylinder_schwarz.jpg"
+  de = "Schwarzer Zylinder"
+  en = "Black top hat"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Herenhoed_Hoge_hoed_van_zwart_zijden_fluweel,_BK-1968-84-A.jpg"
+
+  [[group.image]]
+  file = "melone_schwarz.jpg"
+  de = "Schwarze Melone"
+  en = "Black bowler hat"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Bolhoed_van_zwart_vilt_afgezet_met_zwart_ripslint,_waarschijnlijk_voor_amazone,_BK-2008-95.jpg"
+
+  [[group.image]]
+  file = "strohhut_blaue_seide.jpg"
+  de = "Strohhut mit blauer Seide"
+  en = "Straw hat with blue silk"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Hoed_van_riet,_AK-RAK-1988-5.jpg"
+
+  [[group.image]]
+  file = "cloche_blau.jpg"
+  de = "Blauer Filzhut"
+  en = "Blue felt cloche hat"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Cloche_van_blauw_haarvilt_met_een_dubbele_ripsband_in_groen_en_blauw,_BK-1998-37.jpg"
+
+  [[group.image]]
+  file = "strohhut_orange.jpg"
+  de = "Strohhut mit brauner Krone"
+  en = "Straw hat with brown crown"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Hoed_met_platte_rand_van_oranje_bandstro_en_soepele_bol_van_bruin_ripslint,_BK-15601.jpg"
+
+  [[group.image]]
+  file = "filzhut_beige.jpg"
+  de = "Beiger Herrenhut"
+  en = "Beige man's hat"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Hoed_van_doorgestikt_bruinbeige_satijn_met_bruin_grosgrain_lint,_BK-1993-54.jpg"
+
+  [[group.image]]
+  file = "haube_schwarz.jpg"
+  de = "Schwarze Seidenhaube"
+  en = "Black silk bonnet"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Kap_of_cal%C3%A8che_(Th%C3%A9r%C3%A8se)_van_gewatteerde_zwarte_ripszijde,_oorspronkelijk_gesteund_door_drie_(%C3%A9%C3%A9n_ontbreekt)_baleinen,_gevoerd_met_zwarte_zijde_en_afgezet_met_zwarte_kant,_BK-NM-10000.jpg"
+
+  [[group.image]]
+  file = "wollmuetze_blau.jpg"
+  de = "Blaue Wollmütze"
+  en = "Blue wool cap"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Muts_van_blauwe_wol_opgemaakt_als_een_plat_kapsel_met_scheiding_links_en_wrongen_rond_de_oren,_BK-1993-71.jpg"
+
+  [[group.image]]
+  file = "brokatmuetze_gruen.jpg"
+  de = "Mütze aus Blumenbrokat"
+  en = "Cap of flowered brocade"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Muts_van_gestreepte_roze_zijde_gebrocheerd_met_groene_rozen,_bestaande_uit_vier_pattes_met_ieder_een_aangezette_rand_die_is_teruggeslagen,_midden_op_de_bol_een_met_stof_beklede_knoop,_BK-NM-8600.jpg"
+
+  [[group.image]]
+  file = "schlafmuetze_blumen.jpg"
+  de = "Geblümte Schlafmütze"
+  en = "Flowered nightcap"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Muts_voor_een_man_Huismuts_van_veelkleurige,_florale_sits_met_een_aangeknipte,_teruggeslagen_rand_en_een_puntige_bol_waarop_een_kwastje_van_rode_zijde,_BK-1978-792.jpg"
+
+  [[group.image]]
+  file = "schlafmuetze_weiss.jpg"
+  de = "Weiße gestickte Schlafmütze"
+  en = "White embroidered nightcap"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Huismuts,_BK-1965-51.jpg"
+
+  [[group.image]]
+  file = "hausmantel_hellblau.jpg"
+  de = "Hellblauer Hausmantel"
+  en = "Pale blue house robe"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Kamerjas_van_blauwe_zijde,_BK-NM-5783-256.jpg"
+
+  [[group.image]]
+  file = "korsett_rot.jpg"
+  de = "Rotes Korsett"
+  en = "Red corset"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Corset_overtrokken_met_een_ceriserood_wollen_weefsel,_versierd_met_polychrome_bloemen_en_wit_passement_langs_vijf_rugna,_BK-NM-9442.jpg"
+
+  [[group.image]]
+  file = "hausmantel_geblumt.jpg"
+  de = "Hausmantel mit Blumenmuster"
+  en = "Flowered house robe"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Kamerjas_Japonse_rok_of_huisjas_met_feniksen_en_pioenrozen,_BK-2018-8.jpg"
+
+  [[group.image]]
+  file = "kinderkimono_schwarz.jpg"
+  de = "Schwarzer Kinderkimono"
+  en = "Black child's kimono"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Jongens_miyamairi_kimono_met_opspringende_karpers,_AK-RAK-2009-3-87.jpg"
+
+  [[group.image]]
+  file = "kinderschuh_rosa.jpg"
+  de = "Rosa Kinderschuh aus Leder"
+  en = "Pink leather child's shoe"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Laars_met_kap,_BK-KOG-2597-AU.jpg"
+
+# Twelve, eleven of them from one Rijksmuseum series of single sprigs and blossoms against a plain
+# ground. They are sepia, which is worth knowing: the shelf is now thirteen colour and twelve sepia,
+# and that is a property of the category rather than of any one image.
+#
+# The rest of the museum's flower photography is album pages — the print sits in the middle of a wide
+# mount, so the square crop keeps the mount. Others have a vase in frame (`container`), a millimetre
+# scale, or a printed caption. The flower watercolours are technically perfect and were left alone:
+# the pool holds no other painting, so one would mark its category.
+[[group]]
+dir = "plant"
+category = "plant"
+
+  [[group.image]]
+  file = "weisser_bluetenzweig.jpg"
+  de = "Weißer Blütenzweig"
+  en = "White blossom branch"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Bloeiende_takken,_Spiraea_Arguta,_RP-F-2009-276-1.jpg"
+
+  [[group.image]]
+  file = "kiefernzweig.jpg"
+  de = "Kiefernzweig"
+  en = "Pine shoot"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Detail_van_een_Pinus_Maritima_tegen_egale_achtergrond,_RP-F-2009-276-3.jpg"
+
+  [[group.image]]
+  file = "haselkaetzchen.jpg"
+  de = "Haselkätzchen"
+  en = "Catkins"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Tak_van_een_berk_tegen_egale_achtergrond,_RP-F-2009-276-10.jpg"
+
+  [[group.image]]
+  file = "birkenzweig.jpg"
+  de = "Birkenzweig"
+  en = "Birch twig"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Bladertak_van_een_zachte_berk_tegen_egale_achtergrond,_RP-F-2009-276-15.jpg"
+
+  [[group.image]]
+  file = "schlehenbluete.jpg"
+  de = "Schlehenblüte"
+  en = "Blackthorn blossom"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Sleedoorn_bloesemtakken,_RP-F-2009-276-17.jpg"
+
+  [[group.image]]
+  file = "dahlienbluete.jpg"
+  de = "Dahlienblüte"
+  en = "Dahlia flower"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Bloeiende_dahlia_tegen_egale_achtergrond,_RP-F-2009-276-18.jpg"
+
+  [[group.image]]
+  file = "fliederzweig.jpg"
+  de = "Fliederzweig"
+  en = "Lilac branch"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Bloeiende_seringen_tegen_egale_achtergrond,_RP-F-2009-276-20.jpg"
+
+  [[group.image]]
+  file = "gerstenaehren.jpg"
+  de = "Gerstenähren"
+  en = "Barley ears"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Drie_gerstaren_tegen_egale_achtergrond,_RP-F-2009-276-47.jpg"
+
+  [[group.image]]
+  file = "johannisbeerbluete.jpg"
+  de = "Johannisbeerblüte"
+  en = "Currant blossom"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Tak_Ribes_Sanguineum_tegen_egale_achtergrond,_RP-F-2009-276-48.jpg"
+
+  [[group.image]]
+  file = "zierapfelbluete.jpg"
+  de = "Zierapfelblüte"
+  en = "Crabapple blossom"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Tak_bloeiende_Malus_Sargentii_tegen_egale_achtergrond,_RP-F-2009-276-49.jpg"
+
+  [[group.image]]
+  file = "schneegloeckchen.jpg"
+  de = "Schneeglöckchen"
+  en = "Snowdrops"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Sneeuwklokjes,_RP-F-2000-11-229.jpg"
+
+  [[group.image]]
+  file = "sonnenblume.jpg"
+  de = "Sonnenblume"
+  en = "Sunflower"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Sunflower_head_2015_G1.jpg"
+
+# Nine NASA aircraft and one ship model. NASA is the right shape for this category — one machine
+# against sky or desert, public domain by origin — and the lettering rule was read as it is for the
+# cars already here: a name on the tail is part of the object, a caption bar burned into the print is
+# not.
+#
+# The Rijksmuseum photograph categories do not work: `bicycles` is 79 portraits of people with a
+# bicycle, `wagons` and `ships` are harbour and street scenes, and its ship models are mostly
+# photographed inside their display cases, where the case is the motif.
+[[group]]
+dir = "vehicle"
+category = "vehicle"
+
+  [[group.image]]
+  file = "flugzeug_schraegfluegel.jpg"
+  de = "Flugzeug mit schrägem Flügel"
+  en = "Aircraft with a slanted wing"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:AD-1_ObliqueWing_60deg_19800701.jpg"
+
+  [[group.image]]
+  file = "raumfaehre.jpg"
+  de = "Raumfähre"
+  en = "Space shuttle"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Columbia_On_Final_Approach_-_GPN-2000-001346.jpg"
+
+  [[group.image]]
+  file = "solarflugzeug.jpg"
+  de = "Solarflugzeug"
+  en = "Solar aircraft"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Helios_cthomas.jpg"
+
+  [[group.image]]
+  file = "flugzeug_doppelrumpf.jpg"
+  de = "Flugzeug mit zwei Rümpfen"
+  en = "Twin-fuselage aircraft"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:NASA_Proteus_aircraft_in_flight.jpg"
+
+  [[group.image]]
+  file = "drohne_weiss.jpg"
+  de = "Weiße Drohne"
+  en = "White drone"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:NASA%E2%80%99s_Global_Hawk_2009-10-23.jpg"
+
+  [[group.image]]
+  file = "jet_rot_weiss.jpg"
+  de = "Rot-weißer Jet"
+  en = "Red and white jet"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:HiMAT_near_Edwards_Air_Force_Base_(ECN-14280).jpg"
+
+  [[group.image]]
+  file = "flugzeug_acht_triebwerke.jpg"
+  de = "Achtmotoriges Flugzeug"
+  en = "Eight-engine aircraft"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:NASA_Dryden%27s_B-52H_in_flight_(EC02-0083-3).jpg"
+
+  [[group.image]]
+  file = "flugzeug_ueber_wolken.jpg"
+  de = "Flugzeug über Wolken"
+  en = "Airliner above clouds"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:DC-9_reduced-gravity_training_aircraft_-_going_down.jpg"
+
+  [[group.image]]
+  file = "kampfjet_grau.jpg"
+  de = "Grauer Kampfjet"
+  en = "Grey fighter jet"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:NASA%27s_F-15B_conducts_a_local_Mach_investigation_flight_over_California%27s_Mojave_Desert_(EC04-0176-4).jpg"
+
+  [[group.image]]
+  file = "segelschiff_modell.jpg"
+  de = "Segelschiffmodell"
+  en = "Model sailing ship"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Model_van_een_brik_van_12_stukken,_NG-MC-660.jpg"
+
+# Twelve, and deliberately no more candlesticks — the shelf has eight. Lanterns, oil lamps, a
+# scissor lamp, a beacon reflector, hanging and ceiling lamps.
+#
+# What failed says something about the category: a mosque lamp reads as a vase and is covered in
+# calligraphy, two "lanterns" are a mother-of-pearl box and a ceramic vessel, a magic lantern is a
+# projector, and a copper mine lamp carries an engraved dedication. The Met's two hundred terracotta
+# lamps are the same object from several angles and look like pottery.
+[[group]]
+dir = "light"
+category = "light"
+
+  [[group.image]]
+  file = "laterne_messing_robbenfell.jpg"
+  de = "Messinglaterne"
+  en = "Brass lantern"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Lantaarn_van_messing_bekleed_met_robbenvel,_BK-NM-43.jpg"
+
+  [[group.image]]
+  file = "laterne_holz_geschnitzt.jpg"
+  de = "Holzlaterne"
+  en = "Wooden lantern"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Draaglantaarn_van_hout,_BK-KOG-1739.jpg"
+
+  [[group.image]]
+  file = "signallaterne_kupfer.jpg"
+  de = "Signallaterne"
+  en = "Signal lantern"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Koperen_seinlantaarn,_NG-MC-1263.jpg"
+
+  [[group.image]]
+  file = "laterne_kupfer_rund.jpg"
+  de = "Runde Kupferlaterne"
+  en = "Round copper lantern"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Lantaarn_van_koper,_cirkelvormig,_met_twaalf_ruiten_waarvan_%C3%A9%C3%A9n_scharnierend,_op_drie_bolpoten_en_met_driedelig_gelede_koepelvormige_bekroning,_BK-1998-87.jpg"
+
+  [[group.image]]
+  file = "laterne_silber.jpg"
+  de = "Silberlaterne"
+  en = "Silver lantern"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Zilveren_lantaarn,_mogelijk_afkomstig_uit_een_synagoge_in_Suriname,_NG-2013-22-3.jpg"
+
+  [[group.image]]
+  file = "scherenlampe_wand.jpg"
+  de = "Scherenlampe"
+  en = "Scissor wall lamp"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Bureaulamp_van_Willem_Drees,_NG-2003-34.jpg"
+
+  [[group.image]]
+  file = "moderateurlampe_messing.jpg"
+  de = "Öllampe aus Messing"
+  en = "Brass oil lamp"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Moderateurlamp,_NG-MC-1889-53-1.jpg"
+
+  [[group.image]]
+  file = "oellampe_zinn_pferd.jpg"
+  de = "Zinnöllampe"
+  en = "Pewter oil lamp"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Olielamp_van_tin,_met_zittend_paard_als_dekselknop,_BK-18745.jpg"
+
+  [[group.image]]
+  file = "leuchtfeuer_reflektor.jpg"
+  de = "Lampe mit Reflektor"
+  en = "Lamp with reflector"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Lichtkaatser_voor_een_vuurtoren,_NG-MC-832.jpg"
+
+  [[group.image]]
+  file = "haengelampe_glasperlen.jpg"
+  de = "Hängelampe"
+  en = "Hanging lamp"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Eetkamerlamp_van_koper_met_een_volant_van_glazen_kraaltjes,_BK-1973-152.jpg"
+
+  [[group.image]]
+  file = "oellampe_bronze_schale.jpg"
+  de = "Bronzeöllampe"
+  en = "Bronze oil lamp"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Lamp,_AK-MAK-266.jpg"
+
+  [[group.image]]
+  file = "deckenlampe_glas_achteckig.jpg"
+  de = "Glasdeckenlampe"
+  en = "Glass ceiling lamp"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Lamp_bestaande_uit_acht_zijden_met_ribben_in_grillige_gebogen_puntvormen,_BK-1973-773.jpg"
+
+# Sixteen: pistols, maces, axes, katars, daggers, a sabre and two crossbows, from the Met and
+# Cleveland.
+#
+# The Rijksmuseum is unusable for this category and it is a clean result — 396 candidates, 40 within
+# the aspect ratio, none usable. Pistols are always photographed as pairs, blades always beside their
+# scabbard, cannon on a carriage with loose shot alongside. The Met's own `Helmets` category is old
+# black-and-white shelf photography with stickers; its subject categories are good, but carry four to
+# six views per object of which only one shows the whole thing.
+[[group]]
+dir = "weapon"
+category = "weapon"
+
+  [[group.image]]
+  file = "steinschlosspistole.jpg"
+  de = "Steinschlosspistole"
+  en = "Flintlock pistol"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Flintlock_Pistol_Made_for_Charles_XI_of_Sweden_(1655%E2%80%931697)_MET_DT6456.jpg"
+
+  [[group.image]]
+  file = "streitkolben_gold.jpg"
+  de = "Vergoldeter Streitkolben"
+  en = "Gilded mace"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Mace_MET_DP163752.jpg"
+
+  [[group.image]]
+  file = "streitaxt_halbmond.jpg"
+  de = "Streitaxt mit Halbmondklinge"
+  en = "Crescent battle axe"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Ax_(Berdiche_or_Balta)_MET_DP163749.jpg"
+
+  [[group.image]]
+  file = "streitaxt_goldtauschiert.jpg"
+  de = "Goldtauschierte Streitaxt"
+  en = "Gold-inlaid battle axe"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Ax_MET_DP165771.jpg"
+
+  [[group.image]]
+  file = "derwischaxt.jpg"
+  de = "Derwischaxt"
+  en = "Dervish axe"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Dervish_Ax_MET_DP165764.jpg"
+
+  [[group.image]]
+  file = "axtklinge_gold.jpg"
+  de = "Axtklinge mit Goldeinlage"
+  en = "Axe head with gold inlay"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Ax_Head_MET_DP286130.jpg"
+
+  [[group.image]]
+  file = "katar_dreiklingig.jpg"
+  de = "Katar mit drei Klingen"
+  en = "Three-bladed katar dagger"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Dagger_(Katar)_with_Two_Side_Blades_(Bichuwa)_MET_36.25.1028_001july2014.jpg"
+
+  [[group.image]]
+  file = "katar_stossdolch.jpg"
+  de = "Katar-Stoßdolch"
+  en = "Katar punch dagger"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Dagger_(Katar)_MET_36.25.1026_001Jan2015.jpg"
+
+  [[group.image]]
+  file = "dolch_rippengriff.jpg"
+  de = "Dolch mit geripptem Griff"
+  en = "Dagger with a ribbed grip"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Clevelandart_1916.1688.jpg"
+
+  [[group.image]]
+  file = "dolch_zwiebelknauf.jpg"
+  de = "Dolch mit Zwiebelknauf"
+  en = "Dagger with an onion pommel"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Clevelandart_1916.1663.jpg"
+
+  [[group.image]]
+  file = "dolch_kreuzstange.jpg"
+  de = "Dolch mit Kreuzstange"
+  en = "Dagger with a cross guard"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Clevelandart_1916.1687.jpg"
+
+  [[group.image]]
+  file = "prunkdolch_silber.jpg"
+  de = "Prunkdolch aus Silber"
+  en = "Ornate silver dagger"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Clevelandart_1916.1865.jpg"
+
+  [[group.image]]
+  file = "dolch_drahtgriff.jpg"
+  de = "Dolch mit Drahtgriff"
+  en = "Dagger with a wire-wrapped grip"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Clevelandart_1916.1891.jpg"
+
+  [[group.image]]
+  file = "saebel_gekruemmt.jpg"
+  de = "Gekrümmter Säbel"
+  en = "Curved sabre"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Clevelandart_1916.1626.jpg"
+
+  [[group.image]]
+  file = "armbrust_verziert.jpg"
+  de = "Verzierte Armbrust"
+  en = "Decorated crossbow"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Pellet_Crossbow_MET_DP282531.jpg"
+
+  [[group.image]]
+  file = "armbrust_holz.jpg"
+  de = "Armbrust aus Holz"
+  en = "Wooden crossbow"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Crossbow_MET_268233.jpg"
+
+# Twelve more pieces: kettle hats, burgonets, two morions, a visor, arm and shoulder defences, a
+# gorget, a gauntlet, a thigh plate, a mail hood. Eleven Rijksmuseum, one Cleveland.
+#
+# Two of them are borderline against `clothing` — a brimmed kettle hat and a morion are hats in
+# silhouette — and that is recorded rather than hidden: if `clothing` ever gets a helmet-shaped hat
+# back, this is the pair to look at first.
+[[group]]
+dir = "armour"
+category = "armour"
+
+  [[group.image]]
+  file = "eisenhut_spitz.jpg"
+  de = "Spitzer Eisenhelm"
+  en = "Pointed iron helmet"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Isenhut,_NG-NM-8577.jpg"
+
+  [[group.image]]
+  file = "eisenhut_krempe.jpg"
+  de = "Eisenhut mit Krempe"
+  en = "Iron kettle hat"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Ketelhoed_Middeleeuwse_ketelhoed,_NG-2002-23-260.jpg"
+
+  [[group.image]]
+  file = "sturmhaube_kamm.jpg"
+  de = "Sturmhaube"
+  en = "Sallet"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Bourgondische_stormhoed_met_korte_kam,_NG-NM-10897-F.jpg"
+
+  [[group.image]]
+  file = "morion_schwarz.jpg"
+  de = "Schwarzer Morion"
+  en = "Black morion helmet"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Morion-helm_met_uitgedreven_lelie,_NG-NM-8850.jpg"
+
+  [[group.image]]
+  file = "morion_stahl.jpg"
+  de = "Morion aus Stahl"
+  en = "Steel morion helmet"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Morion,_NG-NM-4495.jpg"
+
+  [[group.image]]
+  file = "helmvisier.jpg"
+  de = "Helmvisier"
+  en = "Helmet visor"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Unknown_artist_-_Visor_-_1923.1119_-_Cleveland_Museum_of_Art.jpg"
+
+  [[group.image]]
+  file = "armzeug.jpg"
+  de = "Armzeug"
+  en = "Arm armour"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Armharnas_voor_rechterarm,_NG-KOG-770-5.jpg"
+
+  [[group.image]]
+  file = "schulterplatte.jpg"
+  de = "Schulterplatte"
+  en = "Shoulder plate"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Schouderplaat_van_een_harnas_met_versieringen,_NG-KOG-770-1.jpg"
+
+  [[group.image]]
+  file = "ringkragen.jpg"
+  de = "Ringkragen"
+  en = "Gorget"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Ringkraag,_NG-NM-4493-3.jpg"
+
+  [[group.image]]
+  file = "panzerhandschuh.jpg"
+  de = "Panzerhandschuh"
+  en = "Gauntlet"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Wapenhandschoen,_NG-NM-4493-8.jpg"
+
+  [[group.image]]
+  file = "schenkelplatte.jpg"
+  de = "Schenkelplatte"
+  en = "Thigh plate"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Dijstuk_links,_NG-NM-4493-6.jpg"
+
+  [[group.image]]
+  file = "kettenhaube.jpg"
+  de = "Kettenhaube"
+  en = "Mail coif"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Een_mali%C3%ABnkap,_NG-NM-4382.jpg"
+
+# Twelve rings, which makes this shelf jewellery and nothing but jewellery. Every non-ring candidate
+# failed on the rule that has cost this category the most: a hair comb reads as a `tool`, one with
+# maple seeds as `plant`, one with a dragonfly as `insect`, and chatelaines carry little figures.
+# Badges are portraits and coats of arms.
+#
+# For the next round `ornament` needs a different kind of object — buckles, mirrors, mounts, finials
+# — not more jewellery.
+[[group]]
+dir = "ornament"
+category = "ornament"
+
+  [[group.image]]
+  file = "ring_navette_diamanten.jpg"
+  de = "Navette-Ring mit Diamanten"
+  en = "Marquise ring with diamonds"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Marquisering,_BK-16585.jpg"
+
+  [[group.image]]
+  file = "ring_tafeldiamant.jpg"
+  de = "Goldring mit Tafeldiamant"
+  en = "Gold ring with a table-cut diamond"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Ring_met_tafelgeslepen_diamant,_BK-17183.jpg"
+
+  [[group.image]]
+  file = "ring_gold_lotus.jpg"
+  de = "Goldring mit Lotusmuster"
+  en = "Gold ring with a lotus pattern"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Drie_ringen_Ring_met_decoratie_van_lotuszaadjes,_AK-RAK-1983-2.jpg"
+
+  [[group.image]]
+  file = "ring_grosser_diamant.jpg"
+  de = "Ring mit großem Diamanten"
+  en = "Ring with a large diamond"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Herenring_Entouragering_van_diamanten_gezet_in_zilver,_NG-2011-24.jpg"
+
+  [[group.image]]
+  file = "ring_daumen_rubine.jpg"
+  de = "Daumenring mit Rubinen"
+  en = "Thumb ring set with rubies"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Ring_Duimring,_AK-NM-7068.jpg"
+
+  [[group.image]]
+  file = "ring_reifen_diamanten.jpg"
+  de = "Goldreif mit Diamanten"
+  en = "Gold band set with diamonds"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Ring_met_tafeldiamanten,_BK-2018-139.jpg"
+
+  [[group.image]]
+  file = "ring_turmalin_rosa.jpg"
+  de = "Ring mit rosa Turmalin"
+  en = "Ring with a pink tourmaline"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Ring_in_neo-stijl_bezet_met_een_roze_toermalijn,_BK-2019-6.jpg"
+
+  [[group.image]]
+  file = "ring_karneol_gold.jpg"
+  de = "Goldring mit Karneol"
+  en = "Gold ring with a carnelian"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Ring_met_een_gesneden_kornalijn,_BK-1955-93.jpg"
+
+  [[group.image]]
+  file = "ring_koralle_rot.jpg"
+  de = "Goldring mit roter Koralle"
+  en = "Gold ring with red coral"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Ring_van_goud_met_bloedkoraal,_BK-2018-2-14.jpg"
+
+  [[group.image]]
+  file = "ring_citrin.jpg"
+  de = "Goldring mit Citrin"
+  en = "Gold ring with a citrine"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Ring_van_goud_met_citrien,_BK-2018-2-32.jpg"
+
+  [[group.image]]
+  file = "ring_silber_karneol.jpg"
+  de = "Silberring mit Karneol"
+  en = "Silver ring with a carnelian"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Ring_van_zilver_met_carneool,_BK-2010-2-381.jpg"
+
+  [[group.image]]
+  file = "ring_email_blau.jpg"
+  de = "Ring mit blauem Email"
+  en = "Ring with blue enamel"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Ring_met_zeshoekig_motief_versierd_met_email,_BK-2019-7.jpg"
+
+# Fourteen more from the USGS Bee Inventory laboratory, the best source this pool has found.
+#
+# Two rules of that collection, learned the hard way: the originals are mostly exactly 1.5 to 1, so
+# whole motif groups — dragonfly, mantis, mole cricket — cannot yield a usable image at any quality,
+# and about half the `, Face,` files are so close that the animal is unidentifiable. `, Back,` and
+# `, Side,` are the ones that show a whole insect.
+[[group]]
+dir = "insect"
+category = "insect"
+
+  [[group.image]]
+  file = "ant_orange_black.jpg"
+  de = "Ameise"
+  en = "Ant"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Ant,-back_2012-07-26-16.01.47-ZS-PMax_(7678829942).jpg"
+
+  [[group.image]]
+  file = "velvet_ant_orange.jpg"
+  de = "Samtameise"
+  en = "Velvet ant"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Velvet_Ant,_F,_Back,_Hot_Springs_Village,_AR_2015-08-20-16.24.57_ZS_PMax_UDR_(21473550145).jpg"
+
+  [[group.image]]
+  file = "jewelwing_damselfly.jpg"
+  de = "Prachtlibelle"
+  en = "Jewelwing damselfly"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Ebony_Jewelwing_Damselfly,_U,_Body_1,_PG_County,_Maryland_2013-06-12-15.53.09_ZS_PMax_(9027381489).jpg"
+
+  [[group.image]]
+  file = "buffalo_treehopper.jpg"
+  de = "Büffelzikade"
+  en = "Buffalo treehopper"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Buffalo_Treehopper,_side,_MD,_PG_County_2013-08-20-17.33.42_ZS_PMax_(9579134248).jpg"
+
+  [[group.image]]
+  file = "yellow_planthopper.jpg"
+  de = "Gelbe Zikade"
+  en = "Yellow planthopper"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Planthopper_large_-_Beltsville,_Maryland_2016-08-06_17.22_-_USGS_Bee_Inventory_and_Monitoring_Laboratory.jpg"
+
+  [[group.image]]
+  file = "cicada_from_the_front.jpg"
+  de = "Zikade von vorn"
+  en = "Cicada from the front"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Cicada_1,_face_2021-05-24-16.45.06_ZS_PMax_UDR_rtg_(51205649111).jpg"
+
+  [[group.image]]
+  file = "dung_beetle.jpg"
+  de = "Mistkäfer"
+  en = "Dung beetle"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Scarabaeidae,_U,_back,_Maryland,_chino_farm_2013-03-04-18.39.22_ZS_PMax_(8544039208).jpg"
+
+  [[group.image]]
+  file = "golden_tortoise_beetle.jpg"
+  de = "Goldschildkäfer"
+  en = "Golden tortoise beetle"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Golden_tortoise_beetle,_back,_upper_marlboro,_md_2014-06-04-13.25.12_ZS_PMax_(14372942103).jpg"
+
+  [[group.image]]
+  file = "potato_beetle.jpg"
+  de = "Kartoffelkäfer"
+  en = "Potato beetle"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Leptinotarsa_juncta,_back,_pg_county,_md_2016-06-17-10.56_(27704721506).jpg"
+
+  [[group.image]]
+  file = "black_white_leaf_beetle.jpg"
+  de = "Schwarz-weißer Blattkäfer"
+  en = "Black and white leaf beetle"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Black_and_white_beetle,_back,_MAGLEV_2020-08-12-18.14.44_ZS_PMax_UDR_(50254984376).jpg"
+
+  [[group.image]]
+  file = "metallic_green_bee.jpg"
+  de = "Metallisch grüne Biene"
+  en = "Metallic green bee"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Agapostemon_sericeus,_F,_Back,_MD,_PG_County_2014-01-31-16.16.17_ZS_PMax_(12421706203).jpg"
+
+  [[group.image]]
+  file = "carpenter_bee_blue_wings.jpg"
+  de = "Holzbiene mit blauen Flügeln"
+  en = "Carpenter bee with blue wings"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Xylocopa_pop_green,_f,thailand,_side_2014-08-14-20.29.26_ZS_PMax_(15538907542).jpg"
+
+  [[group.image]]
+  file = "shield_bug.jpg"
+  de = "Baumwanze"
+  en = "Shield bug"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Brown_marmorated_stink_bug_(Halyomorpha_halys)_-_Back_-_USGS_Bee_Inventory_and_Monitoring_Laboratory.jpg"
+
+  [[group.image]]
+  file = "patterned_butterfly.jpg"
+  de = "Schmetterling mit gemusterten Flügeln"
+  en = "Butterfly with patterned wings"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Anteros_formosus,_m,_peru,_Cosnipata_Valley,_brain_harris,_habitus_2016-02-23-10.20_(25185880641).jpg"
+
+# Thirteen from US Fish and Wildlife and the NOAA photo library, public domain by origin.
+#
+# The losses are almost all category collisions rather than bad photographs: an animal in a
+# researcher's hand is `person`, a sea otter on round pebbles is `stone`, a hummingbird among pink
+# blossom is `plant`, and a herd is not one motif. Some NOAA sanctuary images carry a burned-in
+# badge in the corner, so the ones with an `FKNMS`/`GFNMS`-style prefix need looking at one by one.
+[[group]]
+dir = "animal"
+category = "animal"
+
+  [[group.image]]
+  file = "rabbit_in_grass.jpg"
+  de = "Kaninchen"
+  en = "Rabbit"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Sylvilagus_floridanus.jpg"
+
+  [[group.image]]
+  file = "penguin.jpg"
+  de = "Pinguin"
+  en = "Penguin"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:African_penguin_(Spheniscus_demersus)_FWS_14210.jpg"
+
+  [[group.image]]
+  file = "burrowing_owl.jpg"
+  de = "Eule"
+  en = "Owl"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Burrowing_Owl_(8361376627).jpg"
+
+  [[group.image]]
+  file = "flamingo.jpg"
+  de = "Flamingo"
+  en = "Flamingo"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Flamingo_standing_(40501208232).jpg"
+
+  [[group.image]]
+  file = "white_pelican.jpg"
+  de = "Pelikan"
+  en = "Pelican"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:American_white_pelican_(9685281861).jpg"
+
+  [[group.image]]
+  file = "desert_tortoise.jpg"
+  de = "Schildkröte"
+  en = "Tortoise"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Mojave_Desert_Tortoise_(Gopherus_agassizii)_(6012502158).jpg"
+
+  [[group.image]]
+  file = "banded_snake.jpg"
+  de = "Schlange"
+  en = "Snake"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:California_kingsnake_front_(8122437969).jpg"
+
+  [[group.image]]
+  file = "leopard_frog.jpg"
+  de = "Frosch"
+  en = "Frog"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Northern_Leopard_Frog_(6011919171).jpg"
+
+  [[group.image]]
+  file = "walrus.jpg"
+  de = "Walross"
+  en = "Walrus"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Walrus_on_Togiak_National_Wildlife_Refuge.jpg"
+
+  [[group.image]]
+  file = "elephant_seal.jpg"
+  de = "Seeelefant"
+  en = "Elephant seal"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Young_Elephant_Seal.jpg"
+
+  [[group.image]]
+  file = "octopus.jpg"
+  de = "Krake"
+  en = "Octopus"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:GFNMS_-_Giant_Pacific_Octopus-NOAA_(27369204944).jpg"
+
+  [[group.image]]
+  file = "jellyfish.jpg"
+  de = "Qualle"
+  en = "Jellyfish"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Lion_Mane_jellyfish.Monterey_Bay_National_Marine_Sanctuary.jpg"
+
+  [[group.image]]
+  file = "sea_star.jpg"
+  de = "Seestern"
+  en = "Sea star"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:NMSAS_-_sea_star_(27842140525).jpg"
