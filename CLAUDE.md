@@ -108,6 +108,13 @@ invalidates every published trial. It is a deliberate act, never a build step. S
   it does not link. Do not "fix" that by skipping the check — appending to a record that is already
   wrong is worse than being down.
 - **Two processes, one SQLite file.** The append discipline (R9) assumes local-filesystem locking.
+- **`Db::reader()` hands back the *writer* on an in-memory database**, and holds it for as long as
+  the binding lives. A test that keeps a reader in scope and then reads anything else deadlocks —
+  silently, with no output, until the run is killed. Put every reader in its own block. This cost
+  two sessions an afternoon between them on 2026-07-26.
+- **On a brand-new database file, start the two instances one after another.** The first creates the
+  schema and the second dies in `database is locked` while it does. Once the file exists, parallel
+  operation is what D24 and R9 are for.
 - **`tasks.md` is stale in places.** It carries hand-written unticking notes (e.g. T003 claims axum
   and rusqlite are absent; both have been present for a while). Verify against the code before
   trusting a checkbox, and mark tasks `[X]` as you complete them — `/speckit-implement` reads them.
