@@ -92,6 +92,9 @@ async fn start(
             coordinate: coordinate.clone(),
             commitment: commitment.clone(),
             pool_version: state.pool.version,
+            // The manifest itself, not a pointer to it. Half the derivation is which images sit at
+            // which index, and a reader who cannot pin that down cannot recompute anything (D34).
+            pool_manifest_hash: Some(state.pool.manifest_hash.clone()),
         },
     );
 
@@ -108,6 +111,7 @@ async fn start(
             nonce,
             coordinate: coordinate.clone(),
             pool_version: state.pool.version,
+            pool_manifest_hash: state.pool.manifest_hash.clone(),
         },
         &account,
         entry.seq,
@@ -160,7 +164,7 @@ async fn reveal(
             "s_client must be 32 base64-encoded bytes",
         ))?;
 
-    same_pool(&state.pool, one.pool_version)?;
+    same_pool(&state.pool, one.pool_version, &one.pool_manifest_hash)?;
 
     let commit = committed(&state.db, seq, &account)?.ok_or(ApiError::Gone)?;
     if commit.resolved {
@@ -195,6 +199,7 @@ async fn reveal(
             nonce: one.nonce,
             coordinate: one.coordinate,
             pool_version: one.pool_version,
+            pool_manifest_hash: one.pool_manifest_hash,
             selected: draw.selected_images.to_vec(),
             target_slot: draw.target_slot,
             display_order: draw.display_order.to_vec(),
@@ -257,7 +262,7 @@ async fn answer(
     }
     // -----------------------------------------------------------------------------------------
 
-    same_pool(&state.pool, two.pool_version)?;
+    same_pool(&state.pool, two.pool_version, &two.pool_manifest_hash)?;
 
     let commit = committed(&state.db, seq, &account)?.ok_or(ApiError::Gone)?;
     if commit.resolved {
@@ -383,14 +388,24 @@ fn answered_concurrently(e: DbError) -> ApiError {
 /// One process holds one manifest, and the derivation is meaningless against another (D5, D22).
 /// `Gone` rather than an error, because from the user's side that is what happened: the trial
 /// cannot be completed and they should be given a new one (FR-038).
-fn same_pool(pool: &Manifest, drawn_under: u32) -> Result<(), ApiError> {
-    if pool.version == drawn_under {
+///
+/// The hash is checked as well as the number, because the number can be re-cut (D34). A trial that
+/// began under one v1 and finished under another would be scored against images its own commit
+/// entry does not describe — an honest trial that fails verification, which is worse than a
+/// refused one. `sealed_against` is empty only in a token minted before the field existed; those
+/// are held to the version alone, as they were when they were issued.
+fn same_pool(pool: &Manifest, drawn_under: u32, sealed_against: &str) -> Result<(), ApiError> {
+    if pool.version == drawn_under
+        && (sealed_against.is_empty() || sealed_against == pool.manifest_hash)
+    {
         return Ok(());
     }
     tracing::warn!(
         serving = pool.version,
+        serving_hash = %pool.manifest_hash,
         drawn_under,
-        "a trial from an earlier pool version cannot be completed by this process"
+        sealed_against,
+        "a trial from an earlier pool cannot be completed by this process"
     );
     Err(ApiError::Gone)
 }

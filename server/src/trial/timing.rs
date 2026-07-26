@@ -59,6 +59,7 @@ mod tests {
             nonce: vec![3; 32],
             coordinate: "4821-9037".into(),
             pool_version: 1,
+            pool_manifest_hash: "sha256:pool".into(),
             selected: vec![0, 1, 2, 3, 4, 5, 6, 7],
             target_slot: 2,
             display_order: vec![7, 6, 5, 4, 3, 2, 1, 0],

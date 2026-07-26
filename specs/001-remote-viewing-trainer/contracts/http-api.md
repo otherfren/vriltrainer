@@ -212,7 +212,9 @@ parties are the redundancy that partly substitutes for the deferred anchor (D4, 
 ### `GET /api/pool/{version}/manifest`
 
 The published image list for a pool version. Format in [pool-manifest.md](./pool-manifest.md).
-Required for anyone recomputing a trial.
+Required for anyone recomputing a trial, and to be rehashed and held against the
+`pool_manifest_hash` in the trial's commit entry before it is drawn against — the version number
+is a pointer and can be re-cut (D34).
 
 ## Language handoff
 

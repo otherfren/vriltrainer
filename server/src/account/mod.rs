@@ -312,6 +312,7 @@ mod tests {
             coordinate: "4821-9037".into(),
             commitment: "sha256:aa".into(),
             pool_version: 1,
+            pool_manifest_hash: Some("sha256:pool".into()),
         };
         let entry = db.append(NOW, commit).unwrap();
 

@@ -27,7 +27,10 @@ const POOLED_READERS: usize = 4;
 
 /// Migrations, applied in order. `include_str!` rather than a string literal so the schema stays
 /// readable as SQL and diffs as SQL.
-const MIGRATIONS: &[(u32, &str)] = &[(1, include_str!("schema.sql"))];
+const MIGRATIONS: &[(u32, &str)] = &[
+    (1, include_str!("schema.sql")),
+    (2, include_str!("migration_2_pool_binding.sql")),
+];
 
 #[derive(Debug, thiserror::Error)]
 pub enum DbError {
@@ -412,7 +415,8 @@ impl Drop for Reader<'_> {
 
 const ENTRY_COLUMNS: &str = "seq, kind, trial_id, account_id, at, prev_hash, entry_hash, \
                              coordinate, commitment, pool_version, \
-                             chosen, target, hit, s_server, s_client, nonce";
+                             chosen, target, hit, s_server, s_client, nonce, \
+                             pool_manifest_hash";
 
 /// The last entry's sequence number and hash, or `(0, GENESIS)`.
 ///
@@ -441,12 +445,13 @@ fn insert_entry(tx: &Transaction<'_>, entry: &Entry) -> Result<(), DbError> {
             coordinate,
             commitment,
             pool_version,
+            pool_manifest_hash,
         } => {
             tx.execute(
                 "INSERT INTO log_entry
                    (seq, kind, trial_id, account_id, at, prev_hash, entry_hash,
-                    coordinate, commitment, pool_version)
-                 VALUES (?1, 'commit', ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9)",
+                    coordinate, commitment, pool_version, pool_manifest_hash)
+                 VALUES (?1, 'commit', ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10)",
                 params![
                     entry.seq,
                     trial,
@@ -456,7 +461,8 @@ fn insert_entry(tx: &Transaction<'_>, entry: &Entry) -> Result<(), DbError> {
                     entry.hash,
                     coordinate,
                     commitment,
-                    pool_version
+                    pool_version,
+                    pool_manifest_hash
                 ],
             )?;
         }
@@ -522,6 +528,7 @@ fn entry_from_row(row: &Row<'_>) -> rusqlite::Result<Result<Entry, DbError>> {
             coordinate: row.get(7)?,
             commitment: row.get(8)?,
             pool_version: row.get(9)?,
+            pool_manifest_hash: row.get(16)?,
         },
         "resolve" => Body::Resolve {
             trial,
@@ -595,6 +602,7 @@ mod tests {
             coordinate: "4821-9037".into(),
             commitment: "sha256:aa".into(),
             pool_version: 1,
+            pool_manifest_hash: Some("sha256:pool".into()),
         }
     }
 
@@ -666,6 +674,125 @@ mod tests {
             )
             .unwrap();
         assert_eq!(owner, "acct");
+    }
+
+    /// The pool binding of D34 survives the round trip through SQLite, which is the only way a
+    /// reader ever sees it: the export is built from rows, not from what the append path held.
+    #[test]
+    fn a_commit_carries_its_pool_manifest_hash_back_out_of_the_database() {
+        let db = Db::open_in_memory().unwrap();
+        account(&db, "acct");
+        let written = db.append(&now_rfc3339(), commit("t1")).unwrap();
+
+        let read = db.entries_from(1, 10).unwrap();
+        assert_eq!(read[0].body, written.body);
+        match &read[0].body {
+            Body::Commit {
+                pool_manifest_hash, ..
+            } => assert_eq!(pool_manifest_hash.as_deref(), Some("sha256:pool")),
+            other => panic!("expected a commit, got {other:?}"),
+        }
+        assert_eq!(db.verify_chain().unwrap(), 1);
+    }
+
+    /// Migration 2 meets a log that already exists, which is the only way it will ever run in
+    /// production. The rows from before it are not rewritten to carry the new field — that would
+    /// change what they hash to — so the test that matters is that the chain still walks across
+    /// the change and that the log carries on from where it was (D34).
+    #[test]
+    fn a_log_written_before_the_pool_binding_still_walks_after_it() {
+        let tmp = TempDb::new("pool-binding");
+
+        // The database as migration 1 left it, with one commit in the shape of that day.
+        let legacy = Body::Commit {
+            trial: "t1".into(),
+            account: "acct".into(),
+            coordinate: "4821-9037".into(),
+            commitment: "sha256:aa".into(),
+            pool_version: 1,
+            pool_manifest_hash: None,
+        };
+        let at = now_rfc3339();
+        let hash = entry_hash(GENESIS, 1, &at, &legacy);
+        {
+            let conn = Connection::open(&tmp.0).unwrap();
+            conn.execute_batch(MIGRATIONS[0].1).unwrap();
+            // The bookkeeping table belongs to the migration runner rather than to any migration,
+            // so it is created here the same way `migrate` creates it.
+            conn.execute_batch(
+                "CREATE TABLE schema_version (
+                     version    INTEGER NOT NULL PRIMARY KEY,
+                     applied_at TEXT    NOT NULL
+                 )",
+            )
+            .unwrap();
+            conn.execute(
+                "INSERT INTO schema_version (version, applied_at) VALUES (1, ?1)",
+                params![at],
+            )
+            .unwrap();
+            conn.execute(
+                "INSERT INTO account (id, public_id, token_hash, created_at)
+                 VALUES ('acct', 'acct', 'acct', ?1)",
+                params![at],
+            )
+            .unwrap();
+            conn.execute(
+                "INSERT INTO log_entry
+                   (seq, kind, trial_id, account_id, at, prev_hash, entry_hash,
+                    coordinate, commitment, pool_version)
+                 VALUES (1, 'commit', 't1', 'acct', ?1, ?2, ?3, '4821-9037', 'sha256:aa', 1)",
+                params![at, GENESIS, hash],
+            )
+            .unwrap();
+        }
+
+        let db = Db::open(&tmp.0).unwrap();
+        assert_eq!(
+            db.verify_chain().unwrap(),
+            1,
+            "the old entry still verifies"
+        );
+
+        let read = db.entries_from(1, 10).unwrap();
+        assert_eq!(read[0].body, legacy);
+        assert_eq!(read[0].hash, hash, "the entry was not rewritten");
+
+        // And the log carries on, now binding: the new entry names its predecessor as usual.
+        let next = db.append(&now_rfc3339(), commit("t2")).unwrap();
+        assert_eq!(next.prev, hash);
+        assert_eq!(db.verify_chain().unwrap(), 2);
+    }
+
+    /// The store-side half of [`ChainError::PoolBindingDropped`]. The column is nullable so that
+    /// rows written before migration 2 keep the shape they hashed under; this is what stops that
+    /// nullability from becoming a way to write a fresh trial that names no manifest.
+    #[test]
+    fn a_commit_cannot_drop_the_pool_binding_once_the_log_has_it() {
+        let db = Db::open_in_memory().unwrap();
+        account(&db, "acct");
+        db.append(&now_rfc3339(), commit("t1")).unwrap();
+
+        let unbound = match commit("t2") {
+            Body::Commit {
+                trial,
+                account,
+                coordinate,
+                commitment,
+                pool_version,
+                ..
+            } => Body::Commit {
+                trial,
+                account,
+                coordinate,
+                commitment,
+                pool_version,
+                pool_manifest_hash: None,
+            },
+            other => other,
+        };
+        assert!(db.append(&now_rfc3339(), unbound).is_err());
+        assert_eq!(db.verify_chain().unwrap(), 1);
     }
 
     /// FR-037's replay defence, expressed as a constraint rather than a check that can be

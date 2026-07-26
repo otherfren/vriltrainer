@@ -211,7 +211,7 @@ trusting a checkbox.
 
 | | |
 |---|---|
-| `docs/trial-protocol-decisions.md` | D1–D33 — why the protocol looks the way it does |
+| `docs/trial-protocol-decisions.md` | D1–D34 — why the protocol looks the way it does |
 | `docs/curation-guide.md` | Curating the image pool |
 | `docs/launch-plan.md` | What has to be true before this is put in front of people |
 | `specs/001-remote-viewing-trainer/` | Specification, plan, data model, contracts |

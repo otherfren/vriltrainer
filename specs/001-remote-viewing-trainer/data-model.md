@@ -52,7 +52,12 @@ Validation: a name is not unique — collisions are expected and resolved for th
 | `created_at` | UTC. The three-day spread in FR-040 counts distinct UTC days from resolve entries (R4) |
 | `prev_hash`, `entry_hash` | The chain |
 
-`COMMIT` additionally carries the commitment `C`, the coordinate, and the `pool_version`.
+`COMMIT` additionally carries the commitment `C`, the coordinate, the `pool_version` and the
+`pool_manifest_hash` that version stood for when the trial was sealed. The number alone is a
+pointer and can be re-cut; the hash is what a reader checks the served manifest against (D34). It
+is `NULL` only on rows written before migration 2, which were left as they were rather than
+rewritten — see `contracts/public-log.md` for how a verifier handles that without a switch-over
+sequence number.
 `RESOLVE` additionally carries the chosen image, the target image, hit or miss, and the revealed
 `s_server`, `s_client` and nonce — everything a third party needs to recompute the trial. Both
 randomness contributions are published, so verification is open to anyone rather than only to the

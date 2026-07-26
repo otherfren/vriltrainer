@@ -25,6 +25,14 @@ pub struct TokenOne {
     pub nonce: Vec<u8>,
     pub coordinate: String,
     pub pool_version: u32,
+    /// The manifest the commit entry named, carried so the rest of the trial can be held to it.
+    ///
+    /// Comparing versions alone is not enough once the version number is known to be re-cuttable
+    /// (D34): a trial that starts under one v1 and finishes under another draws its eight images
+    /// from a manifest its own commit entry does not describe, and then fails verification for an
+    /// honest viewer. Empty only in a token minted before this field existed.
+    #[serde(default)]
+    pub pool_manifest_hash: String,
 }
 
 /// Issued at reveal, carrying everything needed to score the answer without touching the database
@@ -36,6 +44,10 @@ pub struct TokenTwo {
     pub nonce: Vec<u8>,
     pub coordinate: String,
     pub pool_version: u32,
+    /// See [`TokenOne::pool_manifest_hash`]. Carried through the reveal, because the answer path
+    /// resolves `selected` into image identifiers against whatever pool the process holds now.
+    #[serde(default)]
+    pub pool_manifest_hash: String,
     /// Manifest indices in selection order.
     pub selected: Vec<usize>,
     pub target_slot: usize,
@@ -162,6 +174,7 @@ mod tests {
             nonce: vec![3; 32],
             coordinate: "4821-9037".into(),
             pool_version: 3,
+            pool_manifest_hash: "sha256:pool".into(),
             selected: vec![10, 20, 30, 40, 50, 60, 70, 80],
             target_slot: 5,
             display_order: vec![3, 0, 7, 1, 6, 2, 5, 4],

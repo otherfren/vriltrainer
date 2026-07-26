@@ -1236,3 +1236,48 @@ What this costs, stated plainly, because it is a real cost and it was chosen any
 - **A title can be lost.** It moves at every block boundary (FR-019), in both directions, and the
   page says which `n` it stands over. A rank that could only rise would be a scoreboard for
   persistence rather than a measurement.
+
+## D34 — A commit entry names the pool it was sealed against, not just a version number
+
+Settled 2026-07-26, after a pool version was re-cut on the live service. `v1` was rebuilt with a
+different set of images and the process restarted; the number did not change, and nothing in the
+log noticed. The trials already recorded under `v1` still pointed at "v1", and "v1" now meant
+something else.
+
+Nothing was lost that day — the log had been reset shortly before, so no entry outlived the
+manifest it was drawn against. What the near miss showed is that the pointer was the one place the
+product asked a reader for trust. Every other step of a trial is checkable from the published
+record: the commitment fixes `s_server` and the nonce before the choice, the seed is two-sided, the
+derivation is written down and implemented twice. But the derivation draws against *manifest
+indices*, so which eight images a seed names depends entirely on which manifest is in front of you.
+A verifier holding a commit entry that says `pool_version: 1` has no way to tell whether the `v1`
+being served today is the `v1` that trial was sealed under. They have to take the operator's word
+for it, which is the one thing this product is built not to require.
+
+**So the commit entry carries `pool_manifest_hash`, inside `entry_hash` like every other field.**
+The manifest hash already exists and already covers the sorted `(id, category)` pairs (D22); what
+changes is that a trial is now bound to a specific one at the moment it is sealed, in the record,
+before anything is revealed. A verifier rehashes the manifest they were served and compares. A
+re-cut under the same number stops being invisible and becomes a mismatch with a name.
+
+Three consequences, each chosen deliberately:
+
+- **Entries written before this are not rewritten.** They keep the preimage they were hashed under
+  and stay verifiable exactly as they are; the field is simply absent. Backfilling them would have
+  meant editing an append-only record to make it look like it had always been better than it was —
+  the failure the chain exists to prevent, committed in the name of tidiness. The field is
+  therefore optional in the format, which is an honest description of the history rather than a
+  concession.
+- **The optional field is not a way back out.** Once a commit carries the hash, every later commit
+  must: `log::chain::verify` refuses a chain that gives it up, and a SQLite trigger refuses the
+  insert. A reader needs no switch-over sequence number to apply the rule, because the switch point
+  is wherever the first bound commit sits in their copy of the file.
+- **The trial token carries it too, and a mid-trial change is refused.** One process holds one
+  manifest, but a re-cut plus a restart could otherwise land a trial that began under one `v1` and
+  finished under another — scored against images its own commit entry does not describe, and then
+  failing verification for a viewer who did nothing wrong. Comparing hashes rather than version
+  numbers turns that into an expired trial and a fresh one offered (FR-038), which is what it is.
+
+What this does **not** do is stop a version from being re-cut. The operator can still rebuild `v1`;
+the point is that the record now says so. That is the same shape as the rest of the log: it does
+not prevent the operator from misbehaving, it removes the ability to do it quietly.

@@ -287,6 +287,27 @@ async fn the_export_is_verifiable_by_someone_who_only_has_the_file() {
     let manifest = manifest_for(&state, version).await;
     let members = manifest.members();
 
+    // The manifest was fetched from the same server that wrote the log, so on its own it proves
+    // nothing: a version number is a pointer, and a pointer can be re-cut. Rehashing what was
+    // served and holding it against the hash each commit entry published *before* the reveal is
+    // what ties this recomputation to the pool the trial was actually sealed under (D34). Without
+    // it every check below only establishes that the server agrees with itself.
+    let served = Manifest::compute_hash(&manifest.categories, &manifest.images);
+    for commit in &commits {
+        let EntryBody::Commit {
+            pool_manifest_hash, ..
+        } = &commit.body
+        else {
+            unreachable!()
+        };
+        assert_eq!(
+            pool_manifest_hash.as_deref(),
+            Some(served.as_str()),
+            "commit {} was sealed against a different pool than the one served",
+            commit.seq
+        );
+    }
+
     for resolve in &resolves {
         let EntryBody::Resolve {
             trial,
