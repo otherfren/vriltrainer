@@ -1229,13 +1229,6 @@ category = "container"
   source = "https://commons.wikimedia.org/wiki/File:Cilindrische_flesvormige_vaas_met_kostbaarheden_en_bladranken,_AK-RBK-14935-A.jpg"
 
   [[group.image]]
-  file = "kelchvase_gold.jpg"
-  de = "Kelchvase mit Goldrand"
-  en = "Chalice vase with gilt rims"
-  licence = "CC0"
-  source = "https://commons.wikimedia.org/wiki/File:Cuppa_van_een_kastanjevaas,_BK-R-5041.jpg"
-
-  [[group.image]]
   file = "lackdose_schwarz.jpg"
   de = "Lackdose mit Goldmalerei"
   en = "Black lacquer box with gold painting"
@@ -1248,20 +1241,6 @@ category = "container"
   en = "Double-gourd vase"
   licence = "CC0"
   source = "https://commons.wikimedia.org/wiki/File:Flesvormige_vaas_met_doorlopende_landschappen,_decoratieve_banden_en_een_tulpmotief,_AK-NM-13172.jpg"
-
-  [[group.image]]
-  file = "vase_achtkant_blumen.jpg"
-  de = "Achtkantige Vase mit Blüten"
-  en = "Octagonal vase with blossoms"
-  licence = "CC0"
-  source = "https://commons.wikimedia.org/wiki/File:Achthoekige_flesvormige_vaas_met_bloeiende_planten_en_bloemranken,_BK-1968-258-B.jpg"
-
-  [[group.image]]
-  file = "dose_email_blau.jpg"
-  de = "Dose mit blauem Email"
-  en = "Box with blue enamel"
-  licence = "CC0"
-  source = "https://commons.wikimedia.org/wiki/File:Snuifdoos_met_blauwe,_translucide_email,_BK-16242.jpg"
 
   [[group.image]]
   file = "golddose_blau.jpg"
@@ -1316,25 +1295,11 @@ category = "instrument"
   source = "https://commons.wikimedia.org/wiki/File:Bas-viola_da_gamba,_BK-KOG-1347-A.jpg"
 
   [[group.image]]
-  file = "drehleier.jpg"
-  de = "Drehleier"
-  en = "Hurdy-gurdy"
-  licence = "CC0"
-  source = "https://commons.wikimedia.org/wiki/File:Draailier,_BK-NM-5493.jpg"
-
-  [[group.image]]
   file = "glocke_bronze.jpg"
   de = "Bronzeglocke"
   en = "Bronze bell"
   licence = "CC0"
   source = "https://commons.wikimedia.org/wiki/File:Bel,_NG-NM-10390-2.jpg"
-
-  [[group.image]]
-  file = "laeuteglocke.jpg"
-  de = "Läuteglocke"
-  en = "Tolling bell"
-  licence = "CC0"
-  source = "https://commons.wikimedia.org/wiki/File:Luiklok,_BK-BFR-373.jpg"
 
   [[group.image]]
   file = "cembalo_bemalt.jpg"
@@ -1587,13 +1552,6 @@ category = "machine"
   source = "https://commons.wikimedia.org/wiki/File:Air_compressor_small_2009.6.15.JPG"
 
   [[group.image]]
-  file = "grammophon.jpg"
-  de = "Grammophon"
-  en = "Gramophone"
-  licence = "CC0"
-  source = "https://commons.wikimedia.org/wiki/File:Antikes_Grammophone_1.jpg"
-
-  [[group.image]]
   file = "waschmaschine.jpg"
   de = "Waschmaschine"
   en = "Washing machine"
@@ -1747,13 +1705,6 @@ category = "tool"
   source = "https://commons.wikimedia.org/wiki/File:Pipecutter_20050728_001.jpg"
 
   [[group.image]]
-  file = "kartoffelstampfer.jpg"
-  de = "Kartoffelstampfer"
-  en = "Potato masher"
-  licence = "PD"
-  source = "https://commons.wikimedia.org/wiki/File:Potatisst%C3%B6t.JPG"
-
-  [[group.image]]
   file = "teigrolle.jpg"
   de = "Teigrolle"
   en = "Rolling pin"
@@ -1766,13 +1717,6 @@ category = "tool"
   en = "Hot glue gun"
   licence = "PD"
   source = "https://commons.wikimedia.org/wiki/File:Stanley-Hot-Glue-Gun-GR35K.jpg"
-
-  [[group.image]]
-  file = "farbroller.jpg"
-  de = "Farbroller"
-  en = "Paint roller"
-  licence = "PD"
-  source = "https://commons.wikimedia.org/wiki/File:Valjak_cetka_1.JPG"
 
   [[group.image]]
   file = "holzschlaegel.jpg"
@@ -1846,13 +1790,6 @@ category = "person"
   source = "https://commons.wikimedia.org/wiki/File:Portrait_of_Frieda_Lawrence,_Taos,_N.M._LCCN2004663190.jpg"
 
   [[group.image]]
-  file = "frau_mit_perlenkette.jpg"
-  de = "Alte Frau mit Perlenkette"
-  en = "Old woman with a pearl necklace"
-  licence = "PD"
-  source = "https://commons.wikimedia.org/wiki/File:Portrait_of_Gertrude_Atherton,_Burlingame_LCCN2004662531.jpg"
-
-  [[group.image]]
   file = "frau_mit_brosche.jpg"
   de = "Frau mit Brosche"
   en = "Woman with a brooch"
@@ -1888,39 +1825,11 @@ category = "person"
   source = "https://commons.wikimedia.org/wiki/File:Portrait_of_Jules_Romains_LCCN2004663525.jpg"
 
   [[group.image]]
-  file = "junger_mann_fliege.jpg"
-  de = "Junger Mann mit Fliege"
-  en = "Young man with a bow tie"
-  licence = "PD"
-  source = "https://commons.wikimedia.org/wiki/File:Portrait_of_Leonard_Bernstein_LCCN2004662600.jpg"
-
-  [[group.image]]
   file = "mann_am_fenster.jpg"
   de = "Mann am Fenster"
   en = "Man at a window"
   licence = "PD"
   source = "https://commons.wikimedia.org/wiki/File:Portrait_of_Joan_Miro,_Barcelona_1935_June_13.jpg"
-
-  [[group.image]]
-  file = "alte_frau_weisse_bluse.jpg"
-  de = "Alte Frau in weißer Bluse"
-  en = "Old woman in a white blouse"
-  licence = "PD"
-  source = "https://commons.wikimedia.org/wiki/File:Mrs._Mary_Fowler_LOC_npcc.05204.jpg"
-
-  [[group.image]]
-  file = "mann_im_anzug.jpg"
-  de = "Mann im Anzug"
-  en = "Man in a suit"
-  licence = "PD"
-  source = "https://commons.wikimedia.org/wiki/File:A.J._Muniz_LOC_npcc.07901.jpg"
-
-  [[group.image]]
-  file = "sitzender_mann_bart.jpg"
-  de = "Sitzender Mann mit Bart"
-  en = "Seated man with a beard"
-  licence = "PD"
-  source = "https://commons.wikimedia.org/wiki/File:Robert_Smalls,_S.C._M.C._Born_in_Beaufort,_SC,_April_1839.jpg"
 
 # Sixteen, and all of them hats, caps, coats worn flat, a corset, a kimono and one shoe — because
 # the Rijksmuseum's garments are *systematically* unusable: dresses, skirts, coats and bodices are
@@ -1982,13 +1891,6 @@ category = "clothing"
   en = "Black silk bonnet"
   licence = "CC0"
   source = "https://commons.wikimedia.org/wiki/File:Kap_of_cal%C3%A8che_(Th%C3%A9r%C3%A8se)_van_gewatteerde_zwarte_ripszijde,_oorspronkelijk_gesteund_door_drie_(%C3%A9%C3%A9n_ontbreekt)_baleinen,_gevoerd_met_zwarte_zijde_en_afgezet_met_zwarte_kant,_BK-NM-10000.jpg"
-
-  [[group.image]]
-  file = "wollmuetze_blau.jpg"
-  de = "Blaue Wollmütze"
-  en = "Blue wool cap"
-  licence = "CC0"
-  source = "https://commons.wikimedia.org/wiki/File:Muts_van_blauwe_wol_opgemaakt_als_een_plat_kapsel_met_scheiding_links_en_wrongen_rond_de_oren,_BK-1993-71.jpg"
 
   [[group.image]]
   file = "brokatmuetze_gruen.jpg"
@@ -2073,13 +1975,6 @@ category = "plant"
   source = "https://commons.wikimedia.org/wiki/File:Detail_van_een_Pinus_Maritima_tegen_egale_achtergrond,_RP-F-2009-276-3.jpg"
 
   [[group.image]]
-  file = "haselkaetzchen.jpg"
-  de = "Haselkätzchen"
-  en = "Catkins"
-  licence = "CC0"
-  source = "https://commons.wikimedia.org/wiki/File:Tak_van_een_berk_tegen_egale_achtergrond,_RP-F-2009-276-10.jpg"
-
-  [[group.image]]
   file = "birkenzweig.jpg"
   de = "Birkenzweig"
   en = "Birch twig"
@@ -2127,13 +2022,6 @@ category = "plant"
   en = "Crabapple blossom"
   licence = "CC0"
   source = "https://commons.wikimedia.org/wiki/File:Tak_bloeiende_Malus_Sargentii_tegen_egale_achtergrond,_RP-F-2009-276-49.jpg"
-
-  [[group.image]]
-  file = "schneegloeckchen.jpg"
-  de = "Schneeglöckchen"
-  en = "Snowdrops"
-  licence = "CC0"
-  source = "https://commons.wikimedia.org/wiki/File:Sneeuwklokjes,_RP-F-2000-11-229.jpg"
 
   [[group.image]]
   file = "sonnenblume.jpg"
@@ -2264,25 +2152,11 @@ category = "light"
   source = "https://commons.wikimedia.org/wiki/File:Lantaarn_van_koper,_cirkelvormig,_met_twaalf_ruiten_waarvan_%C3%A9%C3%A9n_scharnierend,_op_drie_bolpoten_en_met_driedelig_gelede_koepelvormige_bekroning,_BK-1998-87.jpg"
 
   [[group.image]]
-  file = "laterne_silber.jpg"
-  de = "Silberlaterne"
-  en = "Silver lantern"
-  licence = "CC0"
-  source = "https://commons.wikimedia.org/wiki/File:Zilveren_lantaarn,_mogelijk_afkomstig_uit_een_synagoge_in_Suriname,_NG-2013-22-3.jpg"
-
-  [[group.image]]
   file = "scherenlampe_wand.jpg"
   de = "Scherenlampe"
   en = "Scissor wall lamp"
   licence = "CC0"
   source = "https://commons.wikimedia.org/wiki/File:Bureaulamp_van_Willem_Drees,_NG-2003-34.jpg"
-
-  [[group.image]]
-  file = "moderateurlampe_messing.jpg"
-  de = "Öllampe aus Messing"
-  en = "Brass oil lamp"
-  licence = "CC0"
-  source = "https://commons.wikimedia.org/wiki/File:Moderateurlamp,_NG-MC-1889-53-1.jpg"
 
   [[group.image]]
   file = "oellampe_zinn_pferd.jpg"
@@ -2306,13 +2180,6 @@ category = "light"
   source = "https://commons.wikimedia.org/wiki/File:Eetkamerlamp_van_koper_met_een_volant_van_glazen_kraaltjes,_BK-1973-152.jpg"
 
   [[group.image]]
-  file = "oellampe_bronze_schale.jpg"
-  de = "Bronzeöllampe"
-  en = "Bronze oil lamp"
-  licence = "CC0"
-  source = "https://commons.wikimedia.org/wiki/File:Lamp,_AK-MAK-266.jpg"
-
-  [[group.image]]
   file = "deckenlampe_glas_achteckig.jpg"
   de = "Glasdeckenlampe"
   en = "Glass ceiling lamp"
@@ -2330,13 +2197,6 @@ category = "light"
 [[group]]
 dir = "weapon"
 category = "weapon"
-
-  [[group.image]]
-  file = "steinschlosspistole.jpg"
-  de = "Steinschlosspistole"
-  en = "Flintlock pistol"
-  licence = "CC0"
-  source = "https://commons.wikimedia.org/wiki/File:Flintlock_Pistol_Made_for_Charles_XI_of_Sweden_(1655%E2%80%931697)_MET_DT6456.jpg"
 
   [[group.image]]
   file = "streitkolben_gold.jpg"
@@ -2436,13 +2296,6 @@ category = "weapon"
   licence = "CC0"
   source = "https://commons.wikimedia.org/wiki/File:Pellet_Crossbow_MET_DP282531.jpg"
 
-  [[group.image]]
-  file = "armbrust_holz.jpg"
-  de = "Armbrust aus Holz"
-  en = "Wooden crossbow"
-  licence = "CC0"
-  source = "https://commons.wikimedia.org/wiki/File:Crossbow_MET_268233.jpg"
-
 # Twelve more pieces: kettle hats, burgonets, two morions, a visor, arm and shoulder defences, a
 # gorget, a gauntlet, a thigh plate, a mail hood. Eleven Rijksmuseum, one Cleveland.
 #
@@ -2475,25 +2328,11 @@ category = "armour"
   source = "https://commons.wikimedia.org/wiki/File:Bourgondische_stormhoed_met_korte_kam,_NG-NM-10897-F.jpg"
 
   [[group.image]]
-  file = "morion_schwarz.jpg"
-  de = "Schwarzer Morion"
-  en = "Black morion helmet"
-  licence = "CC0"
-  source = "https://commons.wikimedia.org/wiki/File:Morion-helm_met_uitgedreven_lelie,_NG-NM-8850.jpg"
-
-  [[group.image]]
   file = "morion_stahl.jpg"
   de = "Morion aus Stahl"
   en = "Steel morion helmet"
   licence = "CC0"
   source = "https://commons.wikimedia.org/wiki/File:Morion,_NG-NM-4495.jpg"
-
-  [[group.image]]
-  file = "helmvisier.jpg"
-  de = "Helmvisier"
-  en = "Helmet visor"
-  licence = "CC0"
-  source = "https://commons.wikimedia.org/wiki/File:Unknown_artist_-_Visor_-_1923.1119_-_Cleveland_Museum_of_Art.jpg"
 
   [[group.image]]
   file = "armzeug.jpg"
@@ -2619,13 +2458,6 @@ category = "ornament"
   source = "https://commons.wikimedia.org/wiki/File:Ring_van_goud_met_citrien,_BK-2018-2-32.jpg"
 
   [[group.image]]
-  file = "ring_silber_karneol.jpg"
-  de = "Silberring mit Karneol"
-  en = "Silver ring with a carnelian"
-  licence = "CC0"
-  source = "https://commons.wikimedia.org/wiki/File:Ring_van_zilver_met_carneool,_BK-2010-2-381.jpg"
-
-  [[group.image]]
   file = "ring_email_blau.jpg"
   de = "Ring mit blauem Email"
   en = "Ring with blue enamel"
@@ -2641,27 +2473,6 @@ category = "ornament"
 [[group]]
 dir = "insect"
 category = "insect"
-
-  [[group.image]]
-  file = "ant_orange_black.jpg"
-  de = "Ameise"
-  en = "Ant"
-  licence = "PD"
-  source = "https://commons.wikimedia.org/wiki/File:Ant,-back_2012-07-26-16.01.47-ZS-PMax_(7678829942).jpg"
-
-  [[group.image]]
-  file = "velvet_ant_orange.jpg"
-  de = "Samtameise"
-  en = "Velvet ant"
-  licence = "PD"
-  source = "https://commons.wikimedia.org/wiki/File:Velvet_Ant,_F,_Back,_Hot_Springs_Village,_AR_2015-08-20-16.24.57_ZS_PMax_UDR_(21473550145).jpg"
-
-  [[group.image]]
-  file = "jewelwing_damselfly.jpg"
-  de = "Prachtlibelle"
-  en = "Jewelwing damselfly"
-  licence = "PD"
-  source = "https://commons.wikimedia.org/wiki/File:Ebony_Jewelwing_Damselfly,_U,_Body_1,_PG_County,_Maryland_2013-06-12-15.53.09_ZS_PMax_(9027381489).jpg"
 
   [[group.image]]
   file = "buffalo_treehopper.jpg"
@@ -2726,20 +2537,6 @@ category = "insect"
   licence = "PD"
   source = "https://commons.wikimedia.org/wiki/File:Xylocopa_pop_green,_f,thailand,_side_2014-08-14-20.29.26_ZS_PMax_(15538907542).jpg"
 
-  [[group.image]]
-  file = "shield_bug.jpg"
-  de = "Baumwanze"
-  en = "Shield bug"
-  licence = "PD"
-  source = "https://commons.wikimedia.org/wiki/File:Brown_marmorated_stink_bug_(Halyomorpha_halys)_-_Back_-_USGS_Bee_Inventory_and_Monitoring_Laboratory.jpg"
-
-  [[group.image]]
-  file = "patterned_butterfly.jpg"
-  de = "Schmetterling mit gemusterten Flügeln"
-  en = "Butterfly with patterned wings"
-  licence = "PD"
-  source = "https://commons.wikimedia.org/wiki/File:Anteros_formosus,_m,_peru,_Cosnipata_Valley,_brain_harris,_habitus_2016-02-23-10.20_(25185880641).jpg"
-
 # Thirteen from US Fish and Wildlife and the NOAA photo library, public domain by origin.
 #
 # The losses are almost all category collisions rather than bad photographs: an animal in a
@@ -2770,13 +2567,6 @@ category = "animal"
   en = "Owl"
   licence = "PD"
   source = "https://commons.wikimedia.org/wiki/File:Burrowing_Owl_(8361376627).jpg"
-
-  [[group.image]]
-  file = "flamingo.jpg"
-  de = "Flamingo"
-  en = "Flamingo"
-  licence = "PD"
-  source = "https://commons.wikimedia.org/wiki/File:Flamingo_standing_(40501208232).jpg"
 
   [[group.image]]
   file = "white_pelican.jpg"
@@ -2840,3 +2630,244 @@ category = "animal"
   en = "Sea star"
   licence = "PD"
   source = "https://commons.wikimedia.org/wiki/File:NMSAS_-_sea_star_(27842140525).jpg"
+
+# Nineteen mineral specimens from `Category:GeoDIL images` — the Geoscience Digital Image Library,
+# CC0, 2618 licence-clean files of which 1067 pass the aspect ratio. One specimen on a plain studio
+# ground, which is exactly the format this pool wants and had almost none of: `stone` stood at five.
+#
+# One rule of that collection, learned from sixty-six candidates: the *petrological* specimens —
+# basalt, pumice, conglomerate, obsidian — nearly always carry a painted inventory number, while the
+# *mineral* specimens nearly never do. Filter by that and the yield triples.
+[[group]]
+dir = "stone"
+category = "stone"
+
+  [[group.image]]
+  file = "aquamarin_kristall.jpg"
+  de = "Aquamarin-Kristall"
+  en = "Aquamarine crystal"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Aquamarine_(GeoDIL_number_-_904).jpg"
+
+  [[group.image]]
+  file = "fluorit_wuerfel.jpg"
+  de = "Fluoritwürfel"
+  en = "Fluorite cubes"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Fluorite_(GeoDIL_number_-_178).jpg"
+
+  [[group.image]]
+  file = "roter_spinell.jpg"
+  de = "Roter Spinell im Marmor"
+  en = "Red spinel in marble"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Spinel_(GeoDIL_number_-_563).jpg"
+
+  [[group.image]]
+  file = "selenit_rosetten.jpg"
+  de = "Selenitrosetten"
+  en = "Selenite rosettes"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Selenite_(GeoDIL_number_-_941).jpg"
+
+  [[group.image]]
+  file = "kupferstufe.jpg"
+  de = "Kupferstufe"
+  en = "Native copper"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Native_copper_(GeoDIL_number_-_839).jpg"
+
+  [[group.image]]
+  file = "silberdraehte.jpg"
+  de = "Silberdrähte im Gestein"
+  en = "Native silver in rock"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Native_silver_(GeoDIL_number_-_852).jpg"
+
+  [[group.image]]
+  file = "antimonit_nadeln.jpg"
+  de = "Antimonitnadeln"
+  en = "Stibnite needles"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Stibnite_(GeoDIL_number_-_1137).jpg"
+
+  [[group.image]]
+  file = "amazonit.jpg"
+  de = "Amazonit"
+  en = "Amazonite"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Microcline_(GeoDIL_number_-_2382).jpg"
+
+  [[group.image]]
+  file = "molybdaenit.jpg"
+  de = "Molybdänit"
+  en = "Molybdenite"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Molybdenite_(GeoDIL_number_-_1061).jpg"
+
+  [[group.image]]
+  file = "scheelit_kristall.jpg"
+  de = "Scheelit-Kristall"
+  en = "Scheelite crystal"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Scheelite_(GeoDIL_number_-_196).jpg"
+
+  [[group.image]]
+  file = "kyanit_in_quarz.jpg"
+  de = "Kyanit im Quarz"
+  en = "Kyanite in quartz"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Kyanite_(GeoDIL_number_-_384).jpg"
+
+  [[group.image]]
+  file = "labradorit.jpg"
+  de = "Labradorit"
+  en = "Labradorite"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Labradorite_(GeoDIL_number_-_2380).jpg"
+
+  [[group.image]]
+  file = "steinsalz.jpg"
+  de = "Steinsalz"
+  en = "Rock salt"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Halite_and_sylvite_(GeoDIL_number_-_177).jpg"
+
+  [[group.image]]
+  file = "zinnober.jpg"
+  de = "Zinnober"
+  en = "Cinnabar"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Cinnabar_(GeoDIL_number_-_1062).jpg"
+
+  [[group.image]]
+  file = "olivin_in_basalt.jpg"
+  de = "Olivin im Basalt"
+  en = "Olivine in basalt"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Olivine_(GeoDIL_number_-_528).jpg"
+
+  [[group.image]]
+  file = "malachitstufe.jpg"
+  de = "Malachitstufe"
+  en = "Malachite specimen"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Malachite_(GeoDIL_number_-_757).jpg"
+
+  [[group.image]]
+  file = "aragonitknolle.jpg"
+  de = "Aragonitknolle"
+  en = "Aragonite nodule"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Aragonite_(GeoDIL_number_-_715).jpg"
+
+  [[group.image]]
+  file = "turmalin_kristall.jpg"
+  de = "Turmalin-Kristall"
+  en = "Tourmaline crystal"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Tourmaline_(GeoDIL_number_-_199).jpg"
+
+  [[group.image]]
+  file = "vanadinit.jpg"
+  de = "Vanadinit"
+  en = "Vanadinite"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Vanadinite_(GeoDIL_number_-_1847).jpg"
+
+# Twelve buildings, and the count hides the cost: ninety images looked at for twelve. The Historic
+# American Buildings Survey has exactly the right format — one building, filling the frame, public
+# domain — and about two thirds of its scans carry the survey's header strip across the top with the
+# signature in it. `HABS LA-1113` in the picture is a caption, and this pool cannot take one.
+#
+# The other losses are worth writing down: files named `sheet N of 4` are measured drawings rather
+# than photographs, courthouses and city halls have their own names carved above the door, one
+# Empire State Building carried a photographer's watermark, and the Rijksmuseum has no building
+# photographs at all — only prints, drawings and engravings.
+[[group]]
+dir = "building"
+category = "building"
+
+  [[group.image]]
+  file = "burg_himeji.jpg"
+  de = "Burg Himeji"
+  en = "Himeji Castle"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Himeji_Castle_0804_1.jpg"
+
+  [[group.image]]
+  file = "stupa.jpg"
+  de = "Stupa"
+  en = "Stupa"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Bawbawgyi_Stupa_2019.jpg"
+
+  [[group.image]]
+  file = "trullo_kegeldach.jpg"
+  de = "Trullo mit Kegeldach"
+  en = "Trullo with cone roof"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Alberobello,_Italy_04.jpg"
+
+  [[group.image]]
+  file = "palmenhaus_aus_glas.jpg"
+  de = "Palmenhaus aus Glas"
+  en = "Glass palm house"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Glasshouse_Adelaide_gardens.jpg"
+
+  [[group.image]]
+  file = "holzwindmuehle.jpg"
+  de = "Holzwindmühle"
+  en = "Wooden windmill"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Windmill_No.2_from_Moshok.jpg"
+
+  [[group.image]]
+  file = "stelzenhaus_am_wasser.jpg"
+  de = "Stelzenhaus am Wasser"
+  en = "Stilt house over water"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Stilt_house_bajau_Togian.jpg"
+
+  [[group.image]]
+  file = "steinkirche_mit_turm.jpg"
+  de = "Steinkirche mit Turm"
+  en = "Stone church with spire"
+  licence = "CC0"
+  source = "https://commons.wikimedia.org/wiki/File:Chapel_exterior_from_the_west,_King_Edward%27s_School,_Witley,_Surrey_-_September_2025_-_01.jpg"
+
+  [[group.image]]
+  file = "synagoge.jpg"
+  de = "Synagoge"
+  en = "Synagogue"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Congregation_Beth_Israel_Synagogue.jpg"
+
+  [[group.image]]
+  file = "gerichtsgebaeude.jpg"
+  de = "Gerichtsgebäude"
+  en = "Courthouse"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Eaton_County_Courthouse,_Charlotte.jpg"
+
+  [[group.image]]
+  file = "bibliothek_mit_kuppel.jpg"
+  de = "Bibliothek mit Kuppel"
+  en = "Domed library"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Library_of_Congress,_Washington,_D.C._-_c._1902.jpg"
+
+  [[group.image]]
+  file = "sternwarte_mit_saeulen.jpg"
+  de = "Sternwarte mit Säulen"
+  en = "Observatory with columns"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Edinburgh_City_Observatory.jpg"
+
+  [[group.image]]
+  file = "wehrturm_aus_stein.jpg"
+  de = "Wehrturm aus Stein"
+  en = "Stone fortress tower"
+  licence = "PD"
+  source = "https://commons.wikimedia.org/wiki/File:Tripoli_Tower_of_Lions_edit.jpg"
