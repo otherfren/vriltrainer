@@ -920,7 +920,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">188,189</context>
+          <context context-type="linenumber">183,184</context>
         </context-group>
         <target>Psi rank</target>
       </trans-unit>
@@ -940,7 +940,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">197,198</context>
+          <context context-type="linenumber">192,193</context>
         </context-group>
         <target>Expected</target>
       </trans-unit>
@@ -952,7 +952,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">201,202</context>
+          <context context-type="linenumber">196,197</context>
         </context-group>
         <target>By luck</target>
       </trans-unit>
@@ -1076,11 +1076,11 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">145,148</context>
+          <context context-type="linenumber">140,143</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">165,167</context>
+          <context context-type="linenumber">160,162</context>
         </context-group>
         <target>Loading …</target>
       </trans-unit>
@@ -1706,7 +1706,7 @@
         <source>Die Leiter</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">106,107</context>
+          <context context-type="linenumber">101,102</context>
         </context-group>
         <target>The ladder</target>
       </trans-unit>
@@ -1714,7 +1714,7 @@
         <source>±<x id="INTERPOLATION" equiv-text="{{ sigma(l.to) }}"/> σ · <x id="INTERPOLATION_1" equiv-text="{{ oneIn(l) }}"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">119,120</context>
+          <context context-type="linenumber">114,115</context>
         </context-group>
         <target>±<x id="INTERPOLATION" equiv-text="{{ sigma(l.to) }}"/> σ · <x id="INTERPOLATION_1" equiv-text="{{ oneIn(l) }}"/></target>
       </trans-unit>
@@ -1722,7 +1722,7 @@
         <source>ab <x id="INTERPOLATION" equiv-text="{{ sigma(l.from) }}"/> σ · <x id="INTERPOLATION_1" equiv-text="{{ oneIn(l) }}"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">123,124</context>
+          <context context-type="linenumber">118,119</context>
         </context-group>
         <target>from <x id="INTERPOLATION" equiv-text="{{ sigma(l.from) }}"/> σ · <x id="INTERPOLATION_1" equiv-text="{{ oneIn(l) }}"/></target>
       </trans-unit>
@@ -1730,7 +1730,7 @@
         <source><x id="INTERPOLATION" equiv-text="{{ sigma(l.from) }}"/> bis <x id="INTERPOLATION_1" equiv-text="{{ sigma(l.to) }}"/> σ · <x id="INTERPOLATION_2" equiv-text="{{ oneIn(l) }}"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">127,128</context>
+          <context context-type="linenumber">122,123</context>
         </context-group>
         <target><x id="INTERPOLATION" equiv-text="{{ sigma(l.from) }}"/> to <x id="INTERPOLATION_1" equiv-text="{{ sigma(l.to) }}"/> σ · <x id="INTERPOLATION_2" equiv-text="{{ oneIn(l) }}"/></target>
       </trans-unit>
@@ -1738,7 +1738,7 @@
         <source>Zahlen nicht abrufbar</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">137,139</context>
+          <context context-type="linenumber">132,134</context>
         </context-group>
         <target>Figures not available</target>
       </trans-unit>
@@ -1746,7 +1746,7 @@
         <source> Die Gesamtwerte kommen vom Server und werden nicht hier ausgedacht — also steht hier nichts, solange er nicht antwortet. <x id="START_TAG_BUTTON" ctype="x-button" equiv-text="&lt;button class=&quot;btn btn--quiet&quot; type=&quot;button&quot; (click)=&quot;load()&quot;&gt;"/>Erneut versuchen<x id="CLOSE_TAG_BUTTON" ctype="x-button" equiv-text="&lt;/button&gt;"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">140,144</context>
+          <context context-type="linenumber">135,139</context>
         </context-group>
         <target>The overall figures come from the server and are not invented here — so nothing stands here while it is not answering. <x id="START_TAG_BUTTON" ctype="x-button" equiv-text="&lt;button class=&quot;btn btn--quiet&quot; type=&quot;button&quot; (click)=&quot;load()&quot;&gt;"/>Try again<x id="CLOSE_TAG_BUTTON" ctype="x-button" equiv-text="&lt;/button&gt;"/></target>
       </trans-unit>
@@ -1754,7 +1754,7 @@
         <source>Deine Werte</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">149,151</context>
+          <context context-type="linenumber">144,146</context>
         </context-group>
         <target>Your figures</target>
       </trans-unit>
@@ -1762,7 +1762,7 @@
         <source> Noch kein Konto. Fang eine Sitzung an, dann steht dein Stand hier. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">153,155</context>
+          <context context-type="linenumber">148,150</context>
         </context-group>
         <target>No account yet. Start a session and your standing appears here.</target>
       </trans-unit>
@@ -1770,7 +1770,7 @@
         <source>Deine Zahlen sind gerade nicht abrufbar.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">159,161</context>
+          <context context-type="linenumber">154,156</context>
         </context-group>
         <target>Your figures are not available right now.</target>
       </trans-unit>
@@ -1778,7 +1778,7 @@
         <source> Erneut laden </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">162,163</context>
+          <context context-type="linenumber">157,158</context>
         </context-group>
         <target>Reload</target>
       </trans-unit>
@@ -1786,7 +1786,7 @@
         <source>Noch <x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/><x id="INTERPOLATION" equiv-text="{{ player.remaining() }}"/><x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> Sitzungen, dann stehen deine Zahlen hier. Bei weniger sagt eine Trefferquote noch nichts.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">171,172</context>
+          <context context-type="linenumber">166,167</context>
         </context-group>
         <target><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/><x id="INTERPOLATION" equiv-text="{{ player.remaining() }}"/><x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> more sessions and your figures appear here. Below that, a hit rate says nothing yet.</target>
       </trans-unit>
@@ -1794,7 +1794,7 @@
         <source>Abgebrochen: <x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/><x id="INTERPOLATION" equiv-text="{{ player.abandoned() }}"/><x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">176,177</context>
+          <context context-type="linenumber">171,172</context>
         </context-group>
         <target>Abandoned: <x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/><x id="INTERPOLATION" equiv-text="{{ player.abandoned() }}"/><x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/></target>
       </trans-unit>
@@ -1802,7 +1802,7 @@
         <source>Trefferquote</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">193,194</context>
+          <context context-type="linenumber">188,189</context>
         </context-group>
         <target>Hit rate</target>
       </trans-unit>
@@ -1810,7 +1810,7 @@
         <source>Sitzungen</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">208,209</context>
+          <context context-type="linenumber">203,204</context>
         </context-group>
         <target>Sessions</target>
       </trans-unit>
@@ -1818,7 +1818,7 @@
         <source>Treffer</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">212,213</context>
+          <context context-type="linenumber">207,208</context>
         </context-group>
         <target>Hits</target>
       </trans-unit>
@@ -1826,7 +1826,7 @@
         <source>Abweichung</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">216,217</context>
+          <context context-type="linenumber">211,212</context>
         </context-group>
         <target>Deviation</target>
       </trans-unit>
@@ -1834,7 +1834,7 @@
         <source>Abgebrochen</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">220,221</context>
+          <context context-type="linenumber">215,216</context>
         </context-group>
         <target>Abandoned</target>
       </trans-unit>
@@ -1842,7 +1842,7 @@
         <source>Tage</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">224,225</context>
+          <context context-type="linenumber">219,220</context>
         </context-group>
         <target>Days</target>
       </trans-unit>
@@ -1850,7 +1850,7 @@
         <source>Du</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">234</context>
+          <context context-type="linenumber">229</context>
         </context-group>
         <target>You</target>
       </trans-unit>
@@ -1858,7 +1858,7 @@
         <source>du</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">236</context>
+          <context context-type="linenumber">231</context>
         </context-group>
         <target>you</target>
       </trans-unit>
@@ -1866,7 +1866,7 @@
         <source> Gerechnet über <x id="INTERPOLATION" equiv-text="{{ player.reportedTrials() }}"/> gewertete Sitzungen mit <x id="INTERPOLATION_1" equiv-text="{{ player.reportedHits() }}"/> Treffern. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">242,246</context>
+          <context context-type="linenumber">237,241</context>
         </context-group>
         <target>Computed over <x id="INTERPOLATION" equiv-text="{{ player.reportedTrials() }}"/> scored sessions with <x id="INTERPOLATION_1" equiv-text="{{ player.reportedHits() }}"/> hits.</target>
       </trans-unit>
@@ -1874,7 +1874,7 @@
         <source>Kurz erklärt</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">253,255</context>
+          <context context-type="linenumber">248,250</context>
         </context-group>
         <target>In short</target>
       </trans-unit>
@@ -1882,7 +1882,7 @@
         <source>Warum 12,5 %?</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">257,258</context>
+          <context context-type="linenumber">252,253</context>
         </context-group>
         <target>Why 12.5 %?</target>
       </trans-unit>
@@ -1890,7 +1890,7 @@
         <source> Acht Bilder, eines ist richtig. Wer nur rät, liegt im Schnitt bei jedem achten Mal richtig. Alles darüber wäre mehr als Raten. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">259,261</context>
+          <context context-type="linenumber">254,256</context>
         </context-group>
         <target>Eight pictures, one is right. Guess, and you are right about one time in eight on average. Anything above that would be more than guessing.</target>
       </trans-unit>
@@ -1898,7 +1898,7 @@
         <source>Eine gute Serie heißt noch nichts</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">265,266</context>
+          <context context-type="linenumber">260,261</context>
         </context-group>
         <target>A good streak means nothing on its own</target>
       </trans-unit>
@@ -1906,7 +1906,7 @@
         <source> Wenn genug Leute raten, hat immer jemand eine erstaunliche Glückssträhne. Deshalb zeigen wir oben beide Seiten: die, die besser liegen als Zufall, und die, die schlechter liegen. Sind beide etwa gleich groß, war es Zufall. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">267,269</context>
+          <context context-type="linenumber">262,264</context>
         </context-group>
         <target>When enough people guess, somebody always gets an astonishing lucky run. That is why both sides are shown above: those doing better than chance, and those doing worse. If the two are about the same size, it was luck.</target>
       </trans-unit>
@@ -1914,7 +1914,7 @@
         <source>Deine <x id="INTERPOLATION" equiv-text="{{ minePct() }}"/> %</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">275,276</context>
+          <context context-type="linenumber">270,271</context>
         </context-group>
         <target>Your <x id="INTERPOLATION" equiv-text="{{ minePct() }}"/> %</target>
       </trans-unit>
@@ -1922,7 +1922,7 @@
         <source> Von 10 000 Leuten, die nur raten, kommen <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;measured&quot;&gt;"/><x id="INTERPOLATION" equiv-text="{{ perTenK() }}"/><x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/> auf so ein Ergebnis — allein durch Glück. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
-          <context context-type="linenumber">277,280</context>
+          <context context-type="linenumber">272,275</context>
         </context-group>
         <target>Of 10,000 people who are only guessing, <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;measured&quot;&gt;"/><x id="INTERPOLATION" equiv-text="{{ perTenK() }}"/><x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/> get a result like this — on luck alone.</target>
       </trans-unit>
@@ -2414,6 +2414,14 @@
         </context-group>
         <target>Pool manifest</target>
       </trans-unit>
+      <trans-unit id="proof.manifest.invalid" datatype="html">
+        <source>Das Manifest ist formal ungültig: <x id="reason" equiv-text="structural"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/verify/proof.ts</context>
+          <context context-type="linenumber">102</context>
+        </context-group>
+        <target>The manifest is malformed: <x id="reason" equiv-text="structural"/></target>
+      </trans-unit>
       <trans-unit id="proof.manifest.rehash" datatype="html">
         <source>Der neu berechnete Hash des Manifests weicht von dem ab, den es selbst nennt.</source>
         <context-group purpose="location">
@@ -2429,6 +2437,14 @@
           <context context-type="linenumber">106</context>
         </context-group>
         <target>The manifest delivered is not the one this session was fixed against.</target>
+      </trans-unit>
+      <trans-unit id="proof.manifest.ok" datatype="html">
+        <source><x id="images" equiv-text="manifest.images.length"/> Bilder in <x id="categories" equiv-text="manifest.categories.length"/> Kategorien, Hash neu berechnet und identisch mit dem, der schon zur Koordinate mitgeliefert wurde.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/verify/proof.ts</context>
+          <context context-type="linenumber">107</context>
+        </context-group>
+        <target><x id="images" equiv-text="manifest.images.length"/> images in <x id="categories" equiv-text="manifest.categories.length"/> categories, hash recomputed and identical to the one already delivered with the coordinate.</target>
       </trans-unit>
       <trans-unit id="proof.check.seal" datatype="html">
         <source>Versiegelung</source>
@@ -2485,6 +2501,14 @@
           <context context-type="linenumber">169</context>
         </context-group>
         <target>The eight images</target>
+      </trans-unit>
+      <trans-unit id="proof.check.draw.error" datatype="html">
+        <source>Die Herleitung lief nicht durch: <x id="reason" equiv-text="drawError"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/verify/proof.ts</context>
+          <context context-type="linenumber">172</context>
+        </context-group>
+        <target>The derivation did not run through: <x id="reason" equiv-text="drawError"/></target>
       </trans-unit>
       <trans-unit id="proof.check.draw.ok" datatype="html">
         <source>Der Seed erzeugt genau diese acht Bilder, in genau dieser Reihenfolge.</source>
@@ -2553,6 +2577,14 @@
           <context context-type="linenumber">198</context>
         </context-group>
         <target>32 bytes from your browser, returned unchanged by the server</target>
+      </trans-unit>
+      <trans-unit id="proof.note.notEchoed" datatype="html">
+        <source>32 Bytes vom Server — dein Browser hatte <x id="sent" equiv-text="toHex(revealed.sent)"/> geschickt</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/verify/proof.ts</context>
+          <context context-type="linenumber">199</context>
+        </context-group>
+        <target>32 bytes from the server — your browser had sent <x id="sent" equiv-text="toHex(revealed.sent)"/></target>
       </trans-unit>
       <trans-unit id="proof.label.coordinate" datatype="html">
         <source>Koordinate</source>
@@ -2638,6 +2670,14 @@
         </context-group>
         <target>Length of the coordinate</target>
       </trans-unit>
+      <trans-unit id="proof.note.coordUtf8" datatype="html">
+        <source>&quot;<x id="coordinate" equiv-text="sealed.coordinate"/>&quot; als UTF-8</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/verify/proof.ts</context>
+          <context context-type="linenumber">239</context>
+        </context-group>
+        <target>"<x id="coordinate" equiv-text="sealed.coordinate"/>" as UTF-8</target>
+      </trans-unit>
       <trans-unit id="proof.step.categories" datatype="html">
         <source>1 · Acht Kategorien</source>
         <context-group purpose="location">
@@ -2645,6 +2685,14 @@
           <context context-type="linenumber">275</context>
         </context-group>
         <target>1 · Eight categories</target>
+      </trans-unit>
+      <trans-unit id="proof.note.categoryIndices" datatype="html">
+        <source>Indizes <x id="indices" equiv-text="draw.chosenCategories.join(&apos;, &apos;)"/> aus <x id="total" equiv-text="manifest.categories.length"/> Kategorien, </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/verify/proof.ts</context>
+          <context context-type="linenumber">278</context>
+        </context-group>
+        <target>Indices <x id="indices" equiv-text="draw.chosenCategories.join(&apos;, &apos;)"/> out of <x id="total" equiv-text="manifest.categories.length"/> categories, </target>
       </trans-unit>
       <trans-unit id="proof.note.fisherYates" datatype="html">
         <source>in Auswahlreihenfolge, partielles Fisher-Yates</source>
@@ -2662,11 +2710,19 @@
         </context-group>
         <target>2 · One image per category</target>
       </trans-unit>
+      <trans-unit id="proof.note.imageIndices" datatype="html">
+        <source>Manifest-Indizes <x id="indices" equiv-text="draw.selectedImages.join(&apos;, &apos;)"/> — gezogen aus <x id="sizes" equiv-text="draw.chosenCategories.map((c) =&gt; `${category(c)}: ${members[c].length}`).join(&apos;, &apos;)"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/verify/proof.ts</context>
+          <context context-type="linenumber">284</context>
+        </context-group>
+        <target>Manifest indices <x id="indices" equiv-text="draw.selectedImages.join(&apos;, &apos;)"/> — drawn from <x id="sizes" equiv-text="draw.chosenCategories.map((c) =&gt; `${category(c)}: ${members[c].length}`).join(&apos;, &apos;)"/></target>
+      </trans-unit>
       <trans-unit id="proof.step.targetSlot" datatype="html">
         <source>3 · Zielplatz</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/verify/proof.ts</context>
-          <context context-type="linenumber">291</context>
+          <context context-type="linenumber">287</context>
         </context-group>
         <target>3 · Target slot</target>
       </trans-unit>
@@ -2674,7 +2730,7 @@
         <source>Gleichverteilt über die acht, unabhängig von der Kategoriegröße</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/verify/proof.ts</context>
-          <context context-type="linenumber">293</context>
+          <context context-type="linenumber">289</context>
         </context-group>
         <target>Uniform over the eight, independent of category size</target>
       </trans-unit>
@@ -2682,9 +2738,41 @@
         <source>4 · Anzeigereihenfolge</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/verify/proof.ts</context>
-          <context context-type="linenumber">296</context>
+          <context context-type="linenumber">292</context>
         </context-group>
         <target>4 · Display order</target>
+      </trans-unit>
+      <trans-unit id="proof.note.displayOrder" datatype="html">
+        <source>Absteigendes Fisher-Yates; Position <x id="position" equiv-text="shownAt"/> zeigt das Ziel. Gezeigt wurden <x id="shown" equiv-text="shown.length"/> Bilder.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/verify/proof.ts</context>
+          <context context-type="linenumber">294</context>
+        </context-group>
+        <target>Descending Fisher-Yates; position <x id="position" equiv-text="shownAt"/> shows the target. <x id="shown" equiv-text="shown.length"/> images were shown.</target>
+      </trans-unit>
+      <trans-unit id="proof.pool.images" datatype="html">
+        <source><x id="count" equiv-text="manifest.images.length"/> Bilder</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/verify/proof.ts</context>
+          <context context-type="linenumber">302</context>
+        </context-group>
+        <target><x id="count" equiv-text="manifest.images.length"/> images</target>
+      </trans-unit>
+      <trans-unit id="proof.pool.categories" datatype="html">
+        <source><x id="count" equiv-text="manifest.categories.length"/> Kategorien</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/verify/proof.ts</context>
+          <context context-type="linenumber">303</context>
+        </context-group>
+        <target><x id="count" equiv-text="manifest.categories.length"/> categories</target>
+      </trans-unit>
+      <trans-unit id="proof.pool.published" datatype="html">
+        <source>veröffentlicht <x id="date" equiv-text="manifest.created"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/verify/proof.ts</context>
+          <context context-type="linenumber">306</context>
+        </context-group>
+        <target>published <x id="date" equiv-text="manifest.created"/></target>
       </trans-unit>
     </body>
   </file>

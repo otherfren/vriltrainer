@@ -99,12 +99,12 @@ export async function verifyTrial(
     label: $localize`:@@proof.label.manifest:Pool-Manifest`,
     detail:
       structural !== null
-        ? `Das Manifest ist formal ungültig: ${structural}`
+        ? $localize`:@@proof.manifest.invalid:Das Manifest ist formal ungültig: ${structural}:reason:`
         : recomputedPoolHash !== manifest.manifest_hash
           ? $localize`:@@proof.manifest.rehash:Der neu berechnete Hash des Manifests weicht von dem ab, den es selbst nennt.`
           : recomputedPoolHash !== sealed.poolManifestHash
             ? $localize`:@@proof.manifest.mismatch:Das gelieferte Manifest ist nicht das, auf das diese Sitzung festgelegt wurde.`
-            : `${manifest.images.length} Bilder in ${manifest.categories.length} Kategorien, Hash neu berechnet und identisch mit dem, der schon zur Koordinate mitgeliefert wurde.`,
+            : $localize`:@@proof.manifest.ok:${manifest.images.length}:images: Bilder in ${manifest.categories.length}:categories: Kategorien, Hash neu berechnet und identisch mit dem, der schon zur Koordinate mitgeliefert wurde.`,
     ok:
       structural === null &&
       recomputedPoolHash === manifest.manifest_hash &&
@@ -169,7 +169,7 @@ export async function verifyTrial(
     label: $localize`:@@proof.check.draw:Die acht Bilder`,
     detail:
       drawError !== null
-        ? `Die Herleitung lief nicht durch: ${drawError}`
+        ? $localize`:@@proof.check.draw.error:Die Herleitung lief nicht durch: ${drawError}:reason:`
         : sameOrder(derivedImages, revealed.images)
           ? $localize`:@@proof.check.draw.ok:Der Seed erzeugt genau diese acht Bilder, in genau dieser Reihenfolge.`
           : $localize`:@@proof.check.draw.bad:Der Seed erzeugt eine andere Auswahl oder eine andere Reihenfolge als die gezeigte.`,
@@ -196,7 +196,7 @@ export async function verifyTrial(
         value: toHex(answered.sClient),
         note: echoed
           ? $localize`:@@proof.note.echoed:32 Bytes aus deinem Browser, vom Server unverändert zurückgegeben`
-          : `32 Bytes vom Server — dein Browser hatte ${toHex(revealed.sent)} geschickt`,
+          : $localize`:@@proof.note.notEchoed:32 Bytes vom Server — dein Browser hatte ${toHex(revealed.sent)}:sent: geschickt`,
       },
       {
         label: $localize`:@@proof.label.coordinate:Koordinate`,
@@ -236,7 +236,7 @@ export async function verifyTrial(
       {
         label: $localize`:@@proof.label.coordinate:Koordinate`,
         value: toHex(coordBytes),
-        note: `"${sealed.coordinate}" als UTF-8`,
+        note: $localize`:@@proof.note.coordUtf8:"${sealed.coordinate}:coordinate:" als UTF-8`,
       },
     ],
     commitmentPreimage: toHex(commitmentPreimage),
@@ -275,17 +275,13 @@ function steps(
       label: $localize`:@@proof.step.categories:1 · Acht Kategorien`,
       value: draw.chosenCategories.map(category).join(', '),
       note:
-        `Indizes ${draw.chosenCategories.join(', ')} aus ${manifest.categories.length} Kategorien, ` +
+        $localize`:@@proof.note.categoryIndices:Indizes ${draw.chosenCategories.join(', ')}:indices: aus ${manifest.categories.length}:total: Kategorien, ` +
         $localize`:@@proof.note.fisherYates:in Auswahlreihenfolge, partielles Fisher-Yates`,
     },
     {
       label: $localize`:@@proof.step.oneEach:2 · Ein Bild je Kategorie`,
       value: draw.selectedImages.map((i) => manifest.images[i].id).join(', '),
-      note:
-        'Manifest-Indizes ' +
-        draw.selectedImages.join(', ') +
-        ' — gezogen aus ' +
-        draw.chosenCategories.map((c) => `${category(c)}: ${members[c].length}`).join(', '),
+      note: $localize`:@@proof.note.imageIndices:Manifest-Indizes ${draw.selectedImages.join(', ')}:indices: — gezogen aus ${draw.chosenCategories.map((c) => `${category(c)}: ${members[c].length}`).join(', ')}:sizes:`,
     },
     {
       label: $localize`:@@proof.step.targetSlot:3 · Zielplatz`,
@@ -295,17 +291,19 @@ function steps(
     {
       label: $localize`:@@proof.step.displayOrder:4 · Anzeigereihenfolge`,
       value: draw.displayOrder.join(', '),
-      note:
-        `Absteigendes Fisher-Yates; Position ${shownAt} zeigt das Ziel. ` +
-        `Gezeigt wurden ${shown.length} Bilder.`,
+      note: $localize`:@@proof.note.displayOrder:Absteigendes Fisher-Yates; Position ${shownAt}:position: zeigt das Ziel. Gezeigt wurden ${shown.length}:shown: Bilder.`,
     },
   ];
 }
 
 /** `created` and `count` are only in a published manifest file, never in a served in-memory copy. */
 function poolNote(manifest: PoolManifest): string {
-  const parts = [`${manifest.images.length} Bilder`, `${manifest.categories.length} Kategorien`];
-  if (manifest.created !== undefined) parts.push(`veröffentlicht ${manifest.created}`);
+  const parts = [
+    $localize`:@@proof.pool.images:${manifest.images.length}:count: Bilder`,
+    $localize`:@@proof.pool.categories:${manifest.categories.length}:count: Kategorien`,
+  ];
+  if (manifest.created !== undefined)
+    parts.push($localize`:@@proof.pool.published:veröffentlicht ${manifest.created}:date:`);
   return parts.join(' · ');
 }
 
