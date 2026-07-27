@@ -107,12 +107,12 @@
         <target>Your login</target>
       </trans-unit>
       <trans-unit id="keydlg.lead" datatype="html">
-        <source> Dieser Link <x id="START_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;em&gt;"/>ist<x id="CLOSE_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;/em&gt;"/> dein Konto. Wer ihn hat, ist du. Es gibt keine Wiederherstellung — speichere ihn als Lesezeichen oder im Passwortmanager. </source>
+        <source> Dieser Link <x id="START_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;em&gt;"/>ist<x id="CLOSE_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;/em&gt;"/> dein Konto. Wer ihn hat, ist du. Es gibt keine Wiederherstellung - speichere ihn als Lesezeichen oder im Passwortmanager. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
           <context context-type="linenumber">97,100</context>
         </context-group>
-        <target>This link <x id="START_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;em&gt;"/>is<x id="CLOSE_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;/em&gt;"/> your account. Whoever holds it is you. There is no recovery — save it as a bookmark or in your password manager.</target>
+        <target>This link <x id="START_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;em&gt;"/>is<x id="CLOSE_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;/em&gt;"/> your account. Whoever holds it is you. There is no recovery - save it as a bookmark or in your password manager.</target>
       </trans-unit>
       <trans-unit id="keydlg.copied" datatype="html">
         <source>Kopiert</source>
@@ -171,12 +171,12 @@
         <target>Delete my name</target>
       </trans-unit>
       <trans-unit id="erase.confirm" datatype="html">
-        <source> Der Name wird sofort entfernt und ist nicht wiederherstellbar. Deine Sitzungen bleiben im Protokoll — unter deiner Kennung, ohne Namen. </source>
+        <source> Der Name wird sofort entfernt und ist nicht wiederherstellbar. Deine Sitzungen bleiben im Protokoll - unter deiner Kennung, ohne Namen. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
           <context context-type="linenumber">137,139</context>
         </context-group>
-        <target>The name is removed immediately and cannot be restored. Your sessions stay in the record — under your identifier, without a name.</target>
+        <target>The name is removed immediately and cannot be restored. Your sessions stay in the record - under your identifier, without a name.</target>
       </trans-unit>
       <trans-unit id="erase.confirmYes" datatype="html">
         <source> Namen endgültig löschen </source>
@@ -204,13 +204,13 @@
       </trans-unit>
       <trans-unit id="keydlg.publicId" datatype="html">
         <source> Öffentliche Kennung <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;measured&quot;&gt;"/><x id="INTERPOLATION" equiv-text="{{ id }}"/><x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span
-          &gt;"/>. Dein Name erscheint auf öffentlichen Seiten erst, wenn er freigegeben ist — bis dahin steht dort eine Verdeckung neben dieser Kennung. Dir zeigen wir ihn immer. </source>
+          &gt;"/>. Dein Name erscheint auf öffentlichen Seiten erst, wenn er freigegeben ist - bis dahin steht dort eine Verdeckung neben dieser Kennung. Dir zeigen wir ihn immer. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
           <context context-type="linenumber">161,164</context>
         </context-group>
         <target>Public id <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;measured&quot;&gt;"/><x id="INTERPOLATION" equiv-text="{{ id }}"/><x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span
-          &gt;"/>. Your name appears on public pages only once it has been approved — until then a mask stands there beside this id. To you we always show it.</target>
+          &gt;"/>. Your name appears on public pages only once it has been approved - until then a mask stands there beside this id. To you we always show it.</target>
       </trans-unit>
       <trans-unit id="logout.dialog.eyebrow" datatype="html">
         <source>Wirklich abmelden?</source>
@@ -221,12 +221,12 @@
         <target>Really sign out?</target>
       </trans-unit>
       <trans-unit id="logout.dialog.lead" datatype="html">
-        <source> Abmelden löscht den Zugang <x id="START_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;em&gt;"/>aus diesem Browser<x id="CLOSE_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;/em&gt;"/>. Es gibt keine Wiederherstellung über Mail oder Passwort — ohne diesen Link kommt niemand mehr an das Konto, auch wir nicht. Sichere ihn jetzt, falls noch nicht geschehen. </source>
+        <source> Abmelden löscht den Zugang <x id="START_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;em&gt;"/>aus diesem Browser<x id="CLOSE_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;/em&gt;"/>. Es gibt keine Wiederherstellung über Mail oder Passwort - ohne diesen Link kommt niemand mehr an das Konto, auch wir nicht. Sichere ihn jetzt, falls noch nicht geschehen. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
           <context context-type="linenumber">177,180</context>
         </context-group>
-        <target>Signing out deletes the access <x id="START_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;em&gt;"/>from this browser<x id="CLOSE_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;/em&gt;"/>. There is no recovery by mail or password — without this link nobody can reach the account again, us included. Save it now if you have not already.</target>
+        <target>Signing out deletes the access <x id="START_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;em&gt;"/>from this browser<x id="CLOSE_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;/em&gt;"/>. There is no recovery by mail or password - without this link nobody can reach the account again, us included. Save it now if you have not already.</target>
       </trans-unit>
       <trans-unit id="logout.cancel" datatype="html">
         <source> Abbrechen </source>
@@ -293,12 +293,12 @@
         <target>Legal notice</target>
       </trans-unit>
       <trans-unit id="meta.title" datatype="html">
-        <source>vriltrainer — öffentlicher Remote-Viewing-Test</source>
+        <source>vriltrainer - öffentlicher Remote-Viewing-Test</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.ts</context>
           <context context-type="linenumber">48</context>
         </context-group>
-        <target>vriltrainer — a public remote viewing test</target>
+        <target>vriltrainer - a public remote viewing test</target>
       </trans-unit>
       <trans-unit id="meta.description" datatype="html">
         <source>Ich rekrutiere psionische Assets um die Reptiloiden zu bekämpfen. Teste deine telepathischen Fähigkeiten!</source>
@@ -533,20 +533,20 @@
         <target>No addresses in the name.</target>
       </trans-unit>
       <trans-unit id="fail.network" datatype="html">
-        <source>Keine Verbindung zum Server. Es wurde nichts angelegt — dein Name ist in Ordnung, versuch es gleich noch einmal.</source>
+        <source>Keine Verbindung zum Server. Es wurde nichts angelegt - dein Name ist in Ordnung, versuch es gleich noch einmal.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
           <context context-type="linenumber">158</context>
         </context-group>
-        <target>No connection to the server. Nothing was created — your name is fine, try again in a moment.</target>
+        <target>No connection to the server. Nothing was created - your name is fine, try again in a moment.</target>
       </trans-unit>
       <trans-unit id="fail.serverDown" datatype="html">
-        <source>Der Dienst ist gerade nicht erreichbar (Fehler <x id="status" equiv-text="e.status"/>). Das liegt nicht an deinem Namen — versuch es in ein paar Minuten noch einmal.</source>
+        <source>Der Dienst ist gerade nicht erreichbar (Fehler <x id="status" equiv-text="e.status"/>). Das liegt nicht an deinem Namen - versuch es in ein paar Minuten noch einmal.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
           <context context-type="linenumber">165</context>
         </context-group>
-        <target>The service is not reachable right now (error <x id="status" equiv-text="e.status"/>). This is not about your name — try again in a few minutes.</target>
+        <target>The service is not reachable right now (error <x id="status" equiv-text="e.status"/>). This is not about your name - try again in a few minutes.</target>
       </trans-unit>
       <trans-unit id="fail.nameRefused" datatype="html">
         <source>Der Name wurde abgelehnt. Such dir einen anderen aus.</source>
@@ -565,12 +565,12 @@
         <target>Unexpected answer from the server (error <x id="status" equiv-text="e.status"/>). This is not about your name.</target>
       </trans-unit>
       <trans-unit id="fail.unknown" datatype="html">
-        <source>Das Konto konnte nicht angelegt werden. Das liegt nicht an deinem Namen — versuch es noch einmal.</source>
+        <source>Das Konto konnte nicht angelegt werden. Das liegt nicht an deinem Namen - versuch es noch einmal.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
           <context context-type="linenumber">179</context>
         </context-group>
-        <target>The account could not be created. This is not about your name — try again.</target>
+        <target>The account could not be created. This is not about your name - try again.</target>
       </trans-unit>
       <trans-unit id="category.building" datatype="html">
         <source>Bauwerk</source>
@@ -861,12 +861,12 @@
         <target>Where you stand</target>
       </trans-unit>
       <trans-unit id="status.unavailable" datatype="html">
-        <source> Die Zahlen sind gerade nicht abrufbar. Gespielt ist gespielt — sie stehen im Protokoll, nicht in diesem Browser. <x id="START_TAG_BUTTON" ctype="x-button" equiv-text="&lt;button class=&quot;btn btn--quiet&quot; type=&quot;button&quot; (click)=&quot;player.refresh()&quot;&gt;"/> Erneut laden <x id="CLOSE_TAG_BUTTON" ctype="x-button" equiv-text="&lt;/button&gt;"/></source>
+        <source> Die Zahlen sind gerade nicht abrufbar. Gespielt ist gespielt - sie stehen im Protokoll, nicht in diesem Browser. <x id="START_TAG_BUTTON" ctype="x-button" equiv-text="&lt;button class=&quot;btn btn--quiet&quot; type=&quot;button&quot; (click)=&quot;player.refresh()&quot;&gt;"/> Erneut laden <x id="CLOSE_TAG_BUTTON" ctype="x-button" equiv-text="&lt;/button&gt;"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/status-panel.component.ts</context>
           <context context-type="linenumber">41,47</context>
         </context-group>
-        <target>The figures are not available right now. What is played is played — it is in the record, not in this browser. <x id="START_TAG_BUTTON" ctype="x-button" equiv-text="&lt;button class=&quot;btn btn--quiet&quot; type=&quot;button&quot; (click)=&quot;player.refresh()&quot;&gt;"/>Reload<x id="CLOSE_TAG_BUTTON" ctype="x-button" equiv-text="&lt;/button&gt;"/></target>
+        <target>The figures are not available right now. What is played is played - it is in the record, not in this browser. <x id="START_TAG_BUTTON" ctype="x-button" equiv-text="&lt;button class=&quot;btn btn--quiet&quot; type=&quot;button&quot; (click)=&quot;player.refresh()&quot;&gt;"/>Reload<x id="CLOSE_TAG_BUTTON" ctype="x-button" equiv-text="&lt;/button&gt;"/></target>
       </trans-unit>
       <trans-unit id="status.loading" datatype="html">
         <source>Wird geladen …</source>
@@ -1181,12 +1181,12 @@
         <target>On the way to being ranked</target>
       </trans-unit>
       <trans-unit id="board.zone.waiting.lede" datatype="html">
-        <source> Diese Konten spielen bereits, haben die Schwelle für die Wertung aber noch nicht erreicht: <x id="INTERPOLATION" equiv-text="{{ eligibilityTrials() }}"/> Versuche an mindestens <x id="INTERPOLATION_1" equiv-text="{{ eligibilityDays() }}"/> verschiedenen Tagen. Trefferquoten stehen hier bewusst nicht — bei so kurzen Serien sagen sie nichts. </source>
+        <source> Diese Konten spielen bereits, haben die Schwelle für die Wertung aber noch nicht erreicht: <x id="INTERPOLATION" equiv-text="{{ eligibilityTrials() }}"/> Versuche an mindestens <x id="INTERPOLATION_1" equiv-text="{{ eligibilityDays() }}"/> verschiedenen Tagen. Trefferquoten stehen hier bewusst nicht - bei so kurzen Serien sagen sie nichts. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
           <context context-type="linenumber">83,87</context>
         </context-group>
-        <target>These accounts are already playing but have not reached the bar for being ranked: <x id="INTERPOLATION" equiv-text="{{ eligibilityTrials() }}"/> trials across at least <x id="INTERPOLATION_1" equiv-text="{{ eligibilityDays() }}"/> different days. Hit rates are deliberately absent here — over runs this short they say nothing.</target>
+        <target>These accounts are already playing but have not reached the bar for being ranked: <x id="INTERPOLATION" equiv-text="{{ eligibilityTrials() }}"/> trials across at least <x id="INTERPOLATION_1" equiv-text="{{ eligibilityDays() }}"/> different days. Hit rates are deliberately absent here - over runs this short they say nothing.</target>
       </trans-unit>
       <trans-unit id="board.col.name" datatype="html">
         <source>Name</source>
@@ -1233,7 +1233,7 @@
         <target>How many different days have been played, against the number needed</target>
       </trans-unit>
       <trans-unit id="board.maskedTitle" datatype="html">
-        <source>Name noch nicht freigegeben — die Kennung daneben bleibt nachprüfbar</source>
+        <source>Name noch nicht freigegeben - die Kennung daneben bleibt nachprüfbar</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
           <context context-type="linenumber">143,144</context>
@@ -1242,7 +1242,7 @@
           <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
           <context context-type="linenumber">317,318</context>
         </context-group>
-        <target>Name not approved yet — the id beside it stays verifiable</target>
+        <target>Name not approved yet - the id beside it stays verifiable</target>
       </trans-unit>
       <trans-unit id="board.zone.waiting.more" datatype="html">
         <source> … und <x id="INTERPOLATION" equiv-text="{{ waitingHidden() }}"/> weitere Konten, die noch zu wenig gespielt haben. </source>
@@ -1397,12 +1397,12 @@
         <target>No tracking, no cookies, no advertising, nothing passed on to advertisers.</target>
       </trans-unit>
       <trans-unit id="privacy.short.2" datatype="html">
-        <source> Keine E-Mail-Adresse, kein Passwort, kein Name aus deinem Ausweis — du wählst selbst, wie du heißt. </source>
+        <source> Keine E-Mail-Adresse, kein Passwort, kein Name aus deinem Ausweis - du wählst selbst, wie du heißt. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/legal/datenschutz.component.ts</context>
           <context context-type="linenumber">38,40</context>
         </context-group>
-        <target>No e-mail address, no password, no legal name — you choose what you are called.</target>
+        <target>No e-mail address, no password, no legal name - you choose what you are called.</target>
       </trans-unit>
       <trans-unit id="privacy.short.3" datatype="html">
         <source> Im öffentlichen Protokoll steht <x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>nie dein Name<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/>, sondern eine zufällige Kennung. </source>
@@ -1413,12 +1413,12 @@
         <target>The public record <x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>never carries your name<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/>, only a random identifier.</target>
       </trans-unit>
       <trans-unit id="privacy.short.4" datatype="html">
-        <source> Deinen Namen kannst du jederzeit löschen. Deine Sitzungen bleiben — warum, steht weiter unten. </source>
+        <source> Deinen Namen kannst du jederzeit löschen. Deine Sitzungen bleiben - warum, steht weiter unten. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/legal/datenschutz.component.ts</context>
           <context context-type="linenumber">46,48</context>
         </context-group>
-        <target>You can delete your name at any time. Your sessions stay — why, is further down.</target>
+        <target>You can delete your name at any time. Your sessions stay - why, is further down.</target>
       </trans-unit>
       <trans-unit id="privacy.who.h" datatype="html">
         <source>Wer verantwortlich ist</source>
@@ -1445,12 +1445,12 @@
         <target>What is stored</target>
       </trans-unit>
       <trans-unit id="privacy.what.account" datatype="html">
-        <source><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>Zu deinem Konto:<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> der Name, den du dir gibst, eine zufällige öffentliche Kennung, und der Prüfwert deines Zugangslinks. Den Link selbst speichern wir nicht — wir könnten dein Konto also nicht wiederherstellen, selbst wenn wir wollten. </source>
+        <source><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>Zu deinem Konto:<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> der Name, den du dir gibst, eine zufällige öffentliche Kennung, und der Prüfwert deines Zugangslinks. Den Link selbst speichern wir nicht - wir könnten dein Konto also nicht wiederherstellen, selbst wenn wir wollten. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/legal/datenschutz.component.ts</context>
           <context context-type="linenumber">59,62</context>
         </context-group>
-        <target><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>For your account:<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> the name you give yourself, a random public identifier, and a check value derived from your access link. The link itself is not stored — we could not restore your account even if we wanted to.</target>
+        <target><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>For your account:<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> the name you give yourself, a random public identifier, and a check value derived from your access link. The link itself is not stored - we could not restore your account even if we wanted to.</target>
       </trans-unit>
       <trans-unit id="privacy.what.trials" datatype="html">
         <source><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>Zu jeder Sitzung:<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> Zeitpunkt, Koordinate, die Festlegung auf das Ziel, das Bild, das du gewählt hast, das Ziel und ob es ein Treffer war. Das ist der Datensatz, den die Seite öffentlich nachprüfbar macht. </source>
@@ -1461,12 +1461,12 @@
         <target><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>For every session:<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> the time, the coordinate, the commitment to the target, the image you picked, the target, and whether it was a hit. That is the record this site makes publicly checkable.</target>
       </trans-unit>
       <trans-unit id="privacy.what.logs" datatype="html">
-        <source><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>Beim Aufruf:<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> der Webserver protokolliert deine IP-Adresse, Zeitpunkt und aufgerufene Adresse. Der Dienst selbst protokolliert <x id="START_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;em&gt;"/>keine<x id="CLOSE_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;/em&gt;"/> IP-Adresse — nur Anfragekennung, Methode und Pfad, und der Zugangslink wird dabei abgeschnitten, bevor etwas geschrieben wird. </source>
+        <source><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>Beim Aufruf:<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> der Webserver protokolliert deine IP-Adresse, Zeitpunkt und aufgerufene Adresse. Der Dienst selbst protokolliert <x id="START_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;em&gt;"/>keine<x id="CLOSE_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;/em&gt;"/> IP-Adresse - nur Anfragekennung, Methode und Pfad, und der Zugangslink wird dabei abgeschnitten, bevor etwas geschrieben wird. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/legal/datenschutz.component.ts</context>
           <context context-type="linenumber">69,73</context>
         </context-group>
-        <target><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>When you visit:<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> the web server logs your IP address, the time and the address requested. The service itself logs <x id="START_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;em&gt;"/>no<x id="CLOSE_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;/em&gt;"/> IP address — only a request id, a method and a path, and the access link is cut off before anything is written.</target>
+        <target><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>When you visit:<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> the web server logs your IP address, the time and the address requested. The service itself logs <x id="START_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;em&gt;"/>no<x id="CLOSE_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;/em&gt;"/> IP address - only a request id, a method and a path, and the access link is cut off before anything is written.</target>
       </trans-unit>
       <trans-unit id="privacy.public.h" datatype="html">
         <source>Was öffentlich sichtbar ist</source>
@@ -1477,12 +1477,12 @@
         <target>What is publicly visible</target>
       </trans-unit>
       <trans-unit id="privacy.public.p" datatype="html">
-        <source> Auf der Bestenliste stehen dein Name und deine öffentliche Kennung. Im herunterladbaren Protokoll steht nur die Kennung — dort taucht dein Name an keiner Stelle auf. Ein neuer Name wird erst nach einer Prüfung durch einen Menschen veröffentlicht; bis dahin steht auf öffentlichen Seiten eine Maske. </source>
+        <source> Auf der Bestenliste stehen dein Name und deine öffentliche Kennung. Im herunterladbaren Protokoll steht nur die Kennung - dort taucht dein Name an keiner Stelle auf. Ein neuer Name wird erst nach einer Prüfung durch einen Menschen veröffentlicht; bis dahin steht auf öffentlichen Seiten eine Maske. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/legal/datenschutz.component.ts</context>
           <context context-type="linenumber">77,80</context>
         </context-group>
-        <target>The leaderboard shows your name and your public identifier. The downloadable record shows only the identifier — your name appears nowhere in it. A new name is published only after a human has reviewed it; until then public pages show a mask.</target>
+        <target>The leaderboard shows your name and your public identifier. The downloadable record shows only the identifier - your name appears nowhere in it. A new name is published only after a human has reviewed it; until then public pages show a mask.</target>
       </trans-unit>
       <trans-unit id="privacy.why.h" datatype="html">
         <source>Rechtsgrundlage</source>
@@ -1493,12 +1493,12 @@
         <target>Legal basis</target>
       </trans-unit>
       <trans-unit id="privacy.why.p" datatype="html">
-        <source> Konto und Sitzungen: Artikel 6 Absatz 1 Buchstabe b DSGVO — ohne sie gibt es den Dienst nicht, den du benutzen willst. Zugriffsprotokolle: Artikel 6 Absatz 1 Buchstabe f — ein Server, der seine Aufrufe nicht sieht, lässt sich weder betreiben noch gegen Missbrauch verteidigen. </source>
+        <source> Konto und Sitzungen: Artikel 6 Absatz 1 Buchstabe b DSGVO - ohne sie gibt es den Dienst nicht, den du benutzen willst. Zugriffsprotokolle: Artikel 6 Absatz 1 Buchstabe f - ein Server, der seine Aufrufe nicht sieht, lässt sich weder betreiben noch gegen Missbrauch verteidigen. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/legal/datenschutz.component.ts</context>
           <context context-type="linenumber">85,88</context>
         </context-group>
-        <target>Account and sessions: Article 6(1)(b) GDPR — without them there is no service for you to use. Access logs: Article 6(1)(f) — a server that cannot see its own requests can neither be operated nor defended against abuse.</target>
+        <target>Account and sessions: Article 6(1)(b) GDPR - without them there is no service for you to use. Access logs: Article 6(1)(f) - a server that cannot see its own requests can neither be operated nor defended against abuse.</target>
       </trans-unit>
       <trans-unit id="privacy.keep.h" datatype="html">
         <source>Wie lange</source>
@@ -1549,20 +1549,20 @@
         <target><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>You can delete your name at any time<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/>, from the menu behind your name at the top. After that only the identifier stands in its place everywhere. It takes effect immediately and cannot be undone.</target>
       </trans-unit>
       <trans-unit id="privacy.erase.trials" datatype="html">
-        <source><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>Die Sitzungen selbst lassen sich nicht löschen<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/>, und das ist der Kern dieser Seite: Das Protokoll ist eine Kette, in der jeder Eintrag den vorherigen absichert. Ein Eintrag, den man herausnehmen kann, würde jede Zusage entwerten, die alle anderen Einträge geben — die Seite könnte dann nicht mehr belegen, dass das Ziel vor deiner Wahl feststand. Deshalb steht in dieser Kette von Anfang an kein Name, sondern nur eine zufällige Kennung. Nach der Löschung des Namens ist der Datensatz weiterhin nachprüfbar, aber niemandem mehr zuzuordnen. </source>
+        <source><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>Die Sitzungen selbst lassen sich nicht löschen<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/>, und das ist der Kern dieser Seite: Das Protokoll ist eine Kette, in der jeder Eintrag den vorherigen absichert. Ein Eintrag, den man herausnehmen kann, würde jede Zusage entwerten, die alle anderen Einträge geben - die Seite könnte dann nicht mehr belegen, dass das Ziel vor deiner Wahl feststand. Deshalb steht in dieser Kette von Anfang an kein Name, sondern nur eine zufällige Kennung. Nach der Löschung des Namens ist der Datensatz weiterhin nachprüfbar, aber niemandem mehr zuzuordnen. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/legal/datenschutz.component.ts</context>
           <context context-type="linenumber">113,119</context>
         </context-group>
-        <target><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>The sessions themselves cannot be deleted<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/>, and that is the heart of this site: the record is a chain in which every entry secures the one before it. An entry that could be taken out would void the promise every other entry makes — the site could no longer show that the target was fixed before you chose. That is why the chain carries no name in the first place, only a random identifier. Once the name is deleted the record is still checkable, and belongs to nobody.</target>
+        <target><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>The sessions themselves cannot be deleted<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/>, and that is the heart of this site: the record is a chain in which every entry secures the one before it. An entry that could be taken out would void the promise every other entry makes - the site could no longer show that the target was fixed before you chose. That is why the chain carries no name in the first place, only a random identifier. Once the name is deleted the record is still checkable, and belongs to nobody.</target>
       </trans-unit>
       <trans-unit id="privacy.erase.rest" datatype="html">
-        <source> Wenn du dich abmeldest, ohne den Link gespeichert zu haben, kommt niemand mehr an das Konto — auch wir nicht. </source>
+        <source> Wenn du dich abmeldest, ohne den Link gespeichert zu haben, kommt niemand mehr an das Konto - auch wir nicht. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/legal/datenschutz.component.ts</context>
           <context context-type="linenumber">122,125</context>
         </context-group>
-        <target>If you sign out without having saved your link, nobody can reach the account again — us included.</target>
+        <target>If you sign out without having saved your link, nobody can reach the account again - us included.</target>
       </trans-unit>
       <trans-unit id="privacy.others.h" datatype="html">
         <source>Wer die Daten sonst sieht</source>
@@ -1573,12 +1573,12 @@
         <target>Who else sees the data</target>
       </trans-unit>
       <trans-unit id="privacy.others.p" datatype="html">
-        <source> Der Server steht bei der Hetzner Online GmbH in Deutschland. Davor liegt Cloudflare, das den Verkehr weiterleitet und dabei IP-Adressen verarbeitet; dabei können Daten in Drittländer übertragen werden. Weitere Empfänger gibt es nicht — keine Analysedienste, keine Werbenetzwerke, keine sozialen Netzwerke. </source>
+        <source> Der Server steht bei der Hetzner Online GmbH in Deutschland. Davor liegt Cloudflare, das den Verkehr weiterleitet und dabei IP-Adressen verarbeitet; dabei können Daten in Drittländer übertragen werden. Weitere Empfänger gibt es nicht - keine Analysedienste, keine Werbenetzwerke, keine sozialen Netzwerke. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/legal/datenschutz.component.ts</context>
           <context context-type="linenumber">128,131</context>
         </context-group>
-        <target>The server is hosted by Hetzner Online GmbH in Germany. In front of it sits Cloudflare, which forwards the traffic and processes IP addresses in doing so; this can involve transfers to third countries. There are no other recipients — no analytics, no ad networks, no social networks.</target>
+        <target>The server is hosted by Hetzner Online GmbH in Germany. In front of it sits Cloudflare, which forwards the traffic and processes IP addresses in doing so; this can involve transfers to third countries. There are no other recipients - no analytics, no ad networks, no social networks.</target>
       </trans-unit>
       <trans-unit id="privacy.cookies.h" datatype="html">
         <source>Cookies</source>
@@ -1589,12 +1589,12 @@
         <target>Cookies</target>
       </trans-unit>
       <trans-unit id="privacy.cookies.p" datatype="html">
-        <source> Keine. Dein Zugangslink liegt im lokalen Speicher deines Browsers, damit du nach dem Neuladen noch angemeldet bist — technisch notwendig, deshalb fragt dich diese Seite auch nicht um Erlaubnis dafür. Beim Abmelden wird er dort gelöscht. </source>
+        <source> Keine. Dein Zugangslink liegt im lokalen Speicher deines Browsers, damit du nach dem Neuladen noch angemeldet bist - technisch notwendig, deshalb fragt dich diese Seite auch nicht um Erlaubnis dafür. Beim Abmelden wird er dort gelöscht. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/legal/datenschutz.component.ts</context>
           <context context-type="linenumber">136,139</context>
         </context-group>
-        <target>None. Your access link is kept in your browser's local storage so that you are still signed in after a reload — technically necessary, which is why this site does not ask your permission for it. Signing out deletes it.</target>
+        <target>None. Your access link is kept in your browser's local storage so that you are still signed in after a reload - technically necessary, which is why this site does not ask your permission for it. Signing out deletes it.</target>
       </trans-unit>
       <trans-unit id="privacy.rights.h" datatype="html">
         <source>Deine Rechte</source>
@@ -1621,12 +1621,12 @@
         <target>Reporting illegal content</target>
       </trans-unit>
       <trans-unit id="privacy.dsa.p" datatype="html">
-        <source> Der einzige Inhalt, den Nutzer hier veröffentlichen können, ist ihr Anzeigename. Wenn dir einer rechtswidrig erscheint, melde ihn an die Adresse im Impressum — das ist die Kontaktstelle nach Artikel 16 der Verordnung über digitale Dienste. Nenne dabei den Namen oder die öffentliche Kennung und in einem Satz, was das Problem ist. Du bekommst eine Antwort, und wenn die Meldung zutrifft, wird der Name entfernt. Namen werden ohnehin vor der Veröffentlichung von einem Menschen geprüft. </source>
+        <source> Der einzige Inhalt, den Nutzer hier veröffentlichen können, ist ihr Anzeigename. Wenn dir einer rechtswidrig erscheint, melde ihn an die Adresse im Impressum - das ist die Kontaktstelle nach Artikel 16 der Verordnung über digitale Dienste. Nenne dabei den Namen oder die öffentliche Kennung und in einem Satz, was das Problem ist. Du bekommst eine Antwort, und wenn die Meldung zutrifft, wird der Name entfernt. Namen werden ohnehin vor der Veröffentlichung von einem Menschen geprüft. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/legal/datenschutz.component.ts</context>
           <context context-type="linenumber">152,157</context>
         </context-group>
-        <target>The only content users publish here is their display name. If one strikes you as illegal, report it to the address in the legal notice — that is the point of contact under Article 16 of the Digital Services Act. Give the name or the public identifier and say in one sentence what the problem is. You will get an answer, and if the report is justified the name is removed. Names are reviewed by a human before publication in any case.</target>
+        <target>The only content users publish here is their display name. If one strikes you as illegal, report it to the address in the legal notice - that is the point of contact under Article 16 of the Digital Services Act. Give the name or the public identifier and say in one sentence what the problem is. You will get an answer, and if the report is justified the name is removed. Names are reviewed by a human before publication in any case.</target>
       </trans-unit>
       <trans-unit id="privacy.note.h" datatype="html">
         <source>Was diese Seite ist</source>
@@ -1637,12 +1637,12 @@
         <target>What this site is</target>
       </trans-unit>
       <trans-unit id="privacy.note.p" datatype="html">
-        <source> Ein öffentliches Experiment. Die Trefferquote liegt bei reinem Raten bei 12,5 %, und genau das ist das erwartete Ergebnis. Die Seite behauptet nichts anderes und weist niemandem übersinnliche Fähigkeiten nach — sie rechnet nach, ob die Zahlen vom Zufall abweichen, und veröffentlicht alles, was zum Nachrechnen nötig ist. </source>
+        <source> Ein öffentliches Experiment. Die Trefferquote liegt bei reinem Raten bei 12,5 %, und genau das ist das erwartete Ergebnis. Die Seite behauptet nichts anderes und weist niemandem übersinnliche Fähigkeiten nach - sie rechnet nach, ob die Zahlen vom Zufall abweichen, und veröffentlicht alles, was zum Nachrechnen nötig ist. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/legal/datenschutz.component.ts</context>
           <context context-type="linenumber">162,165</context>
         </context-group>
-        <target>A public experiment. Pure guessing hits 12.5 % of the time, and that is the expected result. The site claims nothing else and proves nobody psychic — it works out whether the numbers depart from chance, and publishes everything needed to check.</target>
+        <target>A public experiment. Pure guessing hits 12.5 % of the time, and that is the expected result. The site claims nothing else and proves nobody psychic - it works out whether the numbers depart from chance, and publishes everything needed to check.</target>
       </trans-unit>
       <trans-unit id="legal.eyebrow" datatype="html">
         <source>Angaben gemäß § 5 DDG</source>
@@ -1741,12 +1741,12 @@
         <target>About this site</target>
       </trans-unit>
       <trans-unit id="legal.about.p" datatype="html">
-        <source> vriltrainer ist ein öffentliches Forced-Choice-Experiment zum Remote Viewing. Die erwartete Trefferquote ist 12,5 % — reines Raten. Ränge, Titel und Abbildungen sind Satire auf die einschlägige Mythologie und keine Behauptung über die Wirklichkeit. </source>
+        <source> vriltrainer ist ein öffentliches Forced-Choice-Experiment zum Remote Viewing. Die erwartete Trefferquote ist 12,5 % - reines Raten. Ränge, Titel und Abbildungen sind Satire auf die einschlägige Mythologie und keine Behauptung über die Wirklichkeit. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/legal/impressum.component.ts</context>
           <context context-type="linenumber">57,59</context>
         </context-group>
-        <target>vriltrainer is a public forced-choice experiment in remote viewing. The expected hit rate is 12.5 % — pure guessing. Ranks, titles and illustrations are satire on the relevant mythology and are not a claim about reality.</target>
+        <target>vriltrainer is a public forced-choice experiment in remote viewing. The expected hit rate is 12.5 % - pure guessing. Ranks, titles and illustrations are satire on the relevant mythology and are not a claim about reality.</target>
       </trans-unit>
       <trans-unit id="legal.licence.h" datatype="html">
         <source>Urheberrecht und Lizenz</source>
@@ -1758,13 +1758,13 @@
       </trans-unit>
       <trans-unit id="legal.licence.p" datatype="html">
         <source> Der Quellcode steht unter der <x id="START_LINK" ctype="x-a" equiv-text="&lt;a href=&quot;https://github.com/otherfren/vriltrainer/blob/master/LICENSE&quot;&gt;"/> AGPL-3.0-or-later <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a
-          &gt;"/>. Wer eine veränderte Fassung betreibt, muss seine Änderungen veröffentlichen — für einen Dienst, dessen ganzes Versprechen Nachprüfbarkeit ist, ist das keine Formalie. </source>
+          &gt;"/>. Wer eine veränderte Fassung betreibt, muss seine Änderungen veröffentlichen - für einen Dienst, dessen ganzes Versprechen Nachprüfbarkeit ist, ist das keine Formalie. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/legal/impressum.component.ts</context>
           <context context-type="linenumber">64,69</context>
         </context-group>
         <target>The source code is under the <x id="START_LINK" ctype="x-a" equiv-text="&lt;a href=&quot;https://github.com/otherfren/vriltrainer/blob/master/LICENSE&quot;&gt;"/> AGPL-3.0-or-later <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a
-          &gt;"/>. Anyone running a modified version has to publish their changes — for a service whose entire promise is verifiability, that is not a formality.</target>
+          &gt;"/>. Anyone running a modified version has to publish their changes - for a service whose entire promise is verifiability, that is not a formality.</target>
       </trans-unit>
       <trans-unit id="stats.eyebrow" datatype="html">
         <source>Alle Spieler · alle Sitzungen</source>
@@ -1859,12 +1859,12 @@
         <target>· <x id="INTERPOLATION" equiv-text="{{ count(a.open) }}"/> open · <x id="INTERPOLATION_1" equiv-text="{{ count(a.abandoned) }}"/> abandoned</target>
       </trans-unit>
       <trans-unit id="stats.verdict.notable" datatype="html">
-        <source>das ist auffällig — und noch keine Erklärung.</source>
+        <source>das ist auffällig - und noch keine Erklärung.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
           <context context-type="linenumber">69,72</context>
         </context-group>
-        <target>that is notable — and not yet an explanation.</target>
+        <target>that is notable - and not yet an explanation.</target>
       </trans-unit>
       <trans-unit id="stats.spread.headWithBounds" datatype="html">
         <source> Die Verteilung · <x id="INTERPOLATION" equiv-text="{{ count(qualified()) }}"/> Konten ab <x id="INTERPOLATION_1" equiv-text="{{ tailMinTrials() }}"/> Sitzungen, die Enden ab <x id="INTERPOLATION_2" equiv-text="{{ tailSigma() }}"/> σ </source>
@@ -1931,12 +1931,12 @@
         <target>Figures not available</target>
       </trans-unit>
       <trans-unit id="stats.unavailable.lead" datatype="html">
-        <source> Die Gesamtwerte kommen vom Server und werden nicht hier ausgedacht — also steht hier nichts, solange er nicht antwortet. <x id="START_TAG_BUTTON" ctype="x-button" equiv-text="&lt;button class=&quot;btn btn--quiet&quot; type=&quot;button&quot; (click)=&quot;load()&quot;&gt;"/>Erneut versuchen<x id="CLOSE_TAG_BUTTON" ctype="x-button" equiv-text="&lt;/button&gt;"/></source>
+        <source> Die Gesamtwerte kommen vom Server und werden nicht hier ausgedacht - also steht hier nichts, solange er nicht antwortet. <x id="START_TAG_BUTTON" ctype="x-button" equiv-text="&lt;button class=&quot;btn btn--quiet&quot; type=&quot;button&quot; (click)=&quot;load()&quot;&gt;"/>Erneut versuchen<x id="CLOSE_TAG_BUTTON" ctype="x-button" equiv-text="&lt;/button&gt;"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
           <context context-type="linenumber">149,153</context>
         </context-group>
-        <target>The overall figures come from the server and are not invented here — so nothing stands here while it is not answering. <x id="START_TAG_BUTTON" ctype="x-button" equiv-text="&lt;button class=&quot;btn btn--quiet&quot; type=&quot;button&quot; (click)=&quot;load()&quot;&gt;"/>Try again<x id="CLOSE_TAG_BUTTON" ctype="x-button" equiv-text="&lt;/button&gt;"/></target>
+        <target>The overall figures come from the server and are not invented here - so nothing stands here while it is not answering. <x id="START_TAG_BUTTON" ctype="x-button" equiv-text="&lt;button class=&quot;btn btn--quiet&quot; type=&quot;button&quot; (click)=&quot;load()&quot;&gt;"/>Try again<x id="CLOSE_TAG_BUTTON" ctype="x-button" equiv-text="&lt;/button&gt;"/></target>
       </trans-unit>
       <trans-unit id="stats.mine" datatype="html">
         <source>Deine Werte</source>
@@ -2107,12 +2107,12 @@
         <target>Your <x id="INTERPOLATION" equiv-text="{{ minePct() }}"/> %</target>
       </trans-unit>
       <trans-unit id="read.yours.d" datatype="html">
-        <source> Von 10 000 Leuten, die nur raten, kommen <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;measured&quot;&gt;"/><x id="INTERPOLATION" equiv-text="{{ perTenK() }}"/><x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/> auf so ein Ergebnis — allein durch Glück. </source>
+        <source> Von 10 000 Leuten, die nur raten, kommen <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;measured&quot;&gt;"/><x id="INTERPOLATION" equiv-text="{{ perTenK() }}"/><x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/> auf so ein Ergebnis - allein durch Glück. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
           <context context-type="linenumber">286,289</context>
         </context-group>
-        <target>Of 10,000 people who are only guessing, <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;measured&quot;&gt;"/><x id="INTERPOLATION" equiv-text="{{ perTenK() }}"/><x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/> get a result like this — on luck alone.</target>
+        <target>Of 10,000 people who are only guessing, <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;measured&quot;&gt;"/><x id="INTERPOLATION" equiv-text="{{ perTenK() }}"/><x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/> get a result like this - on luck alone.</target>
       </trans-unit>
       <trans-unit id="stats.ladder.oneIn" datatype="html">
         <source>1 von <x id="many" equiv-text="this.count(Math.round(1 / rung.chanceShare))"/></source>
@@ -2395,12 +2395,12 @@
         <target>Which pool it is computed against</target>
       </trans-unit>
       <trans-unit id="proof.pool.lead" datatype="html">
-        <source> Die Herleitung zieht gegen <x id="START_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;em&gt;"/>Indizes<x id="CLOSE_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;/em&gt;"/> im Manifest. Ein anderes Manifest ergibt aus demselben Seed andere Bilder — deshalb wird es hier neu gehasht und mit dem Hash verglichen, der schon mit der Koordinate kam. </source>
+        <source> Die Herleitung zieht gegen <x id="START_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;em&gt;"/>Indizes<x id="CLOSE_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;/em&gt;"/> im Manifest. Ein anderes Manifest ergibt aus demselben Seed andere Bilder - deshalb wird es hier neu gehasht und mit dem Hash verglichen, der schon mit der Koordinate kam. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.html</context>
           <context context-type="linenumber">257,259</context>
         </context-group>
-        <target>The derivation draws against <x id="START_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;em&gt;"/>indices<x id="CLOSE_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;/em&gt;"/> in the manifest. A different manifest yields different images from the same seed — which is why it is rehashed here and compared with the hash that already came with the coordinate.</target>
+        <target>The derivation draws against <x id="START_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;em&gt;"/>indices<x id="CLOSE_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;/em&gt;"/> in the manifest. A different manifest yields different images from the same seed - which is why it is rehashed here and compared with the hash that already came with the coordinate.</target>
       </trans-unit>
       <trans-unit id="proof.h.hashed" datatype="html">
         <source>Was gehasht wird</source>
@@ -2419,12 +2419,12 @@
         <target>Every field is length-prefixed so the boundaries are unambiguous: <x id="START_TAG_CODE" ctype="x-code" equiv-text="&lt;code class=&quot;inline&quot;&gt;"/>framed(p₀, p₁, …) = SHA-256( LE64(|p₀|) ‖ p₀ ‖ LE64(|p₁|) ‖ p₁ ‖ … )<x id="CLOSE_TAG_CODE" ctype="x-code" equiv-text="&lt;/code&gt;"/> Without it, <x id="START_TAG_CODE" ctype="x-code" equiv-text="&lt;code class=&quot;inline&quot;&gt;"/>("ab","c")<x id="CLOSE_TAG_CODE" ctype="x-code" equiv-text="&lt;/code&gt;"/> and <x id="START_TAG_CODE" ctype="x-code" equiv-text="&lt;code class=&quot;inline&quot;&gt;"/>("a","bc")<x id="CLOSE_TAG_CODE" ctype="x-code" equiv-text="&lt;/code&gt;"/> hash alike.</target>
       </trans-unit>
       <trans-unit id="proof.preimage.commitment" datatype="html">
-        <source> Der vollständige Präimage-String, <x id="INTERPOLATION" equiv-text="{{ p.commitmentPreimage.length / 2 }}"/> Bytes — genau diese Bytes gehen in SHA-256: </source>
+        <source> Der vollständige Präimage-String, <x id="INTERPOLATION" equiv-text="{{ p.commitmentPreimage.length / 2 }}"/> Bytes - genau diese Bytes gehen in SHA-256: </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.html</context>
           <context context-type="linenumber">300,301</context>
         </context-group>
-        <target>The full preimage string, <x id="INTERPOLATION" equiv-text="{{ p.commitmentPreimage.length / 2 }}"/> bytes — exactly these bytes go into SHA-256:</target>
+        <target>The full preimage string, <x id="INTERPOLATION" equiv-text="{{ p.commitmentPreimage.length / 2 }}"/> bytes - exactly these bytes go into SHA-256:</target>
       </trans-unit>
       <trans-unit id="proof.sha256of" datatype="html">
         <source>SHA-256 davon</source>
@@ -2483,12 +2483,12 @@
         <target>The seed produces the keystream <x id="START_TAG_CODE" ctype="x-code" equiv-text="&lt;code class=&quot;inline&quot;&gt;"/>block(i) = SHA-256( seed ‖ LE64(i) )<x id="CLOSE_TAG_CODE" ctype="x-code" equiv-text="&lt;/code&gt;"/>, read as 64-bit words little-endian. From it, in this order:</target>
       </trans-unit>
       <trans-unit id="proof.independence" datatype="html">
-        <source> Gerechnet mit einer Implementierung, die unabhängig von der des Servers geschrieben wurde. Beide werden gegen dieselben Testvektoren geprüft — das ist der Punkt: eine Prüfung mit dem Code des Servers prüft nichts. Gerechnet wird im Browser; einen eigenständigen Prüfer von dritter Seite gibt es in dieser Version noch nicht. </source>
+        <source> Gerechnet mit einer Implementierung, die unabhängig von der des Servers geschrieben wurde. Beide werden gegen dieselben Testvektoren geprüft - das ist der Punkt: eine Prüfung mit dem Code des Servers prüft nichts. Gerechnet wird im Browser; einen eigenständigen Prüfer von dritter Seite gibt es in dieser Version noch nicht. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.html</context>
           <context context-type="linenumber">375,378</context>
         </context-group>
-        <target>Computed with an implementation written independently of the server's. Both are checked against the same test vectors — that is the point: a check using the server's own code checks nothing. The computation runs in the browser; an independent third-party verifier does not exist in this version yet.</target>
+        <target>Computed with an implementation written independently of the server's. Both are checked against the same test vectors - that is the point: a check using the server's own code checks nothing. The computation runs in the browser; an independent third-party verifier does not exist in this version yet.</target>
       </trans-unit>
       <trans-unit id="proof.title" datatype="html">
         <source>Nachweis</source>
@@ -2503,12 +2503,12 @@
         <target>Proof</target>
       </trans-unit>
       <trans-unit id="proof.manifestFailed" datatype="html">
-        <source> Das Pool-Manifest zu dieser Sitzung konnte nicht geladen werden. Ohne die Liste der Bilder in genau der veröffentlichten Reihenfolge gibt es nichts nachzurechnen — und ein leeres Nachweis-Panel sähe aus wie ein bestandener Test. </source>
+        <source> Das Pool-Manifest zu dieser Sitzung konnte nicht geladen werden. Ohne die Liste der Bilder in genau der veröffentlichten Reihenfolge gibt es nichts nachzurechnen - und ein leeres Nachweis-Panel sähe aus wie ein bestandener Test. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.html</context>
           <context context-type="linenumber">386,388</context>
         </context-group>
-        <target>The pool manifest for this session could not be loaded. Without the list of images in exactly the published order there is nothing to recompute — and an empty proof panel would look like a test that passed.</target>
+        <target>The pool manifest for this session could not be loaded. Without the list of images in exactly the published order there is nothing to recompute - and an empty proof panel would look like a test that passed.</target>
       </trans-unit>
       <trans-unit id="proof.recomputing" datatype="html">
         <source>Wird nachgerechnet …</source>
@@ -2527,7 +2527,7 @@
         <target>Candidate <x id="number" equiv-text="n"/></target>
       </trans-unit>
       <trans-unit id="notice.expired" datatype="html">
-        <source>Die Gültigkeit dieser Sitzung ist abgelaufen. Sie zählt als abgebrochen — fang eine neue an.</source>
+        <source>Die Gültigkeit dieser Sitzung ist abgelaufen. Sie zählt als abgebrochen - fang eine neue an.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.ts</context>
           <context context-type="linenumber">159</context>
@@ -2536,7 +2536,7 @@
           <context context-type="sourcefile">src/app/trial/trial.component.ts</context>
           <context context-type="linenumber">219</context>
         </context-group>
-        <target>This session's validity has run out. It counts as abandoned — start a new one.</target>
+        <target>This session's validity has run out. It counts as abandoned - start a new one.</target>
       </trans-unit>
       <trans-unit id="notice.alreadyAnswered.short" datatype="html">
         <source>Diese Sitzung ist bereits beantwortet.</source>
@@ -2547,12 +2547,12 @@
         <target>This session has already been answered.</target>
       </trans-unit>
       <trans-unit id="notice.answerLost" datatype="html">
-        <source>Die Antwort ist nicht angekommen. Ob sie gewertet wurde, weiß dieser Browser nicht — dein Stand unten steht so, wie der Server ihn zählt.</source>
+        <source>Die Antwort ist nicht angekommen. Ob sie gewertet wurde, weiß dieser Browser nicht - dein Stand unten steht so, wie der Server ihn zählt.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.ts</context>
           <context context-type="linenumber">211</context>
         </context-group>
-        <target>The answer did not arrive. Whether it was scored, this browser does not know — your standing below is as the server counts it.</target>
+        <target>The answer did not arrive. Whether it was scored, this browser does not know - your standing below is as the server counts it.</target>
       </trans-unit>
       <trans-unit id="notice.alreadyAnswered" datatype="html">
         <source>Diese Sitzung ist bereits beantwortet. Eine Antwort pro Sitzung, und sie steht schon im Protokoll.</source>
@@ -2563,12 +2563,12 @@
         <target>This session has already been answered. One answer per session, and it is already in the record.</target>
       </trans-unit>
       <trans-unit id="notice.unknownLogin" datatype="html">
-        <source>Der Zugang in diesem Browser ist beim Server nicht bekannt — der alte Link öffnet nichts mehr. Leg einfach neu los.</source>
+        <source>Der Zugang in diesem Browser ist beim Server nicht bekannt - der alte Link öffnet nichts mehr. Leg einfach neu los.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.ts</context>
           <context context-type="linenumber">313</context>
         </context-group>
-        <target>The server does not know the access held in this browser — the old link opens nothing now. Just start again.</target>
+        <target>The server does not know the access held in this browser - the old link opens nothing now. Just start again.</target>
       </trans-unit>
       <trans-unit id="notice.network" datatype="html">
         <source>Keine Verbindung zum Server. Versuch es gleich noch einmal.</source>
@@ -2667,12 +2667,12 @@
         <target>Your share of the randomness</target>
       </trans-unit>
       <trans-unit id="proof.check.echo.ok" datatype="html">
-        <source>Die 32 Bytes aus deinem Browser kommen unverändert zurück — der Seed ist zweiseitig.</source>
+        <source>Die 32 Bytes aus deinem Browser kommen unverändert zurück - der Seed ist zweiseitig.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/verify/proof.ts</context>
           <context context-type="linenumber">142</context>
         </context-group>
-        <target>The 32 bytes from your browser come back unchanged — the seed has two sides.</target>
+        <target>The 32 bytes from your browser come back unchanged - the seed has two sides.</target>
       </trans-unit>
       <trans-unit id="proof.check.echo.bad" datatype="html">
         <source>Der Server gibt andere 32 Bytes zurück, als dein Browser geschickt hat.</source>
@@ -2767,12 +2767,12 @@
         <target>32 bytes from your browser, returned unchanged by the server</target>
       </trans-unit>
       <trans-unit id="proof.note.notEchoed" datatype="html">
-        <source>32 Bytes vom Server — dein Browser hatte <x id="sent" equiv-text="toHex(revealed.sent)"/> geschickt</source>
+        <source>32 Bytes vom Server - dein Browser hatte <x id="sent" equiv-text="toHex(revealed.sent)"/> geschickt</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/verify/proof.ts</context>
           <context context-type="linenumber">199</context>
         </context-group>
-        <target>32 bytes from the server — your browser had sent <x id="sent" equiv-text="toHex(revealed.sent)"/></target>
+        <target>32 bytes from the server - your browser had sent <x id="sent" equiv-text="toHex(revealed.sent)"/></target>
       </trans-unit>
       <trans-unit id="proof.label.coordinate" datatype="html">
         <source>Koordinate</source>
@@ -2899,12 +2899,12 @@
         <target>2 · One image per category</target>
       </trans-unit>
       <trans-unit id="proof.note.imageIndices" datatype="html">
-        <source>Manifest-Indizes <x id="indices" equiv-text="draw.selectedImages.join(&apos;, &apos;)"/> — gezogen aus <x id="sizes" equiv-text="draw.chosenCategories.map((c) =&gt; `${category(c)}: ${members[c].length}`).join(&apos;, &apos;)"/></source>
+        <source>Manifest-Indizes <x id="indices" equiv-text="draw.selectedImages.join(&apos;, &apos;)"/> - gezogen aus <x id="sizes" equiv-text="draw.chosenCategories.map((c) =&gt; `${category(c)}: ${members[c].length}`).join(&apos;, &apos;)"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/verify/proof.ts</context>
           <context context-type="linenumber">284</context>
         </context-group>
-        <target>Manifest indices <x id="indices" equiv-text="draw.selectedImages.join(&apos;, &apos;)"/> — drawn from <x id="sizes" equiv-text="draw.chosenCategories.map((c) =&gt; `${category(c)}: ${members[c].length}`).join(&apos;, &apos;)"/></target>
+        <target>Manifest indices <x id="indices" equiv-text="draw.selectedImages.join(&apos;, &apos;)"/> - drawn from <x id="sizes" equiv-text="draw.chosenCategories.map((c) =&gt; `${category(c)}: ${members[c].length}`).join(&apos;, &apos;)"/></target>
       </trans-unit>
       <trans-unit id="proof.step.targetSlot" datatype="html">
         <source>3 · Zielplatz</source>

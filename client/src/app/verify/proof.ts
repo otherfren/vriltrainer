@@ -139,7 +139,7 @@ export async function verifyTrial(
   checks.push({
     label: $localize`:@@proof.check.echo:Dein Zufallsanteil`,
     detail: echoed
-      ? $localize`:@@proof.check.echo.ok:Die 32 Bytes aus deinem Browser kommen unverändert zurück — der Seed ist zweiseitig.`
+      ? $localize`:@@proof.check.echo.ok:Die 32 Bytes aus deinem Browser kommen unverändert zurück - der Seed ist zweiseitig.`
       : $localize`:@@proof.check.echo.bad:Der Server gibt andere 32 Bytes zurück, als dein Browser geschickt hat.`,
     ok: echoed,
   });
@@ -196,7 +196,7 @@ export async function verifyTrial(
         value: toHex(answered.sClient),
         note: echoed
           ? $localize`:@@proof.note.echoed:32 Bytes aus deinem Browser, vom Server unverändert zurückgegeben`
-          : $localize`:@@proof.note.notEchoed:32 Bytes vom Server — dein Browser hatte ${toHex(revealed.sent)}:sent: geschickt`,
+          : $localize`:@@proof.note.notEchoed:32 Bytes vom Server - dein Browser hatte ${toHex(revealed.sent)}:sent: geschickt`,
       },
       {
         label: $localize`:@@proof.label.coordinate:Koordinate`,
@@ -281,7 +281,7 @@ function steps(
     {
       label: $localize`:@@proof.step.oneEach:2 · Ein Bild je Kategorie`,
       value: draw.selectedImages.map((i) => manifest.images[i].id).join(', '),
-      note: $localize`:@@proof.note.imageIndices:Manifest-Indizes ${draw.selectedImages.join(', ')}:indices: — gezogen aus ${draw.chosenCategories.map((c) => `${category(c)}: ${members[c].length}`).join(', ')}:sizes:`,
+      note: $localize`:@@proof.note.imageIndices:Manifest-Indizes ${draw.selectedImages.join(', ')}:indices: - gezogen aus ${draw.chosenCategories.map((c) => `${category(c)}: ${members[c].length}`).join(', ')}:sizes:`,
     },
     {
       label: $localize`:@@proof.step.targetSlot:3 · Zielplatz`,

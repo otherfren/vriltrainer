@@ -35,7 +35,7 @@ import { RouterLink } from '@angular/router';
             Kein Tracking, keine Cookies, keine Werbung, keine Weitergabe zu Werbezwecken.
           </li>
           <li i18n="@@privacy.short.2">
-            Keine E-Mail-Adresse, kein Passwort, kein Name aus deinem Ausweis — du wählst selbst,
+            Keine E-Mail-Adresse, kein Passwort, kein Name aus deinem Ausweis - du wählst selbst,
             wie du heißt.
           </li>
           <li i18n="@@privacy.short.3">
@@ -43,7 +43,7 @@ import { RouterLink } from '@angular/router';
             Kennung.
           </li>
           <li i18n="@@privacy.short.4">
-            Deinen Namen kannst du jederzeit löschen. Deine Sitzungen bleiben — warum, steht weiter
+            Deinen Namen kannst du jederzeit löschen. Deine Sitzungen bleiben - warum, steht weiter
             unten.
           </li>
         </ul>
@@ -57,7 +57,7 @@ import { RouterLink } from '@angular/router';
         <h2 i18n="@@privacy.what.h">Was gespeichert wird</h2>
         <p i18n="@@privacy.what.account">
           <strong>Zu deinem Konto:</strong> der Name, den du dir gibst, eine zufällige öffentliche
-          Kennung, und der Prüfwert deines Zugangslinks. Den Link selbst speichern wir nicht — wir
+          Kennung, und der Prüfwert deines Zugangslinks. Den Link selbst speichern wir nicht - wir
           könnten dein Konto also nicht wiederherstellen, selbst wenn wir wollten.
         </p>
         <p i18n="@@privacy.what.trials">
@@ -67,7 +67,7 @@ import { RouterLink } from '@angular/router';
         </p>
         <p i18n="@@privacy.what.logs">
           <strong>Beim Aufruf:</strong> der Webserver protokolliert deine IP-Adresse, Zeitpunkt und
-          aufgerufene Adresse. Der Dienst selbst protokolliert <em>keine</em> IP-Adresse — nur
+          aufgerufene Adresse. Der Dienst selbst protokolliert <em>keine</em> IP-Adresse - nur
           Anfragekennung, Methode und Pfad, und der Zugangslink wird dabei abgeschnitten, bevor
           etwas geschrieben wird.
         </p>
@@ -75,15 +75,15 @@ import { RouterLink } from '@angular/router';
         <h2 i18n="@@privacy.public.h">Was öffentlich sichtbar ist</h2>
         <p i18n="@@privacy.public.p">
           Auf der Bestenliste stehen dein Name und deine öffentliche Kennung. Im herunterladbaren
-          Protokoll steht nur die Kennung — dort taucht dein Name an keiner Stelle auf. Ein neuer
+          Protokoll steht nur die Kennung - dort taucht dein Name an keiner Stelle auf. Ein neuer
           Name wird erst nach einer Prüfung durch einen Menschen veröffentlicht; bis dahin steht auf
           öffentlichen Seiten eine Maske.
         </p>
 
         <h2 i18n="@@privacy.why.h">Rechtsgrundlage</h2>
         <p i18n="@@privacy.why.p">
-          Konto und Sitzungen: Artikel 6 Absatz 1 Buchstabe b DSGVO — ohne sie gibt es den Dienst
-          nicht, den du benutzen willst. Zugriffsprotokolle: Artikel 6 Absatz 1 Buchstabe f — ein
+          Konto und Sitzungen: Artikel 6 Absatz 1 Buchstabe b DSGVO - ohne sie gibt es den Dienst
+          nicht, den du benutzen willst. Zugriffsprotokolle: Artikel 6 Absatz 1 Buchstabe f - ein
           Server, der seine Aufrufe nicht sieht, lässt sich weder betreiben noch gegen Missbrauch
           verteidigen.
         </p>
@@ -113,28 +113,28 @@ import { RouterLink } from '@angular/router';
           <strong>Die Sitzungen selbst lassen sich nicht löschen</strong>, und das ist der Kern
           dieser Seite: Das Protokoll ist eine Kette, in der jeder Eintrag den vorherigen absichert.
           Ein Eintrag, den man herausnehmen kann, würde jede Zusage entwerten, die alle anderen
-          Einträge geben — die Seite könnte dann nicht mehr belegen, dass das Ziel vor deiner Wahl
+          Einträge geben - die Seite könnte dann nicht mehr belegen, dass das Ziel vor deiner Wahl
           feststand. Deshalb steht in dieser Kette von Anfang an kein Name, sondern nur eine
           zufällige Kennung. Nach der Löschung des Namens ist der Datensatz weiterhin nachprüfbar,
           aber niemandem mehr zuzuordnen.
         </p>
         <p i18n="@@privacy.erase.rest">
           Wenn du dich abmeldest, ohne den Link gespeichert zu haben, kommt niemand mehr an das
-          Konto — auch wir nicht.
+          Konto - auch wir nicht.
         </p>
 
         <h2 i18n="@@privacy.others.h">Wer die Daten sonst sieht</h2>
         <p i18n="@@privacy.others.p">
           Der Server steht bei der Hetzner Online GmbH in Deutschland. Davor liegt Cloudflare, das
           den Verkehr weiterleitet und dabei IP-Adressen verarbeitet; dabei können Daten in
-          Drittländer übertragen werden. Weitere Empfänger gibt es nicht — keine Analysedienste,
+          Drittländer übertragen werden. Weitere Empfänger gibt es nicht - keine Analysedienste,
           keine Werbenetzwerke, keine sozialen Netzwerke.
         </p>
 
         <h2 i18n="@@privacy.cookies.h">Cookies</h2>
         <p i18n="@@privacy.cookies.p">
           Keine. Dein Zugangslink liegt im lokalen Speicher deines Browsers, damit du nach dem
-          Neuladen noch angemeldet bist — technisch notwendig, deshalb fragt dich diese Seite auch
+          Neuladen noch angemeldet bist - technisch notwendig, deshalb fragt dich diese Seite auch
           nicht um Erlaubnis dafür. Beim Abmelden wird er dort gelöscht.
         </p>
 
@@ -150,7 +150,7 @@ import { RouterLink } from '@angular/router';
         <h2 i18n="@@privacy.dsa.h">Rechtswidrige Inhalte melden</h2>
         <p i18n="@@privacy.dsa.p">
           Der einzige Inhalt, den Nutzer hier veröffentlichen können, ist ihr Anzeigename. Wenn dir
-          einer rechtswidrig erscheint, melde ihn an die Adresse im Impressum — das ist die
+          einer rechtswidrig erscheint, melde ihn an die Adresse im Impressum - das ist die
           Kontaktstelle nach Artikel 16 der Verordnung über digitale Dienste. Nenne dabei den Namen
           oder die öffentliche Kennung und in einem Satz, was das Problem ist. Du bekommst eine
           Antwort, und wenn die Meldung zutrifft, wird der Name entfernt. Namen werden ohnehin vor
@@ -161,7 +161,7 @@ import { RouterLink } from '@angular/router';
         <p i18n="@@privacy.note.p">
           Ein öffentliches Experiment. Die Trefferquote liegt bei reinem Raten bei 12,5 %, und genau
           das ist das erwartete Ergebnis. Die Seite behauptet nichts anderes und weist niemandem
-          übersinnliche Fähigkeiten nach — sie rechnet nach, ob die Zahlen vom Zufall abweichen, und
+          übersinnliche Fähigkeiten nach - sie rechnet nach, ob die Zahlen vom Zufall abweichen, und
           veröffentlicht alles, was zum Nachrechnen nötig ist.
         </p>
       </div>

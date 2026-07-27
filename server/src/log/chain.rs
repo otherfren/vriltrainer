@@ -224,7 +224,7 @@ impl std::fmt::Display for ChainError {
             ChainError::SequenceBroken { at, expected } => {
                 write!(
                     f,
-                    "sequence jumps to {at}, expected {expected} — entries are missing"
+                    "sequence jumps to {at}, expected {expected} - entries are missing"
                 )
             }
             ChainError::PrevMismatch { seq } => {

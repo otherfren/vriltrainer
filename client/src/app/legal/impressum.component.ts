@@ -55,7 +55,7 @@ import { Component } from '@angular/core';
         <h3 i18n="@@legal.about.h">Zum Inhalt dieser Seite</h3>
         <p i18n="@@legal.about.p">
           vriltrainer ist ein öffentliches Forced-Choice-Experiment zum Remote Viewing. Die
-          erwartete Trefferquote ist 12,5 % — reines Raten. Ränge, Titel und Abbildungen sind
+          erwartete Trefferquote ist 12,5 % - reines Raten. Ränge, Titel und Abbildungen sind
           Satire auf die einschlägige Mythologie und keine Behauptung über die Wirklichkeit.
         </p>
 
@@ -64,7 +64,7 @@ import { Component } from '@angular/core';
           Der Quellcode steht unter der
           <a href="https://github.com/otherfren/vriltrainer/blob/master/LICENSE">
             AGPL-3.0-or-later </a
-          >. Wer eine veränderte Fassung betreibt, muss seine Änderungen veröffentlichen — für
+          >. Wer eine veränderte Fassung betreibt, muss seine Änderungen veröffentlichen - für
           einen Dienst, dessen ganzes Versprechen Nachprüfbarkeit ist, ist das keine Formalie.
         </p>
       </div>

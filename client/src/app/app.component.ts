@@ -45,7 +45,7 @@ export class AppComponent {
     // here is the only place they can differ per locale without a second index file. The cost is
     // that the German title is on screen for the moment before bootstrap; the alternative was an
     // English domain whose browser tab said `öffentlicher Remote-Viewing-Test`.
-    inject(Title).setTitle($localize`:@@meta.title:vriltrainer — öffentlicher Remote-Viewing-Test`);
+    inject(Title).setTitle($localize`:@@meta.title:vriltrainer - öffentlicher Remote-Viewing-Test`);
     inject(Meta).updateTag({
       name: 'description',
       content: $localize`:@@meta.description:Ich rekrutiere psionische Assets um die Reptiloiden zu bekämpfen. Teste deine telepathischen Fähigkeiten!`,

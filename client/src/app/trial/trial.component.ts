@@ -156,7 +156,7 @@ export class TrialComponent {
       this.fail(
         e,
         {
-          410: $localize`:@@notice.expired:Die Gültigkeit dieser Sitzung ist abgelaufen. Sie zählt als abgebrochen — fang eine neue an.`,
+          410: $localize`:@@notice.expired:Die Gültigkeit dieser Sitzung ist abgelaufen. Sie zählt als abgebrochen - fang eine neue an.`,
           409: $localize`:@@notice.alreadyAnswered.short:Diese Sitzung ist bereits beantwortet.`,
         },
         false,
@@ -208,7 +208,7 @@ export class TrialComponent {
         // the server, which is the only party that knows what happened.
         this.notice.set({
           text:
-            $localize`:@@notice.answerLost:Die Antwort ist nicht angekommen. Ob sie gewertet wurde, weiß dieser Browser nicht — dein Stand unten steht so, wie der Server ihn zählt.`,
+            $localize`:@@notice.answerLost:Die Antwort ist nicht angekommen. Ob sie gewertet wurde, weiß dieser Browser nicht - dein Stand unten steht so, wie der Server ihn zählt.`,
           fatal: false,
         });
         void this.player.refresh();
@@ -216,7 +216,7 @@ export class TrialComponent {
       }
       this.fail(e, {
         409: $localize`:@@notice.alreadyAnswered:Diese Sitzung ist bereits beantwortet. Eine Antwort pro Sitzung, und sie steht schon im Protokoll.`,
-        410: $localize`:@@notice.expired:Die Gültigkeit dieser Sitzung ist abgelaufen. Sie zählt als abgebrochen — fang eine neue an.`,
+        410: $localize`:@@notice.expired:Die Gültigkeit dieser Sitzung ist abgelaufen. Sie zählt als abgebrochen - fang eine neue an.`,
       });
       return;
     }
@@ -310,7 +310,7 @@ export class TrialComponent {
       // link is gone rather than offering to save it — there is no recovery for a token the
       // server does not know (D9, FR-005), and telling somebody to rescue one would be a lie.
       this.notice.set({
-        text: $localize`:@@notice.unknownLogin:Der Zugang in diesem Browser ist beim Server nicht bekannt — der alte Link öffnet nichts mehr. Leg einfach neu los.`,
+        text: $localize`:@@notice.unknownLogin:Der Zugang in diesem Browser ist beim Server nicht bekannt - der alte Link öffnet nichts mehr. Leg einfach neu los.`,
         fatal: false,
       });
       return;

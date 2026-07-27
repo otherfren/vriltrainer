@@ -240,7 +240,7 @@ impl Config {
 #[command(
     name = "vriltrainer",
     version,
-    about = "The vriltrainer service — one process per domain"
+    about = "The vriltrainer service - one process per domain"
 )]
 pub struct Cli {
     #[arg(long, value_name = "PATH", default_value = "vriltrainer.db")]

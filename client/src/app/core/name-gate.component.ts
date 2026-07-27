@@ -155,14 +155,14 @@ function refusals(): Record<string, string> {
  */
 function reason(e: unknown): string {
   if (e instanceof NetworkError) {
-    return $localize`:@@fail.network:Keine Verbindung zum Server. Es wurde nichts angelegt — dein Name ist in Ordnung, versuch es gleich noch einmal.`;
+    return $localize`:@@fail.network:Keine Verbindung zum Server. Es wurde nichts angelegt - dein Name ist in Ordnung, versuch es gleich noch einmal.`;
   }
 
   if (e instanceof ApiError) {
     // 502/503/504 from the proxy, 500 from the service: it is not answering. A gateway's HTML
     // error page lands here too, because `errorCode` cannot parse it and falls back to the status.
     if (e.status >= 500) {
-      return $localize`:@@fail.serverDown:Der Dienst ist gerade nicht erreichbar (Fehler ${e.status}:status:). Das liegt nicht an deinem Namen — versuch es in ein paar Minuten noch einmal.`;
+      return $localize`:@@fail.serverDown:Der Dienst ist gerade nicht erreichbar (Fehler ${e.status}:status:). Das liegt nicht an deinem Namen - versuch es in ein paar Minuten noch einmal.`;
     }
 
     if (e.status === 400) {
@@ -176,5 +176,5 @@ function reason(e: unknown): string {
     return $localize`:@@fail.unexpected:Unerwartete Antwort vom Server (Fehler ${e.status}:status:). Das liegt nicht an deinem Namen.`;
   }
 
-  return $localize`:@@fail.unknown:Das Konto konnte nicht angelegt werden. Das liegt nicht an deinem Namen — versuch es noch einmal.`;
+  return $localize`:@@fail.unknown:Das Konto konnte nicht angelegt werden. Das liegt nicht an deinem Namen - versuch es noch einmal.`;
 }

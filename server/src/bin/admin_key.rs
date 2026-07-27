@@ -48,7 +48,7 @@ struct Cli {
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let cli = Cli::parse();
     if !cli.rotate {
-        eprintln!("nothing to do — pass --rotate to issue a new key");
+        eprintln!("nothing to do - pass --rotate to issue a new key");
         std::process::exit(2);
     }
 

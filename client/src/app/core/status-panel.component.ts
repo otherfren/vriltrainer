@@ -38,7 +38,7 @@ const CHANCE = 0.125;
           </div>
           @if (player.failed()) {
             <p class="status__why" i18n="@@status.unavailable">
-              Die Zahlen sind gerade nicht abrufbar. Gespielt ist gespielt — sie stehen im
+              Die Zahlen sind gerade nicht abrufbar. Gespielt ist gespielt - sie stehen im
               Protokoll, nicht in diesem Browser.
               <button class="btn btn--quiet" type="button" (click)="player.refresh()">
                 Erneut laden

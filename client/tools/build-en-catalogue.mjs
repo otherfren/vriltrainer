@@ -92,7 +92,7 @@ if (problems.length > 0) {
 }
 
 if (check) {
-  if (problems.length === 0) console.log(`ok — ${units.length} Meldungen, alle übersetzt`);
+  if (problems.length === 0) console.log(`ok - ${units.length} Meldungen, alle übersetzt`);
   process.exit(problems.length === 0 ? 0 : 1);
 }
 

@@ -255,7 +255,7 @@
                 <h3 class="proof__h" i18n="@@proof.h.pool">Gegen welchen Pool gerechnet wird</h3>
                 <p class="proof__lead" i18n="@@proof.pool.lead">
                   Die Herleitung zieht gegen <em>Indizes</em> im Manifest. Ein anderes Manifest
-                  ergibt aus demselben Seed andere Bilder — deshalb wird es hier neu gehasht und
+                  ergibt aus demselben Seed andere Bilder - deshalb wird es hier neu gehasht und
                   mit dem Hash verglichen, der schon mit der Koordinate kam.
                 </p>
                 <dl class="rows">
@@ -297,7 +297,7 @@
                 </dl>
 
                 <p class="proof__cap" i18n="@@proof.preimage.commitment">
-                  Der vollständige Präimage-String, {{ p.commitmentPreimage.length / 2 }} Bytes —
+                  Der vollständige Präimage-String, {{ p.commitmentPreimage.length / 2 }} Bytes -
                   genau diese Bytes gehen in SHA-256:
                 </p>
                 <code class="blob">{{ p.commitmentPreimage }}</code>
@@ -373,7 +373,7 @@
 
                 <p class="proof__note" i18n="@@proof.independence">
                   Gerechnet mit einer Implementierung, die unabhängig von der des Servers
-                  geschrieben wurde. Beide werden gegen dieselben Testvektoren geprüft — das ist
+                  geschrieben wurde. Beide werden gegen dieselben Testvektoren geprüft - das ist
                   der Punkt: eine Prüfung mit dem Code des Servers prüft nichts. Gerechnet wird im
                   Browser; einen eigenständigen Prüfer von dritter Seite gibt es in dieser Version
                   noch nicht.
@@ -385,7 +385,7 @@
                 <p class="proof__lead" i18n="@@proof.manifestFailed">
                   Das Pool-Manifest zu dieser Sitzung konnte nicht geladen werden. Ohne die Liste
                   der Bilder in genau der veröffentlichten Reihenfolge gibt es nichts nachzurechnen
-                  — und ein leeres Nachweis-Panel sähe aus wie ein bestandener Test.
+                  - und ein leeres Nachweis-Panel sähe aus wie ein bestandener Test.
                 </p>
                 <button class="btn btn--quiet" type="button" (click)="retryProof()" i18n="@@trial.retry">
                   Erneut versuchen

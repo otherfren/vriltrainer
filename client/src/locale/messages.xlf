@@ -95,7 +95,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="keydlg.lead" datatype="html">
-        <source> Dieser Link <x id="START_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;em&gt;"/>ist<x id="CLOSE_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;/em&gt;"/> dein Konto. Wer ihn hat, ist du. Es gibt keine Wiederherstellung — speichere ihn als Lesezeichen oder im Passwortmanager. </source>
+        <source> Dieser Link <x id="START_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;em&gt;"/>ist<x id="CLOSE_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;/em&gt;"/> dein Konto. Wer ihn hat, ist du. Es gibt keine Wiederherstellung - speichere ihn als Lesezeichen oder im Passwortmanager. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
           <context context-type="linenumber">97,100</context>
@@ -152,7 +152,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="erase.confirm" datatype="html">
-        <source> Der Name wird sofort entfernt und ist nicht wiederherstellbar. Deine Sitzungen bleiben im Protokoll — unter deiner Kennung, ohne Namen. </source>
+        <source> Der Name wird sofort entfernt und ist nicht wiederherstellbar. Deine Sitzungen bleiben im Protokoll - unter deiner Kennung, ohne Namen. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
           <context context-type="linenumber">137,139</context>
@@ -181,7 +181,7 @@
       </trans-unit>
       <trans-unit id="keydlg.publicId" datatype="html">
         <source> Öffentliche Kennung <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;measured&quot;&gt;"/><x id="INTERPOLATION" equiv-text="{{ id }}"/><x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span
-          &gt;"/>. Dein Name erscheint auf öffentlichen Seiten erst, wenn er freigegeben ist — bis dahin steht dort eine Verdeckung neben dieser Kennung. Dir zeigen wir ihn immer. </source>
+          &gt;"/>. Dein Name erscheint auf öffentlichen Seiten erst, wenn er freigegeben ist - bis dahin steht dort eine Verdeckung neben dieser Kennung. Dir zeigen wir ihn immer. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
           <context context-type="linenumber">161,164</context>
@@ -195,7 +195,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="logout.dialog.lead" datatype="html">
-        <source> Abmelden löscht den Zugang <x id="START_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;em&gt;"/>aus diesem Browser<x id="CLOSE_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;/em&gt;"/>. Es gibt keine Wiederherstellung über Mail oder Passwort — ohne diesen Link kommt niemand mehr an das Konto, auch wir nicht. Sichere ihn jetzt, falls noch nicht geschehen. </source>
+        <source> Abmelden löscht den Zugang <x id="START_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;em&gt;"/>aus diesem Browser<x id="CLOSE_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;/em&gt;"/>. Es gibt keine Wiederherstellung über Mail oder Passwort - ohne diesen Link kommt niemand mehr an das Konto, auch wir nicht. Sichere ihn jetzt, falls noch nicht geschehen. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
           <context context-type="linenumber">177,180</context>
@@ -258,7 +258,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="meta.title" datatype="html">
-        <source>vriltrainer — öffentlicher Remote-Viewing-Test</source>
+        <source>vriltrainer - öffentlicher Remote-Viewing-Test</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.ts</context>
           <context context-type="linenumber">48</context>
@@ -468,14 +468,14 @@
         </context-group>
       </trans-unit>
       <trans-unit id="fail.network" datatype="html">
-        <source>Keine Verbindung zum Server. Es wurde nichts angelegt — dein Name ist in Ordnung, versuch es gleich noch einmal.</source>
+        <source>Keine Verbindung zum Server. Es wurde nichts angelegt - dein Name ist in Ordnung, versuch es gleich noch einmal.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
           <context context-type="linenumber">158</context>
         </context-group>
       </trans-unit>
       <trans-unit id="fail.serverDown" datatype="html">
-        <source>Der Dienst ist gerade nicht erreichbar (Fehler <x id="status" equiv-text="e.status"/>). Das liegt nicht an deinem Namen — versuch es in ein paar Minuten noch einmal.</source>
+        <source>Der Dienst ist gerade nicht erreichbar (Fehler <x id="status" equiv-text="e.status"/>). Das liegt nicht an deinem Namen - versuch es in ein paar Minuten noch einmal.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
           <context context-type="linenumber">165</context>
@@ -496,7 +496,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="fail.unknown" datatype="html">
-        <source>Das Konto konnte nicht angelegt werden. Das liegt nicht an deinem Namen — versuch es noch einmal.</source>
+        <source>Das Konto konnte nicht angelegt werden. Das liegt nicht an deinem Namen - versuch es noch einmal.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
           <context context-type="linenumber">179</context>
@@ -756,7 +756,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="status.unavailable" datatype="html">
-        <source> Die Zahlen sind gerade nicht abrufbar. Gespielt ist gespielt — sie stehen im Protokoll, nicht in diesem Browser. <x id="START_TAG_BUTTON" ctype="x-button" equiv-text="&lt;button class=&quot;btn btn--quiet&quot; type=&quot;button&quot; (click)=&quot;player.refresh()&quot;&gt;"/> Erneut laden <x id="CLOSE_TAG_BUTTON" ctype="x-button" equiv-text="&lt;/button&gt;"/></source>
+        <source> Die Zahlen sind gerade nicht abrufbar. Gespielt ist gespielt - sie stehen im Protokoll, nicht in diesem Browser. <x id="START_TAG_BUTTON" ctype="x-button" equiv-text="&lt;button class=&quot;btn btn--quiet&quot; type=&quot;button&quot; (click)=&quot;player.refresh()&quot;&gt;"/> Erneut laden <x id="CLOSE_TAG_BUTTON" ctype="x-button" equiv-text="&lt;/button&gt;"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/status-panel.component.ts</context>
           <context context-type="linenumber">41,47</context>
@@ -1042,7 +1042,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="board.zone.waiting.lede" datatype="html">
-        <source> Diese Konten spielen bereits, haben die Schwelle für die Wertung aber noch nicht erreicht: <x id="INTERPOLATION" equiv-text="{{ eligibilityTrials() }}"/> Versuche an mindestens <x id="INTERPOLATION_1" equiv-text="{{ eligibilityDays() }}"/> verschiedenen Tagen. Trefferquoten stehen hier bewusst nicht — bei so kurzen Serien sagen sie nichts. </source>
+        <source> Diese Konten spielen bereits, haben die Schwelle für die Wertung aber noch nicht erreicht: <x id="INTERPOLATION" equiv-text="{{ eligibilityTrials() }}"/> Versuche an mindestens <x id="INTERPOLATION_1" equiv-text="{{ eligibilityDays() }}"/> verschiedenen Tagen. Trefferquoten stehen hier bewusst nicht - bei so kurzen Serien sagen sie nichts. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
           <context context-type="linenumber">83,87</context>
@@ -1088,7 +1088,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="board.maskedTitle" datatype="html">
-        <source>Name noch nicht freigegeben — die Kennung daneben bleibt nachprüfbar</source>
+        <source>Name noch nicht freigegeben - die Kennung daneben bleibt nachprüfbar</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
           <context context-type="linenumber">143,144</context>
@@ -1232,7 +1232,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="privacy.short.2" datatype="html">
-        <source> Keine E-Mail-Adresse, kein Passwort, kein Name aus deinem Ausweis — du wählst selbst, wie du heißt. </source>
+        <source> Keine E-Mail-Adresse, kein Passwort, kein Name aus deinem Ausweis - du wählst selbst, wie du heißt. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/legal/datenschutz.component.ts</context>
           <context context-type="linenumber">38,40</context>
@@ -1246,7 +1246,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="privacy.short.4" datatype="html">
-        <source> Deinen Namen kannst du jederzeit löschen. Deine Sitzungen bleiben — warum, steht weiter unten. </source>
+        <source> Deinen Namen kannst du jederzeit löschen. Deine Sitzungen bleiben - warum, steht weiter unten. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/legal/datenschutz.component.ts</context>
           <context context-type="linenumber">46,48</context>
@@ -1274,7 +1274,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="privacy.what.account" datatype="html">
-        <source><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>Zu deinem Konto:<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> der Name, den du dir gibst, eine zufällige öffentliche Kennung, und der Prüfwert deines Zugangslinks. Den Link selbst speichern wir nicht — wir könnten dein Konto also nicht wiederherstellen, selbst wenn wir wollten. </source>
+        <source><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>Zu deinem Konto:<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> der Name, den du dir gibst, eine zufällige öffentliche Kennung, und der Prüfwert deines Zugangslinks. Den Link selbst speichern wir nicht - wir könnten dein Konto also nicht wiederherstellen, selbst wenn wir wollten. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/legal/datenschutz.component.ts</context>
           <context context-type="linenumber">59,62</context>
@@ -1288,7 +1288,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="privacy.what.logs" datatype="html">
-        <source><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>Beim Aufruf:<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> der Webserver protokolliert deine IP-Adresse, Zeitpunkt und aufgerufene Adresse. Der Dienst selbst protokolliert <x id="START_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;em&gt;"/>keine<x id="CLOSE_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;/em&gt;"/> IP-Adresse — nur Anfragekennung, Methode und Pfad, und der Zugangslink wird dabei abgeschnitten, bevor etwas geschrieben wird. </source>
+        <source><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>Beim Aufruf:<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> der Webserver protokolliert deine IP-Adresse, Zeitpunkt und aufgerufene Adresse. Der Dienst selbst protokolliert <x id="START_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;em&gt;"/>keine<x id="CLOSE_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;/em&gt;"/> IP-Adresse - nur Anfragekennung, Methode und Pfad, und der Zugangslink wird dabei abgeschnitten, bevor etwas geschrieben wird. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/legal/datenschutz.component.ts</context>
           <context context-type="linenumber">69,73</context>
@@ -1302,7 +1302,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="privacy.public.p" datatype="html">
-        <source> Auf der Bestenliste stehen dein Name und deine öffentliche Kennung. Im herunterladbaren Protokoll steht nur die Kennung — dort taucht dein Name an keiner Stelle auf. Ein neuer Name wird erst nach einer Prüfung durch einen Menschen veröffentlicht; bis dahin steht auf öffentlichen Seiten eine Maske. </source>
+        <source> Auf der Bestenliste stehen dein Name und deine öffentliche Kennung. Im herunterladbaren Protokoll steht nur die Kennung - dort taucht dein Name an keiner Stelle auf. Ein neuer Name wird erst nach einer Prüfung durch einen Menschen veröffentlicht; bis dahin steht auf öffentlichen Seiten eine Maske. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/legal/datenschutz.component.ts</context>
           <context context-type="linenumber">77,80</context>
@@ -1316,7 +1316,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="privacy.why.p" datatype="html">
-        <source> Konto und Sitzungen: Artikel 6 Absatz 1 Buchstabe b DSGVO — ohne sie gibt es den Dienst nicht, den du benutzen willst. Zugriffsprotokolle: Artikel 6 Absatz 1 Buchstabe f — ein Server, der seine Aufrufe nicht sieht, lässt sich weder betreiben noch gegen Missbrauch verteidigen. </source>
+        <source> Konto und Sitzungen: Artikel 6 Absatz 1 Buchstabe b DSGVO - ohne sie gibt es den Dienst nicht, den du benutzen willst. Zugriffsprotokolle: Artikel 6 Absatz 1 Buchstabe f - ein Server, der seine Aufrufe nicht sieht, lässt sich weder betreiben noch gegen Missbrauch verteidigen. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/legal/datenschutz.component.ts</context>
           <context context-type="linenumber">85,88</context>
@@ -1365,14 +1365,14 @@
         </context-group>
       </trans-unit>
       <trans-unit id="privacy.erase.trials" datatype="html">
-        <source><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>Die Sitzungen selbst lassen sich nicht löschen<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/>, und das ist der Kern dieser Seite: Das Protokoll ist eine Kette, in der jeder Eintrag den vorherigen absichert. Ein Eintrag, den man herausnehmen kann, würde jede Zusage entwerten, die alle anderen Einträge geben — die Seite könnte dann nicht mehr belegen, dass das Ziel vor deiner Wahl feststand. Deshalb steht in dieser Kette von Anfang an kein Name, sondern nur eine zufällige Kennung. Nach der Löschung des Namens ist der Datensatz weiterhin nachprüfbar, aber niemandem mehr zuzuordnen. </source>
+        <source><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>Die Sitzungen selbst lassen sich nicht löschen<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/>, und das ist der Kern dieser Seite: Das Protokoll ist eine Kette, in der jeder Eintrag den vorherigen absichert. Ein Eintrag, den man herausnehmen kann, würde jede Zusage entwerten, die alle anderen Einträge geben - die Seite könnte dann nicht mehr belegen, dass das Ziel vor deiner Wahl feststand. Deshalb steht in dieser Kette von Anfang an kein Name, sondern nur eine zufällige Kennung. Nach der Löschung des Namens ist der Datensatz weiterhin nachprüfbar, aber niemandem mehr zuzuordnen. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/legal/datenschutz.component.ts</context>
           <context context-type="linenumber">113,119</context>
         </context-group>
       </trans-unit>
       <trans-unit id="privacy.erase.rest" datatype="html">
-        <source> Wenn du dich abmeldest, ohne den Link gespeichert zu haben, kommt niemand mehr an das Konto — auch wir nicht. </source>
+        <source> Wenn du dich abmeldest, ohne den Link gespeichert zu haben, kommt niemand mehr an das Konto - auch wir nicht. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/legal/datenschutz.component.ts</context>
           <context context-type="linenumber">122,125</context>
@@ -1386,7 +1386,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="privacy.others.p" datatype="html">
-        <source> Der Server steht bei der Hetzner Online GmbH in Deutschland. Davor liegt Cloudflare, das den Verkehr weiterleitet und dabei IP-Adressen verarbeitet; dabei können Daten in Drittländer übertragen werden. Weitere Empfänger gibt es nicht — keine Analysedienste, keine Werbenetzwerke, keine sozialen Netzwerke. </source>
+        <source> Der Server steht bei der Hetzner Online GmbH in Deutschland. Davor liegt Cloudflare, das den Verkehr weiterleitet und dabei IP-Adressen verarbeitet; dabei können Daten in Drittländer übertragen werden. Weitere Empfänger gibt es nicht - keine Analysedienste, keine Werbenetzwerke, keine sozialen Netzwerke. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/legal/datenschutz.component.ts</context>
           <context context-type="linenumber">128,131</context>
@@ -1400,7 +1400,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="privacy.cookies.p" datatype="html">
-        <source> Keine. Dein Zugangslink liegt im lokalen Speicher deines Browsers, damit du nach dem Neuladen noch angemeldet bist — technisch notwendig, deshalb fragt dich diese Seite auch nicht um Erlaubnis dafür. Beim Abmelden wird er dort gelöscht. </source>
+        <source> Keine. Dein Zugangslink liegt im lokalen Speicher deines Browsers, damit du nach dem Neuladen noch angemeldet bist - technisch notwendig, deshalb fragt dich diese Seite auch nicht um Erlaubnis dafür. Beim Abmelden wird er dort gelöscht. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/legal/datenschutz.component.ts</context>
           <context context-type="linenumber">136,139</context>
@@ -1428,7 +1428,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="privacy.dsa.p" datatype="html">
-        <source> Der einzige Inhalt, den Nutzer hier veröffentlichen können, ist ihr Anzeigename. Wenn dir einer rechtswidrig erscheint, melde ihn an die Adresse im Impressum — das ist die Kontaktstelle nach Artikel 16 der Verordnung über digitale Dienste. Nenne dabei den Namen oder die öffentliche Kennung und in einem Satz, was das Problem ist. Du bekommst eine Antwort, und wenn die Meldung zutrifft, wird der Name entfernt. Namen werden ohnehin vor der Veröffentlichung von einem Menschen geprüft. </source>
+        <source> Der einzige Inhalt, den Nutzer hier veröffentlichen können, ist ihr Anzeigename. Wenn dir einer rechtswidrig erscheint, melde ihn an die Adresse im Impressum - das ist die Kontaktstelle nach Artikel 16 der Verordnung über digitale Dienste. Nenne dabei den Namen oder die öffentliche Kennung und in einem Satz, was das Problem ist. Du bekommst eine Antwort, und wenn die Meldung zutrifft, wird der Name entfernt. Namen werden ohnehin vor der Veröffentlichung von einem Menschen geprüft. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/legal/datenschutz.component.ts</context>
           <context context-type="linenumber">152,157</context>
@@ -1442,7 +1442,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="privacy.note.p" datatype="html">
-        <source> Ein öffentliches Experiment. Die Trefferquote liegt bei reinem Raten bei 12,5 %, und genau das ist das erwartete Ergebnis. Die Seite behauptet nichts anderes und weist niemandem übersinnliche Fähigkeiten nach — sie rechnet nach, ob die Zahlen vom Zufall abweichen, und veröffentlicht alles, was zum Nachrechnen nötig ist. </source>
+        <source> Ein öffentliches Experiment. Die Trefferquote liegt bei reinem Raten bei 12,5 %, und genau das ist das erwartete Ergebnis. Die Seite behauptet nichts anderes und weist niemandem übersinnliche Fähigkeiten nach - sie rechnet nach, ob die Zahlen vom Zufall abweichen, und veröffentlicht alles, was zum Nachrechnen nötig ist. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/legal/datenschutz.component.ts</context>
           <context context-type="linenumber">162,165</context>
@@ -1533,7 +1533,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="legal.about.p" datatype="html">
-        <source> vriltrainer ist ein öffentliches Forced-Choice-Experiment zum Remote Viewing. Die erwartete Trefferquote ist 12,5 % — reines Raten. Ränge, Titel und Abbildungen sind Satire auf die einschlägige Mythologie und keine Behauptung über die Wirklichkeit. </source>
+        <source> vriltrainer ist ein öffentliches Forced-Choice-Experiment zum Remote Viewing. Die erwartete Trefferquote ist 12,5 % - reines Raten. Ränge, Titel und Abbildungen sind Satire auf die einschlägige Mythologie und keine Behauptung über die Wirklichkeit. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/legal/impressum.component.ts</context>
           <context context-type="linenumber">57,59</context>
@@ -1548,7 +1548,7 @@
       </trans-unit>
       <trans-unit id="legal.licence.p" datatype="html">
         <source> Der Quellcode steht unter der <x id="START_LINK" ctype="x-a" equiv-text="&lt;a href=&quot;https://github.com/otherfren/vriltrainer/blob/master/LICENSE&quot;&gt;"/> AGPL-3.0-or-later <x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a
-          &gt;"/>. Wer eine veränderte Fassung betreibt, muss seine Änderungen veröffentlichen — für einen Dienst, dessen ganzes Versprechen Nachprüfbarkeit ist, ist das keine Formalie. </source>
+          &gt;"/>. Wer eine veränderte Fassung betreibt, muss seine Änderungen veröffentlichen - für einen Dienst, dessen ganzes Versprechen Nachprüfbarkeit ist, ist das keine Formalie. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/legal/impressum.component.ts</context>
           <context context-type="linenumber">64,69</context>
@@ -1634,7 +1634,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="stats.verdict.notable" datatype="html">
-        <source>das ist auffällig — und noch keine Erklärung.</source>
+        <source>das ist auffällig - und noch keine Erklärung.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
           <context context-type="linenumber">69,72</context>
@@ -1697,7 +1697,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="stats.unavailable.lead" datatype="html">
-        <source> Die Gesamtwerte kommen vom Server und werden nicht hier ausgedacht — also steht hier nichts, solange er nicht antwortet. <x id="START_TAG_BUTTON" ctype="x-button" equiv-text="&lt;button class=&quot;btn btn--quiet&quot; type=&quot;button&quot; (click)=&quot;load()&quot;&gt;"/>Erneut versuchen<x id="CLOSE_TAG_BUTTON" ctype="x-button" equiv-text="&lt;/button&gt;"/></source>
+        <source> Die Gesamtwerte kommen vom Server und werden nicht hier ausgedacht - also steht hier nichts, solange er nicht antwortet. <x id="START_TAG_BUTTON" ctype="x-button" equiv-text="&lt;button class=&quot;btn btn--quiet&quot; type=&quot;button&quot; (click)=&quot;load()&quot;&gt;"/>Erneut versuchen<x id="CLOSE_TAG_BUTTON" ctype="x-button" equiv-text="&lt;/button&gt;"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
           <context context-type="linenumber">149,153</context>
@@ -1851,7 +1851,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="read.yours.d" datatype="html">
-        <source> Von 10 000 Leuten, die nur raten, kommen <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;measured&quot;&gt;"/><x id="INTERPOLATION" equiv-text="{{ perTenK() }}"/><x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/> auf so ein Ergebnis — allein durch Glück. </source>
+        <source> Von 10 000 Leuten, die nur raten, kommen <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;measured&quot;&gt;"/><x id="INTERPOLATION" equiv-text="{{ perTenK() }}"/><x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/> auf so ein Ergebnis - allein durch Glück. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
           <context context-type="linenumber">286,289</context>
@@ -2103,7 +2103,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="proof.pool.lead" datatype="html">
-        <source> Die Herleitung zieht gegen <x id="START_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;em&gt;"/>Indizes<x id="CLOSE_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;/em&gt;"/> im Manifest. Ein anderes Manifest ergibt aus demselben Seed andere Bilder — deshalb wird es hier neu gehasht und mit dem Hash verglichen, der schon mit der Koordinate kam. </source>
+        <source> Die Herleitung zieht gegen <x id="START_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;em&gt;"/>Indizes<x id="CLOSE_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;/em&gt;"/> im Manifest. Ein anderes Manifest ergibt aus demselben Seed andere Bilder - deshalb wird es hier neu gehasht und mit dem Hash verglichen, der schon mit der Koordinate kam. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.html</context>
           <context context-type="linenumber">257,259</context>
@@ -2124,7 +2124,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="proof.preimage.commitment" datatype="html">
-        <source> Der vollständige Präimage-String, <x id="INTERPOLATION" equiv-text="{{ p.commitmentPreimage.length / 2 }}"/> Bytes — genau diese Bytes gehen in SHA-256: </source>
+        <source> Der vollständige Präimage-String, <x id="INTERPOLATION" equiv-text="{{ p.commitmentPreimage.length / 2 }}"/> Bytes - genau diese Bytes gehen in SHA-256: </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.html</context>
           <context context-type="linenumber">300,301</context>
@@ -2180,7 +2180,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="proof.independence" datatype="html">
-        <source> Gerechnet mit einer Implementierung, die unabhängig von der des Servers geschrieben wurde. Beide werden gegen dieselben Testvektoren geprüft — das ist der Punkt: eine Prüfung mit dem Code des Servers prüft nichts. Gerechnet wird im Browser; einen eigenständigen Prüfer von dritter Seite gibt es in dieser Version noch nicht. </source>
+        <source> Gerechnet mit einer Implementierung, die unabhängig von der des Servers geschrieben wurde. Beide werden gegen dieselben Testvektoren geprüft - das ist der Punkt: eine Prüfung mit dem Code des Servers prüft nichts. Gerechnet wird im Browser; einen eigenständigen Prüfer von dritter Seite gibt es in dieser Version noch nicht. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.html</context>
           <context context-type="linenumber">375,378</context>
@@ -2198,7 +2198,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="proof.manifestFailed" datatype="html">
-        <source> Das Pool-Manifest zu dieser Sitzung konnte nicht geladen werden. Ohne die Liste der Bilder in genau der veröffentlichten Reihenfolge gibt es nichts nachzurechnen — und ein leeres Nachweis-Panel sähe aus wie ein bestandener Test. </source>
+        <source> Das Pool-Manifest zu dieser Sitzung konnte nicht geladen werden. Ohne die Liste der Bilder in genau der veröffentlichten Reihenfolge gibt es nichts nachzurechnen - und ein leeres Nachweis-Panel sähe aus wie ein bestandener Test. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.html</context>
           <context context-type="linenumber">386,388</context>
@@ -2219,7 +2219,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="notice.expired" datatype="html">
-        <source>Die Gültigkeit dieser Sitzung ist abgelaufen. Sie zählt als abgebrochen — fang eine neue an.</source>
+        <source>Die Gültigkeit dieser Sitzung ist abgelaufen. Sie zählt als abgebrochen - fang eine neue an.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.ts</context>
           <context context-type="linenumber">159</context>
@@ -2237,7 +2237,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="notice.answerLost" datatype="html">
-        <source>Die Antwort ist nicht angekommen. Ob sie gewertet wurde, weiß dieser Browser nicht — dein Stand unten steht so, wie der Server ihn zählt.</source>
+        <source>Die Antwort ist nicht angekommen. Ob sie gewertet wurde, weiß dieser Browser nicht - dein Stand unten steht so, wie der Server ihn zählt.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.ts</context>
           <context context-type="linenumber">211</context>
@@ -2251,7 +2251,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="notice.unknownLogin" datatype="html">
-        <source>Der Zugang in diesem Browser ist beim Server nicht bekannt — der alte Link öffnet nichts mehr. Leg einfach neu los.</source>
+        <source>Der Zugang in diesem Browser ist beim Server nicht bekannt - der alte Link öffnet nichts mehr. Leg einfach neu los.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.ts</context>
           <context context-type="linenumber">313</context>
@@ -2342,7 +2342,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="proof.check.echo.ok" datatype="html">
-        <source>Die 32 Bytes aus deinem Browser kommen unverändert zurück — der Seed ist zweiseitig.</source>
+        <source>Die 32 Bytes aus deinem Browser kommen unverändert zurück - der Seed ist zweiseitig.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/verify/proof.ts</context>
           <context context-type="linenumber">142</context>
@@ -2430,7 +2430,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="proof.note.notEchoed" datatype="html">
-        <source>32 Bytes vom Server — dein Browser hatte <x id="sent" equiv-text="toHex(revealed.sent)"/> geschickt</source>
+        <source>32 Bytes vom Server - dein Browser hatte <x id="sent" equiv-text="toHex(revealed.sent)"/> geschickt</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/verify/proof.ts</context>
           <context context-type="linenumber">199</context>
@@ -2546,7 +2546,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="proof.note.imageIndices" datatype="html">
-        <source>Manifest-Indizes <x id="indices" equiv-text="draw.selectedImages.join(&apos;, &apos;)"/> — gezogen aus <x id="sizes" equiv-text="draw.chosenCategories.map((c) =&gt; `${category(c)}: ${members[c].length}`).join(&apos;, &apos;)"/></source>
+        <source>Manifest-Indizes <x id="indices" equiv-text="draw.selectedImages.join(&apos;, &apos;)"/> - gezogen aus <x id="sizes" equiv-text="draw.chosenCategories.map((c) =&gt; `${category(c)}: ${members[c].length}`).join(&apos;, &apos;)"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/verify/proof.ts</context>
           <context context-type="linenumber">284</context>
