@@ -25,6 +25,9 @@ import { Proof, verifyTrial } from '../verify/proof';
  */
 type Stage = 'starting' | 'sealed' | 'revealing' | 'revealed' | 'answering' | 'answered';
 
+/** How long the three-second refusal stays on screen. Long enough to read, short enough to retry. */
+const TOO_FAST_MS = 2600;
+
 interface Slot {
   id: string;
   src: string;
@@ -75,6 +78,9 @@ export class TrialComponent {
   readonly answered = signal<Answered | null>(null);
   readonly notice = signal<Notice | null>(null);
   readonly tooFast = signal(false);
+
+  /** The pending hide for the refusal above. Held so a repeat tap can cancel it, see below. */
+  private tooFastTimer: ReturnType<typeof setTimeout> | null = null;
 
   readonly proof = signal<Proof | null>(null);
   readonly proofFailed = signal(false);
@@ -189,7 +195,7 @@ export class TrialComponent {
     if (this.stage() !== 'revealed' || this.token === null) return;
     this.chosen.set(id);
     this.stage.set('answering');
-    this.tooFast.set(false);
+    this.clearTooFast();
     this.notice.set(null);
 
     let answered: Answered;
@@ -201,9 +207,7 @@ export class TrialComponent {
 
       if (e instanceof ApiError && e.status === 425) {
         // Nothing was written and nothing was looked at. The trial is untouched and answerable.
-        this.tooFast.set(true);
-        this.showTooFast();
-        setTimeout(() => this.tooFast.set(false), 2600);
+        this.flashTooFast();
         return;
       }
       if (e instanceof NetworkError) {
@@ -346,18 +350,39 @@ export class TrialComponent {
     );
   }
 
+  /** Hides the refusal and drops its pending hide, so no timer outlives the tap that set it. */
+  private clearTooFast(): void {
+    if (this.tooFastTimer !== null) {
+      clearTimeout(this.tooFastTimer);
+      this.tooFastTimer = null;
+    }
+    this.tooFast.set(false);
+  }
+
   /**
-   * Brings the three-second refusal into view.
+   * Shows the three-second refusal, brings it into view, and hides it again.
    *
    * Same problem as the verdict, and worse: the tap is rejected, the grid does not change, and the
    * only thing that says why sits below the eight images on a phone. Without this the screen looks
    * frozen, and the visitor taps again - which is the one thing that keeps the refusal coming.
    *
    * `block: 'center'` so it lands mid-screen rather than under the fold edge, and it is deliberate
-   * that this does not scroll back afterwards: the message clears itself after 2.6 s, and yanking
-   * the page while someone is reading is worse than leaving them where they are.
+   * that this does not scroll back afterwards: the message clears itself, and yanking the page
+   * while someone is reading is worse than leaving them where they are.
+   *
+   * The pending hide is cancelled first. The button is answerable again the moment the refusal
+   * lands, so a second early tap is the expected case, not the edge case - and without the cancel
+   * the first tap's timer would still be running and would clear the *second* message ahead of its
+   * time, right after the visitor was scrolled to it. Every repeat would shorten the window again.
    */
-  private showTooFast(): void {
+  private flashTooFast(): void {
+    this.clearTooFast();
+    this.tooFast.set(true);
+    this.tooFastTimer = setTimeout(() => {
+      this.tooFastTimer = null;
+      this.tooFast.set(false);
+    }, TOO_FAST_MS);
+
     const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
     // One frame, so the paragraph inside the `@if` exists to scroll to.
     requestAnimationFrame(() =>
