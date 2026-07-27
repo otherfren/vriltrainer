@@ -43,11 +43,12 @@
         >
       </h1>
 
-      <!-- The four figures as a grid rather than one run-on sentence: on a narrow screen the line
-           broke mid-pair and the separators read as noise. Same cell treatment as the personal
-           figures further down, so a number looks like a number everywhere on this page. Sessions
-           and accounts share a cell because the second is only ever read against the first - how
-           many people those sessions came from. -->
+      <!-- The figures as a grid rather than one run-on sentence: on a narrow screen the line broke
+           mid-pair and the separators read as noise. Same cell treatment as the personal figures
+           further down, so a number looks like a number everywhere on this page. Two pairs share a
+           cell because the second figure is only ever read against the first: accounts say how many
+           people those sessions came from, and abandoned is the settled part of the same unanswered
+           pile that open still holds. -->
       <div class="tally">
         <div class="tally__cell">
           <span class="tally__label" i18n="@@fig.trialsAccounts">Sitzungen (Konten)</span>
@@ -58,12 +59,10 @@
           <span class="tally__val measured">{{ signed(a.deviation) }} σ</span>
         </div>
         <div class="tally__cell">
-          <span class="tally__label" i18n="@@fig.open">Offen</span>
-          <span class="tally__val measured">{{ count(a.open) }}</span>
-        </div>
-        <div class="tally__cell">
-          <span class="tally__label" i18n="@@fig.abandoned">Abgebrochen</span>
-          <span class="tally__val measured">{{ count(a.abandoned) }}</span>
+          <span class="tally__label" i18n="@@fig.openAbandoned">Offen (Abgebrochen)</span>
+          <span class="tally__val measured"
+            >{{ count(a.open) }} ({{ count(a.abandoned) }})</span
+          >
         </div>
       </div>
 

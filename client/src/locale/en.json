@@ -104,7 +104,7 @@
   "7282540405251226179": "{VAR_PLURAL, plural, =1 {session} other {sessions}}",
   "fig.trials": "Sessions",
   "fig.trialsAccounts": "Sessions (Accounts)",
-  "fig.open": "Open",
+  "fig.openAbandoned": "Open (Abandoned)",
   "fig.hits": "Hits",
   "fig.expectedHits": "Chance gives",
   "fig.hitRate": "Hit rate",

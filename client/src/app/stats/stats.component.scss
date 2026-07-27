@@ -35,7 +35,7 @@
    this page — but quieter and four across, because these are everyone's numbers, not the reader's. */
 .tally {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: var(--s3);
   margin-bottom: var(--s4);
 }
@@ -67,8 +67,8 @@
   margin-bottom: var(--s8);
 }
 
-/* Narrow: one column, label and value on one baseline, and the cells butt together so four rows
-   read as a table instead of four stacked boxes. */
+/* Narrow: one column, label and value on one baseline, and the cells butt together so the rows
+   read as a table instead of stacked boxes. */
 @media (max-width: 40rem) {
   .tally {
     grid-template-columns: 1fr;
