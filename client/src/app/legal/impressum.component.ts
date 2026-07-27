@@ -26,7 +26,7 @@ import { Component } from '@angular/core';
 
         <h2 i18n="@@legal.contact">Kontakt</h2>
         <p i18n="@@legal.contactBlock">
-          E-Mail: <a href="mailto:kontakt&#64;konkin.io">kontakt&#64;konkin.io</a><br />
+          E-Mail: <a href="mailto:fren&#64;kek.to">fren&#64;kek.to</a><br />
           Telefon: +49 (0) 172 66 84 586<br />
           X.com: <a href="https://x.com/otherfren">&#64;otherfren</a>
         </p>

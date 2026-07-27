@@ -1517,12 +1517,12 @@
         <target>Contact</target>
       </trans-unit>
       <trans-unit id="legal.contactBlock" datatype="html">
-        <source> E-Mail: <x id="START_LINK" ctype="x-a" equiv-text="&lt;a href=&quot;mailto:kontakt&amp;#64;konkin.io&quot;&gt;"/>kontakt@konkin.io<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/><x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/> Telefon: +49 (0) 172 66 84 586<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/> X.com: <x id="START_LINK_1" equiv-text="&lt;a href=&quot;https://x.com/otherfren&quot;&gt;"/>@otherfren<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/></source>
+        <source> E-Mail: <x id="START_LINK" ctype="x-a" equiv-text="&lt;a href=&quot;mailto:fren&amp;#64;kek.to&quot;&gt;"/>fren@kek.to<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/><x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/> Telefon: +49 (0) 172 66 84 586<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/> X.com: <x id="START_LINK_1" equiv-text="&lt;a href=&quot;https://x.com/otherfren&quot;&gt;"/>@otherfren<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/legal/impressum.component.ts</context>
           <context context-type="linenumber">29,33</context>
         </context-group>
-        <target>E-mail: <x id="START_LINK" ctype="x-a" equiv-text="&lt;a href=&quot;mailto:kontakt&amp;#64;konkin.io&quot;&gt;"/>kontakt@konkin.io<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/><x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/> Phone: +49 (0) 172 66 84 586<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/> X.com: <x id="START_LINK_1" equiv-text="&lt;a href=&quot;https://x.com/otherfren&quot;&gt;"/>@otherfren<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/></target>
+        <target>E-mail: <x id="START_LINK" ctype="x-a" equiv-text="&lt;a href=&quot;mailto:fren&amp;#64;kek.to&quot;&gt;"/>fren@kek.to<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/><x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/> Phone: +49 (0) 172 66 84 586<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/> X.com: <x id="START_LINK_1" equiv-text="&lt;a href=&quot;https://x.com/otherfren&quot;&gt;"/>@otherfren<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/></target>
       </trans-unit>
       <trans-unit id="legal.disclaimer" datatype="html">
         <source>Haftungsausschluss</source>
