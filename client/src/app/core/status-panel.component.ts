@@ -3,13 +3,18 @@ import { RouterLink } from '@angular/router';
 import { PlayerService } from './player.service';
 import { SessionService } from './session.service';
 
+/** Chance is 1 in 8 by construction (D3). Eight images, one of them right. */
+const CHANCE = 0.125;
+
 /**
  * Where you stand, under every page.
  *
  * It used to be the aggregate meter, which said the same thing on every page forever and was
  * about everyone rather than you. This says one useful thing at a time: before the unlock, how
  * far you are from a number that means anything; after it, the four figures somebody actually
- * came for — the rank, the rate, the rate to beat, and how often luck alone gets there.
+ * came for — the rank, the hits, the hits chance would have handed out anyway, and how often luck
+ * alone gets this far. The middle pair is counts rather than percentages on purpose: the surplus
+ * is then a subtraction, not a statistic.
  *
  * Nothing is folded away behind a toggle any more. A panel with a "show details" button is a panel
  * that has decided what it shows is not the interesting part, and the fix for that is to show the
@@ -96,12 +101,12 @@ import { SessionService } from './session.service';
             </div>
 
             <div class="fig">
-              <span class="fig__label" i18n="@@fig.rate">Quote</span>
-              <span class="fig__val measured">{{ pct(player.rate()) }} %</span>
+              <span class="fig__label" i18n="@@fig.hits">Treffer</span>
+              <span class="fig__val measured">{{ count(player.reportedHits()) }}</span>
             </div>
             <div class="fig">
-              <span class="fig__label" i18n="@@fig.expected">Erwartet</span>
-              <span class="fig__val measured">{{ chanceRate }} %</span>
+              <span class="fig__label" i18n="@@fig.expectedHits">Zufall bringt</span>
+              <span class="fig__val measured">{{ expectedHits() }}</span>
             </div>
             <div class="fig">
               <span class="fig__label" i18n="@@fig.luck">Durch Glück</span>
@@ -113,9 +118,9 @@ import { SessionService } from './session.service';
                number by another and gets a wrong answer. It also says what "durch Glück" counts,
                which a three-word label cannot. -->
           <p class="status__basis" i18n="@@status.basis">
-            Über <strong>{{ player.reportedTrials() }}</strong> gewerteten Sitzungen mit
-            <strong>{{ player.reportedHits() }}</strong> Treffern. »Durch Glück« heißt: so viele
-            Ratende braucht es, bis einer davon genauso weit kommt.
+            Über <strong>{{ player.reportedTrials() }}</strong> gewerteten Sitzungen, das sind
+            <strong>{{ pct(player.rate()) }} %</strong>. »Durch Glück« heißt: so viele Ratende
+            braucht es, bis einer davon genauso weit kommt.
           </p>
         }
       </div>
@@ -137,8 +142,19 @@ export class StatusPanelComponent {
   /** One cell per trial to the unlock, and the unlock is the server's number (D26, FR-050). */
   readonly cells = computed(() => Array.from({ length: this.player.unlocksAt() }, (_, i) => i));
 
-  /** Chance is 1 in 8 by construction (D3); written as a figure so it follows the locale. */
-  readonly chanceRate = this.pct(0.125);
+  /**
+   * How many hits pure guessing would have produced over the same run.
+   *
+   * This cell used to hold the chance *rate*, 12,5 %, beside the account's own rate. Two
+   * percentages read as one statistic with a footnote attached; two counts read as a sentence —
+   * "21 Treffer, Zufall bringt 15" — and the surplus is a subtraction anybody can do in their
+   * head, with no confidence level, no σ and nothing to look up.
+   *
+   * Taken over `reportedTrials` rather than the live count, because that is the `n` the hits
+   * beside it stand over (FR-019). A chance count from the live `n` would put two different runs
+   * side by side and invite the reader to subtract them.
+   */
+  readonly expectedHits = computed(() => this.dec(this.player.reportedTrials() * CHANCE));
 
   /**
    * How rare this account's result is under pure guessing, as "one in so many".
@@ -158,7 +174,12 @@ export class StatusPanelComponent {
   });
 
   pct(v: number): string {
-    return (v * 100).toLocaleString(this.locale, {
+    return this.dec(v * 100);
+  }
+
+  /** One decimal, in the bundle's locale — a chance count is rarely a whole number. */
+  dec(v: number): string {
+    return v.toLocaleString(this.locale, {
       minimumFractionDigits: 1,
       maximumFractionDigits: 1,
     });

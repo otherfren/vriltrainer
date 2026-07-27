@@ -250,11 +250,11 @@
             <button
               class="colhelp"
               type="button"
-              [class.is-open]="help() === 'deviation'"
-              [attr.aria-expanded]="help() === 'deviation'"
-              (click)="toggleHelp('deviation')"
+              [class.is-open]="help() === 'luck'"
+              [attr.aria-expanded]="help() === 'luck'"
+              (click)="toggleHelp('luck')"
             >
-              <ng-container i18n="@@board.col.deviation">Abstand zum Zufall</ng-container>
+              <ng-container i18n="@@board.col.luck">Durch Glück</ng-container>
             </button>
           </th>
         </tr>
@@ -288,10 +288,11 @@
                     als Erklärung nicht mehr aus. Danach ist die Liste sortiert</ng-container
                   >
                 }
-                @case ('deviation') {
-                  <ng-container i18n="@@board.col.deviation.help"
-                    >Wie weit das Ergebnis vom Zufall entfernt liegt, gemessen in
-                    Standardabweichungen (σ)</ng-container
+                @case ('luck') {
+                  <ng-container i18n="@@board.col.luck.help"
+                    >So viele Leute müssten raten, bis einer davon zufällig so weit kommt. Auf einer
+                    langen Liste ist ein seltener Wert für sich allein noch kein Nachweis: Wo viele
+                    spielen, hat immer jemand Glück. Sortiert wird nach der Spalte davor</ng-container
                   >
                 }
               }
@@ -325,7 +326,7 @@
             <td class="tbl__num">{{ count(r.hits) }}</td>
             <td class="tbl__num">{{ pct(r.hit_rate) }} %</td>
             <td class="tbl__num measured">{{ pct(r.wilson_lower) }} %</td>
-            <td class="tbl__num">{{ signed(r.deviation) }} σ</td>
+            <td class="tbl__num">{{ luck(r) }}</td>
           </tr>
         }
       </tbody>

@@ -22,7 +22,7 @@ use crate::account::name::public_display;
 use crate::db::{DbError, now_rfc3339};
 use crate::http::routes::stats::Published;
 use crate::http::{ApiError, AppState};
-use crate::stats::{measures, ranks};
+use crate::stats::{by_chance, measures, ranks};
 
 /// Entries per page when the client does not say. The client pages at twenty; this is the same
 /// number so that an unparameterised request and the first page are the same request.
@@ -100,6 +100,17 @@ struct Entry {
     /// like a result.
     hits: u64,
     hit_rate: f64,
+    /// How many in ten thousand pure guessers reach a record this far from chance.
+    ///
+    /// This is the figure the board prints where the σ deviation used to be. σ is the right unit
+    /// to *compute* the bands in and the wrong one to *read*: it needs a footnote, and a column
+    /// nobody can read without one gets read generously on a page about psi (R3).
+    ///
+    /// Computed live from `hits` and `completed`, which is deliberate and puts it with `hit_rate`
+    /// rather than with `deviation`. The point of the column is that a reader can check it against
+    /// the two counts printed beside it on the same row; deriving it from the block basis instead
+    /// would make the row's own numbers fail to reproduce it.
+    by_chance_per_10k: u32,
     deviation: f64,
     /// Whether the assured minimum clears chance — the split the board is drawn in.
     ///
@@ -251,6 +262,7 @@ fn read_page(reader: &Connection, offset: u64, limit: u64) -> Result<Vec<Entry>,
             completed,
             hits,
             hit_rate: measures::hit_rate(hits, completed),
+            by_chance_per_10k: by_chance::per_10_000(hits, completed),
             deviation: r.get(6)?,
             proven: wilson_lower > measures::CHANCE,
         })
@@ -455,6 +467,28 @@ mod tests {
         assert!(
             (rate - hits as f64 / completed as f64).abs() < 1e-9,
             "the printed hits do not make the printed rate"
+        );
+    }
+
+    /// The by-chance figure is reproducible from the two counts on its own row.
+    ///
+    /// That is the whole reason it is computed live rather than off the block basis: it replaced a
+    /// σ column nobody could check by eye, and a replacement that also cannot be checked by eye
+    /// would not have been worth making.
+    #[tokio::test]
+    async fn the_by_chance_figure_follows_from_the_counts_printed_beside_it() {
+        let mut f = Fixture::with_config(quick());
+        let player = f.player();
+        f.play_across_days(&player, 4, 3, 3);
+
+        let body = json(call(&f.state, "/api/leaderboard").await).await;
+        let entry = &body["entries"][0];
+        let hits = entry["hits"].as_u64().unwrap();
+        let completed = entry["completed"].as_u64().unwrap();
+        assert_eq!(
+            entry["by_chance_per_10k"].as_u64().unwrap() as u32,
+            crate::stats::by_chance::per_10_000(hits, completed),
+            "the board's figure is not the one its own counts produce"
         );
     }
 

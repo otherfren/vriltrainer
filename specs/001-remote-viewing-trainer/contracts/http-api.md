@@ -217,7 +217,7 @@ D20 settled.
   "entries": [
     { "place": 1, "band": "reptilian", "name": "otherfren", "public_id": "7F3A9C",
       "wilson_lower": 0.181, "wilson_upper": 0.249, "completed": 430, "hits": 91,
-      "hit_rate": 0.212, "deviation": 3.9, "proven": true }
+      "hit_rate": 0.212, "by_chance_per_10k": 1, "deviation": 3.9, "proven": true }
   ],
   "waiting": [
     { "name": "······", "public_id": "A14E02", "completed": 8, "distinct_days": 1,
@@ -241,6 +241,15 @@ boundary between "more than luck" and "consistent with luck" is one definition, 
 implementations of it eventually disagree in public. `hits` is printed beside `hit_rate` because
 "4 of 10" is checkable and "40 %" over a hidden `n` is the figure that makes a lucky short run look
 like a result.
+
+`by_chance_per_10k` carries the same figure `GET /api/stats/me` publishes, and it is what the board
+now prints in the column that used to hold `deviation`: σ is the right unit to compute the bands in
+and the wrong one to read, and an unreadable column on a page about psi is read generously (R3).
+Unlike `wilson_lower` and `deviation`, which advance per block (FR-019), it is computed live from
+`hits` over `completed` — the column's whole claim is that a reader can reproduce it from the two
+counts printed beside it, which a block-basis figure would not be. `deviation` stays in the payload:
+it is what the bands are cut from, and it is still shown on the statistics page, where the σ axis
+gives it a scale to be read against.
 
 `waiting` is the queue behind the board — accounts with `completed > 0` that have not met FR-040,
 longest record first, capped at twenty and sent with the **first page only**: it answers "is

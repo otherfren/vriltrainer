@@ -177,6 +177,12 @@ export interface BoardEntry {
   completed: number;
   hits: number;
   hit_rate: number;
+  /**
+   * How many in ten thousand pure guessers get this far. The column the board shows where the σ
+   * deviation used to be, and computed from `hits` over `completed`, so a reader can check it
+   * against the two counts on the same row.
+   */
+  by_chance_per_10k: number;
   deviation: number;
   /**
    * Whether the assured minimum clears chance. Set by the server, so the two zones the board is

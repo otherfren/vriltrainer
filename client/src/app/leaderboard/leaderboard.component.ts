@@ -150,8 +150,23 @@ export class LeaderboardComponent {
     return this.de(n * 100, digits);
   }
 
-  signed(n: number): string {
-    return (n >= 0 ? '+' : '') + this.de(n, 1);
+  // There was a `signed` here, for the "+2,3 σ" column. The column is "Durch Glück" now and
+  // nothing else on the board prints a signed figure.
+
+  /**
+   * How rare a row's record is under pure guessing, as "one in so many".
+   *
+   * The same rendering the status panel and the statistics page use, from the same published
+   * figure — one phrasing of the site's most-read number, or the board and the panel start
+   * describing the same account in two different vocabularies.
+   *
+   * Zero is not "never": the server rounds per ten thousand, so anything rarer than one in twenty
+   * thousand arrives as zero and the honest rendering of that is a bound.
+   */
+  luck(entry: BoardEntry): string {
+    const per10k = entry.by_chance_per_10k;
+    if (per10k <= 0) return $localize`:@@fig.luck.rarest:< 1 von 10 000`;
+    return $localize`:@@fig.luck.oneIn:1 von ${this.count(Math.round(10_000 / per10k))}:many:`;
   }
 
   /** Thousands separators follow the bundle's locale, not a hard-coded German one. */

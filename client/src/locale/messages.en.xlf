@@ -924,13 +924,13 @@
         </context-group>
         <target>Psi rank</target>
       </trans-unit>
-      <trans-unit id="fig.rate" datatype="html">
-        <source>Quote</source>
+      <trans-unit id="fig.expectedHits" datatype="html">
+        <source>Zufall bringt</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/status-panel.component.ts</context>
-          <context context-type="linenumber">99,100</context>
+          <context context-type="linenumber">103,104</context>
         </context-group>
-        <target>Rate</target>
+        <target>Chance yields</target>
       </trans-unit>
       <trans-unit id="fig.expected" datatype="html">
         <source>Erwartet</source>
@@ -957,12 +957,12 @@
         <target>By luck</target>
       </trans-unit>
       <trans-unit id="status.basis" datatype="html">
-        <source> Über <x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/><x id="INTERPOLATION" equiv-text="{{ player.reportedTrials() }}"/><x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> gewerteten Sitzungen mit <x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/><x id="INTERPOLATION_1" equiv-text="{{ player.reportedHits() }}"/><x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> Treffern. »Durch Glück« heißt: so viele Ratende braucht es, bis einer davon genauso weit kommt. </source>
+        <source> Über <x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/><x id="INTERPOLATION" equiv-text="{{ player.reportedTrials() }}"/><x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> gewerteten Sitzungen, das sind <x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/><x id="INTERPOLATION_1" equiv-text="{{ pct(player.rate()) }}"/><x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> %. »Durch Glück« heißt: so viele Ratende braucht es, bis einer davon genauso weit kommt. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/status-panel.component.ts</context>
           <context context-type="linenumber">116,119</context>
         </context-group>
-        <target>Over <x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/><x id="INTERPOLATION" equiv-text="{{ player.reportedTrials() }}"/><x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> scored sessions with <x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/><x id="INTERPOLATION_1" equiv-text="{{ player.reportedHits() }}"/><x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> hits. "By luck" means: that many guessers are needed before one of them gets this far.</target>
+        <target>Over <x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/><x id="INTERPOLATION" equiv-text="{{ player.reportedTrials() }}"/><x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> scored sessions, which is <x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/><x id="INTERPOLATION_1" equiv-text="{{ pct(player.rate()) }}"/><x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> %. "By luck" means: that many guessers are needed before one of them gets this far.</target>
       </trans-unit>
       <trans-unit id="fig.luck.rarest" datatype="html">
         <source>&lt; 1 von 10 000</source>
@@ -1300,13 +1300,13 @@
         </context-group>
         <target>Assured minimum</target>
       </trans-unit>
-      <trans-unit id="board.col.deviation" datatype="html">
-        <source>Abstand zum Zufall</source>
+      <trans-unit id="board.col.luck" datatype="html">
+        <source>Durch Glück</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
           <context context-type="linenumber">257,258</context>
         </context-group>
-        <target>Distance from chance</target>
+        <target>By luck</target>
       </trans-unit>
       <trans-unit id="board.col.trials.help" datatype="html">
         <source>Wie viele Durchgänge dieses Konto abgeschlossen hat</source>
@@ -1340,13 +1340,13 @@
         </context-group>
         <target>The cautious reading of the hit rate: what is left once the uncertainty of a short run is subtracted. Above 12.5 %, chance no longer explains the record. This is what the list is sorted by</target>
       </trans-unit>
-      <trans-unit id="board.col.deviation.help" datatype="html">
-        <source>Wie weit das Ergebnis vom Zufall entfernt liegt, gemessen in Standardabweichungen (σ)</source>
+      <trans-unit id="board.col.luck.help" datatype="html">
+        <source>So viele Leute müssten raten, bis einer davon zufällig so weit kommt. Auf einer langen Liste ist ein seltener Wert für sich allein noch kein Nachweis: Wo viele spielen, hat immer jemand Glück. Sortiert wird nach der Spalte davor</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
-          <context context-type="linenumber">293,295</context>
+          <context context-type="linenumber">293,296</context>
         </context-group>
-        <target>How far the result sits from chance, measured in standard deviations (σ)</target>
+        <target>That many people would have to guess before one of them gets this far by chance. On a long list a rare figure is no proof on its own: where many play, somebody always gets lucky. The list is sorted by the column before this one</target>
       </trans-unit>
       <trans-unit id="privacy.eyebrow" datatype="html">
         <source>Artikel 13 DSGVO</source>
