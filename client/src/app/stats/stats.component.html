@@ -43,33 +43,48 @@
         >
       </h1>
 
-      <p class="lede">
-        <ng-container i18n="@@stats.summary"
-          >{{ count(a.trials) }} Sitzungen · {{ count(a.accounts) }}
-          {a.accounts, plural, =1 {Konto} other {Konten}} · Abweichung
-          {{ signed(a.deviation) }} σ</ng-container
-        >
-        <!-- The two unanswered states, side by side and under one explanation. Split out of the
-             sentence above because they are the pair that needs the cutoff spelled out: a log
-             younger than one lifetime reports no abandonment at all, and without "offen" beside it
-             that zero reads as "nobody quits" instead of "the clock has not run out yet". -->
-        <span
-          class="lede__pending"
-          i18n-title="@@stats.summary.pendingHint"
-          title="Offen heißt: gestartet und noch beantwortbar. Ein Versuch bleibt {{
-            a.lifetime_hours
-          }} Stunden offen, erst danach zählt er als abgebrochen."
-          ><ng-container i18n="@@stats.summary.pending"
-            >· {{ count(a.open) }} offen · {{ count(a.abandoned) }} abgebrochen</ng-container
-          ></span
-        >
-        @if (a.deviation <= -2 || a.deviation >= 2) {
-          <span>&nbsp;· </span>
-          <strong i18n="@@stats.verdict.notable"
-            >das ist auffällig - und noch keine Erklärung.</strong
-          >
-        }
+      <!-- The five figures as a grid rather than one run-on sentence: on a narrow screen the line
+           broke mid-pair and the separators read as noise. Same cell treatment as the personal
+           figures further down, so a number looks like a number everywhere on this page. -->
+      <div class="tally">
+        <div class="tally__cell">
+          <span class="tally__label" i18n="@@fig.trials">Sitzungen</span>
+          <span class="tally__val measured">{{ count(a.trials) }}</span>
+        </div>
+        <div class="tally__cell">
+          <span class="tally__label" i18n="@@fig.accounts">Konten</span>
+          <span class="tally__val measured">{{ count(a.accounts) }}</span>
+        </div>
+        <div class="tally__cell">
+          <span class="tally__label" i18n="@@fig.deviation">Abweichung</span>
+          <span class="tally__val measured">{{ signed(a.deviation) }} σ</span>
+        </div>
+        <div class="tally__cell">
+          <span class="tally__label" i18n="@@fig.open">Offen</span>
+          <span class="tally__val measured">{{ count(a.open) }}</span>
+        </div>
+        <div class="tally__cell">
+          <span class="tally__label" i18n="@@fig.abandoned">Abgebrochen</span>
+          <span class="tally__val measured">{{ count(a.abandoned) }}</span>
+        </div>
+      </div>
+
+      <!-- The cutoff, written out instead of hidden in a hover title. It is the pair that needs it:
+           a log younger than one lifetime reports no abandonment at all, and without the sentence
+           that zero reads as "nobody quits" instead of "the clock has not run out yet". A phone has
+           no hover, which is where the tooltip this replaces was invisible. -->
+      <p class="tally__note" i18n="@@stats.summary.pendingHint">
+        Offen heißt: gestartet und noch beantwortbar. Ein Versuch bleibt {{ a.lifetime_hours }}
+        Stunden offen, erst danach zählt er als abgebrochen.
       </p>
+
+      @if (a.deviation <= -2 || a.deviation >= 2) {
+        <p class="lede">
+          <strong i18n="@@stats.verdict.notable"
+            >Das ist auffällig - und noch keine Erklärung.</strong
+          >
+        </p>
+      }
 
       <div class="tails panel">
         <p class="eyebrow" i18n="@@stats.spread.headWithBounds">

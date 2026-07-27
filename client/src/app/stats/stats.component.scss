@@ -31,12 +31,59 @@
   color: var(--zap);
 }
 
-/* Marks the pair as carrying an explanation. A native title is invisible until hover, so without
-   this the tooltip exists and nobody looks for it. */
-.lede__pending {
-  cursor: help;
-  text-decoration: underline dotted;
-  text-underline-offset: 0.2em;
+/* The room's five figures. Same cell as .mine__cell further down — one way of showing a number on
+   this page — but quieter and five across, because these are everyone's numbers, not the reader's. */
+.tally {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: var(--s3);
+  margin-bottom: var(--s4);
+}
+
+.tally__cell {
+  background: var(--card);
+  color: var(--ink);
+  border: 3px solid var(--ink);
+  padding: var(--s2) var(--s3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s1);
+}
+
+.tally__label {
+  font-family: var(--label);
+  font-weight: 800;
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--pop-ink);
+}
+
+.tally__val {
+  font-size: 1.125rem;
+}
+
+.tally__note {
+  margin-bottom: var(--s8);
+}
+
+/* Narrow: one column, label and value on one baseline, and the cells butt together so five rows
+   read as a table instead of five stacked boxes. */
+@media (max-width: 40rem) {
+  .tally {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .tally__cell {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--s3);
+    border-width: 3px 3px 0;
+  }
+  .tally__cell:last-child {
+    border-bottom-width: 3px;
+  }
 }
 
 /* ---- the two tails ---- */

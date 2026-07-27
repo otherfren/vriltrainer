@@ -1859,12 +1859,12 @@
         <target>· <x id="INTERPOLATION" equiv-text="{{ count(a.open) }}"/> open · <x id="INTERPOLATION_1" equiv-text="{{ count(a.abandoned) }}"/> abandoned</target>
       </trans-unit>
       <trans-unit id="stats.verdict.notable" datatype="html">
-        <source>das ist auffällig - und noch keine Erklärung.</source>
+        <source>Das ist auffällig - und noch keine Erklärung.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
           <context context-type="linenumber">69,72</context>
         </context-group>
-        <target>that is notable - and not yet an explanation.</target>
+        <target>That is notable - and not yet an explanation.</target>
       </trans-unit>
       <trans-unit id="stats.spread.headWithBounds" datatype="html">
         <source> Die Verteilung · <x id="INTERPOLATION" equiv-text="{{ count(qualified()) }}"/> Konten ab <x id="INTERPOLATION_1" equiv-text="{{ tailMinTrials() }}"/> Sitzungen, die Enden ab <x id="INTERPOLATION_2" equiv-text="{{ tailSigma() }}"/> σ </source>
@@ -2009,6 +2009,22 @@
           <context context-type="linenumber">217,218</context>
         </context-group>
         <target>Sessions</target>
+      </trans-unit>
+      <trans-unit id="fig.accounts" datatype="html">
+        <source>Konten</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/stats/stats.component.html</context>
+          <context context-type="linenumber">55,56</context>
+        </context-group>
+        <target>Accounts</target>
+      </trans-unit>
+      <trans-unit id="fig.open" datatype="html">
+        <source>Offen</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/stats/stats.component.html</context>
+          <context context-type="linenumber">63,64</context>
+        </context-group>
+        <target>Open</target>
       </trans-unit>
       <trans-unit id="fig.deviation" datatype="html">
         <source>Abweichung</source>
