@@ -1088,7 +1088,7 @@
         <source> Noch nicht genug Ergebnisse für eine aussagekräftige Rangliste. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
-          <context context-type="linenumber">24,26</context>
+          <context context-type="linenumber">23,25</context>
         </context-group>
         <target>Not enough results yet for a meaningful leaderboard.</target>
       </trans-unit>
@@ -1096,7 +1096,7 @@
         <source>Über dem Zufall</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
-          <context context-type="linenumber">29,30</context>
+          <context context-type="linenumber">30,31</context>
         </context-group>
         <target>Better than chance</target>
       </trans-unit>
@@ -1104,7 +1104,7 @@
         <source> Bei diesen Konten reicht Glück als Erklärung nicht mehr aus: Selbst vorsichtig gerechnet liegt ihre Trefferquote über den 12,5 %, die reines Raten bringt. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
-          <context context-type="linenumber">30,33</context>
+          <context context-type="linenumber">32,36</context>
         </context-group>
         <target>Luck no longer explains these accounts: even counted cautiously, their hit rate sits above the 12.5 % that pure guessing returns.</target>
       </trans-unit>
@@ -1112,7 +1112,7 @@
         <source> Noch niemand. Das ist keine Panne, sondern der ehrliche Stand: Bisher hat niemand genug Treffer gesammelt, um sicher über dem Zufall zu liegen. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
-          <context context-type="linenumber">36,39</context>
+          <context context-type="linenumber">38,41</context>
         </context-group>
         <target>Nobody yet. That is not a fault, it is the honest state of it: so far nobody has collected enough hits to sit above chance for certain.</target>
       </trans-unit>
@@ -1120,7 +1120,7 @@
         <source>Noch kein Nachweis</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
-          <context context-type="linenumber">45,46</context>
+          <context context-type="linenumber">46,47</context>
         </context-group>
         <target>No evidence yet</target>
       </trans-unit>
@@ -1128,183 +1128,15 @@
         <source> Gewertet und nachrechenbar, aber das Ergebnis lässt sich bisher genauso gut mit Zufall erklären. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
-          <context context-type="linenumber">46,49</context>
+          <context context-type="linenumber">48,51</context>
         </context-group>
         <target>Ranked and checkable, but so far the result is one plain chance explains just as well.</target>
-      </trans-unit>
-      <trans-unit id="board.zone.waiting.heading" datatype="html">
-        <source>Auf dem Weg in die Wertung</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
-          <context context-type="linenumber">79,80</context>
-        </context-group>
-        <target>On the way to being ranked</target>
-      </trans-unit>
-      <trans-unit id="board.zone.waiting.lede" datatype="html">
-        <source> Diese Konten spielen bereits, haben die Schwelle für die Wertung aber noch nicht erreicht: <x id="INTERPOLATION" equiv-text="{{ eligibilityTrials() }}"/> Versuche an mindestens <x id="INTERPOLATION_1" equiv-text="{{ eligibilityDays() }}"/> verschiedenen Tagen. Trefferquoten stehen hier bewusst nicht — bei so kurzen Serien sagen sie nichts. </source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
-          <context context-type="linenumber">80,84</context>
-        </context-group>
-        <target>These accounts are already playing but have not reached the bar for being ranked: <x id="INTERPOLATION" equiv-text="{{ eligibilityTrials() }}"/> trials across at least <x id="INTERPOLATION_1" equiv-text="{{ eligibilityDays() }}"/> different days. Hit rates are deliberately absent here — over runs this short they say nothing.</target>
-      </trans-unit>
-      <trans-unit id="board.zone.waiting.more" datatype="html">
-        <source> … und <x id="INTERPOLATION" equiv-text="{{ waitingHidden() }}"/> weitere Konten, die noch zu wenig gespielt haben. </source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
-          <context context-type="linenumber">150,153</context>
-        </context-group>
-        <target>… and <x id="INTERPOLATION" equiv-text="{{ waitingHidden() }}"/> more accounts that have not played enough yet.</target>
-      </trans-unit>
-      <trans-unit id="board.col.place" datatype="html">
-        <source>Platz</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
-          <context context-type="linenumber">168,169</context>
-        </context-group>
-        <target>Place</target>
-      </trans-unit>
-      <trans-unit id="board.col.rank" datatype="html">
-        <source>Rang</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
-          <context context-type="linenumber">169,170</context>
-        </context-group>
-        <target>Rank</target>
-      </trans-unit>
-      <trans-unit id="board.col.name" datatype="html">
-        <source>Name</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
-          <context context-type="linenumber">170,171</context>
-        </context-group>
-        <target>Name</target>
-      </trans-unit>
-      <trans-unit id="board.col.trials" datatype="html">
-        <source> Versuche </source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
-          <context context-type="linenumber">171,177</context>
-        </context-group>
-        <target>Trials</target>
-      </trans-unit>
-      <trans-unit id="board.col.trials.help" datatype="html">
-        <source>Wie viele Durchgänge dieses Konto abgeschlossen hat</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
-          <context context-type="linenumber">171,177</context>
-        </context-group>
-        <target>How many rounds this account has completed</target>
-      </trans-unit>
-      <trans-unit id="board.col.hits" datatype="html">
-        <source> Treffer </source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
-          <context context-type="linenumber">178,184</context>
-        </context-group>
-        <target>Hits</target>
-      </trans-unit>
-      <trans-unit id="board.col.hits.help" datatype="html">
-        <source>Wie oft davon das richtige Bild gewählt wurde</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
-          <context context-type="linenumber">178,184</context>
-        </context-group>
-        <target>How many of those picked the right image</target>
-      </trans-unit>
-      <trans-unit id="board.col.rate" datatype="html">
-        <source> Trefferquote </source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
-          <context context-type="linenumber">185,191</context>
-        </context-group>
-        <target>Hit rate</target>
-      </trans-unit>
-      <trans-unit id="board.col.rate.help" datatype="html">
-        <source>Treffer geteilt durch Versuche. Reines Raten ergibt auf Dauer 12,5 %</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
-          <context context-type="linenumber">185,191</context>
-        </context-group>
-        <target>Hits divided by trials. Pure guessing settles at 12.5 % in the long run</target>
-      </trans-unit>
-      <trans-unit id="board.col.wilson" datatype="html">
-        <source> Mindestens gesichert </source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
-          <context context-type="linenumber">192,198</context>
-        </context-group>
-        <target>Assured minimum</target>
-      </trans-unit>
-      <trans-unit id="board.col.wilson.help" datatype="html">
-        <source>Die Trefferquote, die nach Abzug der statistischen Unsicherheit mindestens übrig bleibt. Kurze Serien verlieren hier viel. Danach ist die Liste sortiert</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
-          <context context-type="linenumber">192,198</context>
-        </context-group>
-        <target>The hit rate left over once statistical uncertainty is subtracted. Short runs lose a lot here. This is what the list is sorted by</target>
-      </trans-unit>
-      <trans-unit id="board.col.deviation" datatype="html">
-        <source> Abstand zum Zufall </source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
-          <context context-type="linenumber">199,205</context>
-        </context-group>
-        <target>Distance from chance</target>
-      </trans-unit>
-      <trans-unit id="board.col.deviation.help" datatype="html">
-        <source>Wie weit das Ergebnis vom Zufall entfernt liegt, gemessen in Standardabweichungen (σ)</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
-          <context context-type="linenumber">199,205</context>
-        </context-group>
-        <target>How far the result sits from chance, measured in standard deviations (σ)</target>
-      </trans-unit>
-      <trans-unit id="board.col.trialsProgress" datatype="html">
-        <source> Versuche gespielt </source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
-          <context context-type="linenumber">89,95</context>
-        </context-group>
-        <target>Trials played</target>
-      </trans-unit>
-      <trans-unit id="board.col.trialsProgress.help" datatype="html">
-        <source>Bereits gespielte Versuche, verglichen mit der Zahl, die für die Wertung nötig ist</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
-          <context context-type="linenumber">89,95</context>
-        </context-group>
-        <target>Trials played so far, against the number needed to be ranked</target>
-      </trans-unit>
-      <trans-unit id="board.col.daysProgress" datatype="html">
-        <source> Tage gespielt </source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
-          <context context-type="linenumber">96,102</context>
-        </context-group>
-        <target>Days played</target>
-      </trans-unit>
-      <trans-unit id="board.col.daysProgress.help" datatype="html">
-        <source>An wie vielen verschiedenen Tagen bereits gespielt wurde, verglichen mit der nötigen Zahl</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
-          <context context-type="linenumber">96,102</context>
-        </context-group>
-        <target>How many different days have been played, against the number needed</target>
-      </trans-unit>
-      <trans-unit id="board.maskedTitle" datatype="html">
-        <source>Name noch nicht freigegeben — die Kennung daneben bleibt nachprüfbar</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
-          <context context-type="linenumber">55,56</context>
-        </context-group>
-        <target>Name not approved yet — the id beside it stays verifiable</target>
       </trans-unit>
       <trans-unit id="board.pager.aria" datatype="html">
         <source>Seiten der Bestenliste</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
-          <context context-type="linenumber">73,75</context>
+          <context context-type="linenumber">55,57</context>
         </context-group>
         <target>Leaderboard pages</target>
       </trans-unit>
@@ -1312,7 +1144,7 @@
         <source>← Zurück</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
-          <context context-type="linenumber">80,81</context>
+          <context context-type="linenumber">62,63</context>
         </context-group>
         <target>← Back</target>
       </trans-unit>
@@ -1320,7 +1152,7 @@
         <source>Weiter →</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
-          <context context-type="linenumber">89,90</context>
+          <context context-type="linenumber">71,72</context>
         </context-group>
         <target>Next →</target>
       </trans-unit>
@@ -1328,17 +1160,193 @@
         <source>Plätze <x id="INTERPOLATION" equiv-text="{{ firstShown() }}"/>–<x id="INTERPOLATION_1" equiv-text="{{ lastShown() }}"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
-          <context context-type="linenumber">93,97</context>
+          <context context-type="linenumber">75,78</context>
         </context-group>
         <target>Places <x id="INTERPOLATION" equiv-text="{{ firstShown() }}"/>–<x id="INTERPOLATION_1" equiv-text="{{ lastShown() }}"/></target>
+      </trans-unit>
+      <trans-unit id="board.zone.waiting.heading" datatype="html">
+        <source>Auf dem Weg in die Wertung</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
+          <context context-type="linenumber">81,82</context>
+        </context-group>
+        <target>On the way to being ranked</target>
+      </trans-unit>
+      <trans-unit id="board.zone.waiting.lede" datatype="html">
+        <source> Diese Konten spielen bereits, haben die Schwelle für die Wertung aber noch nicht erreicht: <x id="INTERPOLATION" equiv-text="{{ eligibilityTrials() }}"/> Versuche an mindestens <x id="INTERPOLATION_1" equiv-text="{{ eligibilityDays() }}"/> verschiedenen Tagen. Trefferquoten stehen hier bewusst nicht — bei so kurzen Serien sagen sie nichts. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
+          <context context-type="linenumber">83,87</context>
+        </context-group>
+        <target>These accounts are already playing but have not reached the bar for being ranked: <x id="INTERPOLATION" equiv-text="{{ eligibilityTrials() }}"/> trials across at least <x id="INTERPOLATION_1" equiv-text="{{ eligibilityDays() }}"/> different days. Hit rates are deliberately absent here — over runs this short they say nothing.</target>
+      </trans-unit>
+      <trans-unit id="board.col.name" datatype="html">
+        <source>Name</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
+          <context context-type="linenumber">92,93</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
+          <context context-type="linenumber">204,205</context>
+        </context-group>
+        <target>Name</target>
+      </trans-unit>
+      <trans-unit id="board.col.trialsProgress" datatype="html">
+        <source>Versuche gespielt</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
+          <context context-type="linenumber">101,102</context>
+        </context-group>
+        <target>Trials played</target>
+      </trans-unit>
+      <trans-unit id="board.col.daysProgress" datatype="html">
+        <source>Tage gespielt</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
+          <context context-type="linenumber">112,113</context>
+        </context-group>
+        <target>Days played</target>
+      </trans-unit>
+      <trans-unit id="board.col.trialsProgress.help" datatype="html">
+        <source>Bereits gespielte Versuche, verglichen mit der Zahl, die für die Wertung nötig ist</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
+          <context context-type="linenumber">122,124</context>
+        </context-group>
+        <target>Trials played so far, against the number needed to be ranked</target>
+      </trans-unit>
+      <trans-unit id="board.col.daysProgress.help" datatype="html">
+        <source>An wie vielen verschiedenen Tagen bereits gespielt wurde, verglichen mit der nötigen Zahl</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
+          <context context-type="linenumber">127,129</context>
+        </context-group>
+        <target>How many different days have been played, against the number needed</target>
+      </trans-unit>
+      <trans-unit id="board.maskedTitle" datatype="html">
+        <source>Name noch nicht freigegeben — die Kennung daneben bleibt nachprüfbar</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
+          <context context-type="linenumber">143,144</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
+          <context context-type="linenumber">316,317</context>
+        </context-group>
+        <target>Name not approved yet — the id beside it stays verifiable</target>
+      </trans-unit>
+      <trans-unit id="board.zone.waiting.more" datatype="html">
+        <source> … und <x id="INTERPOLATION" equiv-text="{{ waitingHidden() }}"/> weitere Konten, die noch zu wenig gespielt haben. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
+          <context context-type="linenumber">181,183</context>
+        </context-group>
+        <target>… and <x id="INTERPOLATION" equiv-text="{{ waitingHidden() }}"/> more accounts that have not played enough yet.</target>
       </trans-unit>
       <trans-unit id="board.eligibility" datatype="html">
         <source> In die Wertung kommt ein Konto ab <x id="INTERPOLATION" equiv-text="{{ eligibilityTrials() }}"/> gespielten Versuchen an mindestens <x id="INTERPOLATION_1" equiv-text="{{ eligibilityDays() }}"/> verschiedenen Tagen. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
-          <context context-type="linenumber">157,161</context>
+          <context context-type="linenumber">189,193</context>
         </context-group>
         <target>An account is ranked once it has played <x id="INTERPOLATION" equiv-text="{{ eligibilityTrials() }}"/> trials across at least <x id="INTERPOLATION_1" equiv-text="{{ eligibilityDays() }}"/> different days.</target>
+      </trans-unit>
+      <trans-unit id="board.col.place" datatype="html">
+        <source>Platz</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
+          <context context-type="linenumber">202,203</context>
+        </context-group>
+        <target>Place</target>
+      </trans-unit>
+      <trans-unit id="board.col.rank" datatype="html">
+        <source>Rang</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
+          <context context-type="linenumber">203,204</context>
+        </context-group>
+        <target>Rank</target>
+      </trans-unit>
+      <trans-unit id="board.col.trials" datatype="html">
+        <source>Versuche</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
+          <context context-type="linenumber">213,214</context>
+        </context-group>
+        <target>Trials</target>
+      </trans-unit>
+      <trans-unit id="board.col.hits" datatype="html">
+        <source>Treffer</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
+          <context context-type="linenumber">224,225</context>
+        </context-group>
+        <target>Hits</target>
+      </trans-unit>
+      <trans-unit id="board.col.rate" datatype="html">
+        <source>Trefferquote</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
+          <context context-type="linenumber">235,236</context>
+        </context-group>
+        <target>Hit rate</target>
+      </trans-unit>
+      <trans-unit id="board.col.wilson" datatype="html">
+        <source>Mindestens gesichert</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
+          <context context-type="linenumber">246,247</context>
+        </context-group>
+        <target>Assured minimum</target>
+      </trans-unit>
+      <trans-unit id="board.col.deviation" datatype="html">
+        <source>Abstand zum Zufall</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
+          <context context-type="linenumber">257,258</context>
+        </context-group>
+        <target>Distance from chance</target>
+      </trans-unit>
+      <trans-unit id="board.col.trials.help" datatype="html">
+        <source>Wie viele Durchgänge dieses Konto abgeschlossen hat</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
+          <context context-type="linenumber">271,273</context>
+        </context-group>
+        <target>How many rounds this account has completed</target>
+      </trans-unit>
+      <trans-unit id="board.col.hits.help" datatype="html">
+        <source>Wie oft davon das richtige Bild gewählt wurde</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
+          <context context-type="linenumber">276,277</context>
+        </context-group>
+        <target>How many of those picked the right image</target>
+      </trans-unit>
+      <trans-unit id="board.col.rate.help" datatype="html">
+        <source>Treffer geteilt durch Versuche. Reines Raten ergibt auf Dauer 12,5 %</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
+          <context context-type="linenumber">281,282</context>
+        </context-group>
+        <target>Hits divided by trials. Pure guessing settles at 12.5 % in the long run</target>
+      </trans-unit>
+      <trans-unit id="board.col.wilson.help" datatype="html">
+        <source>Die vorsichtig gerechnete Trefferquote: der Wert, der übrig bleibt, wenn man die Unsicherheit einer kurzen Serie abzieht. Liegt er über 12,5 %, reicht Zufall als Erklärung nicht mehr aus. Danach ist die Liste sortiert</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
+          <context context-type="linenumber">286,288</context>
+        </context-group>
+        <target>The cautious reading of the hit rate: what is left once the uncertainty of a short run is subtracted. Above 12.5 %, chance no longer explains the record. This is what the list is sorted by</target>
+      </trans-unit>
+      <trans-unit id="board.col.deviation.help" datatype="html">
+        <source>Wie weit das Ergebnis vom Zufall entfernt liegt, gemessen in Standardabweichungen (σ)</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/leaderboard/leaderboard.component.html</context>
+          <context context-type="linenumber">293,295</context>
+        </context-group>
+        <target>How far the result sits from chance, measured in standard deviations (σ)</target>
       </trans-unit>
       <trans-unit id="privacy.eyebrow" datatype="html">
         <source>Artikel 13 DSGVO</source>

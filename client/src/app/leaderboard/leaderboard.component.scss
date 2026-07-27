@@ -83,6 +83,48 @@
   text-align: center;
 }
 
+/* A column head that explains itself.
+   It is a button because it is one: a `title` says nothing on a phone, where most of this board is
+   read. The dotted underline is the only affordance that fits a head this small, and the marker
+   after the label is what says "there is more here" without costing a line. */
+.colhelp {
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  border-bottom: 2px dotted currentColor;
+}
+
+.colhelp::after {
+  content: ' ?';
+  font-family: var(--data);
+}
+
+.colhelp.is-open::after {
+  content: ' ×';
+}
+
+.colhelp:hover,
+.colhelp.is-open {
+  color: var(--ink);
+}
+
+/* The explanation row. It sits inside the head, above the first result, so nothing in the body
+   shifts sideways and the sentence reads as belonging to the heads rather than to a row. */
+.tbl__helprow td {
+  border-bottom: 3px solid var(--ink);
+  padding: var(--s3);
+  font-weight: 700;
+  font-size: 0.875rem;
+  line-height: 1.45;
+  white-space: normal;
+  background: var(--field-hi);
+}
+
 .tbl td {
   padding: var(--s3);
   border-bottom: 2px dotted #c9b89b;

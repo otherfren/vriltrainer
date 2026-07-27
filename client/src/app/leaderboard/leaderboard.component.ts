@@ -69,6 +69,20 @@ export class LeaderboardComponent {
   // needed. It went with D31. A rung is a distance from chance now, so every rung exists from the
   // first day and there is no waiting for one to unlock. It was never rendered in any case.
 
+  /**
+   * Which column's explanation is open, if any.
+   *
+   * The explanations used to be `title` attributes, which is to say they existed only for a reader
+   * with a mouse — on a phone nothing happened at all, and on a desktop nothing said there was
+   * anything to hover over. One signal for the whole board rather than one per table: both zones
+   * carry the same columns, so the same sentence belongs under both, and only one is ever open.
+   */
+  readonly help = signal<string | null>(null);
+
+  toggleHelp(column: string): void {
+    this.help.update((open) => (open === column ? null : column));
+  }
+
   readonly eligibilityTrials = computed(() => this.board()?.thresholds.eligibility_trials ?? 0);
   readonly eligibilityDays = computed(() => this.board()?.thresholds.eligibility_days ?? 0);
   readonly updatedAt = computed(() => this.board()?.ranks_updated_at ?? null);

@@ -90,23 +90,47 @@
           <thead>
             <tr>
               <th i18n="@@board.col.name">Name</th>
-              <th
-                class="tbl__num"
-                i18n-title="@@board.col.trialsProgress.help"
-                title="Bereits gespielte Versuche, verglichen mit der Zahl, die für die Wertung nötig ist"
-                i18n="@@board.col.trialsProgress"
-              >
-                Versuche gespielt
+              <th class="tbl__num">
+                <button
+                  class="colhelp"
+                  type="button"
+                  [class.is-open]="help() === 'trialsProgress'"
+                  [attr.aria-expanded]="help() === 'trialsProgress'"
+                  (click)="toggleHelp('trialsProgress')"
+                >
+                  <ng-container i18n="@@board.col.trialsProgress">Versuche gespielt</ng-container>
+                </button>
               </th>
-              <th
-                class="tbl__num"
-                i18n-title="@@board.col.daysProgress.help"
-                title="An wie vielen verschiedenen Tagen bereits gespielt wurde, verglichen mit der nötigen Zahl"
-                i18n="@@board.col.daysProgress"
-              >
-                Tage gespielt
+              <th class="tbl__num">
+                <button
+                  class="colhelp"
+                  type="button"
+                  [class.is-open]="help() === 'daysProgress'"
+                  [attr.aria-expanded]="help() === 'daysProgress'"
+                  (click)="toggleHelp('daysProgress')"
+                >
+                  <ng-container i18n="@@board.col.daysProgress">Tage gespielt</ng-container>
+                </button>
               </th>
             </tr>
+
+            @if (help() === 'trialsProgress' || help() === 'daysProgress') {
+              <tr class="tbl__helprow">
+                <td colspan="3">
+                  @if (help() === 'trialsProgress') {
+                    <ng-container i18n="@@board.col.trialsProgress.help"
+                      >Bereits gespielte Versuche, verglichen mit der Zahl, die für die Wertung
+                      nötig ist</ng-container
+                    >
+                  } @else {
+                    <ng-container i18n="@@board.col.daysProgress.help"
+                      >An wie vielen verschiedenen Tagen bereits gespielt wurde, verglichen mit der
+                      nötigen Zahl</ng-container
+                    >
+                  }
+                </td>
+              </tr>
+            }
           </thead>
           <tbody>
             @for (w of waiting(); track w.public_id) {
@@ -178,47 +202,102 @@
           <th class="tbl__rk" i18n="@@board.col.place">Platz</th>
           <th i18n="@@board.col.rank">Rang</th>
           <th i18n="@@board.col.name">Name</th>
-          <th
-            class="tbl__num"
-            i18n-title="@@board.col.trials.help"
-            title="Wie viele Durchgänge dieses Konto abgeschlossen hat"
-            i18n="@@board.col.trials"
-          >
-            Versuche
+          <th class="tbl__num">
+            <button
+              class="colhelp"
+              type="button"
+              [class.is-open]="help() === 'trials'"
+              [attr.aria-expanded]="help() === 'trials'"
+              (click)="toggleHelp('trials')"
+            >
+              <ng-container i18n="@@board.col.trials">Versuche</ng-container>
+            </button>
           </th>
-          <th
-            class="tbl__num"
-            i18n-title="@@board.col.hits.help"
-            title="Wie oft davon das richtige Bild gewählt wurde"
-            i18n="@@board.col.hits"
-          >
-            Treffer
+          <th class="tbl__num">
+            <button
+              class="colhelp"
+              type="button"
+              [class.is-open]="help() === 'hits'"
+              [attr.aria-expanded]="help() === 'hits'"
+              (click)="toggleHelp('hits')"
+            >
+              <ng-container i18n="@@board.col.hits">Treffer</ng-container>
+            </button>
           </th>
-          <th
-            class="tbl__num"
-            i18n-title="@@board.col.rate.help"
-            title="Treffer geteilt durch Versuche. Reines Raten ergibt auf Dauer 12,5 %"
-            i18n="@@board.col.rate"
-          >
-            Trefferquote
+          <th class="tbl__num">
+            <button
+              class="colhelp"
+              type="button"
+              [class.is-open]="help() === 'rate'"
+              [attr.aria-expanded]="help() === 'rate'"
+              (click)="toggleHelp('rate')"
+            >
+              <ng-container i18n="@@board.col.rate">Trefferquote</ng-container>
+            </button>
           </th>
-          <th
-            class="tbl__num"
-            i18n-title="@@board.col.wilson.help"
-            title="Die Trefferquote, die nach Abzug der statistischen Unsicherheit mindestens übrig bleibt. Kurze Serien verlieren hier viel. Danach ist die Liste sortiert"
-            i18n="@@board.col.wilson"
-          >
-            Mindestens gesichert
+          <th class="tbl__num">
+            <button
+              class="colhelp"
+              type="button"
+              [class.is-open]="help() === 'wilson'"
+              [attr.aria-expanded]="help() === 'wilson'"
+              (click)="toggleHelp('wilson')"
+            >
+              <ng-container i18n="@@board.col.wilson">Mindestens gesichert</ng-container>
+            </button>
           </th>
-          <th
-            class="tbl__num"
-            i18n-title="@@board.col.deviation.help"
-            title="Wie weit das Ergebnis vom Zufall entfernt liegt, gemessen in Standardabweichungen (σ)"
-            i18n="@@board.col.deviation"
-          >
-            Abstand zum Zufall
+          <th class="tbl__num">
+            <button
+              class="colhelp"
+              type="button"
+              [class.is-open]="help() === 'deviation'"
+              [attr.aria-expanded]="help() === 'deviation'"
+              (click)="toggleHelp('deviation')"
+            >
+              <ng-container i18n="@@board.col.deviation">Abstand zum Zufall</ng-container>
+            </button>
           </th>
         </tr>
+
+        <!-- The explanation of whichever column was tapped, in the row under the heads. It is one
+             row rather than five, so only one sentence is ever on screen and the table below never
+             moves further than one line. -->
+        @if (help() !== null) {
+          <tr class="tbl__helprow">
+            <td colspan="8">
+              @switch (help()) {
+                @case ('trials') {
+                  <ng-container i18n="@@board.col.trials.help"
+                    >Wie viele Durchgänge dieses Konto abgeschlossen hat</ng-container
+                  >
+                }
+                @case ('hits') {
+                  <ng-container i18n="@@board.col.hits.help"
+                    >Wie oft davon das richtige Bild gewählt wurde</ng-container
+                  >
+                }
+                @case ('rate') {
+                  <ng-container i18n="@@board.col.rate.help"
+                    >Treffer geteilt durch Versuche. Reines Raten ergibt auf Dauer 12,5 %</ng-container
+                  >
+                }
+                @case ('wilson') {
+                  <ng-container i18n="@@board.col.wilson.help"
+                    >Die vorsichtig gerechnete Trefferquote: der Wert, der übrig bleibt, wenn man
+                    die Unsicherheit einer kurzen Serie abzieht. Liegt er über 12,5 %, reicht Zufall
+                    als Erklärung nicht mehr aus. Danach ist die Liste sortiert</ng-container
+                  >
+                }
+                @case ('deviation') {
+                  <ng-container i18n="@@board.col.deviation.help"
+                    >Wie weit das Ergebnis vom Zufall entfernt liegt, gemessen in
+                    Standardabweichungen (σ)</ng-container
+                  >
+                }
+              }
+            </td>
+          </tr>
+        }
       </thead>
       <tbody>
         @for (r of rows; track r.public_id) {
