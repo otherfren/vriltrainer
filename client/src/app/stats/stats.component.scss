@@ -31,11 +31,11 @@
   color: var(--zap);
 }
 
-/* The room's five figures. Same cell as .mine__cell further down — one way of showing a number on
-   this page — but quieter and five across, because these are everyone's numbers, not the reader's. */
+/* The room's four figures. Same cell as .mine__cell further down — one way of showing a number on
+   this page — but quieter and four across, because these are everyone's numbers, not the reader's. */
 .tally {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: var(--s3);
   margin-bottom: var(--s4);
 }
@@ -67,8 +67,8 @@
   margin-bottom: var(--s8);
 }
 
-/* Narrow: one column, label and value on one baseline, and the cells butt together so five rows
-   read as a table instead of five stacked boxes. */
+/* Narrow: one column, label and value on one baseline, and the cells butt together so four rows
+   read as a table instead of four stacked boxes. */
 @media (max-width: 40rem) {
   .tally {
     grid-template-columns: 1fr;

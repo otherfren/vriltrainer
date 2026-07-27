@@ -43,17 +43,15 @@
         >
       </h1>
 
-      <!-- The five figures as a grid rather than one run-on sentence: on a narrow screen the line
+      <!-- The four figures as a grid rather than one run-on sentence: on a narrow screen the line
            broke mid-pair and the separators read as noise. Same cell treatment as the personal
-           figures further down, so a number looks like a number everywhere on this page. -->
+           figures further down, so a number looks like a number everywhere on this page. Sessions
+           and accounts share a cell because the second is only ever read against the first - how
+           many people those sessions came from. -->
       <div class="tally">
         <div class="tally__cell">
-          <span class="tally__label" i18n="@@fig.trials">Sitzungen</span>
-          <span class="tally__val measured">{{ count(a.trials) }}</span>
-        </div>
-        <div class="tally__cell">
-          <span class="tally__label" i18n="@@fig.accounts">Konten</span>
-          <span class="tally__val measured">{{ count(a.accounts) }}</span>
+          <span class="tally__label" i18n="@@fig.trialsAccounts">Sitzungen (Konten)</span>
+          <span class="tally__val measured">{{ count(a.trials) }} ({{ count(a.accounts) }})</span>
         </div>
         <div class="tally__cell">
           <span class="tally__label" i18n="@@fig.deviation">Abweichung</span>
