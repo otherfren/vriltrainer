@@ -31,6 +31,14 @@
   color: var(--zap);
 }
 
+/* Marks the pair as carrying an explanation. A native title is invisible until hover, so without
+   this the tooltip exists and nobody looks for it. */
+.lede__pending {
+  cursor: help;
+  text-decoration: underline dotted;
+  text-underline-offset: 0.2em;
+}
+
 /* ---- the two tails ---- */
 
 .tails {

@@ -140,6 +140,12 @@ export interface AggregateStats {
   deviation: number;
   accounts: number;
   abandoned: number;
+  /**
+   * Started, unanswered, and still inside its lifetime — the third state between a completed trial
+   * and an abandoned one. On a log younger than one lifetime every unanswered trial is in here,
+   * which is why `abandoned` can honestly read zero while most starts are unanswered.
+   */
+  open: number;
   tail_high: number;
   tail_low: number;
   /** Every qualified account in sigma bands, most negative first. Always the full set of bands. */
@@ -149,6 +155,8 @@ export interface AggregateStats {
   /** What "markedly" means, in standard deviations, and over what minimum record. */
   tail_sigma: number;
   tail_min_trials: number;
+  /** How long a started trial stays answerable — the line `open` and `abandoned` are the sides of. */
+  lifetime_hours: number;
   thresholds: Thresholds;
 }
 

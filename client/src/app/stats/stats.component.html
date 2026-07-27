@@ -46,8 +46,22 @@
       <p class="lede">
         <ng-container i18n="@@stats.summary"
           >{{ count(a.trials) }} Sitzungen · {{ count(a.accounts) }}
-          {a.accounts, plural, =1 {Konto} other {Konten}} · Abweichung {{ signed(a.deviation) }} σ ·
-          {{ count(a.abandoned) }} abgebrochen</ng-container
+          {a.accounts, plural, =1 {Konto} other {Konten}} · Abweichung
+          {{ signed(a.deviation) }} σ</ng-container
+        >
+        <!-- The two unanswered states, side by side and under one explanation. Split out of the
+             sentence above because they are the pair that needs the cutoff spelled out: a log
+             younger than one lifetime reports no abandonment at all, and without "offen" beside it
+             that zero reads as "nobody quits" instead of "the clock has not run out yet". -->
+        <span
+          class="lede__pending"
+          i18n-title="@@stats.summary.pendingHint"
+          title="Offen heißt: gestartet und noch beantwortbar. Ein Versuch bleibt {{
+            a.lifetime_hours
+          }} Stunden offen, erst danach zählt er als abgebrochen."
+          ><ng-container i18n="@@stats.summary.pending"
+            >· {{ count(a.open) }} offen · {{ count(a.abandoned) }} abgebrochen</ng-container
+          ></span
         >
         @if (a.deviation <= -2 || a.deviation >= 2) {
           <span>&nbsp;· </span>

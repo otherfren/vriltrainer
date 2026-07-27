@@ -174,6 +174,13 @@ struct Aggregate<'a> {
     accounts: u64,
     /// FR-027: abandonment is published, not swept. Anyone holding the export can recompute this.
     abandoned: u64,
+    /// Committed, unanswered, and still inside its lifetime — so neither a completed trial nor an
+    /// abandoned one. Published beside `abandoned` because without it the two figures above do not
+    /// add up to the number of trials that were started, and a reader who notices the gap has no way
+    /// to tell whether the difference is an unpublished third state or a bug. On a young log this is
+    /// where *every* unanswered trial sits, which is why `abandoned` can honestly read zero while
+    /// most starts are unanswered.
+    open: u64,
     /// The two tails side by side (FR-043, SC-014). Under the null they arrive in roughly equal
     /// numbers; if the site keeps producing about as many Kartoffeln as Annunaki, that ratio *is*
     /// the significance test, readable without statistics.
@@ -191,6 +198,11 @@ struct Aggregate<'a> {
     /// because the counts mean nothing without it.
     tail_sigma: f64,
     tail_min_trials: u32,
+    /// How long a started trial stays answerable (D16), which is the line `open` and `abandoned` are
+    /// the two sides of. Published for the same reason as `tail_sigma`: the two counts are not
+    /// interpretable without the cutoff that separates them, and the reader should not have to take
+    /// the operator's word for what it is.
+    lifetime_hours: i64,
     thresholds: Published<'a>,
 }
 
@@ -208,6 +220,7 @@ async fn aggregate(State(state): State<AppState>) -> Result<Response, ApiError> 
         hits,
         accounts,
         abandoned,
+        open,
         spread,
     } = totals;
 
@@ -222,6 +235,7 @@ async fn aggregate(State(state): State<AppState>) -> Result<Response, ApiError> 
         deviation: measures::deviation(hits, trials),
         accounts,
         abandoned,
+        open,
         // Read off the same binning as the chart, so the sentence and the picture cannot disagree.
         tail_high: spread.tail_high,
         tail_low: spread.tail_low,
@@ -229,6 +243,7 @@ async fn aggregate(State(state): State<AppState>) -> Result<Response, ApiError> 
         distribution: spread.bands,
         tail_sigma: TAIL_SIGMA,
         tail_min_trials: cfg.thresholds.stats_unlock_at,
+        lifetime_hours: cfg.trial_lifetime_hours,
         thresholds: Published::of(cfg),
     })
     .into_response())
@@ -240,6 +255,7 @@ struct Totals {
     hits: u64,
     accounts: u64,
     abandoned: u64,
+    open: u64,
     spread: spread::Spread,
 }
 
@@ -253,14 +269,25 @@ fn read_totals(db: &Db, cfg: &Config, now: &str) -> Result<Totals, DbError> {
         |r| Ok((r.get(0)?, r.get(1)?, r.get(2)?)),
     )?;
 
-    // A commit with no resolve, past the point where it could still be answered. The same cutoff
-    // the concurrency cap counts the other side of, so every commit is on exactly one side of it.
+    // A commit with no resolve, split on the one cutoff: before it the trial can no longer be
+    // answered and is abandoned, at or after it the trial is merely open. Both sides are counted
+    // against the same string, so every unanswered commit lands on exactly one of them and
+    // `trials + abandoned + open` is the number of trials that were ever started.
+    let still_open_from = accumulate::still_open_from(now, cfg);
     let abandoned = reader.query_row(
         "SELECT COUNT(*) FROM log_entry c
           WHERE c.kind = 'commit' AND c.at < ?1
             AND NOT EXISTS (SELECT 1 FROM log_entry r
                              WHERE r.trial_id = c.trial_id AND r.kind = 'resolve')",
-        params![accumulate::still_open_from(now, cfg)],
+        params![&still_open_from],
+        |r| r.get(0),
+    )?;
+    let open = reader.query_row(
+        "SELECT COUNT(*) FROM log_entry c
+          WHERE c.kind = 'commit' AND c.at >= ?1
+            AND NOT EXISTS (SELECT 1 FROM log_entry r
+                             WHERE r.trial_id = c.trial_id AND r.kind = 'resolve')",
+        params![&still_open_from],
         |r| r.get(0),
     )?;
 
@@ -278,6 +305,7 @@ fn read_totals(db: &Db, cfg: &Config, now: &str) -> Result<Totals, DbError> {
         hits,
         accounts,
         abandoned,
+        open,
         spread: spread::of(&deviations, &cfg.thresholds),
     })
 }
@@ -396,6 +424,16 @@ pub(crate) mod test_support {
         pub(crate) fn abandon(&mut self, player: &Player, trials: u32) {
             for _ in 0..trials {
                 self.commit(player, "2026-06-15T09:00:00Z");
+            }
+        }
+
+        /// Trials started and not answered *yet*, stamped now so their lifetime is certainly still
+        /// running. These are open, not abandoned, and the difference is the whole point of
+        /// publishing both counts.
+        pub(crate) fn leave_open(&mut self, player: &Player, trials: u32) {
+            for _ in 0..trials {
+                let at = crate::db::now_rfc3339();
+                self.commit(player, &at);
             }
         }
 
@@ -555,6 +593,34 @@ mod tests {
         assert_eq!(body["abandoned"], 4);
         assert_eq!(body["expected_rate"], 0.125);
         assert_eq!(body["hit_rate"], 6.0 / 15.0);
+    }
+
+    /// FR-021 read strictly: a trial that was started and not answered is *not* abandoned until it
+    /// can no longer be answered, so both sides of that cutoff are published. Without the open count
+    /// a log younger than one lifetime reports zero abandonment while most of its starts sit
+    /// unanswered, and the reader cannot see the difference between a third state and a bug.
+    #[tokio::test]
+    async fn unanswered_trials_are_open_until_their_lifetime_runs_out() {
+        let mut f = Fixture::new();
+        let player = f.player();
+        f.play(&player, 5, 1);
+        f.leave_open(&player, 7);
+        f.abandon(&player, 2);
+
+        let body = json(call(&f.state, "/api/stats/aggregate", None).await).await;
+        assert_eq!(
+            body["trials"], 5,
+            "only answered trials are completed trials"
+        );
+        assert_eq!(body["open"], 7, "still answerable, so not given up on");
+        assert_eq!(body["abandoned"], 2, "past the lifetime, so given up on");
+        assert_eq!(
+            body["trials"].as_u64().unwrap()
+                + body["open"].as_u64().unwrap()
+                + body["abandoned"].as_u64().unwrap(),
+            14,
+            "the three states must account for every trial that was started"
+        );
     }
 
     /// FR-043 and SC-014. Both tails are reported, defined by the same distance, and the reader is
