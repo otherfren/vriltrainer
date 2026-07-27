@@ -113,6 +113,14 @@
   white-space: nowrap;
 }
 
+/* The column the board is sorted on. Weight alone would not carry it - the mono is a
+   system face and 800 may or may not exist - so the size does the work and the weight
+   helps where the face has it. */
+.tbl td.tbl__num.measured {
+  font-weight: 800;
+  font-size: 0.9375rem;
+}
+
 .badge {
   display: inline-flex;
   background: var(--field-hi);
