@@ -83,6 +83,9 @@ export class TrialComponent {
   /** Optional: it exists only in the `answered` stage, which is exactly when it is scrolled to. */
   private readonly verdictBlock = viewChild<ElementRef<HTMLElement>>('verdictBlock');
 
+  /** Same deal: it exists only while the refusal is on screen, which is when it is scrolled to. */
+  private readonly tooFastBlock = viewChild<ElementRef<HTMLElement>>('tooFastBlock');
+
   /** The trial's current token. It is replaced at the reveal; the previous one is spent. */
   private token: string | null = null;
   private revealed: Revealed | null = null;
@@ -199,6 +202,7 @@ export class TrialComponent {
       if (e instanceof ApiError && e.status === 425) {
         // Nothing was written and nothing was looked at. The trial is untouched and answerable.
         this.tooFast.set(true);
+        this.showTooFast();
         setTimeout(() => this.tooFast.set(false), 2600);
         return;
       }
@@ -336,6 +340,28 @@ export class TrialComponent {
     // signal above has only just satisfied.
     requestAnimationFrame(() =>
       this.verdictBlock()?.nativeElement.scrollIntoView({
+        behavior: reduce ? 'auto' : 'smooth',
+        block: 'center',
+      }),
+    );
+  }
+
+  /**
+   * Brings the three-second refusal into view.
+   *
+   * Same problem as the verdict, and worse: the tap is rejected, the grid does not change, and the
+   * only thing that says why sits below the eight images on a phone. Without this the screen looks
+   * frozen, and the visitor taps again - which is the one thing that keeps the refusal coming.
+   *
+   * `block: 'center'` so it lands mid-screen rather than under the fold edge, and it is deliberate
+   * that this does not scroll back afterwards: the message clears itself after 2.6 s, and yanking
+   * the page while someone is reading is worse than leaving them where they are.
+   */
+  private showTooFast(): void {
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    // One frame, so the paragraph inside the `@if` exists to scroll to.
+    requestAnimationFrame(() =>
+      this.tooFastBlock()?.nativeElement.scrollIntoView({
         behavior: reduce ? 'auto' : 'smooth',
         block: 'center',
       }),
