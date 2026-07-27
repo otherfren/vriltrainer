@@ -1,4 +1,4 @@
-//! The public admin API of D25: list pending names, approve, reject.
+//! The public admin API of D25: list pending names, look a published one up, approve, reject.
 //!
 //! **Reversible operations only.** Every destructive operation — deleting an account, touching the
 //! log, changing pool versions — stays a CLI subcommand behind SSH, so a leaked admin key costs an
@@ -43,8 +43,11 @@ use crate::trial::timing::now_unix;
 /// paging scheme would be state to get right for a list that shrinks as it is read.
 const PAGE: u32 = 100;
 
-/// The only queue this API serves.
+/// The queue this API serves.
 const PENDING: &str = "pending";
+
+/// The other thing it answers about, and only ever one name at a time: see [`name::published_as`].
+const APPROVED: &str = "approved";
 
 /// Reason codes a reviewer may give. The first seven are the pre-filter's own vocabulary — see the
 /// drift test below — so the client renders one table of refusal strings rather than two.
@@ -124,47 +127,92 @@ fn bearer(header: &str) -> Option<&str> {
 #[derive(Deserialize)]
 struct QueueQuery {
     status: Option<String>,
+    /// The published name to look up. Required by `status=approved` and refused by the queue: see
+    /// [`queue`].
+    name: Option<String>,
 }
 
 #[derive(Serialize)]
 struct QueueResponse {
     status: &'static str,
-    names: Vec<PendingName>,
+    names: Vec<NameRow>,
 }
 
 #[derive(Serialize)]
-struct PendingName {
+struct NameRow {
     /// The opaque account identifier, which is what the decision routes take back. The name is
     /// never a key here: names are not unique (FR-049).
     account_id: String,
+    /// The string a decision has to echo back, which is the account's own current name — pending
+    /// in the queue, and for a lookup whatever is waiting for review if a rename came in after the
+    /// publication.
     name: String,
+    /// What the board shows, on a lookup only. Absent from the queue, where nothing is published
+    /// yet by definition, and equal to `name` unless a rename is waiting.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    published: Option<String>,
 }
 
-/// The review queue, oldest submission first.
+/// The review queue, or one published name.
 ///
-/// `status` is accepted and constrained to `pending` rather than ignored, so the query string in
-/// `contracts` is honoured and a reviewer's tool asking for something else is told no. Widening it
-/// to `approved` would turn a name-approval surface into a bulk export of every name in the
-/// system, which is a different thing to leak.
+/// `status` is accepted and constrained rather than ignored, so the query string in `contracts` is
+/// honoured and a reviewer's tool asking for something else is told no.
+///
+/// `approved` answers about **one name the caller already knows** and never lists. Answering it
+/// without a name would turn a moderation surface into a bulk export of every name in the system,
+/// which is a different thing to leak; with one, it says no more than the leaderboard already does
+/// plus the account id needed to act on it. It exists because a name that got through review and
+/// should not have is the one case where the queue leaves a reviewer with nothing to work from —
+/// [`name::reject`] can take a published name off the board, but only if you can find the account,
+/// and finding it used to mean an SSH session. That would make the takedown the operator's alone,
+/// against the whole argument of D25.
+///
+/// The queue refuses a `name` rather than ignoring one, so a caller who meant to look a
+/// publication up and forgot the status is told so instead of being handed the queue.
 async fn queue(
     State(state): State<AppState>,
     Reviewer(_): Reviewer,
     Query(query): Query<QueueQuery>,
 ) -> Result<Response, ApiError> {
-    if query.status.as_deref().unwrap_or(PENDING) != PENDING {
-        return Err(ApiError::BadRequest("status must be pending"));
+    match query.status.as_deref().unwrap_or(PENDING) {
+        PENDING => {
+            if query.name.is_some() {
+                return Err(ApiError::BadRequest("name needs status=approved"));
+            }
+            let names = name::pending(&state.db, PAGE)?
+                .into_iter()
+                .map(|(account_id, name)| NameRow {
+                    account_id,
+                    name,
+                    published: None,
+                })
+                .collect();
+            Ok(Json(QueueResponse {
+                status: PENDING,
+                names,
+            })
+            .into_response())
+        }
+        APPROVED => {
+            let wanted = query
+                .name
+                .ok_or(ApiError::BadRequest("status=approved needs a name"))?;
+            let names = name::published_as(&state.db, &wanted, PAGE)?
+                .into_iter()
+                .map(|(account_id, name, published)| NameRow {
+                    account_id,
+                    name,
+                    published: Some(published),
+                })
+                .collect();
+            Ok(Json(QueueResponse {
+                status: APPROVED,
+                names,
+            })
+            .into_response())
+        }
+        _ => Err(ApiError::BadRequest("status must be pending or approved")),
     }
-
-    let names = name::pending(&state.db, PAGE)?
-        .into_iter()
-        .map(|(account_id, name)| PendingName { account_id, name })
-        .collect();
-
-    Ok(Json(QueueResponse {
-        status: PENDING,
-        names,
-    })
-    .into_response())
 }
 
 #[derive(Deserialize)]
@@ -192,6 +240,12 @@ struct RejectionRequest {
 }
 
 /// Refuses the name the reviewer read, and discards it (SC-018).
+///
+/// Also the takedown: [`name::reject`] matches on the name and not on the state, so this clears a
+/// name that was already approved just as it clears one that is waiting. Nothing about the route
+/// distinguishes the two cases, and nothing should — a name that should not be on the board is the
+/// same decision whether a reviewer got it wrong an hour ago or is seeing it for the first time.
+/// The account behind a published name is found with `GET /admin/names?status=approved&name=…`.
 ///
 /// Reversible in the sense D25 means: the name comes off the board and the holder puts one back by
 /// submitting another — immediately, because a rejection does not consume the rename cooldown.
@@ -431,13 +485,13 @@ mod tests {
     }
 
     #[tokio::test]
-    async fn a_status_other_than_pending_is_refused() {
+    async fn a_status_that_is_neither_queue_nor_lookup_is_refused() {
         let (state, key) = reviewed();
         let (status, body) = call(
             &state,
             signed(
                 "GET",
-                "/admin/names?status=approved",
+                "/admin/names?status=erased",
                 "203.0.113.23",
                 &key,
                 serde_json::json!({}),
@@ -445,7 +499,169 @@ mod tests {
         )
         .await;
         assert_eq!(status, StatusCode::BAD_REQUEST);
-        assert_eq!(body["error"], "status must be pending");
+        assert_eq!(body["error"], "status must be pending or approved");
+    }
+
+    /// The whole point of the lookup: a name that got through review comes off the board without
+    /// an SSH session, and the holder is not locked out of choosing again.
+    #[tokio::test]
+    async fn a_published_name_can_be_found_and_taken_off_the_board() {
+        let (state, key) = reviewed();
+        let id = holder(&state.db, "otherfren");
+        name::approve(&state.db, &id, "otherfren").unwrap();
+        assert_eq!(on_the_board(&state.db, &id), "otherfren");
+
+        // It is not in the queue any more, which is why the lookup has to exist.
+        let (_, queue) = call(
+            &state,
+            signed(
+                "GET",
+                "/admin/names",
+                "203.0.113.40",
+                &key,
+                serde_json::json!({}),
+            ),
+        )
+        .await;
+        assert_eq!(queue["names"].as_array().unwrap().len(), 0);
+
+        let (status, body) = call(
+            &state,
+            signed(
+                "GET",
+                "/admin/names?status=approved&name=otherfren",
+                "203.0.113.41",
+                &key,
+                serde_json::json!({}),
+            ),
+        )
+        .await;
+        assert_eq!(status, StatusCode::OK);
+        assert_eq!(body["status"], "approved");
+        assert_eq!(body["names"][0]["account_id"], id);
+        assert_eq!(body["names"][0]["name"], "otherfren");
+        assert_eq!(body["names"][0]["published"], "otherfren");
+
+        let (status, body) = call(
+            &state,
+            signed(
+                "POST",
+                &format!("/admin/names/{id}/reject"),
+                "203.0.113.42",
+                &key,
+                serde_json::json!({ "name": "otherfren", "reason": "hate" }),
+            ),
+        )
+        .await;
+        assert_eq!(status, StatusCode::OK);
+        assert_eq!(body["outcome"], "applied");
+        assert_eq!(on_the_board(&state.db, &id), name::MASK);
+    }
+
+    /// A name nobody published is not a hint that the account does not exist — it is just not on
+    /// the board. An empty answer, not a 404.
+    #[tokio::test]
+    async fn a_lookup_that_matches_nothing_is_an_empty_list() {
+        let (state, key) = reviewed();
+        holder(&state.db, "otherfren");
+
+        let (status, body) = call(
+            &state,
+            signed(
+                "GET",
+                "/admin/names?status=approved&name=otherfren",
+                "203.0.113.43",
+                &key,
+                serde_json::json!({}),
+            ),
+        )
+        .await;
+        assert_eq!(status, StatusCode::OK, "pending is not published");
+        assert_eq!(body["names"].as_array().unwrap().len(), 0);
+    }
+
+    /// The bound that keeps this a moderation surface: it answers about a name you already know,
+    /// and it never hands out the list.
+    #[tokio::test]
+    async fn the_lookup_refuses_to_list() {
+        let (state, key) = reviewed();
+        let id = holder(&state.db, "otherfren");
+        name::approve(&state.db, &id, "otherfren").unwrap();
+
+        let (status, body) = call(
+            &state,
+            signed(
+                "GET",
+                "/admin/names?status=approved",
+                "203.0.113.44",
+                &key,
+                serde_json::json!({}),
+            ),
+        )
+        .await;
+        assert_eq!(status, StatusCode::BAD_REQUEST);
+        assert_eq!(body["error"], "status=approved needs a name");
+
+        // And the queue does not quietly accept a lookup that forgot its status.
+        let (status, body) = call(
+            &state,
+            signed(
+                "GET",
+                "/admin/names?name=otherfren",
+                "203.0.113.45",
+                &key,
+                serde_json::json!({}),
+            ),
+        )
+        .await;
+        assert_eq!(status, StatusCode::BAD_REQUEST);
+        assert_eq!(body["error"], "name needs status=approved");
+    }
+
+    /// After a rename the two names part company, and the one a decision has to echo back is the
+    /// account's current one. A caller that sent the published string back would get a `409`.
+    #[tokio::test]
+    async fn a_lookup_after_a_rename_names_both() {
+        let (state, key) = reviewed();
+        let id = holder(&state.db, "otherfren");
+        name::approve(&state.db, &id, "otherfren").unwrap();
+        name::submit(
+            &state.db,
+            &id,
+            "Monroe Institut",
+            "2099-01-01T00:00:00Z",
+            state.config.rename_cooldown_hours,
+        )
+        .unwrap();
+
+        let (status, body) = call(
+            &state,
+            signed(
+                "GET",
+                "/admin/names?status=approved&name=otherfren",
+                "203.0.113.46",
+                &key,
+                serde_json::json!({}),
+            ),
+        )
+        .await;
+        assert_eq!(status, StatusCode::OK);
+        assert_eq!(body["names"][0]["published"], "otherfren");
+        assert_eq!(body["names"][0]["name"], "Monroe Institut");
+
+        let (status, _) = call(
+            &state,
+            signed(
+                "POST",
+                &format!("/admin/names/{id}/reject"),
+                "203.0.113.47",
+                &key,
+                serde_json::json!({ "name": "Monroe Institut", "reason": "refused" }),
+            ),
+        )
+        .await;
+        assert_eq!(status, StatusCode::OK);
+        assert_eq!(on_the_board(&state.db, &id), name::MASK);
     }
 
     /// D25 end to end: nothing is public until a human says so, and then it is.

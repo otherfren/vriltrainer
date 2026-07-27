@@ -296,8 +296,8 @@ reviewers are not only the operator. Authenticated by a bearer **admin key**, wh
 credential from a player's access token and is checked against a different table; its hash lives
 in the database so `admin-key --rotate` takes effect without a restart.
 
-**Reversible operations only.** Approve and reject a name, and nothing else — no deletion, no
-access to the log, no pool changes. That, and not the authentication, is what bounds a leaked key.
+**Reversible operations only.** Read the queue, look up a published name, approve, reject — and
+nothing else. No deletion, no access to the log, no pool changes. That, and not the authentication, is what bounds a leaked key.
 Rate-limited per client address.
 
 ### `GET /admin/names?status=pending`
@@ -306,7 +306,32 @@ Rate-limited per client address.
 { "status": "pending", "names": [ { "account_id": "…", "name": "otherfren" } ] }
 ```
 
-Oldest submission first. `status` may only be `pending`; anything else is a `400`.
+Oldest submission first. `status` may only be `pending` or `approved`; anything else is a `400`. A
+`name` on this query is a `400` too — it belongs to the lookup below, and a caller who forgot the
+status is told so rather than handed the queue.
+
+### `GET /admin/names?status=approved&name=otherfren`
+
+```jsonc
+{ "status": "approved", "names": [
+  { "account_id": "…", "name": "otherfren", "published": "otherfren" }
+] }
+```
+
+The takedown path: find the account behind a name that is already on the board, then `reject` it.
+Without this a published name could only be pulled from an SSH session, which would make the one
+decision that follows a mistake the operator's alone — against the argument that makes this API
+public in the first place.
+
+**One name at a time, never a list.** `status=approved` without a `name` is a `400`, because an
+answer without one would turn a moderation surface into a bulk export of every name in the system.
+With one it says no more than the leaderboard already does, plus the account id needed to act.
+Several accounts may hold the same name (FR-049), so the answer is a list of matches; no match is
+an empty list and a `200`, not a `404`.
+
+`published` is what the board shows. `name` is what a decision has to echo back, and the two differ
+only when the holder submitted a rename after the publication — sending `published` back in that
+case is a `409`.
 
 ### `POST /admin/names/{account_id}/approve` · `POST /admin/names/{account_id}/reject`
 
@@ -322,9 +347,13 @@ Oldest submission first. `status` may only be `pending`; anything else is a `400
 ```
 
 `name` is **the name the reviewer read**, and it is not optional. The decision applies only if that
-string is still the account's pending name; a holder who resubmits between the queue being read and
+string is still the account's current name; a holder who resubmits between the queue being read and
 the button being pressed gets `409` and nothing is published (D25). A `409` means re-read the
 queue, which is why it is not a quiet `200`.
+
+`reject` matches on the name and not on the state, so it is also the takedown: an approved name
+comes off the board the same way a pending one is refused, and the holder may submit another
+immediately because a refusal does not consume the rename cooldown.
 
 `reason` is one of the pre-filter's codes — `too_short`, `too_long`, `shapeless`, `reserved`,
 `hate`, `vulgar`, `address` — or `refused` for what a human turns down and the filter has no word

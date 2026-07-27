@@ -278,6 +278,49 @@ pub fn pending(db: &Db, limit: u32) -> Result<Vec<(String, String)>, DbError> {
     Ok(out)
 }
 
+/// The accounts whose **published** name is exactly this string, as `(id, display_name,
+/// public_name)`.
+///
+/// This exists so that a name already on the board can be taken off it through the API.
+/// [`reject`] could always do that — it matches on the name, not on the state — but a reviewer had
+/// no way to find the account behind a published name, and a takedown that needs an SSH session is
+/// a takedown only the operator can do. That is the same argument D25 makes for the queue being
+/// public, applied to the one decision that follows a mistake.
+///
+/// **Keyed on the exact name, never listed.** A `status=approved` that answered without a name
+/// would turn a moderation surface into a bulk export of every name in the system, which is a
+/// different thing to leak; the caller has to already know the string, and the string is on a
+/// public leaderboard. Several accounts may hold the same name (FR-049), so this returns all of
+/// them rather than assuming one.
+///
+/// Both names come back because they part company: after a holder submits a rename, `public_name`
+/// is still what the board shows while `display_name` is what is waiting for review. [`reject`]
+/// matches on `display_name`, so that is the string a caller has to send back, and returning only
+/// the one that was searched for would hand out an argument that produces [`Approval::Stale`].
+/// `public_name` being non-null implies `display_name` is too — every path that clears one clears
+/// the other — but the query says so anyway rather than resting on it.
+pub fn published_as(
+    db: &Db,
+    published: &str,
+    limit: u32,
+) -> Result<Vec<(String, String, String)>, DbError> {
+    let r = db.reader()?;
+    let mut stmt = r.prepare(
+        "SELECT id, display_name, public_name FROM account
+          WHERE public_name = ?1 AND display_name IS NOT NULL
+          ORDER BY created_at, id
+          LIMIT ?2",
+    )?;
+    let rows = stmt.query_map(params![published, limit], |x| {
+        Ok((x.get(0)?, x.get(1)?, x.get(2)?))
+    })?;
+    let mut out = Vec::new();
+    for row in rows {
+        out.push(row?);
+    }
+    Ok(out)
+}
+
 /// What the holder is shown about their own name, whatever state it is in (FR-047).
 pub fn holder(db: &Db, account_id: &str) -> Result<HolderView, DbError> {
     let r = db.reader()?;
