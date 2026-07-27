@@ -253,8 +253,12 @@ account and full history carry over.
 - **FR-028**: Leaderboard ranking MUST NOT favour accounts with very few trials.
 - **FR-029**: Each leaderboard entry MUST show the chosen name alongside a distinct public
   identifier.
-- **FR-040**: An account MUST become leaderboard-eligible only after completing 100 trials
-  spread across at least three distinct days.
+- **FR-040**: An account MUST become leaderboard-eligible only after completing 30 trials
+  spread across at least two distinct days.
+- **FR-052**: The leaderboard MUST separate entries whose assured minimum rate exceeds chance from
+  those whose record chance also explains, and MUST list accounts that have played but not met
+  FR-040 with how far short of it they are. An empty board and an empty site are otherwise the
+  same page.
 - **FR-051**: System MUST record operational request logs carrying no visitor identifier — a
   correlation id, the matched route pattern rather than the raw path, status, duration and locale —
   and MUST NOT log the URL fragment or a full referrer (D28, FR-006).
@@ -400,10 +404,13 @@ account and full history carry over.
   The eligibility rule in FR-040 raises its price, the aggregate figure in FR-020 carries the main
   claim rather than the top entry, and the position is stated on the statistics page rather than
   defended.
-- The leaderboard's effective minimum is 100 completed trials, spread over at least three days.
+- The leaderboard's effective minimum is 30 completed trials, spread over at least two days.
   It is deliberately low at launch, when attracting users matters more than a farm-proof board,
   and it is configuration rather than a constant so it can rise with activity (D26). It is not a
-  defence against multi-accounting and is not intended as one (D27).
+  defence against multi-accounting and is not intended as one (D27). It is not a quality filter
+  either: the sort key below already keeps short records out of the top places, so what the floor
+  buys is a brake on account farming — and the expensive half of that brake is the calendar, not
+  the count.
 - The leaderboard is sorted by the lower bound of a confidence interval on the hit rate, which
   weighs trial count rather than surprise alone. A lucky 100-trial run at 25% produces a larger
   deviation from chance than a steady 1000 trials at 15%, and the latter is treated as the

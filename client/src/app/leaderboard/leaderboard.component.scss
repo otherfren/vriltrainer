@@ -25,6 +25,35 @@
   font-weight: 700;
 }
 
+/* ---- zones ----
+   The board is one ranking drawn in two parts, so the parts are labelled rather than coloured:
+   a heading and a sentence saying what the line means. A reader who scrolls past the headings
+   still sees one continuous run of places, which is what it is. */
+
+.zone__ttl {
+  font-size: 1.25rem;
+  margin: var(--s8) 0 var(--s2);
+}
+
+.zone__ttl:first-of-type {
+  margin-top: var(--s6);
+}
+
+.zone__sub {
+  margin: 0 0 var(--s4);
+  max-width: 68ch;
+  font-size: 0.9375rem;
+  opacity: 0.85;
+}
+
+/* The zone with nobody in it. It is the expected state at launch, so it is a sentence in the same
+   frame as a table would be, not a gap. */
+.zone__none {
+  margin: 0;
+  padding: var(--s4) var(--s6);
+  max-width: 68ch;
+}
+
 /* ---- the high-score table ---- */
 
 .tblwrap {
@@ -111,6 +140,28 @@
   font-size: 0.75rem;
   color: var(--pop-ink);
   margin-left: var(--s2);
+}
+
+/* ---- the queue ----
+   "8 / 30" says the whole thing without a word, and the bar underneath says it again for someone
+   scanning rather than reading. */
+
+.prog__txt {
+  display: block;
+}
+
+.prog {
+  display: block;
+  height: 6px;
+  margin-top: 4px;
+  background: var(--field-hi);
+  border: 2px solid var(--ink);
+}
+
+.prog__bar {
+  display: block;
+  height: 100%;
+  background: var(--ink);
 }
 
 /* ---- paging ---- */

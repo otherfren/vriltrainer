@@ -86,6 +86,12 @@ pub struct Thresholds {
     /// report honestly.
     pub stats_unlock_at: u32,
     /// Completed trials before an account is leaderboard-eligible (D17, FR-040).
+    ///
+    /// Lowered from 100 to 30 because it was doing a job it was never needed for. The board sorts
+    /// on the Wilson lower bound, and that bound already keeps short records off the top: a lucky
+    /// 5-of-8 is assured of less than chance, so it cannot outrank a long steady record however
+    /// good its rate looks. What the floor actually buys is a brake on account farming, and the
+    /// expensive half of that brake is the calendar below, not the count.
     pub eligibility_trials: u32,
     /// Distinct UTC days those trials must span (D21, FR-040). Parallelism does not compress the
     /// calendar, which is the only reason this resists farming at all.
@@ -99,8 +105,8 @@ impl Default for Thresholds {
     fn default() -> Self {
         Thresholds {
             stats_unlock_at: 10,
-            eligibility_trials: 100,
-            eligibility_days: 3,
+            eligibility_trials: 30,
+            eligibility_days: 2,
             // Even 0,8 σ steps out from a Normie band of ±0,3. The even step is not cosmetic: it
             // makes the eleven rungs eleven equal columns, so the distribution chart and the
             // ladder are one axis and a reader can lay them side by side.

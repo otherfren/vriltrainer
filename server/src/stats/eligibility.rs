@@ -17,13 +17,13 @@ mod tests {
     use super::*;
 
     /// The enthusiast who plays 150 trials in one evening is not ranked the next morning. That is
-    /// the cost D21 accepted, and it is answered in the interface with "2 more days until ranked"
+    /// the cost D21 accepted, and it is answered in the interface with "1 more day until ranked"
     /// rather than with silence.
     #[test]
     fn trials_alone_are_not_enough() {
         let t = Thresholds::default();
         assert!(!is_eligible(150, 1, &t));
-        assert!(!is_eligible(99, 30, &t));
-        assert!(is_eligible(100, 3, &t));
+        assert!(!is_eligible(29, 30, &t));
+        assert!(is_eligible(30, 2, &t));
     }
 }

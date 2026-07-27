@@ -1,6 +1,6 @@
+import { NgTemplateOutlet } from '@angular/common';
 import { Component, LOCALE_ID, computed, inject, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import { ApiService, Board, BoardEntry } from '../core/api.service';
+import { ApiService, Board, BoardEntry, WaitingEntry } from '../core/api.service';
 import { MASKED_NAME } from '../core/display-name';
 import { RankDef, rankFor, rankIcon } from '../core/ranks';
 
@@ -21,7 +21,7 @@ import { RankDef, rankFor, rankIcon } from '../core/ranks';
 @Component({
   selector: 'app-leaderboard',
   standalone: true,
-  imports: [RouterLink],
+  imports: [NgTemplateOutlet],
   templateUrl: './leaderboard.component.html',
   styleUrl: './leaderboard.component.scss',
 })
@@ -38,6 +38,25 @@ export class LeaderboardComponent {
 
   readonly entries = computed<BoardEntry[]>(() => this.board()?.entries ?? []);
   readonly eligible = computed(() => this.board()?.eligible_accounts ?? 0);
+
+  /**
+   * The board in the two zones the sort key already separates it into.
+   *
+   * The split is read off `proven`, which the server sets from the same bound the rows are ordered
+   * by — the client never compares a rate to 12.5 % itself. Because the order is preserved and the
+   * key is monotone, the two lists are contiguous slices of one board, so `place` keeps running
+   * across the boundary and neither zone is a re-sort.
+   */
+  readonly proven = computed(() => this.entries().filter((e) => e.proven));
+  readonly unproven = computed(() => this.entries().filter((e) => !e.proven));
+
+  /** Accounts that have played and are not ranked yet. Present on the first page only. */
+  readonly waiting = computed<WaitingEntry[]>(() => this.board()?.waiting ?? []);
+  readonly waitingAccounts = computed(() => this.board()?.waiting_accounts ?? 0);
+  /** More on the way than the first page of the queue can show. */
+  readonly waitingHidden = computed(() =>
+    Math.max(0, this.waitingAccounts() - this.waiting().length),
+  );
 
   /** A full page is the only evidence there is that another one exists. */
   readonly hasNext = computed(() => this.entries().length === this.pageSize);
@@ -89,7 +108,20 @@ export class LeaderboardComponent {
 
   /** A row whose name has not been cleared for publication yet (D25, FR-047). */
   masked(entry: BoardEntry): boolean {
-    return entry.name === MASKED_NAME;
+    return this.maskedName(entry.name);
+  }
+
+  /** The same question for a queue row, which carries a name and nothing else to key on. */
+  maskedName(name: string): boolean {
+    return name === MASKED_NAME;
+  }
+
+  /** How far along a queue row is, as a percentage, never past the end of the bar. */
+  share(done: number, needed: number): number {
+    if (needed <= 0) {
+      return 100;
+    }
+    return Math.min(100, Math.round((done / needed) * 100));
   }
 
   de(n: number, digits = 1): string {

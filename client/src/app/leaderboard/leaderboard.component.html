@@ -17,59 +17,41 @@
     <div class="gate panel">
       <span class="gate__txt" i18n="@@stats.loading">Wird geladen …</span>
     </div>
+  } @else if (entries().length === 0 && waiting().length === 0) {
+    <div class="gate panel">
+      <span class="gate__txt" i18n="@@board.notEnough">
+        Noch nicht genug Ergebnisse für eine aussagekräftige Rangliste.
+      </span>
+    </div>
   } @else {
-    @if (entries().length === 0) {
-      <div class="gate panel">
-        <span class="gate__txt" i18n="@@board.notEnough">
-          Noch nicht genug Ergebnisse für eine aussagekräftige Rangliste.
-        </span>
-      </div>
-    } @else {
-      <div class="tblwrap panel" [class.is-stale]="loading()">
-        <table class="tbl">
-          <thead>
-            <tr>
-              <th class="tbl__rk">#</th>
-              <th i18n="@@board.col.rank">Rang</th>
-              <th i18n="@@board.col.name">Name</th>
-              <th class="tbl__num" i18n="@@board.col.wilson">Mindestquote</th>
-              <th class="tbl__num" i18n="@@board.col.trials">Sitzungen</th>
-              <th class="tbl__num" i18n="@@board.col.rate">Quote</th>
-              <th class="tbl__num" i18n="@@board.col.deviation">Abw.</th>
-            </tr>
-          </thead>
-          <tbody>
-            @for (r of entries(); track r.public_id) {
-              <tr>
-                <td class="tbl__rk">{{ r.place }}</td>
-                <td>
-                  <span class="badge" [title]="rank(r).title">
-                    <img class="badge__pic" [src]="icon(r)" [attr.alt]="rank(r).title" />
-                  </span>
-                </td>
-                <td class="tbl__name">
-                  @if (masked(r)) {
-                    <span
-                      class="tbl__masked"
-                      i18n-title="@@board.maskedTitle"
-                      title="Name noch nicht freigegeben — die Kennung daneben bleibt nachprüfbar"
-                      >{{ r.name }}</span
-                    >
-                  } @else {
-                    {{ r.name }}
-                  }
-                  <span class="tbl__id">{{ r.public_id }}</span>
-                </td>
-                <td class="tbl__num measured">{{ pct(r.wilson_lower) }} %</td>
-                <td class="tbl__num">{{ count(r.completed) }}</td>
-                <td class="tbl__num">{{ pct(r.hit_rate) }} %</td>
-                <td class="tbl__num">{{ signed(r.deviation) }} σ</td>
-              </tr>
-            }
-          </tbody>
-        </table>
-      </div>
+    <!-- Two zones, one board. The split is the one the sort key already makes: above the line an
+         account's assured minimum beats guessing, below it the record is one plain luck also
+         explains. Nothing is re-sorted to draw it, so the places run straight through. -->
+    <h2 class="zone__ttl" i18n="@@board.zone.proven.heading">Über dem Zufall</h2>
+    <p class="zone__sub" i18n="@@board.zone.proven.lede">
+      Bei diesen Konten reicht Glück als Erklärung nicht mehr aus: Selbst vorsichtig gerechnet
+      liegt ihre Trefferquote über den 12,5 %, die reines Raten bringt.
+    </p>
 
+    @if (proven().length === 0) {
+      <p class="zone__none panel" i18n="@@board.zone.proven.empty">
+        Noch niemand. Das ist keine Panne, sondern der ehrliche Stand: Bisher hat niemand genug
+        Treffer gesammelt, um sicher über dem Zufall zu liegen.
+      </p>
+    } @else {
+      <ng-container *ngTemplateOutlet="ranked; context: { rows: proven() }"></ng-container>
+    }
+
+    @if (unproven().length > 0) {
+      <h2 class="zone__ttl" i18n="@@board.zone.plain.heading">Noch kein Nachweis</h2>
+      <p class="zone__sub" i18n="@@board.zone.plain.lede">
+        Gewertet und nachrechenbar, aber das Ergebnis lässt sich bisher genauso gut mit Zufall
+        erklären.
+      </p>
+      <ng-container *ngTemplateOutlet="ranked; context: { rows: unproven() }"></ng-container>
+    }
+
+    @if (entries().length > 0) {
       <nav class="pager" i18n-aria-label="@@board.pager.aria" aria-label="Seiten der Bestenliste">
         <button
           class="pager__step"
@@ -92,13 +74,182 @@
 
       <p class="pager__count" i18n="@@board.range">Plätze {{ firstShown() }}–{{ lastShown() }}</p>
     }
+
+    <!-- The queue. Without it, "nobody qualifies yet" and "nobody is playing here" look the same,
+         and in the first months of a new site only one of the two is true. -->
+    @if (waiting().length > 0) {
+      <h2 class="zone__ttl" i18n="@@board.zone.waiting.heading">Auf dem Weg in die Wertung</h2>
+      <p class="zone__sub" i18n="@@board.zone.waiting.lede">
+        Diese Konten spielen bereits, haben die Schwelle für die Wertung aber noch nicht erreicht:
+        {{ eligibilityTrials() }} Versuche an mindestens {{ eligibilityDays() }} verschiedenen
+        Tagen. Trefferquoten stehen hier bewusst nicht — bei so kurzen Serien sagen sie nichts.
+      </p>
+
+      <div class="tblwrap panel" [class.is-stale]="loading()">
+        <table class="tbl">
+          <thead>
+            <tr>
+              <th i18n="@@board.col.name">Name</th>
+              <th
+                class="tbl__num"
+                i18n-title="@@board.col.trialsProgress.help"
+                title="Bereits gespielte Versuche, verglichen mit der Zahl, die für die Wertung nötig ist"
+                i18n="@@board.col.trialsProgress"
+              >
+                Versuche gespielt
+              </th>
+              <th
+                class="tbl__num"
+                i18n-title="@@board.col.daysProgress.help"
+                title="An wie vielen verschiedenen Tagen bereits gespielt wurde, verglichen mit der nötigen Zahl"
+                i18n="@@board.col.daysProgress"
+              >
+                Tage gespielt
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (w of waiting(); track w.public_id) {
+              <tr>
+                <td class="tbl__name">
+                  @if (maskedName(w.name)) {
+                    <span
+                      class="tbl__masked"
+                      i18n-title="@@board.maskedTitle"
+                      title="Name noch nicht freigegeben — die Kennung daneben bleibt nachprüfbar"
+                      >{{ w.name }}</span
+                    >
+                  } @else {
+                    {{ w.name }}
+                  }
+                  <span class="tbl__id">{{ w.public_id }}</span>
+                </td>
+                <td class="tbl__num">
+                  <span class="prog__txt"
+                    >{{ count(w.completed) }} / {{ count(eligibilityTrials()) }}</span
+                  >
+                  <span class="prog">
+                    <span
+                      class="prog__bar"
+                      [style.width.%]="share(w.completed, eligibilityTrials())"
+                    ></span>
+                  </span>
+                </td>
+                <td class="tbl__num">
+                  <span class="prog__txt"
+                    >{{ count(w.distinct_days) }} / {{ count(eligibilityDays()) }}</span
+                  >
+                  <span class="prog">
+                    <span
+                      class="prog__bar"
+                      [style.width.%]="share(w.distinct_days, eligibilityDays())"
+                    ></span>
+                  </span>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      @if (waitingHidden() > 0) {
+        <p class="pager__count" i18n="@@board.zone.waiting.more">
+          … und {{ waitingHidden() }} weitere Konten, die noch zu wenig gespielt haben.
+        </p>
+      }
+    }
   }
 
   @if (entries().length > 0) {
     <p class="board__note" i18n="@@board.eligibility">
-      Ranglistenfähig ab {{ eligibilityTrials() }} Sitzungen an mindestens
-      {{ eligibilityDays() }} verschiedenen Tagen.
+      In die Wertung kommt ein Konto ab {{ eligibilityTrials() }} gespielten Versuchen an
+      mindestens {{ eligibilityDays() }} verschiedenen Tagen.
     </p>
   }
-
 </section>
+
+<!-- One markup for both zones. Two copies of an eight-column table is two places for a column to
+     be renamed in one of them. -->
+<ng-template #ranked let-rows="rows">
+  <div class="tblwrap panel" [class.is-stale]="loading()">
+    <table class="tbl">
+      <thead>
+        <tr>
+          <th class="tbl__rk" i18n="@@board.col.place">Platz</th>
+          <th i18n="@@board.col.rank">Rang</th>
+          <th i18n="@@board.col.name">Name</th>
+          <th
+            class="tbl__num"
+            i18n-title="@@board.col.trials.help"
+            title="Wie viele Durchgänge dieses Konto abgeschlossen hat"
+            i18n="@@board.col.trials"
+          >
+            Versuche
+          </th>
+          <th
+            class="tbl__num"
+            i18n-title="@@board.col.hits.help"
+            title="Wie oft davon das richtige Bild gewählt wurde"
+            i18n="@@board.col.hits"
+          >
+            Treffer
+          </th>
+          <th
+            class="tbl__num"
+            i18n-title="@@board.col.rate.help"
+            title="Treffer geteilt durch Versuche. Reines Raten ergibt auf Dauer 12,5 %"
+            i18n="@@board.col.rate"
+          >
+            Trefferquote
+          </th>
+          <th
+            class="tbl__num"
+            i18n-title="@@board.col.wilson.help"
+            title="Die Trefferquote, die nach Abzug der statistischen Unsicherheit mindestens übrig bleibt. Kurze Serien verlieren hier viel. Danach ist die Liste sortiert"
+            i18n="@@board.col.wilson"
+          >
+            Mindestens gesichert
+          </th>
+          <th
+            class="tbl__num"
+            i18n-title="@@board.col.deviation.help"
+            title="Wie weit das Ergebnis vom Zufall entfernt liegt, gemessen in Standardabweichungen (σ)"
+            i18n="@@board.col.deviation"
+          >
+            Abstand zum Zufall
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (r of rows; track r.public_id) {
+          <tr>
+            <td class="tbl__rk">{{ r.place }}</td>
+            <td>
+              <span class="badge" [title]="rank(r).title">
+                <img class="badge__pic" [src]="icon(r)" [attr.alt]="rank(r).title" />
+              </span>
+            </td>
+            <td class="tbl__name">
+              @if (masked(r)) {
+                <span
+                  class="tbl__masked"
+                  i18n-title="@@board.maskedTitle"
+                  title="Name noch nicht freigegeben — die Kennung daneben bleibt nachprüfbar"
+                  >{{ r.name }}</span
+                >
+              } @else {
+                {{ r.name }}
+              }
+              <span class="tbl__id">{{ r.public_id }}</span>
+            </td>
+            <td class="tbl__num">{{ count(r.completed) }}</td>
+            <td class="tbl__num">{{ count(r.hits) }}</td>
+            <td class="tbl__num">{{ pct(r.hit_rate) }} %</td>
+            <td class="tbl__num measured">{{ pct(r.wilson_lower) }} %</td>
+            <td class="tbl__num">{{ signed(r.deviation) }} σ</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</ng-template>

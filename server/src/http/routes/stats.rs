@@ -478,7 +478,7 @@ mod tests {
             body["hit_rate"].is_null(),
             "no figures before the threshold"
         );
-        assert_eq!(body["thresholds"]["eligibility_days"], 3);
+        assert_eq!(body["thresholds"]["eligibility_days"], 2);
     }
 
     /// SC-006, the one the whole statistics design turns on. Two accounts with the same number of

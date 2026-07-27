@@ -175,17 +175,39 @@ export interface BoardEntry {
   public_id: string;
   wilson_lower: number;
   completed: number;
+  hits: number;
   hit_rate: number;
   deviation: number;
+  /**
+   * Whether the assured minimum clears chance. Set by the server, so the two zones the board is
+   * drawn in and the figure they are drawn from cannot disagree.
+   */
+  proven: boolean;
+}
+
+/** An account that has played and has not met the eligibility rule yet. */
+export interface WaitingEntry {
+  name: string;
+  public_id: string;
+  completed: number;
+  distinct_days: number;
+  /** Completed trials still missing, zero once only the calendar is outstanding. */
+  trials_needed: number;
+  /** Distinct days still missing, zero once only the count is outstanding. */
+  days_needed: number;
 }
 
 export interface Board {
   eligible_accounts: number;
   bands_active: string[];
   ranks_updated_at: string;
+  /** How many accounts are on their way — the population, not the page. */
+  waiting_accounts: number;
   offset: number;
   limit: number;
   entries: BoardEntry[];
+  /** The front of that queue. Sent with the first page only. */
+  waiting: WaitingEntry[];
   thresholds: Thresholds;
 }
 

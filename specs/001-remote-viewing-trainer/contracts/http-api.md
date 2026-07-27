@@ -148,7 +148,7 @@ the log, for the same reason (D3, SC-002). `seq` names that entry.
   "distinct_days": 4, "eligible": true,
   "rank": "grey",
   "unlocks_at": 10,
-  "thresholds": { "stats_unlock_at": 10, "eligibility_trials": 100, "eligibility_days": 3,
+  "thresholds": { "stats_unlock_at": 10, "eligibility_trials": 30, "eligibility_days": 2,
                   "bands": [ "…" ], "block_size": 10 }
 }
 ```
@@ -211,12 +211,17 @@ D20 settled.
   "eligible_accounts": 214,
   "bands_active": ["asset", "grey", "reptilian", "loosh", "annunaki"],
   "ranks_updated_at": "2026-07-25T18:00:00Z",
+  "waiting_accounts": 37,
   "offset": 0,
   "limit": 20,
   "entries": [
     { "place": 1, "band": "reptilian", "name": "otherfren", "public_id": "7F3A9C",
-      "wilson_lower": 0.181, "wilson_upper": 0.249, "completed": 430, "hit_rate": 0.212,
-      "deviation": 3.9 }
+      "wilson_lower": 0.181, "wilson_upper": 0.249, "completed": 430, "hits": 91,
+      "hit_rate": 0.212, "deviation": 3.9, "proven": true }
+  ],
+  "waiting": [
+    { "name": "······", "public_id": "A14E02", "completed": 8, "distinct_days": 1,
+      "trials_needed": 22, "days_needed": 1 }
   ],
   "thresholds": { "…" }
 }
@@ -229,6 +234,23 @@ D20 settled.
 (FR-047, D25). The mask reveals neither the length nor the characters of what it hides; `public_id`
 is shown beside it either way, so a masked row is still attributable and still checkable against
 the log (FR-029).
+
+`proven` says whether the account's assured minimum clears chance. It is the line the board is drawn
+in two zones along, and the server sets it for the same reason `SigmaBand.tail` is set there: the
+boundary between "more than luck" and "consistent with luck" is one definition, and two
+implementations of it eventually disagree in public. `hits` is printed beside `hit_rate` because
+"4 of 10" is checkable and "40 %" over a hidden `n` is the figure that makes a lucky short run look
+like a result.
+
+`waiting` is the queue behind the board — accounts with `completed > 0` that have not met FR-040,
+longest record first, capped at twenty and sent with the **first page only**: it answers "is
+anything happening here", and that question is asked once, at the top. `waiting_accounts` is the
+whole population of that queue rather than the page. `trials_needed` and `days_needed` are what is
+still outstanding on each half of the rule, either being zero once only the other half remains. No
+rate is reported for a queue row: those records are below the floor by definition, and a rate
+printed against eight trials is the most misread number the site could publish. Accounts with no
+completed trials appear in neither list — nothing is in progress there, and an empty record has the
+largest possible `wilson_upper`, which would place it above every real one.
 
 `eligible_accounts` is reported whether or not anybody holds a title (FR-042). `bands_active` names
 the ladder, nearest the middle first. Since D31 every rung exists at every population, so this is

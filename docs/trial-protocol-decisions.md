@@ -1281,3 +1281,48 @@ Three consequences, each chosen deliberately:
 What this does **not** do is stop a version from being re-cut. The operator can still rebuild `v1`;
 the point is that the record now says so. That is the same shape as the rest of the log: it does
 not prevent the operator from misbehaving, it removes the ability to do it quietly.
+
+## D35 — The board opens early, in two zones, with the queue behind it visible
+
+The eligibility floor was 100 completed trials across three days. On a site whose best account had
+sixteen trials that is not a high bar, it is a closed door: `eligible_accounts` was zero, the page
+said "not enough results yet", and a visitor could not tell that apart from nobody playing at all.
+
+The floor was doing a job it was never needed for. **The sort key already keeps short records out
+of the top places.** The board orders on the Wilson lower bound (D20), which is a guaranteed
+minimum rate: four hits in ten is assured of 16.8 %, a hundred and fifty in a thousand of 12.9 %,
+and the lucky short run cannot climb by playing less. What the floor actually buys is a brake on
+account farming — and of its two halves, the calendar is the expensive one. Parallelism does not
+compress a calendar; it compresses a trial count trivially (D21).
+
+**So the floor drops to 30 trials across 2 days, and the board is drawn in two zones.**
+
+- **Above chance** — the assured minimum clears 12.5 %. Luck no longer explains the record.
+- **No evidence yet** — ranked, checkable, and consistent with guessing.
+
+The split is computed on the server, as `proven` on each entry, for the same reason
+`SigmaBand.tail` is: the line between "more than luck" and "consistent with luck" is one
+definition, and two implementations of it eventually disagree in public. It is not a second sort.
+Because the bound is monotone along the existing order, the two zones are contiguous slices of one
+board and the places run straight through the boundary.
+
+At launch the upper zone is empty, and the page says so in a sentence rather than hiding the
+heading. That is the honest state, and it is the same claim the site makes everywhere else: an
+empty result reported plainly is worth more than a full one that was easy to reach.
+
+**Behind both zones stands the queue**: accounts that have played and have not met the rule, with
+how far short of it they are on each half — "8 / 30 trials, 1 / 2 days". Three things about it are
+deliberate.
+
+- **No hit rate is shown.** Those records are below the floor by definition, and a "40 %" printed
+  against eight trials is the single most misread number this site could publish.
+- **Accounts with no completed trials are in neither list.** Nothing is in progress there, and an
+  empty record has `wilson_lower = 0` with `wilson_upper = 1` — the largest possible value of the
+  second sort key — so admitting it would place every idle account above the worst real one.
+- **The queue rides with the first page only.** It answers "is anything happening here", and that
+  question is asked once, at the top.
+
+What this does not change: the ladder (D31), the sort (D20), what a title measures (D33), or the
+calendar half of the rule (D21). The floor stays configuration rather than a constant, so it can
+rise with activity (D26) — and the argument above says raising the trial count is the half that
+buys least.

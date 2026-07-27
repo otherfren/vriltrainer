@@ -310,6 +310,11 @@ main {
 }
 
 .foot__legal {
+  // The build collapses the whitespace between the two links, so the gap has to
+  // come from the layout rather than from the markup.
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s4);
   margin: var(--s8) 0 0;
   font-size: 0.875rem;
   opacity: 0.75;

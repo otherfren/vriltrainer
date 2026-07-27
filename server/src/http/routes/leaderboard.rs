@@ -3,8 +3,13 @@
 //!
 //! Public, and everything on it is checkable. The name is the last one a human approved or a
 //! fixed-length mask (D25, FR-047), the public identifier stands beside it either way so a masked
-//! row is still attributable against the log (FR-029), and the band is a share of the eligible
-//! population rather than a seat (D23, FR-042).
+//! row is still attributable against the log (FR-029), and the band is a distance from chance
+//! rather than a seat (D31, FR-042).
+//!
+//! Since D35 the response carries two things beyond the ranked page: `proven` on each entry, the
+//! line the page draws its two zones along, and `waiting` — the accounts that have played and have
+//! not met the rule yet, with how far short of it they are. Both exist because an empty board and
+//! an empty site are otherwise the same page.
 
 use axum::Router;
 use axum::extract::{Query, State};
@@ -26,6 +31,13 @@ const DEFAULT_LIMIT: u64 = 20;
 /// The most a caller may ask for at once. The board is public and uncached, so this is what keeps a
 /// single request from serialising a hundred thousand accounts.
 const MAX_LIMIT: u64 = 100;
+
+/// How many not-yet-ranked accounts ride along with the first page.
+///
+/// The board's own rows are the ranked ones; this is the queue behind them, and a queue is only
+/// useful while a reader can still see the front of it. Twenty is the page size, so the two lists
+/// are the same height.
+const WAITING_LIMIT: u64 = 20;
 
 pub fn routes() -> Router<AppState> {
     Router::new().route("/api/leaderboard", get(board))
@@ -49,9 +61,16 @@ struct Board<'a> {
     /// When the ranks were last recomputed. Published because a rank that has not moved otherwise
     /// reads as a bug (D23).
     ranks_updated_at: String,
+    /// Accounts with a record started and the rule not met yet — the whole population, not the
+    /// page. A board that opens early is mostly this number for a while, and hiding it would make
+    /// an empty board look like an empty site.
+    waiting_accounts: u64,
     offset: u64,
     limit: u64,
     entries: Vec<Entry>,
+    /// The front of that queue, first page only. Ranked rows page; this list does not, because it
+    /// answers "is anything happening here" and that question is asked once, at the top.
+    waiting: Vec<Waiting>,
     thresholds: Published<'a>,
 }
 
@@ -76,8 +95,32 @@ struct Entry {
     /// are reported live; `wilson_lower` and `deviation` are inferences and advance per block
     /// (FR-019), which is why the two can disagree about `n` and both be right.
     completed: u64,
+    /// Printed beside the rate rather than left to be inferred from it. "4 of 10" is a sentence a
+    /// reader can check; "40 %" over a hidden `n` is the figure that makes a lucky short run look
+    /// like a result.
+    hits: u64,
     hit_rate: f64,
     deviation: f64,
+    /// Whether the assured minimum clears chance — the split the board is drawn in.
+    ///
+    /// Decided here rather than in the browser for the reason `SigmaBand::tail` is: the line
+    /// between "this is more than luck" and "this is consistent with luck" is one definition, and
+    /// two implementations of it eventually disagree in public.
+    proven: bool,
+}
+
+/// An account on its way to the board: a record that exists and a rule not met yet.
+#[derive(Serialize)]
+struct Waiting {
+    /// Masked exactly as a ranked row is (FR-047, D25) — the queue is a public surface too.
+    name: String,
+    public_id: String,
+    completed: u64,
+    distinct_days: u32,
+    /// Completed trials still missing, zero once only the calendar is outstanding.
+    trials_needed: u64,
+    /// Distinct days still missing, zero once only the count is outstanding.
+    days_needed: u32,
 }
 
 async fn board(
@@ -95,16 +138,24 @@ async fn board(
 
     let reader = state.db.reader()?;
     let eligible_accounts = eligible_accounts(&reader)?;
+    let waiting_accounts = waiting_accounts(&reader)?;
     let entries = read_page(&reader, offset, limit)?;
+    let waiting = if offset == 0 {
+        read_waiting(&reader, &cfg.thresholds, WAITING_LIMIT)?
+    } else {
+        Vec::new()
+    };
     let ranks_updated_at = ranks::last_computed(&reader)?.unwrap_or(now);
 
     Ok(Json(Board {
         eligible_accounts,
         bands_active: ranks::active(&cfg.thresholds),
         ranks_updated_at,
+        waiting_accounts,
         offset,
         limit,
         entries,
+        waiting,
         thresholds: Published::of(cfg),
     })
     .into_response())
@@ -117,6 +168,57 @@ fn eligible_accounts(reader: &Connection) -> Result<u64, DbError> {
         |r| r.get(0),
     )?;
     Ok(count)
+}
+
+/// Accounts that have played and are not ranked yet.
+///
+/// `completed > 0` is load-bearing. An account with no trials at all has a lower bound of zero and
+/// an upper bound of one, which is the *largest* value of the second sort key — so on any list that
+/// admits it, every empty account outranks the worst real record. It is not a queue member either:
+/// nothing is in progress there.
+fn waiting_accounts(reader: &Connection) -> Result<u64, DbError> {
+    let count = reader.query_row(
+        "SELECT COUNT(*) FROM account_stats WHERE eligible = 0 AND completed > 0",
+        [],
+        |r| r.get(0),
+    )?;
+    Ok(count)
+}
+
+/// The front of the queue, longest record first.
+///
+/// Ordered by evidence collected rather than by rate. Rate is not shown here at all: these records
+/// are below the floor by definition, and a "40 %" printed against eight trials is the single most
+/// misread number the site could publish.
+fn read_waiting(
+    reader: &Connection,
+    t: &crate::config::Thresholds,
+    limit: u64,
+) -> Result<Vec<Waiting>, DbError> {
+    let mut stmt = reader.prepare(
+        "SELECT a.public_id, a.public_name, s.completed, s.distinct_utc_days
+           FROM account_stats s JOIN account a ON a.id = s.account_id
+          WHERE s.eligible = 0 AND s.completed > 0
+          ORDER BY s.completed DESC, s.distinct_utc_days DESC, a.public_id
+          LIMIT ?1",
+    )?;
+
+    let rows = stmt.query_map(params![limit], |r| {
+        let public_name: Option<String> = r.get(1)?;
+        let completed: u64 = r.get(2)?;
+        let distinct_days: u32 = r.get(3)?;
+        Ok(Waiting {
+            name: public_display(public_name.as_deref()),
+            public_id: r.get(0)?,
+            completed,
+            distinct_days,
+            trials_needed: (t.eligibility_trials as u64).saturating_sub(completed),
+            days_needed: t.eligibility_days.saturating_sub(distinct_days),
+        })
+    })?;
+
+    rows.collect::<rusqlite::Result<Vec<Waiting>>>()
+        .map_err(Into::into)
 }
 
 /// One page of the board, in the order the rank pass numbered places in.
@@ -138,16 +240,19 @@ fn read_page(reader: &Connection, offset: u64, limit: u64) -> Result<Vec<Entry>,
         let public_name: Option<String> = r.get(1)?;
         let completed: u64 = r.get(2)?;
         let hits: u64 = r.get(3)?;
+        let wilson_lower: f64 = r.get(4)?;
         Ok(Entry {
             place: 0,
             band: r.get(7)?,
             name: public_display(public_name.as_deref()),
             public_id: r.get(0)?,
-            wilson_lower: r.get(4)?,
+            wilson_lower,
             wilson_upper: r.get(5)?,
             completed,
+            hits,
             hit_rate: measures::hit_rate(hits, completed),
             deviation: r.get(6)?,
+            proven: wilson_lower > measures::CHANCE,
         })
     })?;
 
@@ -306,6 +411,114 @@ mod tests {
         bands_match_deviations(body["entries"].as_array().unwrap());
     }
 
+    /// The split the board is drawn in is the one the sort key already makes, and it is decided on
+    /// the server so the page and the figure cannot disagree about who cleared chance.
+    #[tokio::test]
+    async fn above_chance_is_marked_on_the_entry_not_left_to_the_page() {
+        let mut f = Fixture::with_config(quick());
+        // Ten of twelve. Even the assured minimum of a record this short is far above 12.5 %.
+        let strong = f.player();
+        f.play_across_days(&strong, 4, 10, 3);
+        // One of twelve, which is chance and no evidence of anything.
+        let ordinary = f.player();
+        f.play_across_days(&ordinary, 4, 1, 3);
+
+        let body = json(call(&f.state, "/api/leaderboard").await).await;
+        let entries = body["entries"].as_array().unwrap();
+        for entry in entries {
+            let bound = entry["wilson_lower"].as_f64().unwrap();
+            assert_eq!(
+                entry["proven"].as_bool().unwrap(),
+                bound > 0.125,
+                "the mark and the bound disagree at {bound}"
+            );
+        }
+        assert_eq!(entries[0]["public_id"], strong.public_id);
+        assert_eq!(entries[0]["proven"], true);
+        assert_eq!(entries[1]["proven"], false);
+    }
+
+    /// The hits are printed beside the rate, so "4 of 10" can be read instead of inferred.
+    #[tokio::test]
+    async fn an_entry_states_its_hits_as_well_as_its_rate() {
+        let mut f = Fixture::with_config(quick());
+        let player = f.player();
+        f.play_across_days(&player, 4, 3, 3);
+
+        let body = json(call(&f.state, "/api/leaderboard").await).await;
+        let entry = &body["entries"][0];
+        let hits = entry["hits"].as_u64().unwrap();
+        let completed = entry["completed"].as_u64().unwrap();
+        assert_eq!(hits, 3);
+        assert_eq!(completed, 12);
+        let rate = entry["hit_rate"].as_f64().unwrap();
+        assert!(
+            (rate - hits as f64 / completed as f64).abs() < 1e-9,
+            "the printed hits do not make the printed rate"
+        );
+    }
+
+    /// The queue behind the board: played, not ranked, and told how far off it is.
+    ///
+    /// This is what an early board is mostly made of, and the reason it exists is that "nobody
+    /// qualifies yet" and "nobody is playing" look identical otherwise.
+    #[tokio::test]
+    async fn accounts_short_of_the_rule_ride_along_with_their_distance_to_it() {
+        let mut f = Fixture::with_config(quick());
+        let ranked = f.player();
+        f.play_across_days(&ranked, 4, 3, 3);
+        // Eight trials in one sitting: short on both halves of the rule.
+        let busy = f.player();
+        f.play(&busy, 8, 1);
+        // Two trials in one sitting: shorter on the count, same day problem.
+        let curious = f.player();
+        f.play(&curious, 2, 0);
+        // An account that never played is not in the queue — there is nothing in progress.
+        let _idle = f.player();
+
+        let body = json(call(&f.state, "/api/leaderboard").await).await;
+        assert_eq!(body["eligible_accounts"], 1);
+        assert_eq!(body["waiting_accounts"], 2);
+
+        let waiting = body["waiting"].as_array().unwrap();
+        assert_eq!(waiting.len(), 2, "the idle account joined the queue");
+        assert_eq!(waiting[0]["public_id"], busy.public_id);
+        assert_eq!(waiting[0]["completed"], 8);
+        assert_eq!(waiting[0]["distinct_days"], 1);
+        // The floor is `stats_unlock_at` under `quick()`, so eight trials is two short of it, and
+        // one day is one short of the calendar.
+        assert_eq!(waiting[0]["trials_needed"], 2);
+        assert_eq!(waiting[0]["days_needed"], 1);
+        assert_eq!(waiting[1]["public_id"], curious.public_id);
+        assert_eq!(waiting[1]["trials_needed"], 8);
+
+        for entry in waiting {
+            assert!(
+                entry["hit_rate"].is_null(),
+                "a rate below the floor reached a public surface"
+            );
+        }
+    }
+
+    /// The queue rides with the first page only: it answers a question asked at the top.
+    #[tokio::test]
+    async fn the_queue_does_not_repeat_on_every_page() {
+        let mut f = populated(3);
+        let waiting = f.player();
+        f.play(&waiting, 8, 1);
+
+        let first = json(call(&f.state, "/api/leaderboard?limit=2").await).await;
+        assert_eq!(first["waiting"].as_array().unwrap().len(), 1);
+        assert_eq!(first["waiting_accounts"], 1);
+
+        let second = json(call(&f.state, "/api/leaderboard?offset=2&limit=2").await).await;
+        assert!(second["waiting"].as_array().unwrap().is_empty());
+        assert_eq!(
+            second["waiting_accounts"], 1,
+            "the count is the population and does not page"
+        );
+    }
+
     /// The board states the numbers it was computed under (D26, FR-050), and when the ranks last
     /// moved (D23).
     #[tokio::test]
@@ -313,7 +526,7 @@ mod tests {
         let f = populated(5);
         let body = json(call(&f.state, "/api/leaderboard").await).await;
         assert_eq!(body["thresholds"]["eligibility_trials"], 10);
-        assert_eq!(body["thresholds"]["eligibility_days"], 3);
+        assert_eq!(body["thresholds"]["eligibility_days"], 2);
         assert_eq!(body["thresholds"]["block_size"], 10);
         assert_eq!(body["thresholds"]["bands"][0]["high"], "annunaki");
         assert_eq!(body["thresholds"]["bands"][0]["low"], "kartoffel");
