@@ -49,13 +49,19 @@ the site has taken real trials from real accounts.
 
 **The real remaining work**, in rough order of how much it would embarrass us:
 
-- **No client test has ever executed** and there is no CI, so nothing enforces the conformance check
-  the plan says must never go red (§ K).
-- **No metrics at all** — no daily counters, no unique-visitor count, no `server metrics` (T112–T114).
-- `/` still redirects to `/trial`, so a cold visitor's first screen is the name gate (T095).
-- The rename logic is written and tested but has no HTTP route, so FR-048 is unreachable (T100).
-- Four named contract-test files do not exist; the endpoint coverage that exists lives in-module.
+- The rank artefact of FR-044 does not exist: nothing shareable is generated, so the trial count and
+  the by-chance figure never travel with a badge (T059).
+- Nothing has run a simulated population through the statistics, so D27's claim that splitting a
+  trial budget across accounts beats concentrating it is argued and not measured (T082).
+- Copy that is decided and not on the page: the multi-accounting position, the DSA notice-and-action
+  line, the invitation to keep your own copy of the log (T106–T108).
 - Token key rotation is undesigned, and nothing watches uptime, disk or errors (§ J).
+
+**Closed on 2026-07-28**, all previously on this list: the client suite runs and CI enforces the
+conformance check (§ K); the traffic counters and `server metrics --since` exist (T112–T114); `/`
+serves the screen rather than redirecting to it, with the 12,5 % above the name field (T095); the
+rename is mounted at `PUT /api/account/name` (T100); and the four named contract-test files exist
+and go in through the wire (T036, T085–T087).
 
 **Two lines below are stale rather than unfinished:** the concurrent-trial cap and the per-address
 account limit were **removed by D30**, not left undone.
@@ -287,12 +293,12 @@ that should have happened before launch and now has to happen after it.
 - [X] Port `checkDisplayName` to the server and enforce it on submission. The client copy is UX
       only and says so at the top of the module. (T097) One nit: the disclaimer sits in the
       component's doc comment, not at the top of `display-name.ts` itself.
-- [ ] Rename, rate-limited. A rejected name does not consume the limit; the last approved name
-      stays displayed until a replacement clears. (T100, FR-048) **The logic is finished and
-      tested — the route is not mounted.** A rejection really does clear the cooldown, and a
-      pending rename really does leave the old name up; none of it is reachable from a client, and
-      the contract does not document an endpoint. This is the largest built-but-unreachable piece
-      in the project.
+- [X] Rename, rate-limited. A rejected name does not consume the limit; the last approved name
+      stays displayed until a replacement clears. (T100, FR-048) Mounted at `PUT /api/account/name`
+      on 2026-07-28 and documented in the contract. The cooldown answers `429` with `Retry-After`
+      rather than `400`: nothing was wrong with the name, the request was early. Both refusal paths
+      — the pre-filter's and the reviewer's — leave the turn unspent, which is what the route's
+      tests exist to hold.
 - [X] Erasure: permanent, account plays on under the opaque id, no new name. (FR-035) Permanence is
       enforced on the way back in: a submission from an erased account is refused.
 - [X] Rejected names discarded, not retained. The rejected string is cleared from both columns and

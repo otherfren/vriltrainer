@@ -103,10 +103,10 @@ start a second. Nothing else needs to exist.
 - [X] T032 [US1] Enforce one evaluated answer per trial and the validity period in `server/src/http/routes/trial.rs`, over the `log_entry_trial_kind` constraint, with the clock in `server/src/trial/timing.rs` — a speed-rejected answer does not consume the trial (FR-037, FR-038)
 - [X] T033 [P] [US1] Build the trial screen in `client/src/app/trial/trial.component.ts` — coordinate, reveal, eight images, verdict, next
 - [X] T034 [P] [US1] Implement access-link handling in `client/src/app/account/access-link.service.ts` — read the fragment, store it, clear the address bar with `history.replaceState` (FR-006)
-- [ ] T035 [US1] Build the access-link panel in `client/src/app/account/access-link.component.ts` — masked by default, reveal button, copy **without** revealing, re-mask on a timeout (FR-003, D9, D21) **Audited 2026-07-26: Masking, reveal and copy-without-revealing are built; re-mask on a timeout is missing — nothing resets `revealed` except an explicit close.**
+- [X] T035 [US1] Build the access-link panel in `client/src/app/account/access-link.component.ts` — masked by default, reveal button, copy **without** revealing, re-mask on a timeout (FR-003, D9, D21) **Done 2026-07-28: the reveal covers itself again after twenty seconds, and every close path cancels the pending timer. Two specs, both running.**
 - [X] T088 [US1] State plainly in the access-link panel that a lost link cannot be recovered, in `client/src/app/account/access-link.component.ts` (FR-005)
 - [ ] T089 [US1] Prompt the user to save the access link again on reaching the statistics threshold, in `client/src/app/account/save-reminder.component.ts` — the first prompt arrives before anything is worth keeping (FR-004, D9) **Audited 2026-07-26: Neither the component nor any equivalent prompt at the unlock threshold exists.**
-- [ ] T036 [US1] Add the contract test for the trial endpoints in `server/tests/contract_trial.rs` — constitution principle III requires released contracts to be covered **Audited 2026-07-26: No `server/tests/contract_trial.rs`. The contract's 410 branch is untested at the endpoint level.**
+- [X] T036 [US1] Add the contract test for the trial endpoints in `server/tests/contract_trial.rs` — constitution principle III requires released contracts to be covered **Done 2026-07-28: `server/tests/contract_trial.rs`, ten cases, including the 410 at the reveal and the 410 at the answer.**
 - [X] T037 [US1] Verify no response before the answer identifies the target, in `server/tests/no_target_leak.rs` (SC-011)
 
 **Checkpoint**: The product is playable and its central protocol property is enforced.
@@ -129,7 +129,7 @@ the deviation arrives with its by-chance context.
 - [X] T044 [P] [US2] Build the personal statistics view in `client/src/app/stats/personal.component.ts` — deviation always beside its by-chance line, never alone
 - [X] T045 [P] [US2] Build the aggregate view in `client/src/app/stats/aggregate.component.ts` — headline treatment that holds even when the result is exactly chance, which is the expected outcome (FR-045, D18)
 - [X] T046 [US2] Test that the statistics gate ignores success — ten trials with zero hits and ten with hits must behave identically (SC-006) **Done 2026-07-26, with a caveat: the test lives as a `#[cfg(test)]` module inside `server/src/stats/`, not in the `server/tests/stats_gate.rs` this line named, and it asserts the two extreme inputs rather than a range.**
-- [ ] T085 [US2] Add the contract test for the statistics endpoints in `server/tests/contract_stats.rs` (constitution III, contracts/http-api.md) **Audited 2026-07-26: No dedicated contract test. `by_chance_per_10k`, `rank`, `eligible`, `distinct_days` and `wilson_upper` are documented in the contract and asserted nowhere.**
+- [X] T085 [US2] Add the contract test for the statistics endpoints in `server/tests/contract_stats.rs` (constitution III, contracts/http-api.md) **Done 2026-07-28: `server/tests/contract_stats.rs`. `by_chance_per_10k`, `rank`, `eligible`, `distinct_days`, `wilson_upper` and the shape of `distribution` are all asserted from outside the process.**
 
 **Checkpoint**: The product measures, and measures honestly.
 
@@ -156,7 +156,7 @@ it independently.
 - [X] T058 [P] [US3] Build the leaderboard view in `client/src/app/leaderboard/leaderboard.component.ts` — sort key shown as the headline number, trials, hit rate and deviation alongside, each entry naming the account and its public identifier (FR-029)
 - [ ] T059 [US3] Build rank artefact rendering in `client/src/app/leaderboard/rank-card.component.ts` — trial count and by-chance frequency **inside** the image, because it travels without the page around it (FR-044, SC-015) **Audited 2026-07-26: Nothing shareable is generated at all — the SVG badges carry neither trial count nor by-chance figure.**
 - [X] T060 [US3] Add the log format test in `server/tests/contract_log.rs` — chain links, commitments match, abandoned trials are commits without resolves, and the aggregate recomputes from the file alone (SC-012, SC-004)
-- [ ] T086 [US3] Add the contract test for the leaderboard and pool-manifest endpoints in `server/tests/contract_leaderboard.rs` (constitution III) **Audited 2026-07-26: Named file never created; the leaderboard endpoint has no test under `server/tests`, only in-module unit tests.**
+- [X] T086 [US3] Add the contract test for the leaderboard and pool-manifest endpoints in `server/tests/contract_leaderboard.rs` (constitution III) **Done 2026-07-28: `server/tests/contract_leaderboard.rs`, including the manifest and image routes a verifier needs beside the board.**
 - [X] T061 [US3] Include `s_client` in the resolve entry in `server/src/log/export.rs` and `server/src/log/chain.rs` — without it only the participant can re-derive the decoys, and SC-002 promises an independent party can
 
 **Checkpoint**: Level B verifiability from D2 is real rather than asserted.
@@ -183,7 +183,7 @@ over and no second account appears.
 - [ ] T072 [P] [US4] Add the disclosure at name entry that the name and full trial history are public (FR-034) **Audited 2026-07-26: The name being public is disclosed at entry; the "and the full trial history" half of FR-034 is not.**
 - [X] T073 [US4] Add the Impressum for the `.de` domain in `client/src/app/legal/` — a separate obligation from the GDPR notice
 - [X] T074 [US4] Test that erasure leaves the record verifiable in `server/tests/erasure.rs` — remove a name, re-verify every one of that account's entries, which stay under the opaque identifier (FR-036, SC-008)
-- [ ] T087 [US4] Add the contract test for the account and handoff endpoints in `server/tests/contract_account.rs` (constitution III) **Audited 2026-07-26: Named file absent. The tests are `#[cfg(test)]` modules inside the route files, so the contract itself is not what is being tested.**
+- [X] T087 [US4] Add the contract test for the account and handoff endpoints in `server/tests/contract_account.rs` (constitution III) **Done 2026-07-28: `server/tests/contract_account.rs`, account and handoff, over the wire.**
 - [X] T090 [US4] Test that a language switch preserves the account and creates no duplicate, in `server/tests/handoff_identity.rs` (SC-007)
 
 **Checkpoint**: Launch-ready.
@@ -206,14 +206,14 @@ over and no second account appears.
 
 ### Added 2026-07-25, from the launch-plan grilling
 
-- [ ] T095 Make `/` a combined landing-and-name screen in `client/src/app/` — the premise and the 12.5% above the name field, one button into the trial. Today `/` redirects to `/trial` and a cold visitor's first screen is a form demanding a public name with nothing explaining the site (SC-001, FR-001) **Audited 2026-07-26: The premise text and the single button exist inside the name gate, but `/` still redirects to `/trial` and the 12.5% is not shown.**
+- [X] T095 Make `/` a combined landing-and-name screen in `client/src/app/` — the premise and the 12.5% above the name field, one button into the trial. Today `/` redirects to `/trial` and a cold visitor's first screen is a form demanding a public name with nothing explaining the site (SC-001, FR-001) **Done 2026-07-28: `/` serves the screen instead of redirecting to it, and the gate states the 12,5 % above the name field.**
 - [X] T096 Implement the name state machine in `server/src/account/name.rs` — `pending` -> `approved` | `rejected`, the opaque identifier shown in place of an unapproved name, the last approved name retained across a rename (FR-047, FR-048, SC-018, D25)
 - [X] T097 Port `checkDisplayName` to `server/src/account/name_filter.rs` and enforce it on name submission — the client copy is UX only, and a rule checked only in the client is not checked (D25)
 - [X] T098 Implement the public admin API in `server/src/http/routes/admin.rs` — list pending, approve, reject. **Reversible operations only**; anything destructive stays a CLI subcommand behind SSH (D25)
 - [X] T099 Implement one admin key with its hash in the database, and `server admin-key --rotate` printing the key once — in the database rather than the environment file so rotation needs no restart (D25)
-- [ ] T100 Implement the rename endpoint with its rate limit in `server/src/http/routes/account.rs`, and confirm a rejected name does not consume it (FR-048) **Audited 2026-07-26: Cooldown logic and its tests exist in `server/src/account/name.rs`; the HTTP route was never added.**
+- [X] T100 Implement the rename endpoint with its rate limit in `server/src/http/routes/account.rs`, and confirm a rejected name does not consume it (FR-048) **Done 2026-07-28: `PUT /api/account/name`. The cooldown answers 429 with `Retry-After`; a refusal, by the pre-filter or by the reviewer, does not spend the turn.**
 - [X] T101 Make the thresholds configuration in `server/src/config.rs` and report them in the responses that depend on them — statistics unlock, eligibility floor, band edges (FR-050, D26)
-- [ ] T102 Recompute ranks on a ~15-minute background task and materialise them, exposing when they were last computed (D23) **Audited 2026-07-26: Recomputation happens, but from the read path (`ranks::ensure_fresh`), not from a background task.**
+- [X] T102 Recompute ranks on a ~15-minute background task and materialise them, exposing when they were last computed (D23) **Done 2026-07-28: `tasks::spawn_rank_timer`. `ranks::ensure_fresh` stays on the read path as a self-heal, gated on the same interval.**
 - [X] T103 Enforce the D24 append discipline in `server/src/db/mod.rs` — `BEGIN IMMEDIATE` before reading the chain head, `busy_timeout`, `UNIQUE` on sequence number and `prev_hash`, chain walk at startup (R9, D24)
 - [X] T104 Rewrite `deploy/nginx.conf` for two upstreams and two `server` blocks, and delete the claim that `Host` selects the language build — it no longer does (D24)
 - [X] T105 [P] Add the empty state to the statistics page — a grey empty chart and one honest line while there are not enough trials. Today the page hardcodes 148,213 trials and 720 players and has no n=0 behaviour
@@ -222,11 +222,11 @@ over and no second account appears.
 - [ ] T108 [P] Make the log export prominent and invite readers to keep their own copy — this is what makes the record survive the service (D12 bus factor) **Audited 2026-07-26: The export is linked; the "invite readers to keep their own copy" half is absent and the prominence was never changed.**
 - [X] T109 [P] Remove the demo data from the client — `demoMode`, the demo pool, the hardcoded access key, the fabricated player and leaderboard figures
 - [X] T110 [P] Delete `client/public/ui/flag-de.svg` and `globe-en.svg`; the language switch is DE and EN as text
-- [ ] T111 Emit structured request logs in `server/src/http/trace.rs` — correlation id, matched route pattern (not the raw path, which can carry an account id), status, duration, locale; assert no fragment and no full referrer reaches them (FR-051, D28) **Audited 2026-07-26: Correlation id, status and duration are emitted; the matched route pattern (the anti-account-id requirement) and the locale field are not.**
-- [ ] T112 Add `daily_metric(day, locale, metric, count)` and increment it in process — page views, accounts created, trials started/completed/abandoned, names submitted/approved, proofs opened, log downloads (FR-052, D28)
-- [ ] T113 Count unique visitors with a daily-rotating in-memory salt and an in-memory set, persisting only the day's count and discarding salt and set at rollover (FR-052, D28)
-- [ ] T114 Add `server metrics --since` as a CLI subcommand. The public admin API stays name approval only (D25, D28) **Audited 2026-07-26: No subcommand, and no metrics store for it to read (T112).**
-- [ ] T115 [P] Set a short retention on the nginx access log and state it in the privacy notice — it is the only place a visitor's address is written down (D28) **Audited 2026-07-26: The 7-day retention is published in the privacy notice and enforced nowhere — no `access_log` directive and no logrotate config in `deploy/`.**
+- [X] T111 Emit structured request logs in `server/src/http/trace.rs` — correlation id, matched route pattern (not the raw path, which can carry an account id), status, duration, locale; assert no fragment and no full referrer reaches them (FR-051, D28) **Done 2026-07-28: the matched route pattern replaces the raw path, and the locale is on every line.**
+- [X] T112 Add `daily_metric(day, locale, metric, count)` and increment it in process — page views, accounts created, trials started/completed/abandoned, names submitted/approved, proofs opened, log downloads (FR-052, D28) **Done 2026-07-28: `daily_metric`, counted in memory and flushed once a minute. `trials_abandoned` is deliberately not a counter - abandonment is the absence of a resolve entry, so nothing could increment it; the aggregate reports it from the log.**
+- [X] T113 Count unique visitors with a daily-rotating in-memory salt and an in-memory set, persisting only the day's count and discarding salt and set at rollover (FR-052, D28) **Done 2026-07-28: daily salt, in-memory set, the count written at rollover and both discarded. Written as a maximum rather than a sum, so a flush cannot double-count.**
+- [X] T114 Add `server metrics --since` as a CLI subcommand. The public admin API stays name approval only (D25, D28) **Done 2026-07-28: `vriltrainer --db <path> metrics --since <day>`, tab-separated.**
+- [X] T115 [P] Set a short retention on the nginx access log and state it in the privacy notice — it is the only place a visitor's address is written down (D28) **Done 2026-07-28: per-vhost access logs in `deploy/nginx.conf` and `deploy/vriltrainer.logrotate`, seven days, which is what the privacy notice publishes.**
 
 ---
 

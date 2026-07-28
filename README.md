@@ -6,9 +6,9 @@ Bilingual: `vriltrainer.de` in German, `vriltrainer.com` in English.
 
 The expected result is 12.5%, which is nothing. The site is built to say so.
 
-**Status: live and unfinished.** Both domains are served, the API is complete but for the rename
-route, and the image pool is published at **v1, 500 images in 19 categories**. What is documented
-below works; what does not exist is listed under [What is missing](#what-is-missing).
+**Status: live and unfinished.** Both domains are served, every contracted route is mounted, and
+the image pool is published at **v1, 500 images in 19 categories**. What is documented below works;
+what does not exist is listed under [What is missing](#what-is-missing).
 
 ## Requirements
 
@@ -30,10 +30,9 @@ cargo test
 #     fails in production on honest trials.
 cd client && npm run conformance && cd ..
 
-# 3 — the client's unit tests. THESE DO NOT RUN. There is no karma config and no launcher,
-#     and the karma target does not resolve the @fontsource url(). The spec files only
-#     type-check. Left here as the command it would be, not as one that works today.
-cd client && CHROME_BIN=$(command -v chromium) npm test -- --watch=false --browsers=ChromeHeadless
+# 3 — the client's unit tests, headless. The launcher and its flags are in client/karma.conf.js;
+#     CHROME_BIN is only needed where the browser is not called `chrome`.
+cd client && CHROME_BIN=$(command -v chromium) npm run test:ci
 
 # 4 — the interface in development mode, http://localhost:4200
 cd client && npm start
@@ -134,6 +133,7 @@ pool/v1.json                    →  /srv/vriltrainer/pool/manifest.json
 pool/v<N>.json                  →  /srv/vriltrainer/pool/         (every version, unrenamed)
 deploy/vriltrainer@.service     →  /etc/systemd/system/
 deploy/nginx.conf               →  /etc/nginx/sites-available/vriltrainer
+deploy/vriltrainer.logrotate    →  /etc/logrotate.d/vriltrainer
 ```
 
 **There are two bundles, not one.** Since the client is translated, `npm run build` writes one per
@@ -170,19 +170,28 @@ design. Lose it and every trial in flight becomes uncompletable.
 systemctl daemon-reload
 systemctl enable --now vriltrainer@de vriltrainer@en
 ln -sf /etc/nginx/sites-available/vriltrainer /etc/nginx/sites-enabled/
+cp deploy/vriltrainer.logrotate /etc/logrotate.d/vriltrainer
 nginx -t && systemctl reload nginx
 ```
 
 Each instance walks the hash chain at startup and refuses to run if it does not link. That is the
 intended behaviour: appending to a record that is already wrong is worse than being down.
 
+The logrotate file is not optional dressing. nginx's access logs are the only place in the system a
+visitor's address is written down — the application log carries a matched route pattern, a
+correlation identifier and no address, and the public record carries an opaque account identifier
+and no address either. Seven days is what the privacy notice publishes, and that file is the only
+thing that makes it true.
+
 ### Three things that break silently
 
-**The forwarded client address.** Without it the service sees `127.0.0.1` for everyone, so the
-limit on account creation is either inert or throttles all users together. `--trusted-proxy` in
-the unit must be the address nginx connects from. Since D24 the `Host` header is no longer
-load-bearing — the locale is fixed by the flag the process was started with, and a German
-instance cannot serve English at all.
+**The forwarded client address.** Without it the service sees `127.0.0.1` for everyone.
+`--trusted-proxy` in the unit must be the address nginx connects from. What it costs when it is
+wrong is smaller than it used to be — D30 removed the per-address account cap, so what is left is
+the admin rate limiter throttling every reviewer as one caller, and the unique-visitor count
+collapsing to one. Neither is a correctness failure and both look like nothing. Since D24 the
+`Host` header is no longer load-bearing either: the locale is fixed by the flag the process was
+started with, and a German instance cannot serve English at all.
 
 **One machine.** Both processes write to the same SQLite file, and the two-writer append
 discipline the hash chain depends on (R9) assumes local-filesystem locking. On NFS it will appear
@@ -191,6 +200,26 @@ to work and will fork the log.
 **The backup.** The SQLite file *is* the public audit log. Losing it does not cost user data that
 can be rebuilt — it retroactively removes the verifiability of every past trial. `deploy/backup.sh`
 is the job; see below for what it refuses and why.
+
+### Traffic
+
+```bash
+/srv/vriltrainer/server --db /srv/vriltrainer/vriltrainer.db metrics --since 2026-07-01
+```
+
+Tab-separated, one line per day, locale and metric: page views, unique visitors, accounts created,
+trials started and completed, names submitted and approved, proofs opened, log downloads. Thirty
+days by default.
+
+The counters are integers and nothing else — no visitor, no path, no address, no session. A table
+that cannot describe an individual cannot be asked to. Unique visitors are the one figure that needs
+state to produce, and that state never reaches the table: a salt drawn at midnight and never written
+down, a set of truncated hashes, the count persisted at rollover and both discarded. A restart
+undercounts the day, deliberately.
+
+There is no counter for abandoned trials. Abandonment is the *absence* of a resolve entry once the
+D16 clock has run out, so there is no moment at which anything could increment one; the figure is
+published by `GET /api/stats/aggregate`, computed from the log, where a reader can recount it.
 
 ### Backups
 
@@ -257,18 +286,30 @@ row. The pending half lives in the sealed token the client holds, not in the dat
 
 | | |
 |---|---|
-| Rename (`FR-048`) | The only contracted behaviour with no route. The cooldown logic is written and tested — a rejected name does not consume the limit, and the last approved name stays up while a replacement is reviewed — but nothing mounts it, so no client can reach it (T100) |
-| Rank recomputation timer | The fifteen-minute pass exists but is triggered from the read side rather than by a scheduler (T102) |
-| Traffic figures | No daily counters, no unique-visitor count, no `server metrics` subcommand (T112–T114, D28) |
-| Client tests and CI | The client suite has never executed — there is no karma config and no browser launcher — and nothing runs the conformance check automatically |
-| TLS in the shipped nginx config | `deploy/nginx.conf` has the `ssl_certificate` lines commented out; certificates are per deployment |
+| The rank artefact | `FR-044` wants a shareable image carrying the trial count and the by-chance figure *inside* it, because it travels without the page around it. Nothing shareable is generated at all — the badges are SVG on the page and carry neither number (T059) |
+| A simulated population | Nothing has ever run a few thousand chance players through the statistics to confirm the aggregate lands where it should and the two tails stay comparable — including an adversarial farmer splitting a trial budget across accounts, which is what D27 asserts and has not measured (T082) |
+| Two tests that would fail loudly | Nothing exercises a *failing* verification in the client, which is the one path the verify panel exists for; and `category_bias.rs` checks that the shuffle is a permutation without checking where the target lands in it (T051, T094) |
+| Copy that is written down but not on the page | The multi-accounting position (D27), the DSA notice-and-action line in the Impressum and footer, the invitation to keep your own copy of the log, the second half of the name disclosure, and the reminder to save the access link when the statistics unlock (T106, T107, T108, T072, T089) |
+| ESLint and Prettier | `rustfmt` and `clippy` are configured and enforced in CI; the client has no lint configuration at all (T007) |
+| TLS in the shipped nginx config | `deploy/nginx.conf` has the `ssl_certificate` lines commented out. Deliberate — certificates are per deployment and a path that is wrong everywhere is worse than a line that is obviously yours to fill in |
 
 Both message catalogues are written and complete — `node client/tools/build-en-catalogue.mjs --check`
 is what says so, and it fails on a gap rather than shipping an untranslated string.
 
 Full list: [`specs/001-remote-viewing-trainer/tasks.md`](specs/001-remote-viewing-trainer/tasks.md)
-— 91 of 115 ticked. Every open line was audited against the code on 2026-07-26; where the code is
-further along than the line, the line now says how far and what is actually missing.
+— 104 of 115 ticked. Every open line was audited against the code on 2026-07-26 and the audit
+rechecked on 2026-07-28; where the code is further along than the line, the line says how far and
+what is actually missing.
+
+### What CI runs
+
+[`.github/workflows/ci.yml`](.github/workflows/ci.yml): `cargo fmt --check`, `clippy` with warnings
+as errors, the Rust tests, the derivation conformance vectors, the catalogue check, both locale
+builds, and the client suite headless.
+
+The conformance run is the one that matters. The server and the client each implement the
+derivation, and a divergence does not crash anything — it publishes trials that verify on one side
+and not the other. `shared/vectors/` is the frozen contract between them.
 
 ## Where things live
 
