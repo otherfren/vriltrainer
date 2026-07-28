@@ -63,8 +63,13 @@
   font-size: 1.125rem;
 }
 
+/* It is a <p>, so it would inherit the 60ch prose measure and drop the last word of a caption
+   that belongs to the figures above it. It reads as a footnote to the tally, so it takes the
+   tally's width; pretty keeps a lone word off its own line where it still has to wrap. */
 .tally__note {
   margin-bottom: var(--s8);
+  max-width: none;
+  text-wrap: pretty;
 }
 
 /* Narrow: one column, label and value on one baseline, and the cells butt together so the rows
