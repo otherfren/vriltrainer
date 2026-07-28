@@ -88,6 +88,24 @@ safe_path() {
     case "$1" in *"'"*) die "path contains a single quote, which cannot be passed to sqlite3: $1" ;; esac
 }
 
+# Rows are written in a fixed order, so two exports of the same database are the same bytes and a
+# `diff` between two days shows only what was appended. `rowid` is that order for an ordinary
+# table, but a WITHOUT ROWID table has no such column and the query fails outright rather than
+# falling back — `daily_metric` is one, and it took the export down the day it was added. There the
+# primary key *is* the storage order, and it is the only stable one the table has.
+stable_order() {
+    local db="$1" t="$2" pk
+    if sqlite3 "$db" "SELECT rowid FROM \"$t\" LIMIT 0;" >/dev/null 2>&1; then
+        echo rowid
+        return
+    fi
+    pk="$(sqlite3 "$db" "SELECT group_concat(q, ', ') FROM (
+                             SELECT '\"' || name || '\"' AS q
+                               FROM pragma_table_info('$t') WHERE pk > 0 ORDER BY pk);")"
+    [ -n "$pk" ] || die "table $t has neither a rowid nor a primary key to order its rows by"
+    echo "$pk"
+}
+
 # --- the export ---------------------------------------------------------------------------------
 #
 # One JSON document: the DDL of every table, index and trigger, then every row of every table with
@@ -102,7 +120,7 @@ safe_path() {
 # to be a whole document.
 export_json() {
     local db="$1" out="$2" count="$3"
-    local tables t rows first=1 plain="${2%.gz}"
+    local tables t rows order first=1 plain="${2%.gz}"
     safe_path "$out"
     [ "$plain" != "$out" ] || die "export target must end in .gz: $out"
 
@@ -131,8 +149,9 @@ export_json() {
         for t in $tables; do
             [ "$first" -eq 1 ] || printf ',\n'
             first=0
+            order="$(stable_order "$db" "$t")"
             # An empty table prints nothing at all in json mode, which would be a syntax error.
-            rows="$(sqlite3 "$db" -cmd ".mode json" "SELECT * FROM \"$t\" ORDER BY rowid;")"
+            rows="$(sqlite3 "$db" -cmd ".mode json" "SELECT * FROM \"$t\" ORDER BY $order;")"
             [ -n "$rows" ] || rows='[]'
             printf '    "%s": %s' "$t" "$rows"
         done
