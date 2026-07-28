@@ -13,178 +13,178 @@
         <source>Sitzung</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">10,11</context>
+          <context context-type="linenumber">17,19</context>
         </context-group>
       </trans-unit>
       <trans-unit id="nav.stats" datatype="html">
         <source>Statistik</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">11,12</context>
+          <context context-type="linenumber">19,20</context>
         </context-group>
       </trans-unit>
       <trans-unit id="nav.leaderboard" datatype="html">
         <source>Rangliste</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">12,15</context>
+          <context context-type="linenumber">20,23</context>
         </context-group>
       </trans-unit>
       <trans-unit id="login.button.title" datatype="html">
         <source>Login anzeigen oder kopieren</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">31,33</context>
+          <context context-type="linenumber">39,41</context>
         </context-group>
       </trans-unit>
       <trans-unit id="login.label" datatype="html">
         <source>Login:</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">33,34</context>
+          <context context-type="linenumber">41,42</context>
         </context-group>
       </trans-unit>
       <trans-unit id="login.show" datatype="html">
         <source>Zeigen</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">37,38</context>
+          <context context-type="linenumber">45,46</context>
         </context-group>
       </trans-unit>
       <trans-unit id="logout.title" datatype="html">
         <source>Von diesem Browser abmelden</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">49,51</context>
+          <context context-type="linenumber">57,59</context>
         </context-group>
       </trans-unit>
       <trans-unit id="logout.label" datatype="html">
         <source>Abmelden</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">51,53</context>
+          <context context-type="linenumber">59,61</context>
         </context-group>
       </trans-unit>
       <trans-unit id="lang.de.title" datatype="html">
         <source>Deutsch · vriltrainer.de</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">62,63</context>
+          <context context-type="linenumber">70,71</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">81,82</context>
+          <context context-type="linenumber">89,90</context>
         </context-group>
       </trans-unit>
       <trans-unit id="lang.en.title" datatype="html">
         <source>English · vriltrainer.com</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">71,72</context>
+          <context context-type="linenumber">79,80</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">85,87</context>
+          <context context-type="linenumber">93,95</context>
         </context-group>
       </trans-unit>
       <trans-unit id="keydlg.eyebrow" datatype="html">
         <source>Dein Login</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">95,96</context>
+          <context context-type="linenumber">103,104</context>
         </context-group>
       </trans-unit>
       <trans-unit id="keydlg.lead" datatype="html">
         <source> Dieser Link <x id="START_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;em&gt;"/>ist<x id="CLOSE_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;/em&gt;"/> dein Konto. Wer ihn hat, ist du. Es gibt keine Wiederherstellung - speichere ihn als Lesezeichen oder im Passwortmanager. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">97,100</context>
+          <context context-type="linenumber">105,108</context>
         </context-group>
       </trans-unit>
       <trans-unit id="keydlg.copied" datatype="html">
         <source>Kopiert</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">111,112</context>
+          <context context-type="linenumber">119,120</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">194,195</context>
+          <context context-type="linenumber">202,203</context>
         </context-group>
       </trans-unit>
       <trans-unit id="keydlg.copy" datatype="html">
         <source>Kopieren</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">113,114</context>
+          <context context-type="linenumber">121,122</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">196,197</context>
+          <context context-type="linenumber">204,205</context>
         </context-group>
       </trans-unit>
       <trans-unit id="keydlg.hide" datatype="html">
         <source>Verbergen</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">118,119</context>
+          <context context-type="linenumber">126,127</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">201,202</context>
+          <context context-type="linenumber">209,210</context>
         </context-group>
       </trans-unit>
       <trans-unit id="keydlg.reveal" datatype="html">
         <source>Anzeigen</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">120,122</context>
+          <context context-type="linenumber">128,130</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">203,205</context>
+          <context context-type="linenumber">211,213</context>
         </context-group>
       </trans-unit>
       <trans-unit id="keydlg.close" datatype="html">
         <source>Schließen</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">123,126</context>
+          <context context-type="linenumber">131,134</context>
         </context-group>
       </trans-unit>
       <trans-unit id="erase.start" datatype="html">
         <source> Namen löschen </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">133,134</context>
+          <context context-type="linenumber">141,142</context>
         </context-group>
       </trans-unit>
       <trans-unit id="erase.confirm" datatype="html">
         <source> Der Name wird sofort entfernt und ist nicht wiederherstellbar. Deine Sitzungen bleiben im Protokoll - unter deiner Kennung, ohne Namen. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">137,139</context>
+          <context context-type="linenumber">145,147</context>
         </context-group>
       </trans-unit>
       <trans-unit id="erase.confirmYes" datatype="html">
         <source> Namen endgültig löschen </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">142,143</context>
+          <context context-type="linenumber">150,151</context>
         </context-group>
       </trans-unit>
       <trans-unit id="erase.cancel" datatype="html">
         <source> Abbrechen </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">145,146</context>
+          <context context-type="linenumber">153,154</context>
         </context-group>
       </trans-unit>
       <trans-unit id="erase.failed" datatype="html">
         <source> Das hat nicht geklappt. Versuch es gleich noch einmal. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">151,152</context>
+          <context context-type="linenumber">159,160</context>
         </context-group>
       </trans-unit>
       <trans-unit id="keydlg.publicId" datatype="html">
@@ -192,105 +192,105 @@
           &gt;"/>. Dein Name erscheint auf öffentlichen Seiten erst, wenn er freigegeben ist - bis dahin steht dort eine Verdeckung neben dieser Kennung. Dir zeigen wir ihn immer. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">161,164</context>
+          <context context-type="linenumber">169,172</context>
         </context-group>
       </trans-unit>
       <trans-unit id="logout.dialog.eyebrow" datatype="html">
         <source>Wirklich abmelden?</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">175,176</context>
+          <context context-type="linenumber">183,184</context>
         </context-group>
       </trans-unit>
       <trans-unit id="logout.dialog.lead" datatype="html">
         <source> Abmelden löscht den Zugang <x id="START_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;em&gt;"/>aus diesem Browser<x id="CLOSE_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;/em&gt;"/>. Es gibt keine Wiederherstellung über Mail oder Passwort - ohne diesen Link kommt niemand mehr an das Konto, auch wir nicht. Sichere ihn jetzt, falls noch nicht geschehen. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">177,180</context>
+          <context context-type="linenumber">185,188</context>
         </context-group>
       </trans-unit>
       <trans-unit id="logout.cancel" datatype="html">
         <source> Abbrechen </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">207,209</context>
+          <context context-type="linenumber">215,217</context>
         </context-group>
       </trans-unit>
       <trans-unit id="logout.confirm" datatype="html">
         <source> Abmelden </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">210,212</context>
+          <context context-type="linenumber">218,220</context>
         </context-group>
       </trans-unit>
       <trans-unit id="foot.aria" datatype="html">
         <source>Fußzeile</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">226,227</context>
+          <context context-type="linenumber">234,235</context>
         </context-group>
       </trans-unit>
       <trans-unit id="foot.source" datatype="html">
         <source>Quellcode · AGPL-3.0</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">227,229</context>
+          <context context-type="linenumber">235,237</context>
         </context-group>
       </trans-unit>
       <trans-unit id="foot.protocol" datatype="html">
         <source> Protokoll · D1–D33 </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">232,234</context>
+          <context context-type="linenumber">240,242</context>
         </context-group>
       </trans-unit>
       <trans-unit id="foot.download" datatype="html">
         <source>Datensatz herunterladen</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">236,238</context>
+          <context context-type="linenumber">244,246</context>
         </context-group>
       </trans-unit>
       <trans-unit id="foot.privacy" datatype="html">
         <source>Datenschutz</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">241,242</context>
+          <context context-type="linenumber">249,250</context>
         </context-group>
       </trans-unit>
       <trans-unit id="foot.impressum" datatype="html">
         <source>Impressum</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">242,245</context>
+          <context context-type="linenumber">250,253</context>
         </context-group>
       </trans-unit>
       <trans-unit id="meta.title" datatype="html">
         <source>vriltrainer - öffentlicher Remote-Viewing-Test</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.ts</context>
-          <context context-type="linenumber">48</context>
+          <context context-type="linenumber">66</context>
         </context-group>
       </trans-unit>
       <trans-unit id="meta.description" datatype="html">
         <source>Ich rekrutiere psionische Assets um die Reptiloiden zu bekämpfen. Teste deine telepathischen Fähigkeiten!</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.ts</context>
-          <context context-type="linenumber">51</context>
+          <context context-type="linenumber">69</context>
         </context-group>
       </trans-unit>
       <trans-unit id="login.fallbackName" datatype="html">
         <source>Konto</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.ts</context>
-          <context context-type="linenumber">81</context>
+          <context context-type="linenumber">107</context>
         </context-group>
       </trans-unit>
       <trans-unit id="keydlg.maskedLabel" datatype="html">
         <source>Login verdeckt</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.ts</context>
-          <context context-type="linenumber">82</context>
+          <context context-type="linenumber">108</context>
         </context-group>
       </trans-unit>
       <trans-unit id="check.empty" datatype="html">
@@ -384,130 +384,137 @@
           <context context-type="linenumber">29,31</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="gate.odds" datatype="html">
+        <source> Acht Bilder, eines ist richtig: <x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>12,5 %<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> trifft man durch reines Raten. Alles darüber muss über viele Sitzungen halten, um etwas zu bedeuten. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
+          <context context-type="linenumber">39,43</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="gate.heading" datatype="html">
         <source>Wie sollen wir dich nennen?</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">34,36</context>
+          <context context-type="linenumber">43,45</context>
         </context-group>
       </trans-unit>
       <trans-unit id="gate.lead" datatype="html">
         <source>Der Name steht auf der öffentlichen Bestenliste.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">36,38</context>
+          <context context-type="linenumber">45,47</context>
         </context-group>
       </trans-unit>
       <trans-unit id="gate.label" datatype="html">
         <source>Anzeigename</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">38,40</context>
+          <context context-type="linenumber">47,49</context>
         </context-group>
       </trans-unit>
       <trans-unit id="gate.hint" datatype="html">
         <source> 3 bis <x id="INTERPOLATION" equiv-text="{{ max }}"/> Zeichen. Buchstaben, Ziffern, Leerzeichen, Bindestrich, Unterstrich. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">61,63</context>
+          <context context-type="linenumber">70,72</context>
         </context-group>
       </trans-unit>
       <trans-unit id="gate.creating" datatype="html">
         <source>Konto wird angelegt …</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">72,73</context>
+          <context context-type="linenumber">81,82</context>
         </context-group>
       </trans-unit>
       <trans-unit id="gate.start" datatype="html">
         <source>Loslegen</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">74,75</context>
+          <context context-type="linenumber">83,84</context>
         </context-group>
       </trans-unit>
       <trans-unit id="refuse.tooShort" datatype="html">
         <source>Zu kurz.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">133</context>
+          <context context-type="linenumber">142</context>
         </context-group>
       </trans-unit>
       <trans-unit id="refuse.tooLong" datatype="html">
         <source>Zu lang.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">134</context>
+          <context context-type="linenumber">143</context>
         </context-group>
       </trans-unit>
       <trans-unit id="refuse.shapeless" datatype="html">
         <source>Der Name muss wie ein Name aussehen: Buchstaben, nicht nur Zeichen und Ziffern.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">135</context>
+          <context context-type="linenumber">144</context>
         </context-group>
       </trans-unit>
       <trans-unit id="refuse.reserved" datatype="html">
         <source>Der Name ist für die Seite selbst reserviert.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">136</context>
+          <context context-type="linenumber">145</context>
         </context-group>
       </trans-unit>
       <trans-unit id="refuse.hate" datatype="html">
         <source>Such dir etwas anderes aus.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">137</context>
+          <context context-type="linenumber">146</context>
         </context-group>
       </trans-unit>
       <trans-unit id="refuse.vulgar" datatype="html">
         <source>Der Name steht auf einer öffentlichen Rangliste. Nicht dieser.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">138</context>
+          <context context-type="linenumber">147</context>
         </context-group>
       </trans-unit>
       <trans-unit id="refuse.address" datatype="html">
         <source>Keine Adressen im Namen.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">139</context>
+          <context context-type="linenumber">148</context>
         </context-group>
       </trans-unit>
       <trans-unit id="fail.network" datatype="html">
         <source>Keine Verbindung zum Server. Es wurde nichts angelegt - dein Name ist in Ordnung, versuch es gleich noch einmal.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">158</context>
+          <context context-type="linenumber">167</context>
         </context-group>
       </trans-unit>
       <trans-unit id="fail.serverDown" datatype="html">
         <source>Der Dienst ist gerade nicht erreichbar (Fehler <x id="status" equiv-text="e.status"/>). Das liegt nicht an deinem Namen - versuch es in ein paar Minuten noch einmal.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">165</context>
+          <context context-type="linenumber">174</context>
         </context-group>
       </trans-unit>
       <trans-unit id="fail.nameRefused" datatype="html">
         <source>Der Name wurde abgelehnt. Such dir einen anderen aus.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">171</context>
+          <context context-type="linenumber">180</context>
         </context-group>
       </trans-unit>
       <trans-unit id="fail.unexpected" datatype="html">
         <source>Unerwartete Antwort vom Server (Fehler <x id="status" equiv-text="e.status"/>). Das liegt nicht an deinem Namen.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">176</context>
+          <context context-type="linenumber">185</context>
         </context-group>
       </trans-unit>
       <trans-unit id="fail.unknown" datatype="html">
         <source>Das Konto konnte nicht angelegt werden. Das liegt nicht an deinem Namen - versuch es noch einmal.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">179</context>
+          <context context-type="linenumber">188</context>
         </context-group>
       </trans-unit>
       <trans-unit id="category.building" datatype="html">

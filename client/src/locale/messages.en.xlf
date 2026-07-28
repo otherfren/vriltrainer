@@ -14,7 +14,7 @@
         <source>Sitzung</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">10,11</context>
+          <context context-type="linenumber">17,19</context>
         </context-group>
         <target>Session</target>
       </trans-unit>
@@ -22,7 +22,7 @@
         <source>Statistik</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">11,12</context>
+          <context context-type="linenumber">19,20</context>
         </context-group>
         <target>Statistics</target>
       </trans-unit>
@@ -30,7 +30,7 @@
         <source>Rangliste</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">12,15</context>
+          <context context-type="linenumber">20,23</context>
         </context-group>
         <target>Leaderboard</target>
       </trans-unit>
@@ -38,7 +38,7 @@
         <source>Login anzeigen oder kopieren</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">31,33</context>
+          <context context-type="linenumber">39,41</context>
         </context-group>
         <target>Show or copy your login</target>
       </trans-unit>
@@ -46,7 +46,7 @@
         <source>Login:</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">33,34</context>
+          <context context-type="linenumber">41,42</context>
         </context-group>
         <target>Login:</target>
       </trans-unit>
@@ -54,7 +54,7 @@
         <source>Zeigen</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">37,38</context>
+          <context context-type="linenumber">45,46</context>
         </context-group>
         <target>Show</target>
       </trans-unit>
@@ -62,7 +62,7 @@
         <source>Von diesem Browser abmelden</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">49,51</context>
+          <context context-type="linenumber">57,59</context>
         </context-group>
         <target>Sign out of this browser</target>
       </trans-unit>
@@ -70,7 +70,7 @@
         <source>Abmelden</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">51,53</context>
+          <context context-type="linenumber">59,61</context>
         </context-group>
         <target>Sign out</target>
       </trans-unit>
@@ -78,11 +78,11 @@
         <source>Deutsch · vriltrainer.de</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">62,63</context>
+          <context context-type="linenumber">70,71</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">81,82</context>
+          <context context-type="linenumber">89,90</context>
         </context-group>
         <target>Deutsch · vriltrainer.de</target>
       </trans-unit>
@@ -90,11 +90,11 @@
         <source>English · vriltrainer.com</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">71,72</context>
+          <context context-type="linenumber">79,80</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">85,87</context>
+          <context context-type="linenumber">93,95</context>
         </context-group>
         <target>English · vriltrainer.com</target>
       </trans-unit>
@@ -102,7 +102,7 @@
         <source>Dein Login</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">95,96</context>
+          <context context-type="linenumber">103,104</context>
         </context-group>
         <target>Your login</target>
       </trans-unit>
@@ -110,7 +110,7 @@
         <source> Dieser Link <x id="START_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;em&gt;"/>ist<x id="CLOSE_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;/em&gt;"/> dein Konto. Wer ihn hat, ist du. Es gibt keine Wiederherstellung - speichere ihn als Lesezeichen oder im Passwortmanager. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">97,100</context>
+          <context context-type="linenumber">105,108</context>
         </context-group>
         <target>This link <x id="START_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;em&gt;"/>is<x id="CLOSE_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;/em&gt;"/> your account. Whoever holds it is you. There is no recovery - save it as a bookmark or in your password manager.</target>
       </trans-unit>
@@ -118,11 +118,11 @@
         <source>Kopiert</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">111,112</context>
+          <context context-type="linenumber">119,120</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">194,195</context>
+          <context context-type="linenumber">202,203</context>
         </context-group>
         <target>Copied</target>
       </trans-unit>
@@ -130,11 +130,11 @@
         <source>Kopieren</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">113,114</context>
+          <context context-type="linenumber">121,122</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">196,197</context>
+          <context context-type="linenumber">204,205</context>
         </context-group>
         <target>Copy</target>
       </trans-unit>
@@ -142,11 +142,11 @@
         <source>Verbergen</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">118,119</context>
+          <context context-type="linenumber">126,127</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">201,202</context>
+          <context context-type="linenumber">209,210</context>
         </context-group>
         <target>Hide</target>
       </trans-unit>
@@ -154,11 +154,11 @@
         <source>Anzeigen</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">120,122</context>
+          <context context-type="linenumber">128,130</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">203,205</context>
+          <context context-type="linenumber">211,213</context>
         </context-group>
         <target>Show</target>
       </trans-unit>
@@ -166,7 +166,7 @@
         <source>Schließen</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">123,126</context>
+          <context context-type="linenumber">131,134</context>
         </context-group>
         <target>Close</target>
       </trans-unit>
@@ -174,7 +174,7 @@
         <source> Namen löschen </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">133,134</context>
+          <context context-type="linenumber">141,142</context>
         </context-group>
         <target>Delete my name</target>
       </trans-unit>
@@ -182,7 +182,7 @@
         <source> Der Name wird sofort entfernt und ist nicht wiederherstellbar. Deine Sitzungen bleiben im Protokoll - unter deiner Kennung, ohne Namen. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">137,139</context>
+          <context context-type="linenumber">145,147</context>
         </context-group>
         <target>The name is removed immediately and cannot be restored. Your sessions stay in the record - under your identifier, without a name.</target>
       </trans-unit>
@@ -190,7 +190,7 @@
         <source> Namen endgültig löschen </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">142,143</context>
+          <context context-type="linenumber">150,151</context>
         </context-group>
         <target>Delete the name for good</target>
       </trans-unit>
@@ -198,7 +198,7 @@
         <source> Abbrechen </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">145,146</context>
+          <context context-type="linenumber">153,154</context>
         </context-group>
         <target>Cancel</target>
       </trans-unit>
@@ -206,7 +206,7 @@
         <source> Das hat nicht geklappt. Versuch es gleich noch einmal. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">151,152</context>
+          <context context-type="linenumber">159,160</context>
         </context-group>
         <target>That did not work. Try again in a moment.</target>
       </trans-unit>
@@ -215,7 +215,7 @@
           &gt;"/>. Dein Name erscheint auf öffentlichen Seiten erst, wenn er freigegeben ist - bis dahin steht dort eine Verdeckung neben dieser Kennung. Dir zeigen wir ihn immer. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">161,164</context>
+          <context context-type="linenumber">169,172</context>
         </context-group>
         <target>Public id <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;measured&quot;&gt;"/><x id="INTERPOLATION" equiv-text="{{ id }}"/><x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span
           &gt;"/>. Your name appears on public pages only once it has been approved - until then a mask stands there beside this id. To you we always show it.</target>
@@ -224,7 +224,7 @@
         <source>Wirklich abmelden?</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">175,176</context>
+          <context context-type="linenumber">183,184</context>
         </context-group>
         <target>Really sign out?</target>
       </trans-unit>
@@ -232,7 +232,7 @@
         <source> Abmelden löscht den Zugang <x id="START_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;em&gt;"/>aus diesem Browser<x id="CLOSE_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;/em&gt;"/>. Es gibt keine Wiederherstellung über Mail oder Passwort - ohne diesen Link kommt niemand mehr an das Konto, auch wir nicht. Sichere ihn jetzt, falls noch nicht geschehen. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">177,180</context>
+          <context context-type="linenumber">185,188</context>
         </context-group>
         <target>Signing out deletes the access <x id="START_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;em&gt;"/>from this browser<x id="CLOSE_EMPHASISED_TEXT" ctype="x-em" equiv-text="&lt;/em&gt;"/>. There is no recovery by mail or password - without this link nobody can reach the account again, us included. Save it now if you have not already.</target>
       </trans-unit>
@@ -240,7 +240,7 @@
         <source> Abbrechen </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">207,209</context>
+          <context context-type="linenumber">215,217</context>
         </context-group>
         <target>Cancel</target>
       </trans-unit>
@@ -248,7 +248,7 @@
         <source> Abmelden </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">210,212</context>
+          <context context-type="linenumber">218,220</context>
         </context-group>
         <target>Sign out</target>
       </trans-unit>
@@ -256,7 +256,7 @@
         <source>Fußzeile</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">226,227</context>
+          <context context-type="linenumber">234,235</context>
         </context-group>
         <target>Footer</target>
       </trans-unit>
@@ -264,7 +264,7 @@
         <source>Quellcode · AGPL-3.0</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">227,229</context>
+          <context context-type="linenumber">235,237</context>
         </context-group>
         <target>Source · AGPL-3.0</target>
       </trans-unit>
@@ -272,7 +272,7 @@
         <source> Protokoll · D1–D33 </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">232,234</context>
+          <context context-type="linenumber">240,242</context>
         </context-group>
         <target>Protocol · D1–D33</target>
       </trans-unit>
@@ -280,7 +280,7 @@
         <source>Datensatz herunterladen</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">236,238</context>
+          <context context-type="linenumber">244,246</context>
         </context-group>
         <target>Download the record</target>
       </trans-unit>
@@ -288,7 +288,7 @@
         <source>Datenschutz</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">241,242</context>
+          <context context-type="linenumber">249,250</context>
         </context-group>
         <target>Privacy</target>
       </trans-unit>
@@ -296,7 +296,7 @@
         <source>Impressum</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">242,245</context>
+          <context context-type="linenumber">250,253</context>
         </context-group>
         <target>Legal notice</target>
       </trans-unit>
@@ -304,7 +304,7 @@
         <source>vriltrainer - öffentlicher Remote-Viewing-Test</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.ts</context>
-          <context context-type="linenumber">48</context>
+          <context context-type="linenumber">66</context>
         </context-group>
         <target>vriltrainer - a public remote viewing test</target>
       </trans-unit>
@@ -312,7 +312,7 @@
         <source>Ich rekrutiere psionische Assets um die Reptiloiden zu bekämpfen. Teste deine telepathischen Fähigkeiten!</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.ts</context>
-          <context context-type="linenumber">51</context>
+          <context context-type="linenumber">69</context>
         </context-group>
         <target>I am recruiting psionic assets to fight the reptilians. Test your telepathic abilities!</target>
       </trans-unit>
@@ -320,7 +320,7 @@
         <source>Konto</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.ts</context>
-          <context context-type="linenumber">81</context>
+          <context context-type="linenumber">107</context>
         </context-group>
         <target>Account</target>
       </trans-unit>
@@ -328,7 +328,7 @@
         <source>Login verdeckt</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.ts</context>
-          <context context-type="linenumber">82</context>
+          <context context-type="linenumber">108</context>
         </context-group>
         <target>Login hidden</target>
       </trans-unit>
@@ -436,11 +436,19 @@
         </context-group>
         <target>This is where you train remote viewing.<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br /&gt;"/>You are given a coordinate, sense what the target might be, and then reveal eight images. One of them is the target.</target>
       </trans-unit>
+      <trans-unit id="gate.odds" datatype="html">
+        <source> Acht Bilder, eines ist richtig: <x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>12,5 %<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> trifft man durch reines Raten. Alles darüber muss über viele Sitzungen halten, um etwas zu bedeuten. </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
+          <context context-type="linenumber">39,43</context>
+        </context-group>
+        <target>Eight images, one is right: <x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>12.5 %<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> is what pure guessing hits. Anything above that has to hold over many sessions to mean something.</target>
+      </trans-unit>
       <trans-unit id="gate.heading" datatype="html">
         <source>Wie sollen wir dich nennen?</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">34,36</context>
+          <context context-type="linenumber">43,45</context>
         </context-group>
         <target>What should we call you?</target>
       </trans-unit>
@@ -448,7 +456,7 @@
         <source>Der Name steht auf der öffentlichen Bestenliste.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">36,38</context>
+          <context context-type="linenumber">45,47</context>
         </context-group>
         <target>The name goes on the public leaderboard.</target>
       </trans-unit>
@@ -456,7 +464,7 @@
         <source>Anzeigename</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">38,40</context>
+          <context context-type="linenumber">47,49</context>
         </context-group>
         <target>Display name</target>
       </trans-unit>
@@ -464,7 +472,7 @@
         <source> 3 bis <x id="INTERPOLATION" equiv-text="{{ max }}"/> Zeichen. Buchstaben, Ziffern, Leerzeichen, Bindestrich, Unterstrich. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">61,63</context>
+          <context context-type="linenumber">70,72</context>
         </context-group>
         <target>3 to <x id="INTERPOLATION" equiv-text="{{ max }}"/> characters. Letters, digits, spaces, hyphen, underscore.</target>
       </trans-unit>
@@ -472,7 +480,7 @@
         <source>Konto wird angelegt …</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">72,73</context>
+          <context context-type="linenumber">81,82</context>
         </context-group>
         <target>Creating account …</target>
       </trans-unit>
@@ -480,7 +488,7 @@
         <source>Loslegen</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">74,75</context>
+          <context context-type="linenumber">83,84</context>
         </context-group>
         <target>Start</target>
       </trans-unit>
@@ -488,7 +496,7 @@
         <source>Zu kurz.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">133</context>
+          <context context-type="linenumber">142</context>
         </context-group>
         <target>Too short.</target>
       </trans-unit>
@@ -496,7 +504,7 @@
         <source>Zu lang.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">134</context>
+          <context context-type="linenumber">143</context>
         </context-group>
         <target>Too long.</target>
       </trans-unit>
@@ -504,7 +512,7 @@
         <source>Der Name muss wie ein Name aussehen: Buchstaben, nicht nur Zeichen und Ziffern.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">135</context>
+          <context context-type="linenumber">144</context>
         </context-group>
         <target>The name has to look like a name: letters, not just marks and digits.</target>
       </trans-unit>
@@ -512,7 +520,7 @@
         <source>Der Name ist für die Seite selbst reserviert.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">136</context>
+          <context context-type="linenumber">145</context>
         </context-group>
         <target>That name is reserved for the site itself.</target>
       </trans-unit>
@@ -520,7 +528,7 @@
         <source>Such dir etwas anderes aus.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">137</context>
+          <context context-type="linenumber">146</context>
         </context-group>
         <target>Pick something else.</target>
       </trans-unit>
@@ -528,7 +536,7 @@
         <source>Der Name steht auf einer öffentlichen Rangliste. Nicht dieser.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">138</context>
+          <context context-type="linenumber">147</context>
         </context-group>
         <target>This name goes on a public leaderboard. Not this one.</target>
       </trans-unit>
@@ -536,7 +544,7 @@
         <source>Keine Adressen im Namen.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">139</context>
+          <context context-type="linenumber">148</context>
         </context-group>
         <target>No addresses in the name.</target>
       </trans-unit>
@@ -544,7 +552,7 @@
         <source>Keine Verbindung zum Server. Es wurde nichts angelegt - dein Name ist in Ordnung, versuch es gleich noch einmal.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">158</context>
+          <context context-type="linenumber">167</context>
         </context-group>
         <target>No connection to the server. Nothing was created - your name is fine, try again in a moment.</target>
       </trans-unit>
@@ -552,7 +560,7 @@
         <source>Der Dienst ist gerade nicht erreichbar (Fehler <x id="status" equiv-text="e.status"/>). Das liegt nicht an deinem Namen - versuch es in ein paar Minuten noch einmal.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">165</context>
+          <context context-type="linenumber">174</context>
         </context-group>
         <target>The service is not reachable right now (error <x id="status" equiv-text="e.status"/>). This is not about your name - try again in a few minutes.</target>
       </trans-unit>
@@ -560,7 +568,7 @@
         <source>Der Name wurde abgelehnt. Such dir einen anderen aus.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">171</context>
+          <context context-type="linenumber">180</context>
         </context-group>
         <target>The name was refused. Pick another one.</target>
       </trans-unit>
@@ -568,7 +576,7 @@
         <source>Unerwartete Antwort vom Server (Fehler <x id="status" equiv-text="e.status"/>). Das liegt nicht an deinem Namen.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">176</context>
+          <context context-type="linenumber">185</context>
         </context-group>
         <target>Unexpected answer from the server (error <x id="status" equiv-text="e.status"/>). This is not about your name.</target>
       </trans-unit>
@@ -576,7 +584,7 @@
         <source>Das Konto konnte nicht angelegt werden. Das liegt nicht an deinem Namen - versuch es noch einmal.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/name-gate.component.ts</context>
-          <context context-type="linenumber">179</context>
+          <context context-type="linenumber">188</context>
         </context-group>
         <target>The account could not be created. This is not about your name - try again.</target>
       </trans-unit>

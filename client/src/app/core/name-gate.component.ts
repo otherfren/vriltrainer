@@ -31,6 +31,15 @@ import { NAME_MAX, checkDisplayName, normaliseDisplayName } from './display-name
         Bilder auf. Eines davon ist das Ziel.
       </p>
 
+      <!-- The number the whole site is measured against, said before anybody signs up rather than
+           after their first ten sessions (SC-001, FR-001). It is what makes the rest of the page
+           mean anything: without it "ich hatte drei Treffer" has nothing to be compared to, and a
+           visitor cannot tell whether they are looking at evidence or at eight-sided dice. -->
+      <p class="gate__odds" i18n="@@gate.odds">
+        Acht Bilder, eines ist richtig: <strong>12,5 %</strong> trifft man durch reines Raten. Alles
+        darüber muss über viele Sitzungen halten, um etwas zu bedeuten.
+      </p>
+
       <h1 class="gate__h" i18n="@@gate.heading">Wie sollen wir dich nennen?</h1>
 
       <p class="gate__lead" i18n="@@gate.lead">Der Name steht auf der öffentlichen Bestenliste.</p>

@@ -7,7 +7,15 @@
     </a>
 
     <nav class="tabs" i18n-aria-label="@@nav.aria" aria-label="Hauptnavigation">
-      <a routerLink="/trial" routerLinkActive="is-active" i18n="@@nav.trial">Sitzung</a>
+      <!-- The canonical address, and `exact` because every other route is under it: without that
+           this tab would be marked active on the statistics page too. -->
+      <a
+        routerLink="/"
+        routerLinkActive="is-active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        i18n="@@nav.trial"
+        >Sitzung</a
+      >
       <a routerLink="/statistik" routerLinkActive="is-active" i18n="@@nav.stats">Statistik</a>
       <a routerLink="/rangliste" routerLinkActive="is-active" i18n="@@nav.leaderboard">Rangliste</a>
     </nav>

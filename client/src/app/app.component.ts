@@ -1,4 +1,12 @@
-import { Component, ElementRef, LOCALE_ID, computed, inject, viewChild } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  ElementRef,
+  LOCALE_ID,
+  computed,
+  inject,
+  viewChild,
+} from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { StatusPanelComponent } from './core/status-panel.component';
@@ -12,6 +20,16 @@ import { SessionService } from './core/session.service';
  * still recognisably your own link before you decide to uncover it, and the string keeps its
  * length either way — revealing does not reflow the dialog.
  */
+/**
+ * How long an uncovered key stays uncovered (D21, T035).
+ *
+ * Twenty seconds is long enough to read a 32-character string off the screen or into a password
+ * manager and short enough that a dialog somebody uncovered and walked away from covers itself
+ * again. Nothing here is a defence against an attacker at the keyboard — it is a defence against
+ * the ordinary way secrets escape, which is being left on a screen.
+ */
+const REVEAL_SECONDS = 20;
+
 function maskToken(url: string): string {
   const at = url.indexOf('#t=');
   if (at < 0) return '•'.repeat(url.length);
@@ -50,6 +68,11 @@ export class AppComponent {
       name: 'description',
       content: $localize`:@@meta.description:Ich rekrutiere psionische Assets um die Reptiloiden zu bekämpfen. Teste deine telepathischen Fähigkeiten!`,
     });
+
+    // A re-mask timer that outlived the component would fire against a dead instance. It cannot
+    // happen in the running application — this component is the root — and it happens in every
+    // test that creates a fixture and lets it go.
+    inject(DestroyRef).onDestroy(() => this.cancelRemask());
   }
 
   /**
@@ -73,6 +96,9 @@ export class AppComponent {
   copied = false;
   revealed = false;
 
+  /** The pending re-mask, so a second reveal does not race the first one's timer. */
+  private remask?: ReturnType<typeof setTimeout>;
+
   /**
    * Two strings the template can only reach through an expression — a fallback in a `??` chain and
    * an attribute bound conditionally. `$localize` is how those get into the catalogue at all; a
@@ -92,16 +118,39 @@ export class AppComponent {
   openKey(): void {
     this.copied = false;
     this.revealed = false;
+    this.cancelRemask();
     this.dialog()?.nativeElement.showModal();
   }
 
   closeKey(): void {
     this.revealed = false;
+    this.cancelRemask();
     this.dialog()?.nativeElement.close();
   }
 
+  /**
+   * Uncovers the key, and covers it again on its own after [`REVEAL_SECONDS`].
+   *
+   * The timeout is the point: before it, `revealed` was only ever cleared by an explicit close, so
+   * a dialog left open on a shared or screen-shared machine kept the one credential the product
+   * has on display indefinitely.
+   */
   toggleReveal(): void {
     this.revealed = !this.revealed;
+    this.cancelRemask();
+    if (this.revealed) {
+      this.remask = setTimeout(() => {
+        this.revealed = false;
+        this.remask = undefined;
+      }, REVEAL_SECONDS * 1000);
+    }
+  }
+
+  private cancelRemask(): void {
+    if (this.remask !== undefined) {
+      clearTimeout(this.remask);
+      this.remask = undefined;
+    }
   }
 
   /** A click on the backdrop lands on the dialog element itself, never on its contents. */
@@ -159,16 +208,19 @@ export class AppComponent {
   openLogout(): void {
     this.copied = false;
     this.revealed = false;
+    this.cancelRemask();
     this.logoutDialog()?.nativeElement.showModal();
   }
 
   cancelLogout(): void {
     this.revealed = false;
+    this.cancelRemask();
     this.logoutDialog()?.nativeElement.close();
   }
 
   confirmLogout(): void {
     this.revealed = false;
+    this.cancelRemask();
     this.logoutDialog()?.nativeElement.close();
     this.session.signOut();
   }

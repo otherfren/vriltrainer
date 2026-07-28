@@ -71,3 +71,17 @@
   color: var(--pop-ink);
   opacity: 1;
 }
+
+/* The 12,5 % line. Quieter than the heading and louder than the hint: it is context rather than a
+   claim, and a visitor should read it without being sold anything. */
+.gate__odds {
+  margin: 0 0 1.25rem;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  opacity: 0.85;
+
+  strong {
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+}

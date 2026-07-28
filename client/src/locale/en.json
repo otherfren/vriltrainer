@@ -44,6 +44,7 @@
   "check.hate": "Pick something else.",
   "check.vulgar": "This name goes on a public leaderboard. Not this one.",
   "gate.what": "This is where you train remote viewing.{LINE_BREAK}You are given a coordinate, sense what the target might be, and then reveal eight images. One of them is the target.",
+  "gate.odds": "Eight images, one is right: {START_TAG_STRONG}12.5 %{CLOSE_TAG_STRONG} is what pure guessing hits. Anything above that has to hold over many sessions to mean something.",
   "gate.heading": "What should we call you?",
   "gate.lead": "The name goes on the public leaderboard.",
   "gate.label": "Display name",

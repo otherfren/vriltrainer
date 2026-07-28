@@ -1,4 +1,4 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { AppComponent } from './app.component';
 import { SessionService } from './core/session.service';
@@ -75,6 +75,50 @@ describe('AppComponent', () => {
     fixture.detectChanges();
     expect(dialog?.textContent).not.toContain(TOKEN);
   });
+
+  // D21, T035. An uncovered key used to stay uncovered until somebody closed the dialog, so a
+  // panel opened and walked away from held the credential on screen for as long as the tab lived.
+  it('covers the key again on its own', fakeAsync(() => {
+    session.establish(TOKEN, { publicId: '7F3A9C', name: 'Testperson' });
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.componentInstance;
+    fixture.detectChanges();
+    const dialog = (fixture.nativeElement as HTMLElement).querySelector('dialog');
+
+    app.toggleReveal();
+    fixture.detectChanges();
+    expect(dialog?.textContent).toContain(TOKEN);
+
+    // Still readable while somebody is reading it.
+    tick(5_000);
+    fixture.detectChanges();
+    expect(dialog?.textContent).toContain(TOKEN);
+
+    tick(20_000);
+    fixture.detectChanges();
+    expect(dialog?.textContent).not.toContain(TOKEN);
+  }));
+
+  // Closing before the timer would otherwise leave it pending, and the next reveal would then be
+  // cut short by the previous one's clock.
+  it('does not let a spent timer cut the next reveal short', fakeAsync(() => {
+    session.establish(TOKEN, { publicId: '7F3A9C', name: 'Testperson' });
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.componentInstance;
+    fixture.detectChanges();
+    const dialog = (fixture.nativeElement as HTMLElement).querySelector('dialog');
+
+    app.toggleReveal();
+    tick(15_000);
+    app.closeKey();
+
+    app.toggleReveal();
+    tick(10_000);
+    fixture.detectChanges();
+    expect(dialog?.textContent).toContain(TOKEN);
+
+    tick(20_000);
+  }));
 
   // The bar names the account so it is obvious which one you are about to copy, and the whole
   // panel is the control — there is only one thing to do with a login you cannot read.
