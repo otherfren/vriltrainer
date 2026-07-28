@@ -6,6 +6,7 @@
 //! wrong.
 
 pub mod client_addr;
+pub mod counting;
 pub mod locale;
 pub mod routes;
 pub mod static_files;
@@ -36,6 +37,9 @@ pub struct AppState {
     /// records the hash it was drawn under, so a manifest whose hash is wrong would publish
     /// trials nobody can recompute.
     pub pool: Arc<Manifest>,
+    /// The in-process traffic counters (FR-052, D28). Counted here and flushed on a timer, so a
+    /// page view never contends with the append that writes the audit log.
+    pub metrics: Arc<crate::metrics::Metrics>,
 }
 
 /// 425, the status the contract gives an answer submitted too soon after reveal. Spelled out
@@ -112,7 +116,13 @@ pub fn router(state: AppState) -> Router {
     // identifier and a `Content-Language` exactly like an API call does. It cannot be a fallback:
     // the router has one already, and that fallback is what tells a client an endpoint is
     // contracted but unbuilt.
-    let app = static_files::mount(routes::all().with_state(state), public.as_deref());
+    let counted = state.clone();
+    let app = static_files::mount(routes::all().with_state(state), public.as_deref())
+        // Inside the trace and locale layers and outside everything else, so a page served from
+        // the bundle counts exactly like a route does (FR-052, D28).
+        .layer(axum::middleware::from_fn(move |request, next| {
+            counting::count(counted.clone(), request, next)
+        }));
     trace::instrument(locale::announce(app, locale), locale)
 }
 
@@ -162,6 +172,10 @@ pub(crate) mod test_support {
             config: Arc::new(Config::default()),
             sealer: Arc::new(Sealer::new(&[7u8; 32])),
             pool: Arc::new(manifest),
+            metrics: Arc::new(crate::metrics::Metrics::new(
+                crate::config::Locale::De,
+                &crate::db::now_rfc3339(),
+            )),
         }
     }
 }

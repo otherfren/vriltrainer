@@ -1,20 +1,27 @@
 //! One process per domain (D24). Started twice with different `--locale` and `--listen`, against
 //! the same database file.
 
+use std::path::Path;
 use std::sync::Arc;
 
 use clap::Parser;
-use server::config::{Cli, Config};
+use server::config::{Cli, Command, Config};
 use server::db::Db;
 use server::http::{self, AppState};
 use server::pool::{Manifest, embedded};
 use server::trial::token::Sealer;
+use time::OffsetDateTime;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let config = Config::from_cli(Cli::parse());
+    let cli = Cli::parse();
     init_tracing();
 
+    if let Some(Command::Metrics { since }) = &cli.command {
+        return print_metrics(&cli.db, since.as_deref());
+    }
+
+    let config = Config::from_cli(cli);
     let db = Db::open(&config.db_path)?;
 
     // The startup chain walk D24 requires. The UNIQUE constraints catch a fork at the moment of
@@ -25,6 +32,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let pool = load_pool(&config)?;
     check_images_shipped(&pool)?;
+    record_pool(&db, &pool)?;
     tracing::info!(
         locale = config.locale.code(),
         domain = config.locale.domain(),
@@ -42,11 +50,16 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         sealer: Arc::new(Sealer::new(&token_key(&config)?)),
         pool: Arc::new(pool),
         config: Arc::new(config.clone()),
+        metrics: Arc::new(server::metrics::Metrics::new(
+            config.locale,
+            &server::db::now_rfc3339(),
+        )),
     };
 
     // D23's fifteen-minute pass. Started before the listener, so the first visitor after a deploy
     // reads ranks this process computed rather than paying for the pass themselves.
     server::tasks::spawn_rank_timer(Arc::clone(&state.db), Arc::clone(&state.config));
+    server::tasks::spawn_metrics_flush(Arc::clone(&state.db), Arc::clone(&state.metrics));
 
     let listener = tokio::net::TcpListener::bind(config.listen).await?;
     // `service`, not `router`: without `ConnectInfo` no handler learns the peer, so the forwarded
@@ -82,6 +95,77 @@ fn load_pool(config: &Config) -> Result<Manifest, Box<dyn std::error::Error>> {
         .validate()
         .map_err(|e| format!("pool manifest is not usable: {e}"))?;
     Ok(manifest)
+}
+
+/// Writes the served pool into `pool_version` and `pool_image`.
+///
+/// The manifests themselves are files on disk, and a lost `v1.json` is every trial recorded under
+/// v1 made unrecomputable. This puts the version, its hash and its image list into the database —
+/// which is the artefact that is backed up hourly, verified, and exported as a document that
+/// carries every row of every table.
+///
+/// A version that now points at a different manifest is a warning and not a refusal: D34 makes the
+/// version a pointer and binds each trial to a hash instead, so re-cutting is allowed. It must not
+/// be silent, though — every trial committed under the old hash is verifiable only against a
+/// manifest this service has stopped serving.
+fn record_pool(db: &Db, pool: &Manifest) -> Result<(), Box<dyn std::error::Error>> {
+    use server::pool::record::{self, Recorded};
+
+    match record::served(db, pool, &server::db::now_rfc3339())? {
+        Recorded::First => tracing::info!(
+            version = pool.version,
+            manifest_hash = %pool.manifest_hash,
+            images = pool.images.len(),
+            "pool version recorded"
+        ),
+        Recorded::Unchanged => {}
+        Recorded::Recut { was } => tracing::warn!(
+            version = pool.version,
+            was = %was,
+            now = %pool.manifest_hash,
+            "pool version re-cut: trials committed under the previous hash are verifiable only \
+             against a manifest this service no longer serves. Keep the old v{}.json.",
+            pool.version
+        ),
+    }
+    Ok(())
+}
+
+/// `vriltrainer metrics --since` (T114, D28).
+///
+/// Tab-separated, oldest first, one line per day, locale and metric. Deliberately not JSON and
+/// deliberately not a route: these are operator figures, the public admin API is name approval and
+/// nothing else (D25), and a table that `sort`, `cut` and `awk` read is the one an operator on the
+/// box already has tools for.
+///
+/// `trials_abandoned` is not a counter and is not printed. Abandonment is the *absence* of a
+/// resolve entry after D16's clock runs out, so there is no moment at which anything could
+/// increment it — the published figure comes from the log, where a reader can recount it, and
+/// `GET /api/stats/aggregate` is where it is reported.
+fn print_metrics(db_path: &Path, since: Option<&str>) -> Result<(), Box<dyn std::error::Error>> {
+    let db = Db::open(db_path)?;
+    let since = match since {
+        Some(day) => day.to_string(),
+        None => default_since(),
+    };
+
+    println!("day\tlocale\tmetric\tcount");
+    for row in server::metrics::since(&db, &since)? {
+        println!("{}\t{}\t{}\t{}", row.day, row.locale, row.metric, row.count);
+    }
+    Ok(())
+}
+
+/// Thirty days back, which is a month of traffic and shorter than the account grace period — long
+/// enough to see a trend, short enough that the default is not a wall of text.
+fn default_since() -> String {
+    let now = OffsetDateTime::now_utc() - time::Duration::days(30);
+    format!(
+        "{:04}-{:02}-{:02}",
+        now.year(),
+        now.month() as u8,
+        now.day()
+    )
 }
 
 /// The key that seals trial tokens (D16).

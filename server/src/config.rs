@@ -220,7 +220,9 @@ impl Config {
     pub fn from_cli(cli: Cli) -> Self {
         let defaults = Config::default();
         Config {
-            locale: cli.locale,
+            locale: cli
+                .locale
+                .expect("clap requires --locale unless a subcommand was given"),
             db_path: cli.db,
             pool_path: cli.pool,
             listen: cli.listen,
@@ -240,7 +242,11 @@ impl Config {
 #[command(
     name = "vriltrainer",
     version,
-    about = "The vriltrainer service - one process per domain"
+    about = "The vriltrainer service - one process per domain",
+    // `--locale` is required to serve and meaningless to `metrics`, which reads a database and
+    // answers nobody. This is the clap switch that says exactly that, and it keeps the flag
+    // mandatory for the case D24 cares about: starting a server.
+    subcommand_negates_reqs = true
 )]
 pub struct Cli {
     #[arg(long, value_name = "PATH", default_value = "vriltrainer.db")]
@@ -258,10 +264,12 @@ pub struct Cli {
 
     // Deliberately has no default. D24 exists so the locale is chosen once, visibly, in the unit
     // file; a default would let a mistyped flag start a second German instance on the English
-    // domain and nothing would look wrong.
-    /// The language this process serves.
-    #[arg(long, value_enum)]
-    pub locale: Locale,
+    // domain and nothing would look wrong. Optional in the type and required by clap, because
+    // `metrics` reads a database and serves nothing — asking it which language it is not going to
+    // speak would be a flag nobody could answer sensibly.
+    /// The language this process serves. Required unless a subcommand was given.
+    #[arg(long, value_enum, required = true)]
+    pub locale: Option<Locale>,
 
     /// Repeatable. Peers whose forwarded client address is believed (R8).
     #[arg(long = "trusted-proxy", value_name = "IP")]
@@ -270,6 +278,25 @@ pub struct Cli {
     /// File holding the trial token key as 64 hex characters.
     #[arg(long = "token-key", value_name = "PATH")]
     pub token_key: Option<PathBuf>,
+
+    #[command(subcommand)]
+    pub command: Option<Command>,
+}
+
+/// What the binary does instead of serving.
+///
+/// One entry, and the bar for a second is high. The public admin API is name approval and nothing
+/// else (D25), and an operator subcommand is not covered by that argument at all — it runs on the
+/// box, as the service user, with the database in its hands. Reading counters is safe to put here
+/// because it is a read; anything that writes belongs somewhere it can be argued about.
+#[derive(Debug, clap::Subcommand)]
+pub enum Command {
+    /// Print the traffic counters (FR-052, D28).
+    Metrics {
+        /// Earliest day to report, as `YYYY-MM-DD`. Defaults to the last thirty days.
+        #[arg(long, value_name = "DAY")]
+        since: Option<String>,
+    },
 }
 
 #[cfg(test)]

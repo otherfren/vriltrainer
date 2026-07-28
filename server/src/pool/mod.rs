@@ -1,6 +1,7 @@
 //! The published image manifest, per `specs/001-remote-viewing-trainer/contracts/pool-manifest.md`.
 
 pub mod embedded;
+pub mod record;
 
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};

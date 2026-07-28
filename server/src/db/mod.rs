@@ -30,6 +30,7 @@ const POOLED_READERS: usize = 4;
 const MIGRATIONS: &[(u32, &str)] = &[
     (1, include_str!("schema.sql")),
     (2, include_str!("migration_2_pool_binding.sql")),
+    (3, include_str!("migration_3_daily_metric.sql")),
 ];
 
 #[derive(Debug, thiserror::Error)]

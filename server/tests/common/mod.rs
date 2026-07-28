@@ -42,6 +42,7 @@ pub fn service() -> AppState {
 /// shipped eligibility floor is a hundred trials, and a contract test that had to write a hundred
 /// entries to see a leaderboard row would be testing patience.
 pub fn service_with(config: Config) -> AppState {
+    let locale = config.locale;
     let categories: Vec<String> = (0..10).map(|c| format!("cat{c}")).collect();
     let images: Vec<ImageEntry> = (0..30)
         .map(|i| ImageEntry {
@@ -64,6 +65,7 @@ pub fn service_with(config: Config) -> AppState {
         config: Arc::new(config),
         sealer: Arc::new(Sealer::new(&[11u8; 32])),
         pool: Arc::new(pool),
+        metrics: Arc::new(server::metrics::Metrics::new(locale, &now_rfc3339())),
     }
 }
 

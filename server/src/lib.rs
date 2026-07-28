@@ -13,6 +13,7 @@ pub mod db;
 pub mod framing;
 pub mod http;
 pub mod log;
+pub mod metrics;
 pub mod pool;
 pub mod stats;
 pub mod tasks;

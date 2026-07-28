@@ -117,6 +117,11 @@ async fn start(
         entry.seq,
     );
 
+    // After the COMMIT entry, so the figure counts trials that are in the record (FR-052).
+    state
+        .metrics
+        .count(crate::metrics::name::TRIAL_STARTED, &now_rfc3339());
+
     Ok((
         StatusCode::CREATED,
         Json(StartResponse {
@@ -314,6 +319,10 @@ async fn answer(
             |tx, entry| accumulate::on_resolve(tx, &state.config, &account, hit, &entry.at),
         )
         .map_err(answered_concurrently)?;
+
+    state
+        .metrics
+        .count(crate::metrics::name::TRIAL_COMPLETED, &now_rfc3339());
 
     // After the append, never before. The randomness is the proof, and handing it over for a
     // trial whose resolve failed to commit would publish an outcome the record does not contain.
@@ -536,6 +545,10 @@ mod tests {
             config: Arc::new(Config::default()),
             sealer: Arc::new(Sealer::new(&[7u8; 32])),
             pool: Arc::new(manifest),
+            metrics: Arc::new(crate::metrics::Metrics::new(
+                crate::config::Locale::De,
+                &crate::db::now_rfc3339(),
+            )),
         }
     }
 

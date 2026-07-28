@@ -16,6 +16,7 @@ use serde::{Deserialize, Serialize};
 use crate::account::{self, name::NameError, name_filter::Refusal};
 use crate::db::now_rfc3339;
 use crate::http::{ApiError, AppState};
+use crate::metrics;
 
 pub fn routes() -> Router<AppState> {
     Router::new()
@@ -94,6 +95,9 @@ async fn create(
     account::reap::ensure_swept(&state.db, state.config.as_ref(), &now)?;
 
     let account = account::create(&state.db, &request.name, &now).map_err(refusal)?;
+    // Counted after the insert, so a refused name is not an account in the figures (FR-052).
+    state.metrics.count(metrics::name::ACCOUNT_CREATED, &now);
+    state.metrics.count(metrics::name::NAME_SUBMITTED, &now);
 
     Ok((
         StatusCode::CREATED,
@@ -165,11 +169,12 @@ async fn rename(
     Holder(account): Holder,
     Json(request): Json<RenameRequest>,
 ) -> Result<Response, ApiError> {
+    let now = now_rfc3339();
     let submitted = account::name::submit(
         &state.db,
         &account,
         &request.name,
-        &now_rfc3339(),
+        &now,
         state.config.rename_cooldown_hours,
     );
 
@@ -180,6 +185,7 @@ async fn rename(
         return Ok(too_soon(retry_after_seconds));
     }
     submitted.map_err(refusal)?;
+    state.metrics.count(metrics::name::NAME_SUBMITTED, &now);
 
     // Read back rather than assembling from what was sent: the stored form is trimmed and
     // collapsed, and a client that displays the typed string displays a name the server does not

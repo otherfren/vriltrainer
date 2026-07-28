@@ -1,16 +1,25 @@
 //! Work the process does on a clock rather than on a request.
 //!
-//! There is exactly one of these and it is small on purpose. A background task in a service whose
-//! product is an append-only record is a writer nobody asked for, so the rule it follows is that it
-//! may only do work a read would otherwise have paid for — never work that would not have happened
-//! at all.
+//! Two of these, and both are small on purpose. A background task in a service whose product is an
+//! append-only record is a writer nobody asked for, so the rule they follow is that they may only
+//! do work a request would otherwise have paid for — never work that would not have happened at
+//! all.
 
 use std::sync::Arc;
 use std::time::Duration;
 
 use crate::config::Config;
 use crate::db::{Db, now_rfc3339};
+use crate::metrics::Metrics;
 use crate::stats::ranks;
+
+/// How often the traffic counters are written down.
+///
+/// A minute. Long enough that a busy page is one write rather than hundreds, short enough that a
+/// crash costs a minute of a figure that is a rough sense of traffic and nothing anybody decides
+/// on. The unique-visitor set is not affected by the interval — it is written as a maximum, so a
+/// flush never double-counts.
+const FLUSH_AFTER: Duration = Duration::from_secs(60);
 
 /// The fifteen-minute rank pass of D23 (T102).
 ///
@@ -56,10 +65,41 @@ pub fn spawn_rank_timer(db: Arc<Db>, config: Arc<Config>) -> tokio::task::JoinHa
     })
 }
 
+/// Writes the traffic counters down (FR-052, D28, T112).
+///
+/// The counting itself happens in memory on the request path; this is the only thing that touches
+/// the database on their behalf, which is what keeps a page view from queueing behind the append
+/// that writes the audit log.
+///
+/// A failed flush is logged and the counts are gone — they were drained before the write. That is
+/// the right way round for this table and would be the wrong way round for anything else here: a
+/// retry queue for page-view counts is more machinery than the figure is worth, and the figure it
+/// would protect is "roughly how many people came".
+pub fn spawn_metrics_flush(db: Arc<Db>, metrics: Arc<Metrics>) -> tokio::task::JoinHandle<()> {
+    tokio::spawn(async move {
+        let mut ticker = tokio::time::interval(FLUSH_AFTER);
+        ticker.set_missed_tick_behavior(tokio::time::MissedTickBehavior::Delay);
+        // The immediate first tick lands on an empty tally and writes nothing.
+        loop {
+            ticker.tick().await;
+            let (db, metrics) = (Arc::clone(&db), Arc::clone(&metrics));
+            let outcome =
+                tokio::task::spawn_blocking(move || metrics.flush(&db, &now_rfc3339())).await;
+            match outcome {
+                Ok(Ok(())) => {}
+                Ok(Err(e)) => tracing::error!(error = %e, "traffic counters were not written"),
+                Err(e) => tracing::error!(error = %e, "metrics flush panicked"),
+            }
+        }
+    })
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::config::Locale;
     use crate::http::routes::stats::test_support::Fixture;
+    use crate::metrics::name;
     use crate::stats::ranks::last_computed;
 
     fn computed(db: &Db) -> Option<String> {
@@ -94,5 +134,34 @@ mod tests {
             computed(&state.db).is_some(),
             "a pass ran without a request reaching the process"
         );
+    }
+
+    /// The counters reach the table without any request having asked them to, which is the whole
+    /// job: the counting is in memory and something has to write it down.
+    #[tokio::test]
+    async fn the_flush_writes_what_was_counted() {
+        let db = Arc::new(Db::open_in_memory().unwrap());
+        let metrics = Arc::new(Metrics::new(Locale::De, &now_rfc3339()));
+        metrics.count(name::PAGE_VIEW, &now_rfc3339());
+
+        let handle = spawn_metrics_flush(Arc::clone(&db), Arc::clone(&metrics));
+        let mut written = 0i64;
+        for _ in 0..200 {
+            written = db
+                .reader()
+                .unwrap()
+                .query_row(
+                    "SELECT COALESCE(SUM(count), 0) FROM daily_metric WHERE metric = ?1",
+                    [name::PAGE_VIEW],
+                    |r| r.get(0),
+                )
+                .unwrap();
+            if written > 0 {
+                break;
+            }
+            tokio::time::sleep(Duration::from_millis(10)).await;
+        }
+        handle.abort();
+        assert_eq!(written, 1);
     }
 }

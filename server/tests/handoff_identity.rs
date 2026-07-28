@@ -89,6 +89,10 @@ fn domain(path: &std::path::Path, locale: Locale) -> AppState {
         config: Arc::new(config),
         sealer: Arc::new(Sealer::new(&[7u8; 32])),
         pool: Arc::new(pool()),
+        metrics: Arc::new(server::metrics::Metrics::new(
+            locale,
+            &server::db::now_rfc3339(),
+        )),
     }
 }
 

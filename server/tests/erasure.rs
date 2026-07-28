@@ -57,6 +57,10 @@ fn service() -> AppState {
         config: Arc::new(config),
         sealer: Arc::new(Sealer::new(&[13u8; 32])),
         pool: Arc::new(pool),
+        metrics: Arc::new(server::metrics::Metrics::new(
+            server::config::Locale::De,
+            &server::db::now_rfc3339(),
+        )),
     }
 }
 

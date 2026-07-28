@@ -230,6 +230,14 @@ async fn approve(
     Json(request): Json<ApprovalRequest>,
 ) -> Result<Response, ApiError> {
     let outcome = name::approve(&state.db, &account_id, &request.name)?;
+    // Only a decision that landed. A stale approval published nothing, so counting it would
+    // report reviewer activity that never reached the board.
+    if outcome == name::Approval::Applied {
+        state.metrics.count(
+            crate::metrics::name::NAME_APPROVED,
+            &crate::db::now_rfc3339(),
+        );
+    }
     decided(&key, &account_id, "approve", None, outcome)
 }
 
