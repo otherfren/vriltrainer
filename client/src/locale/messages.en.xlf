@@ -1867,12 +1867,12 @@
         <target>Open (Abandoned)</target>
       </trans-unit>
       <trans-unit id="stats.summary.pendingHint" datatype="html">
-        <source> Offen heißt: gestartet und noch beantwortbar. Ein Versuch bleibt <x id="INTERPOLATION" equiv-text="{{ a.lifetime_hours }}"/> Stunden offen, erst danach zählt er als abgebrochen. </source>
+        <source> Offen heißt: Gestartet und noch beantwortbar. Ein Versuch bleibt <x id="INTERPOLATION" equiv-text="{{ a.lifetime_hours }}"/> Stunden offen. </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/stats/stats.component.html</context>
           <context context-type="linenumber">74,76</context>
         </context-group>
-        <target>Open means started and still answerable. A session stays open for <x id="INTERPOLATION" equiv-text="{{ a.lifetime_hours }}"/> hours; only after that does it count as abandoned.</target>
+        <target>Open means: Started and still answerable. A session stays open for <x id="INTERPOLATION" equiv-text="{{ a.lifetime_hours }}"/> hours.</target>
       </trans-unit>
       <trans-unit id="stats.verdict.notable" datatype="html">
         <source>Das ist auffällig - und noch keine Erklärung.</source>
