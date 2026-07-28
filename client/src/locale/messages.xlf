@@ -109,7 +109,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">185,186</context>
+          <context context-type="linenumber">194,195</context>
         </context-group>
       </trans-unit>
       <trans-unit id="keydlg.copy" datatype="html">
@@ -120,7 +120,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">187,188</context>
+          <context context-type="linenumber">196,197</context>
         </context-group>
       </trans-unit>
       <trans-unit id="keydlg.hide" datatype="html">
@@ -129,12 +129,20 @@
           <context context-type="sourcefile">src/app/app.component.html</context>
           <context context-type="linenumber">118,119</context>
         </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">201,202</context>
+        </context-group>
       </trans-unit>
       <trans-unit id="keydlg.reveal" datatype="html">
         <source>Anzeigen</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
           <context context-type="linenumber">120,122</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">203,205</context>
         </context-group>
       </trans-unit>
       <trans-unit id="keydlg.close" datatype="html">
@@ -205,56 +213,56 @@
         <source> Abbrechen </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">191,193</context>
+          <context context-type="linenumber">207,209</context>
         </context-group>
       </trans-unit>
       <trans-unit id="logout.confirm" datatype="html">
         <source> Abmelden </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">194,196</context>
+          <context context-type="linenumber">210,212</context>
         </context-group>
       </trans-unit>
       <trans-unit id="foot.aria" datatype="html">
         <source>Fußzeile</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">210,211</context>
+          <context context-type="linenumber">226,227</context>
         </context-group>
       </trans-unit>
       <trans-unit id="foot.source" datatype="html">
         <source>Quellcode · AGPL-3.0</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">211,213</context>
+          <context context-type="linenumber">227,229</context>
         </context-group>
       </trans-unit>
       <trans-unit id="foot.protocol" datatype="html">
         <source> Protokoll · D1–D33 </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">216,218</context>
+          <context context-type="linenumber">232,234</context>
         </context-group>
       </trans-unit>
       <trans-unit id="foot.download" datatype="html">
         <source>Datensatz herunterladen</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">220,222</context>
+          <context context-type="linenumber">236,238</context>
         </context-group>
       </trans-unit>
       <trans-unit id="foot.privacy" datatype="html">
         <source>Datenschutz</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">225,226</context>
+          <context context-type="linenumber">241,242</context>
         </context-group>
       </trans-unit>
       <trans-unit id="foot.impressum" datatype="html">
         <source>Impressum</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/app.component.html</context>
-          <context context-type="linenumber">226,229</context>
+          <context context-type="linenumber">242,245</context>
         </context-group>
       </trans-unit>
       <trans-unit id="meta.title" datatype="html">
@@ -2210,67 +2218,67 @@
         <source>Kandidat <x id="number" equiv-text="n"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.ts</context>
-          <context context-type="linenumber">68</context>
+          <context context-type="linenumber">71</context>
         </context-group>
       </trans-unit>
       <trans-unit id="notice.expired" datatype="html">
         <source>Die Gültigkeit dieser Sitzung ist abgelaufen. Sie zählt als abgebrochen - fang eine neue an.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.ts</context>
-          <context context-type="linenumber">159</context>
+          <context context-type="linenumber">168</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.ts</context>
-          <context context-type="linenumber">219</context>
+          <context context-type="linenumber">227</context>
         </context-group>
       </trans-unit>
       <trans-unit id="notice.alreadyAnswered.short" datatype="html">
         <source>Diese Sitzung ist bereits beantwortet.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.ts</context>
-          <context context-type="linenumber">160</context>
+          <context context-type="linenumber">169</context>
         </context-group>
       </trans-unit>
       <trans-unit id="notice.answerLost" datatype="html">
         <source>Die Antwort ist nicht angekommen. Ob sie gewertet wurde, weiß dieser Browser nicht - dein Stand unten steht so, wie der Server ihn zählt.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.ts</context>
-          <context context-type="linenumber">211</context>
+          <context context-type="linenumber">219</context>
         </context-group>
       </trans-unit>
       <trans-unit id="notice.alreadyAnswered" datatype="html">
         <source>Diese Sitzung ist bereits beantwortet. Eine Antwort pro Sitzung, und sie steht schon im Protokoll.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.ts</context>
-          <context context-type="linenumber">218</context>
+          <context context-type="linenumber">226</context>
         </context-group>
       </trans-unit>
       <trans-unit id="notice.unknownLogin" datatype="html">
         <source>Der Zugang in diesem Browser ist beim Server nicht bekannt - der alte Link öffnet nichts mehr. Leg einfach neu los.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.ts</context>
-          <context context-type="linenumber">313</context>
+          <context context-type="linenumber">321</context>
         </context-group>
       </trans-unit>
       <trans-unit id="notice.network" datatype="html">
         <source>Keine Verbindung zum Server. Versuch es gleich noch einmal.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.ts</context>
-          <context context-type="linenumber">364</context>
+          <context context-type="linenumber">415</context>
         </context-group>
       </trans-unit>
       <trans-unit id="notice.serverDown" datatype="html">
         <source>Der Dienst ist gerade nicht erreichbar (Fehler <x id="status" equiv-text="e.status"/>). Versuch es in ein paar Minuten noch einmal.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.ts</context>
-          <context context-type="linenumber">367</context>
+          <context context-type="linenumber">418</context>
         </context-group>
       </trans-unit>
       <trans-unit id="notice.rejected" datatype="html">
         <source>Der Server hat die Anfrage abgelehnt. Versuch es noch einmal.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/trial/trial.component.ts</context>
-          <context context-type="linenumber">369</context>
+          <context context-type="linenumber">420</context>
         </context-group>
       </trans-unit>
       <trans-unit id="proof.label.manifest" datatype="html">

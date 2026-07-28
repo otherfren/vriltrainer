@@ -155,16 +155,20 @@ export class AppComponent {
    * covered key behind one more click is how somebody confirms away an account they meant to
    * keep.
    */
+  /** Opens covered, like the other one: opening a dialog and exposing a secret are two acts. */
   openLogout(): void {
     this.copied = false;
+    this.revealed = false;
     this.logoutDialog()?.nativeElement.showModal();
   }
 
   cancelLogout(): void {
+    this.revealed = false;
     this.logoutDialog()?.nativeElement.close();
   }
 
   confirmLogout(): void {
+    this.revealed = false;
     this.logoutDialog()?.nativeElement.close();
     this.session.signOut();
   }

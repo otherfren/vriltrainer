@@ -178,13 +178,29 @@
         über Mail oder Passwort - ohne diesen Link kommt niemand mehr an das Konto, auch wir nicht.
         Sichere ihn jetzt, falls noch nicht geschehen.
       </p>
-      <code class="keydlg__key">{{ accessKey() }}</code>
+      <!-- Masked, exactly like the panel one dialog over. This one used to render the key in the
+           clear, which put the secret into the document of every page load that had a session —
+           the dialog is in the DOM whether or not it is open. Copying does not need it on screen
+           (D9, D21, FR-003), and the reveal is the second act it always was there. -->
+      <code
+        class="keydlg__key"
+        [class.is-masked]="!revealed"
+        [attr.aria-label]="revealed ? null : maskedKeyLabel"
+        >{{ revealed ? accessKey() : maskedKey() }}</code
+      >
       <div class="keydlg__row">
         <button class="btn" type="button" (click)="copyKey()">
           @if (copied) {
             <ng-container i18n="@@keydlg.copied">Kopiert</ng-container>
           } @else {
             <ng-container i18n="@@keydlg.copy">Kopieren</ng-container>
+          }
+        </button>
+        <button class="btn btn--quiet" type="button" (click)="toggleReveal()" [attr.aria-pressed]="revealed">
+          @if (revealed) {
+            <ng-container i18n="@@keydlg.hide">Verbergen</ng-container>
+          } @else {
+            <ng-container i18n="@@keydlg.reveal">Anzeigen</ng-container>
           }
         </button>
         <button class="btn btn--quiet" type="button" (click)="cancelLogout()" i18n="@@logout.cancel">

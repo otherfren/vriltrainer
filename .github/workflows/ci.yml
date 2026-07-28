@@ -1,0 +1,49 @@
+# The checks that were being run by hand, and therefore sometimes not at all.
+#
+# The one that matters most is `conformance`. The server and the client each implement the
+# derivation, and the whole product rests on them agreeing byte for byte — a divergence does not
+# crash anything, it publishes trials that verify on one side and not the other. `shared/vectors/`
+# is the frozen contract between them and this is what holds them to it.
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+jobs:
+  server:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo fmt --all -- --check
+      # Warnings are errors here and nowhere else: a warning that survives a merge is a warning
+      # nobody reads afterwards.
+      - run: cargo clippy --all-targets -- -D warnings
+      - run: cargo test --all
+
+  client:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: client
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: client/package-lock.json
+      - run: npm ci
+      # The two implementations against the frozen vectors.
+      - run: npm run conformance
+      # Both locales, because the English catalogue is generated and a gap in it is a build failure
+      # rather than an untranslated string on a page.
+      - run: node tools/build-en-catalogue.mjs --check
+      - run: npm run build
+      # ChromeHeadlessNoSandbox — see client/karma.conf.js for why the sandbox is off.
+      - run: npm run test:ci

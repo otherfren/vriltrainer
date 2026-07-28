@@ -10,7 +10,8 @@
     "sync:vectors": "node -e \"require('fs').copyFileSync('../shared/vectors/derivation.json','src/app/verify/derivation.vectors.json')\"",
     "pretest": "npm run sync:vectors",
     "prebuild": "npm run sync:vectors",
-    "conformance": "tsx conformance.mts"
+    "conformance": "tsx conformance.mts",
+    "test:ci": "ng test --watch=false --browsers=ChromeHeadlessNoSandbox"
   },
   "private": true,
   "dependencies": {
