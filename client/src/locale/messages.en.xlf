@@ -853,12 +853,12 @@
         <target>Psi Null</target>
       </trans-unit>
       <trans-unit id="rank.kartoffel" datatype="html">
-        <source>Geimpfte Kartoffel</source>
+        <source>Kartoffel</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/core/ranks.ts</context>
           <context context-type="linenumber">48</context>
         </context-group>
-        <target>Vaccinated Potato</target>
+        <target>Potato</target>
       </trans-unit>
       <trans-unit id="status.heading" datatype="html">
         <source>Dein Stand</source>

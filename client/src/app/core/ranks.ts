@@ -45,7 +45,7 @@ const DEFS: RankDef[] = [
   { slug: 'erdstrahlen', title: $localize`:@@rank.erdstrahlen:Erdstrahlen-Opfer`, icon: 'erdstrahlen' },
   { slug: 'orgonit', title: $localize`:@@rank.orgonit:Orgonit-Enjoyer`, icon: 'orgonit' },
   { slug: 'nullleiter', title: $localize`:@@rank.nullleiter:Psi-Nullleiter`, icon: 'nullleiter' },
-  { slug: 'kartoffel', title: $localize`:@@rank.kartoffel:Geimpfte Kartoffel`, icon: 'potato' },
+  { slug: 'kartoffel', title: $localize`:@@rank.kartoffel:Kartoffel`, icon: 'potato' },
 ];
 
 const BY_SLUG = new Map(DEFS.map((r) => [r.slug, r]));
