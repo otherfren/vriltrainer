@@ -7,20 +7,25 @@
 //!
 //! Three things follow, and none of them may be relaxed for convenience:
 //!
-//! - only [`safe_target`] of the request line is logged, never the query and never a fragment;
+//! - only the **matched route pattern** is logged, never the request target. `/admin/names/{id}/
+//!   approve` is what goes in the line; the address that was actually called carries an account
+//!   identifier in it (FR-051, D28). [`safe_target`] is the second cut, for the one field that is
+//!   still derived from a path;
 //! - no header is logged. `Authorization` carries the token itself and `Referer` carries whatever
 //!   address the browser came from, which on this site is a page the user was about to share;
 //! - what is logged instead is a correlation identifier, which names a request without describing
 //!   it, so a user can quote it and an operator can find it.
 
 use axum::Router;
-use axum::extract::Request;
+use axum::extract::{MatchedPath, Request};
 use axum::http::HeaderValue;
 use axum::middleware::Next;
 use axum::response::Response;
 use rand::Rng;
 use tower_http::trace::{DefaultOnResponse, TraceLayer};
 use tracing::{Level, Span};
+
+use crate::config::Locale;
 
 /// Returned on every response and accepted from the proxy, so one request can be followed across
 /// nginx's log and this one.
@@ -36,11 +41,11 @@ pub struct RequestId(pub String);
 /// Takes the router rather than returning a layer so that what the layer *is* can change — a
 /// different failure classifier, another field — without the signature moving and dragging
 /// `http::router` with it.
-pub fn instrument(router: Router) -> Router {
+pub fn instrument(router: Router, locale: Locale) -> Router {
     router
         .layer(
             TraceLayer::new_for_http()
-                .make_span_with(request_span)
+                .make_span_with(move |req: &axum::http::Request<_>| request_span(req, locale))
                 // One line per request at the level the service actually runs at. The default is
                 // DEBUG, which under the deployed filter means no access log at all.
                 .on_response(DefaultOnResponse::new().level(Level::INFO)),
@@ -76,7 +81,7 @@ fn mint_id() -> String {
     format!("{:016x}", rand::rng().random::<u64>())
 }
 
-fn request_span<B>(req: &axum::http::Request<B>) -> Span {
+fn request_span<B>(req: &axum::http::Request<B>, locale: Locale) -> Span {
     let id = req
         .extensions()
         .get::<RequestId>()
@@ -85,8 +90,29 @@ fn request_span<B>(req: &axum::http::Request<B>) -> Span {
         "request",
         id,
         method = %req.method(),
-        path = safe_target(req.uri().path()),
+        route = matched_route(req),
+        // Both processes write to the same journal (D24), so without this a line cannot be
+        // attributed to a domain — and the two domains are the two audiences.
+        locale = locale.code(),
     )
+}
+
+/// The pattern the router matched, or `-` when it matched nothing.
+///
+/// **Never the request target.** `/admin/names/{account_id}/approve` describes what was called
+/// without saying who it was called about, and the target says both (FR-051, D28). The same is
+/// true of any route that grows a path parameter later: a pattern cannot carry an identifier,
+/// which is why the pattern is what is logged rather than a path with the known identifiers
+/// scrubbed out of it.
+///
+/// A request that matched nothing is a static asset or a client route, and those go to `-` rather
+/// than to their address for exactly the same reason — the log cannot tell in advance which
+/// unmatched path is somebody's shared proof link. nginx's access log has the addresses, on the
+/// short retention D28 sets, and that is the one place a visitor's address is written down.
+fn matched_route<B>(req: &axum::http::Request<B>) -> &str {
+    req.extensions()
+        .get::<MatchedPath>()
+        .map_or("-", |m| safe_target(m.as_str()))
 }
 
 /// The part of the request target that may be logged: the path, and nothing after it.
@@ -160,7 +186,14 @@ mod tests {
                 .build()
                 .expect("runtime builds");
             rt.block_on(async {
-                let app = instrument(Router::new().route("/api/health", get(|| async { "ok" })));
+                let app = instrument(
+                    Router::new()
+                        .route("/api/health", get(|| async { "ok" }))
+                        // Stands in for the routes that carry an identifier in the address —
+                        // `/admin/names/{account_id}/approve` is the real one.
+                        .route("/api/thing/{id}", get(|| async { "ok" })),
+                    Locale::De,
+                );
                 app.oneshot(req).await.expect("the router is infallible")
             })
         });
@@ -218,6 +251,57 @@ mod tests {
             !logged.to_lowercase().contains("referer"),
             "referrers are logged: {logged}"
         );
+    }
+
+    /// FR-051: the line says which endpoint was called, never who it was called about. An account
+    /// identifier in a path is the case D28 names, and it is the case a raw-path access log would
+    /// write down on every review click.
+    #[test]
+    fn the_pattern_is_logged_and_the_identifier_in_the_path_is_not() {
+        let req = Request::builder()
+            .uri("/api/thing/7F3A9C")
+            .body(Body::empty())
+            .unwrap();
+        let (response, logged) = serve(req);
+
+        assert_eq!(response.status(), StatusCode::OK);
+        assert!(
+            logged.contains("/api/thing/{id}"),
+            "the matched pattern is missing from: {logged}"
+        );
+        assert!(
+            !logged.contains("7F3A9C"),
+            "the account identifier reached the log: {logged}"
+        );
+    }
+
+    /// A path the router did not match is a static asset or a client route, and one of those is
+    /// somebody's shared proof link. nginx has the addresses; this log has the shape of the
+    /// traffic.
+    #[test]
+    fn an_unmatched_path_is_not_written_down() {
+        let req = Request::builder()
+            .uri("/verify/7F3A9C")
+            .body(Body::empty())
+            .unwrap();
+        let (_, logged) = serve(req);
+        assert!(
+            !logged.contains("/verify/"),
+            "an unmatched path reached the log: {logged}"
+        );
+    }
+
+    /// Both processes write to one journal (D24). Without the locale a line cannot be attributed
+    /// to the domain that produced it.
+    #[test]
+    fn every_line_names_the_locale() {
+        let req = Request::builder()
+            .uri("/api/health")
+            .body(Body::empty())
+            .unwrap();
+        let (_, logged) = serve(req);
+        assert!(logged.contains("locale"), "no locale field in: {logged}");
+        assert!(logged.contains("\"de\"") || logged.contains("locale=de"));
     }
 
     #[test]

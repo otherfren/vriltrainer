@@ -1,0 +1,37 @@
+# /etc/logrotate.d/vriltrainer
+#
+# The seven days the privacy notice publishes (D28, T115). These files are the only place in the
+# system a visitor's address is written down: the application log carries a matched route pattern,
+# a correlation identifier and no address, and the public record carries an opaque account
+# identifier and no address either.
+#
+# `rotate 7` with `daily` is what makes the published retention true rather than aspirational.
+# Nothing else enforces it — nginx will keep an access log until the disk fills.
+#
+# Kept separate from the distribution's own /etc/logrotate.d/nginx on purpose. That file rotates
+# weekly and keeps fourteen, which is a fine default and three weeks longer than what this site
+# promises; naming the paths here means the promise does not depend on nobody having edited it.
+
+/var/log/nginx/vriltrainer.de.access.log
+/var/log/nginx/vriltrainer.com.access.log
+/var/log/nginx/vriltrainer.redirect.access.log
+/var/log/nginx/vriltrainer.de.error.log
+/var/log/nginx/vriltrainer.com.error.log
+{
+    daily
+    rotate 7
+    # Nothing is kept beyond the window, so there is no reason to hold it in a form that has to be
+    # unpacked before it can be read — and a compressed rotation keeps yesterday's addresses around
+    # one extra day in `.1` while `delaycompress` waits.
+    nocompress
+    missingok
+    notifempty
+    # 0640 root adm: an access log is readable by the operator and by nobody else on the box.
+    create 0640 www-data adm
+    sharedscripts
+    postrotate
+        # USR1 makes nginx reopen its files. Without it the daemon keeps writing to the rotated
+        # inode and the retention silently stops applying to anything.
+        [ -f /run/nginx.pid ] && kill -USR1 "$(cat /run/nginx.pid)"
+    endscript
+}

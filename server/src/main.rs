@@ -44,6 +44,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         config: Arc::new(config.clone()),
     };
 
+    // D23's fifteen-minute pass. Started before the listener, so the first visitor after a deploy
+    // reads ranks this process computed rather than paying for the pass themselves.
+    server::tasks::spawn_rank_timer(Arc::clone(&state.db), Arc::clone(&state.config));
+
     let listener = tokio::net::TcpListener::bind(config.listen).await?;
     // `service`, not `router`: without `ConnectInfo` no handler learns the peer, so the forwarded
     // client address is unusable and every request counts against one bucket — the per-address

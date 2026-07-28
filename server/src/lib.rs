@@ -15,5 +15,6 @@ pub mod http;
 pub mod log;
 pub mod pool;
 pub mod stats;
+pub mod tasks;
 pub mod trial;
 pub mod vectors;

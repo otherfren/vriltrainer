@@ -104,8 +104,9 @@ async fn me(State(state): State<AppState>, Holder(account): Holder) -> Result<Re
 
     // The account's own last trial has to be in this answer, whatever else is stale.
     accumulate::ensure_current(&state.db, cfg, &account, &now)?;
-    // For `rank` only. Interval-gated, so this is a read of one column on all but one request in
-    // fifteen minutes — see `ranks::ensure_fresh`, which goes when T102 lands.
+    // For `rank` only. The fifteen-minute timer normally has this done already; the call is gated
+    // on the same interval, so it is a read of one column on all but one request in fifteen
+    // minutes and a self-heal if the timer is not running.
     ranks::ensure_fresh(&state.db, cfg, &now)?;
 
     let reader = state.db.reader()?;

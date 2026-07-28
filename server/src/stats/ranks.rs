@@ -192,10 +192,12 @@ pub fn last_computed(conn: &Connection) -> Result<Option<String>, DbError> {
 /// Runs a pass if the last one has aged out, and refreshes any statistics row the log has moved
 /// past first.
 ///
-/// **This is a stand-in for T102.** D23 puts the pass on a fifteen-minute background timer; until
-/// that task lands, the two endpoints that read ranks trigger it from the read side, gated on the
-/// same interval so a public `GET` cannot be made to sweep the table on every request. When T102
-/// arrives, the calls to this go and the timer calls [`recompute`] directly.
+/// **Called from two places, and the gate is why that is safe.** D23's fifteen-minute timer
+/// ([`crate::tasks::spawn_rank_timer`]) is the one that is supposed to do the work; the two
+/// endpoints that read ranks call it as well, so a process whose timer has died serves fresh ranks
+/// instead of serving stale ones without saying so. Both are gated on the same interval, so a
+/// public `GET` cannot be made to sweep the table on every request, and whichever arrives second
+/// finds the pass already done and returns.
 pub fn ensure_fresh(db: &Db, cfg: &Config, now: &str) -> Result<(), DbError> {
     let last = {
         let reader = db.reader()?;

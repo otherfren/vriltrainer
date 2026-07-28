@@ -113,7 +113,7 @@ pub fn router(state: AppState) -> Router {
     // the router has one already, and that fallback is what tells a client an endpoint is
     // contracted but unbuilt.
     let app = static_files::mount(routes::all().with_state(state), public.as_deref());
-    trace::instrument(locale::announce(app, locale))
+    trace::instrument(locale::announce(app, locale), locale)
 }
 
 /// What [`axum::serve()`] should be handed.

@@ -8,25 +8,20 @@
 //! That restriction is the test. A verification suite that reaches into the process it is
 //! verifying passes on a server that is lying to it.
 
-use std::sync::Arc;
-
 use axum::body::Body;
 use axum::http::{Request, StatusCode};
 use base64::Engine;
 use base64::engine::general_purpose::STANDARD;
-use serde_json::json;
-use tower::ServiceExt;
 
-use server::account;
-use server::config::Config;
-use server::db::{Db, now_rfc3339};
-use server::http::{AppState, router};
+use server::http::AppState;
 use server::log::chain::{self, Body as EntryBody, Entry};
 use server::log::export;
-use server::pool::{ImageEntry, Manifest};
+use server::pool::Manifest;
 use server::trial::commit;
 use server::trial::derive;
-use server::trial::token::Sealer;
+
+mod common;
+use common::*;
 
 /// Trials per account that are played to the end.
 const ANSWERED: usize = 4;
@@ -34,154 +29,12 @@ const ANSWERED: usize = 4;
 /// `open_trials_per_account`, since an unresolved trial holds its slot.
 const ABANDONED: usize = 2;
 
-/// A service with a pool large enough to draw from: ten categories of three images.
-fn service() -> AppState {
-    let categories: Vec<String> = (0..10).map(|c| format!("cat{c}")).collect();
-    let images: Vec<ImageEntry> = (0..30)
-        .map(|i| ImageEntry {
-            // Zero-padded, because the manifest is sorted ascending by id and that order *is* the
-            // index the derivation draws against.
-            id: format!("img_{i:03}"),
-            category: format!("cat{}", i / 3),
-        })
-        .collect();
-    let pool = Manifest {
-        version: 1,
-        manifest_hash: Manifest::compute_hash(&categories, &images),
-        categories,
-        images,
-    };
-    pool.validate().expect("the fixture is a valid manifest");
-
-    let config = Config {
-        // A test cannot wait out the real minimum viewing time, and this test is about the record
-        // rather than about the timing gate — which has its own tests next to the handler.
-        min_view_seconds: 0,
-        ..Config::default()
-    };
-
-    AppState {
-        db: Arc::new(Db::open_in_memory().expect("an in-memory database opens")),
-        config: Arc::new(config),
-        sealer: Arc::new(Sealer::new(&[11u8; 32])),
-        pool: Arc::new(pool),
-    }
-}
-
-async fn call(state: &AppState, request: Request<Body>) -> axum::response::Response {
-    router(state.clone()).oneshot(request).await.unwrap()
-}
-
-fn post(uri: &str, token: &str, body: serde_json::Value) -> Request<Body> {
-    Request::builder()
-        .method("POST")
-        .uri(uri)
-        .header("authorization", format!("Bearer {token}"))
-        .header("content-type", "application/json")
-        .body(Body::from(body.to_string()))
-        .unwrap()
-}
-
-async fn body_text(response: axum::response::Response) -> String {
-    let bytes = axum::body::to_bytes(response.into_body(), 8 * 1024 * 1024)
-        .await
-        .unwrap();
-    String::from_utf8(bytes.to_vec()).unwrap()
-}
-
-async fn body_json(response: axum::response::Response) -> serde_json::Value {
-    serde_json::from_str(&body_text(response).await).unwrap()
-}
-
-/// What the participant's own browser saw, kept so the export can be checked against it.
-struct Played {
-    trial_id: String,
-    /// The eight identifiers as displayed, in order.
-    images: Vec<String>,
-    /// `None` for a trial that was abandoned after the reveal.
-    outcome: Option<Outcome>,
-}
-
-struct Outcome {
-    hit: bool,
-    target: String,
-    seq: u64,
-}
-
-/// Start, reveal, and answer unless `abandon`.
-async fn play(state: &AppState, token: &str, s_client: &[u8; 32], abandon: bool) -> Played {
-    let start = call(state, post("/api/trial", token, json!({}))).await;
-    assert_eq!(start.status(), StatusCode::CREATED);
-    let start = body_json(start).await;
-    let trial_id = start["trial_id"].as_str().unwrap().to_string();
-
-    let reveal = call(
-        state,
-        post(
-            "/api/trial/reveal",
-            token,
-            json!({ "token": start["token"], "s_client": STANDARD.encode(s_client) }),
-        ),
-    )
-    .await;
-    assert_eq!(reveal.status(), StatusCode::OK);
-    let reveal = body_json(reveal).await;
-    let images: Vec<String> = reveal["images"]
-        .as_array()
-        .unwrap()
-        .iter()
-        .map(|v| v.as_str().unwrap().to_string())
-        .collect();
-
-    if abandon {
-        // No further request. Abandonment needs no marker and no sweep — it is the absence of a
-        // resolve entry, which is what makes it countable by a stranger (FR-027).
-        return Played {
-            trial_id,
-            images,
-            outcome: None,
-        };
-    }
-
-    let answer = call(
-        state,
-        post(
-            "/api/trial/answer",
-            token,
-            json!({ "token": reveal["token"], "chosen": images[0] }),
-        ),
-    )
-    .await;
-    assert_eq!(answer.status(), StatusCode::OK);
-    let answer = body_json(answer).await;
-
-    Played {
-        trial_id,
-        images,
-        outcome: Some(Outcome {
-            hit: answer["hit"].as_bool().unwrap(),
-            target: answer["target"].as_str().unwrap().to_string(),
-            seq: answer["seq"].as_u64().unwrap(),
-        }),
-    }
-}
-
 /// Three accounts, each answering four trials and walking away from two.
 async fn played(state: &AppState) -> Vec<Played> {
     let mut all = Vec::new();
     for a in 0..3u8 {
-        let token = account::create(&state.db, &format!("otherfren{a}"), &now_rfc3339())
-            .expect("the fixture names pass the filter")
-            .access_token;
-
-        // Distinct client randomness per trial, so no two trials share a seed and a check that
-        // passed by accident on a repeated draw would show up as a duplicate target.
-        for t in 0..(ANSWERED + ABANDONED) {
-            let mut s_client = [0u8; 32];
-            s_client[0] = a;
-            s_client[1] = t as u8;
-            all.push(play(state, &token, &s_client, t >= ANSWERED).await);
-        }
+        let token = account_token(state, &format!("otherfren{a}"));
+        all.extend(play_many(state, &token, a, ANSWERED, ABANDONED).await);
     }
     all
 }

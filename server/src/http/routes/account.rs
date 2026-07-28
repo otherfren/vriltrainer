@@ -10,7 +10,7 @@ use axum::extract::{FromRequestParts, State};
 use axum::http::request::Parts;
 use axum::http::{StatusCode, header};
 use axum::response::{IntoResponse, Json, Response};
-use axum::routing::{delete, post};
+use axum::routing::{post, put};
 use serde::{Deserialize, Serialize};
 
 use crate::account::{self, name::NameError, name_filter::Refusal};
@@ -18,10 +18,9 @@ use crate::db::now_rfc3339;
 use crate::http::{ApiError, AppState};
 
 pub fn routes() -> Router<AppState> {
-    // The rename of T100 mounts here too.
     Router::new()
         .route("/api/account", post(create).get(whoami))
-        .route("/api/account/name", delete(erase_name))
+        .route("/api/account/name", put(rename).delete(erase_name))
 }
 
 /// The authenticated account's opaque identifier.
@@ -137,6 +136,79 @@ async fn whoami(
     .into_response())
 }
 
+#[derive(Deserialize)]
+struct RenameRequest {
+    name: String,
+}
+
+/// Changes the holder's name, subject to the cooldown (FR-048).
+///
+/// `PUT` rather than `POST`: the request names the state the holder wants their name to be in, and
+/// sending the same name twice inside the cooldown has to fail for the *same* reason a different
+/// name does — the turn is spent — rather than because the second call was a different kind of
+/// request.
+///
+/// The response is the shape `GET /api/account` returns, because after a rename the client needs
+/// exactly what that endpoint carries: the stored form of the name and the state it is now in. It
+/// is `pending`, always — every name goes through review (D25), including one that was approved
+/// before.
+///
+/// **The previously approved name stays on the board** while this one is reviewed, which is
+/// [`account::name::submit`]'s doing. A rename is not punished with anonymity.
+///
+/// The cooldown answers `429` and not `400`, with `Retry-After`: the name was not refused, the
+/// request was early, and the one thing the client can do about it is wait a stated number of
+/// seconds. A refusal by the pre-filter is a `400` with its code, and a **refusal does not consume
+/// the cooldown** — [`account::name::reject`] clears the clock, so the holder has not had a turn.
+async fn rename(
+    State(state): State<AppState>,
+    Holder(account): Holder,
+    Json(request): Json<RenameRequest>,
+) -> Result<Response, ApiError> {
+    let submitted = account::name::submit(
+        &state.db,
+        &account,
+        &request.name,
+        &now_rfc3339(),
+        state.config.rename_cooldown_hours,
+    );
+
+    if let Err(NameError::TooSoon {
+        retry_after_seconds,
+    }) = submitted
+    {
+        return Ok(too_soon(retry_after_seconds));
+    }
+    submitted.map_err(refusal)?;
+
+    // Read back rather than assembling from what was sent: the stored form is trimmed and
+    // collapsed, and a client that displays the typed string displays a name the server does not
+    // hold.
+    let own = account::own(&state.db, &account)?.ok_or(ApiError::Unauthorized)?;
+    Ok(Json(WhoamiResponse {
+        public_id: own.public_id,
+        name: own.name,
+        name_state: own.name_state,
+    })
+    .into_response())
+}
+
+/// A rename inside the cooldown: `429`, the code, and how long the wait is.
+///
+/// `Retry-After` carries the seconds as well as the body, because it is the header a proxy or a
+/// script already knows how to read and the body is for the interface copy.
+fn too_soon(retry_after_seconds: i64) -> Response {
+    (
+        StatusCode::TOO_MANY_REQUESTS,
+        [(header::RETRY_AFTER, retry_after_seconds.to_string())],
+        Json(serde_json::json!({
+            "error": "too_soon",
+            "retry_after_seconds": retry_after_seconds,
+        })),
+    )
+        .into_response()
+}
+
 /// Removes the holder's name, for good (FR-035).
 ///
 /// Self-service and authenticated by nothing but the access token, because the token is the only
@@ -172,10 +244,13 @@ fn refusal(e: NameError) -> ApiError {
             Refusal::Vulgar => "vulgar",
             Refusal::Address => "address",
         }),
-        // Neither is reachable from creation: there is no earlier name to be inside a cooldown
-        // for, and nothing to have erased. Answered rather than unwrapped, because a panic in a
+        // Unreachable from creation — there is no earlier name to be inside a cooldown for, and
+        // nothing to have erased — and the rename answers the cooldown itself, with `429` and the
+        // wait, before it ever gets here. Answered rather than unwrapped, because a panic in a
         // handler is a 500 with nothing attached to explain it.
         NameError::TooSoon { .. } => ApiError::BadRequest("too_soon"),
+        // Reachable from the rename, and permanent: erasure is not a state a name comes back from
+        // (FR-035), so the client is told that rather than being offered a field again.
         NameError::Erased => ApiError::BadRequest("erased"),
     }
 }
@@ -341,6 +416,28 @@ mod tests {
             .header("authorization", format!("Bearer {token}"))
             .body(Body::empty())
             .unwrap()
+    }
+
+    /// An authenticated request carrying a name, which is every rename.
+    fn rename_request(token: &str, name: &str) -> Request<Body> {
+        Request::builder()
+            .method("PUT")
+            .uri("/api/account/name")
+            .header("authorization", format!("Bearer {token}"))
+            .header("content-type", "application/json")
+            .body(Body::from(format!("{{\"name\":\"{name}\"}}")))
+            .unwrap()
+    }
+
+    /// An account with an approved name, which is the state a rename starts from.
+    async fn approved(state: &AppState, forwarded: &str, name: &str) -> String {
+        let created = json(call(state, create_request(forwarded, name)).await).await;
+        let token = created["access_token"].as_str().unwrap().to_string();
+        let id = crate::account::authenticate(&state.db, &token)
+            .unwrap()
+            .unwrap();
+        name::approve(&state.db, &id, name).unwrap();
+        token
     }
 
     async fn call(state: &AppState, request: Request<Body>) -> axum::response::Response {
@@ -526,5 +623,154 @@ mod tests {
             json(call(&state, authenticated("GET", "/api/account", &player.token)).await).await;
         assert!(whoami["name"].is_null());
         assert_eq!(whoami["name_state"], "erased");
+    }
+
+    /// State whose cooldown has already elapsed, so a rename is reachable in one request.
+    ///
+    /// The first name is a submission like any other and starts the clock, so with the shipped
+    /// twenty-four hours every rename test would otherwise have to backdate a column. The wait
+    /// itself is what `a_rename_inside_the_cooldown_is_refused_with_the_wait` covers.
+    fn state_without_cooldown() -> AppState {
+        let config = Config {
+            rename_cooldown_hours: 0,
+            ..Config::default()
+        };
+        let mut state = test_support::state();
+        state.config = std::sync::Arc::new(config);
+        state
+    }
+
+    /// FR-048, and the half of D25 that makes a rename safe to offer: the name the board already
+    /// carries stays on it while the new one is reviewed. A rename that blanked the row would
+    /// charge the holder anonymity for changing their mind.
+    #[tokio::test]
+    async fn a_rename_queues_the_new_name_and_leaves_the_published_one_up() {
+        let state = state_without_cooldown();
+        let token = approved(&state, "203.0.113.40", "otherfren").await;
+
+        let response = call(&state, rename_request(&token, "  Monroe   Institut ")).await;
+        assert_eq!(response.status(), StatusCode::OK);
+        let json = json(response).await;
+        // Stored form, not the typed one, exactly as creation answers.
+        assert_eq!(json["name"], "Monroe Institut");
+        assert_eq!(json["name_state"], "pending");
+
+        let public_name: Option<String> = state
+            .db
+            .reader()
+            .unwrap()
+            .query_row("SELECT public_name FROM account", [], |r| r.get(0))
+            .unwrap();
+        assert_eq!(
+            public_name.as_deref(),
+            Some("otherfren"),
+            "the approved name stays up until the replacement clears"
+        );
+    }
+
+    /// The rate limit of FR-048. `429` and not `400`: nothing was wrong with the name, the request
+    /// was early, and `Retry-After` is how long.
+    #[tokio::test]
+    async fn a_rename_inside_the_cooldown_is_refused_with_the_wait() {
+        let state = test_support::state();
+        let token = approved(&state, "203.0.113.41", "otherfren").await;
+
+        let response = call(&state, rename_request(&token, "someoneelse")).await;
+        assert_eq!(response.status(), StatusCode::TOO_MANY_REQUESTS);
+        let retry_after: i64 = response
+            .headers()
+            .get("retry-after")
+            .expect("a wait the client can act on")
+            .to_str()
+            .unwrap()
+            .parse()
+            .unwrap();
+        assert!(retry_after > 0 && retry_after <= 24 * 3600);
+
+        let json = json(response).await;
+        assert_eq!(json["error"], "too_soon");
+        assert_eq!(json["retry_after_seconds"], retry_after);
+
+        let display: Option<String> = state
+            .db
+            .reader()
+            .unwrap()
+            .query_row("SELECT display_name FROM account", [], |r| r.get(0))
+            .unwrap();
+        assert_eq!(
+            display.as_deref(),
+            Some("otherfren"),
+            "a refused rename changed nothing"
+        );
+    }
+
+    /// The clause T100 exists to confirm: a name the pre-filter refuses does not spend the turn.
+    /// The filter runs before the transaction, so nothing is written and the clock is untouched —
+    /// a user who typed something the filter dislikes is not locked out for a day over it.
+    #[tokio::test]
+    async fn a_refused_name_does_not_consume_the_cooldown() {
+        let state = state_without_cooldown();
+        let token = approved(&state, "203.0.113.42", "otherfren").await;
+
+        let refused = call(&state, rename_request(&token, "h1tl3r")).await;
+        assert_eq!(refused.status(), StatusCode::BAD_REQUEST);
+        assert_eq!(json(refused).await["error"], "hate");
+
+        let accepted = call(&state, rename_request(&token, "someoneelse")).await;
+        assert_eq!(
+            accepted.status(),
+            StatusCode::OK,
+            "the turn was still there to take"
+        );
+        assert_eq!(json(accepted).await["name"], "someoneelse");
+    }
+
+    /// A rejection clears the clock for the same reason: the holder has not had a turn yet, so the
+    /// reviewer's refusal must not also cost them the day. This is the path through the review
+    /// queue rather than through the pre-filter.
+    #[tokio::test]
+    async fn a_rejected_name_does_not_consume_the_cooldown_either() {
+        let state = test_support::state();
+        let created = json(call(&state, create_request("203.0.113.43", "otherfren")).await).await;
+        let token = created["access_token"].as_str().unwrap().to_string();
+        let id = crate::account::authenticate(&state.db, &token)
+            .unwrap()
+            .unwrap();
+        name::reject(&state.db, &id, "otherfren", "hate").unwrap();
+
+        let response = call(&state, rename_request(&token, "someoneelse")).await;
+        assert_eq!(
+            response.status(),
+            StatusCode::OK,
+            "the submission the reviewer refused did not count as the holder's turn"
+        );
+    }
+
+    /// Erasure is permanent (FR-035), so it is not a state a rename walks back out of. The client
+    /// is told which refusal this is, so it can say why there is no field rather than offering one
+    /// that will never be accepted.
+    #[tokio::test]
+    async fn an_erased_name_cannot_be_renamed_back() {
+        let state = state_without_cooldown();
+        let token = approved(&state, "203.0.113.44", "otherfren").await;
+        call(&state, authenticated("DELETE", "/api/account/name", &token)).await;
+
+        let response = call(&state, rename_request(&token, "someoneelse")).await;
+        assert_eq!(response.status(), StatusCode::BAD_REQUEST);
+        assert_eq!(json(response).await["error"], "erased");
+    }
+
+    /// The token is the only proof of ownership there is (D9). A request without one is not a
+    /// request about anybody's name — the same rule the erasure route holds to.
+    #[tokio::test]
+    async fn a_stranger_cannot_rename_somebody() {
+        let state = state_without_cooldown();
+        let token = approved(&state, "203.0.113.45", "otherfren").await;
+
+        let response = call(&state, rename_request("not-a-token", "someoneelse")).await;
+        assert_eq!(response.status(), StatusCode::UNAUTHORIZED);
+
+        let whoami = json(call(&state, authenticated("GET", "/api/account", &token)).await).await;
+        assert_eq!(whoami["name"], "otherfren");
     }
 }

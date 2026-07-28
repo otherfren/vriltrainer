@@ -56,6 +56,29 @@ stale the moment the name changed or was erased. So a browser arriving through a
 knows it has an account and knows nothing about whose it is, and without this endpoint the header
 shows a placeholder for the rest of the session.
 
+### `PUT /api/account/name` — authenticated
+
+Changes the display name (FR-048). The body and the answer are the two shapes above: `{ "name":
+"…" }` in, the `GET /api/account` body out.
+
+```jsonc
+// 200
+{ "public_id": "7F3A9C", "name": "Monroe Institut", "name_state": "pending" }
+```
+
+Always `pending`: every name goes through review, including a replacement for one that was already
+approved (D25). **The approved name stays on the board** until the new one clears, so a rename does
+not cost the holder their row.
+
+One submission per `rename_cooldown_hours` — twenty-four by default, and the first name counts as
+the first submission. Inside it, `429` with `Retry-After` in seconds and
+`{ "error": "too_soon", "retry_after_seconds": 3600 }`. Not `400`: nothing was wrong with the name.
+
+`400` carrying the refusal code when the pre-filter refuses it, exactly as `POST /api/account` does,
+and **a refusal does not consume the cooldown** — neither the pre-filter's nor the reviewer's. The
+holder has not had a turn. `400 { "error": "erased" }` after an erasure, which is permanent
+(FR-035).
+
 ### `DELETE /api/account/name`
 
 Removes the display name. Authenticated by the access token, which is the only proof of ownership

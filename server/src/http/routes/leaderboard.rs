@@ -140,8 +140,9 @@ async fn board(
 ) -> Result<Response, ApiError> {
     let cfg = state.config.as_ref();
     let now = now_rfc3339();
-    // Compute-on-read, gated on the same fifteen-minute interval the background pass will use. This
-    // call is T102's placeholder and goes when it lands; see `ranks::ensure_fresh`.
+    // Gated on the same fifteen-minute interval the background pass uses, so this is a no-op
+    // whenever the timer is keeping up and a self-heal when it is not. `ranks_updated_at` below is
+    // what the page publishes about it.
     ranks::ensure_fresh(&state.db, cfg, &now)?;
 
     let offset = page.offset.unwrap_or(0);
